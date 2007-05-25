@@ -1,0 +1,7 @@
+---
+port: 8000
+pid_file: /tmp/`hostname`-mongrel.pid
+servers: 4
+#address: `myprivateip`
+address: `mypublicip`
+environment: production

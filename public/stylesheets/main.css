@@ -1,0 +1,28 @@
+body {
+	margin: 0px; 
+	overflow:hidden;
+	font-family: Arial, Verdana;
+	font-size: 12px;
+}
+
+div#details {
+	width: 300px;
+	height: 200px;
+}
+
+#details_table {
+	font-size: 12px;
+}
+
+.title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+div#map {
+	position: absolute;
+	width: 0px;
+	height: 0px;
+	left: 0px;
+	top: 0px;
+}
