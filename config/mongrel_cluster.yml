@@ -1,7 +1,7 @@
----
-port: 8000
-pid_file: /tmp/`hostname`-mongrel.pid
-servers: 4
-#address: `myprivateip`
-address: `mypublicip`
+--- 
+num_procs: "5"
+port: "3020"
+address: "127.0.0.1"
+pid_file: log/mongrel.pid
+servers: 5
 environment: production
