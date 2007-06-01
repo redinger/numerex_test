@@ -1,5 +1,4 @@
---- 
-cwd: "/opt/www/dev/Ublip"
+cwd: "/opt/www/dev/Ublip/current"
 num_procs: "5"
 port: "3020"
 address: "127.0.0.1"
