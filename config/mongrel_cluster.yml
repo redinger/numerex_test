@@ -3,6 +3,6 @@ cwd: "/opt/www/dev/Ublip"
 num_procs: "5"
 port: "3020"
 address: "127.0.0.1"
-pid_file: log/mongrel.pid
+pid_file: /opt/log/mongrel.pid
 servers: 5
 environment: production
