@@ -3,6 +3,6 @@ port: "3020"
 num_procs: "5"
 address: "127.0.0.1"
 pid_file: "/opt/log/mongrel.pid"
-log_file: "/opt/log/mongrel.log"
+log_file: "/opt/log/dev2-mongrel.log"
 servers: 5
 environment: production
