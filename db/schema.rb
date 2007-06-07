@@ -2,19 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 2) do
-
-  create_table "accounts", :force => true do |t|
-    t.column "name",           :string,   :limit => 50
-    t.column "master_user_id", :integer
-    t.column "created_at",     :datetime
-  end
-
-  create_table "customers", :force => true do |t|
-    t.column "name",       :string,   :limit => 200
-    t.column "address",    :string,   :limit => 100
-    t.column "created_at", :datetime
-  end
+ActiveRecord::Schema.define(:version => 1) do
 
   create_table "devices", :force => true do |t|
     t.column "name",               :string,   :limit => 75
@@ -22,6 +10,12 @@ ActiveRecord::Schema.define(:version => 2) do
     t.column "phone_number",       :string,   :limit => 20
     t.column "recent_location_id", :integer
     t.column "created_at",         :datetime
+    t.column "updated_at",         :datetime
+  end
+
+  create_table "devices_users", :force => true do |t|
+    t.column "device_id", :integer
+    t.column "user_id",   :integer
   end
 
   create_table "geofences", :force => true do |t|
@@ -30,38 +24,18 @@ ActiveRecord::Schema.define(:version => 2) do
     t.column "type",       :integer,  :limit => 4
     t.column "device_id",  :integer
     t.column "created_at", :datetime
-  end
-
-  create_table "locations", :force => true do |t|
-    t.column "latitude",      :float
-    t.column "longitude",     :float
-    t.column "altitude",      :integer
-    t.column "device_id",     :integer
-    t.column "street_number", :string,   :limit => 15
-    t.column "street_name",   :string,   :limit => 75
-    t.column "city",          :string,   :limit => 50
-    t.column "state",         :string,   :limit => 20
-    t.column "zip",           :string,   :limit => 20
-    t.column "dt",            :string,   :limit => 100
-    t.column "is_alarm",      :boolean,                 :default => false
-    t.column "created_at",    :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "readings", :force => true do |t|
-    t.column "value",      :text
-    t.column "sensor_id",  :integer
-    t.column "timestamp",  :string,   :limit => 100
+    t.column "latitude",   :float
+    t.column "longitude",  :float
+    t.column "altitude",   :float
+    t.column "speed",      :float
+    t.column "direction",  :float
+    t.column "device_id",  :integer
     t.column "created_at", :datetime
-  end
-
-  create_table "sensors", :force => true do |t|
-    t.column "name",              :string,   :limit => 100
-    t.column "address",           :string,   :limit => 50
-    t.column "type",              :string,   :limit => 100
-    t.column "recent_reading_id", :integer,                 :default => 0
-    t.column "timestamp",         :string,   :limit => 50
-    t.column "device_id",         :integer
-    t.column "created_at",        :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "sessions", :force => true do |t|
