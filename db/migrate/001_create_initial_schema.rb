@@ -1,5 +1,6 @@
 class CreateInitialSchema < ActiveRecord::Migration
   def self.up
+=begin
     create_table "accounts", :force => true do |t|
       t.column "name",           :string,   :limit => 50
       t.column "master_user_id", :integer
@@ -11,13 +12,31 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "address", :string, :limit => 100
       t.column "created_at",     :datetime
     end
+=end
 
+    create_table "users", :force => true do |t|
+      t.column "login",                     :string
+      t.column "email",                     :string
+      t.column "crypted_password",          :string, :limit => 40
+      t.column "salt",                      :string, :limit => 40
+      t.column "created_at",                :datetime
+      t.column "updated_at",                :datetime
+      t.column "remember_token",            :string
+      t.column "remember_token_expires_at", :datetime
+    end
+    
     create_table "devices", :force => true do |t|
       t.column "name",         :string,   :limit => 75
       t.column "imei",         :string,   :limit => 30
       t.column "phone_number", :string,   :limit => 20
       t.column "recent_location_id", :integer
-      t.column "created_at",   :datetime
+      t.column "created_at",  :datetime
+      t.column "updated_at",  :datetime
+    end
+    
+    create_table "devices_users", :force => true do |t|
+      t.column "device_id", :integer
+      t.column "user_id", :integer
     end
 
     create_table "geofences", :force => true do |t|
@@ -26,8 +45,10 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "type",      :integer, :limit => 4
       t.column "device_id", :integer
       t.column "created_at",     :datetime
+      t.column "updated_at",  :datetime
     end
 
+=begin
     create_table "locations", :force => true do |t|
       t.column "latitude",      :float
       t.column "longitude",     :float
@@ -41,15 +62,23 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "dt",            :string,  :limit => 100
       t.column "is_alarm",      :boolean,                :default => false
       t.column "created_at",     :datetime
+      t.column "updated_at",  :datetime
     end
+=end
 
+# Needs support for IO, but we'll save that for later
     create_table "readings", :force => true do |t|
-      t.column "value",     :text
-      t.column "sensor_id", :integer
-      t.column "timestamp", :string,  :limit => 100
+      t.column "latitude",      :float
+      t.column "longitude",     :float
+      t.column "altitude",      :float
+      t.column "speed",         :float
+      t.column "direction",     :float
+      t.column "device_id",     :integer
       t.column "created_at",     :datetime
+      t.column "updated_at",  :datetime
     end
 
+=begin
     create_table "sensors", :force => true do |t|
       t.column "name",              :string,  :limit => 100
       t.column "address",           :string,  :limit => 50
@@ -58,7 +87,9 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "timestamp",         :string,  :limit => 50
       t.column "device_id",         :integer
       t.column "created_at",     :datetime
+      t.column "updated_at",  :datetime
     end
+=end
 
     create_table "sessions", :force => true do |t|
       t.column "session_id", :string
@@ -71,13 +102,14 @@ class CreateInitialSchema < ActiveRecord::Migration
   end
   
   def self.down
-     drop_table :accounts
-     drop_table :customers
+     #drop_table :accounts
+     #drop_table :customers
+     drop_table :users
      drop_table :devices
      drop_table :geofences
-     drop_table :locations
+     #drop_table :locations
      drop_table :readings
-     drop_table :sensors
+     #drop_table :sensors
      drop_table :sessions
   end
 end
