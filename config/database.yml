@@ -30,7 +30,7 @@ test:
 
 production:
   adapter: mysql
-  database: ublip
+  database: ublip_v2
   username: root
   password: ublip
   socket: /tmp/mysql.sock
