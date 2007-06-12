@@ -1,18 +1,15 @@
 class CreateInitialSchema < ActiveRecord::Migration
   def self.up
-=begin
     create_table "accounts", :force => true do |t|
-      t.column "name",           :string,   :limit => 50
-      t.column "master_user_id", :integer
-      t.column "created_at",     :datetime
+      t.column "company", :string, :limit => 75
+      t.column "address", :string, :limit => 50
+      t.column "city", :string, :limit => 50
+      t.column "state", :string, :limit => 25
+      t.column "zip", :string, :limit => 15
+      t.column "subdomain",      :string, :limit => 100
+      t.column "updated_at", :datetime
+      t.column "created_at", :datetime
     end
-
-    create_table "customers", :force => true do |t|
-      t.column "name",    :string, :limit => 200
-      t.column "address", :string, :limit => 100
-      t.column "created_at",     :datetime
-    end
-=end
 
     create_table "users", :force => true do |t|
       t.column "login",                     :string
@@ -23,6 +20,9 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "updated_at",                :datetime
       t.column "remember_token",            :string
       t.column "remember_token_expires_at", :datetime
+      t.column "account_id",                 :integer
+      t.column "is_master", :boolean, :default => 0
+      t.column "is_admin", :boolean, :default => 0
     end
     
     create_table "devices", :force => true do |t|
@@ -102,8 +102,7 @@ class CreateInitialSchema < ActiveRecord::Migration
   end
   
   def self.down
-     #drop_table :accounts
-     #drop_table :customers
+     drop_table :accounts
      drop_table :users
      drop_table :devices
      drop_table :geofences
