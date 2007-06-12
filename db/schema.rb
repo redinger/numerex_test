@@ -4,6 +4,17 @@
 
 ActiveRecord::Schema.define(:version => 1) do
 
+  create_table "accounts", :force => true do |t|
+    t.column "company",    :string,   :limit => 75
+    t.column "address",    :string,   :limit => 50
+    t.column "city",       :string,   :limit => 50
+    t.column "state",      :string,   :limit => 25
+    t.column "zip",        :string,   :limit => 15
+    t.column "subdomain",  :string,   :limit => 100
+    t.column "updated_at", :datetime
+    t.column "created_at", :datetime
+  end
+
   create_table "devices", :force => true do |t|
     t.column "name",               :string,   :limit => 75
     t.column "imei",               :string,   :limit => 30
@@ -56,6 +67,9 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column "updated_at",                :datetime
     t.column "remember_token",            :string
     t.column "remember_token_expires_at", :datetime
+    t.column "account_id",                :integer
+    t.column "is_master",                 :boolean,                :default => false
+    t.column "is_admin",                  :boolean,                :default => false
   end
 
 end
