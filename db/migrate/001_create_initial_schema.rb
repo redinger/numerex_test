@@ -12,6 +12,8 @@ class CreateInitialSchema < ActiveRecord::Migration
     end
 
     create_table "users", :force => true do |t|
+      t.column "first_name", :string, :limit => 30
+      t.column "last_name", :string, :limit => 30
       t.column "login",                     :string
       t.column "email",                     :string
       t.column "crypted_password",          :string, :limit => 40
@@ -48,25 +50,7 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "updated_at",  :datetime
     end
 
-=begin
-    create_table "locations", :force => true do |t|
-      t.column "latitude",      :float
-      t.column "longitude",     :float
-      t.column "altitude",      :integer
-      t.column "device_id",     :integer
-      t.column "street_number", :string,  :limit => 15
-      t.column "street_name",   :string,  :limit => 75
-      t.column "city",          :string,  :limit => 50
-      t.column "state",         :string,  :limit => 20
-      t.column "zip",           :string,  :limit => 20
-      t.column "dt",            :string,  :limit => 100
-      t.column "is_alarm",      :boolean,                :default => false
-      t.column "created_at",     :datetime
-      t.column "updated_at",  :datetime
-    end
-=end
-
-# Needs support for IO, but we'll save that for later
+    # Needs support for IO, but we'll save that for later
     create_table "readings", :force => true do |t|
       t.column "latitude",      :float
       t.column "longitude",     :float
@@ -77,19 +61,6 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "created_at",     :datetime
       t.column "updated_at",  :datetime
     end
-
-=begin
-    create_table "sensors", :force => true do |t|
-      t.column "name",              :string,  :limit => 100
-      t.column "address",           :string,  :limit => 50
-      t.column "type",              :string,  :limit => 100
-      t.column "recent_reading_id", :integer,                :default => 0
-      t.column "timestamp",         :string,  :limit => 50
-      t.column "device_id",         :integer
-      t.column "created_at",     :datetime
-      t.column "updated_at",  :datetime
-    end
-=end
 
     create_table "sessions", :force => true do |t|
       t.column "session_id", :string
@@ -106,9 +77,7 @@ class CreateInitialSchema < ActiveRecord::Migration
      drop_table :users
      drop_table :devices
      drop_table :geofences
-     #drop_table :locations
      drop_table :readings
-     #drop_table :sensors
      drop_table :sessions
   end
 end
