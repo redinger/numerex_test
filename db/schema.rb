@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(:version => 1) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "users", :force => true do |t|
+    t.column "first_name",                :string,   :limit => 30
+    t.column "last_name",                 :string,   :limit => 30
     t.column "login",                     :string
     t.column "email",                     :string
     t.column "crypted_password",          :string,   :limit => 40
