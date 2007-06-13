@@ -19,10 +19,26 @@ div#details {
 	font-size: 14px;
 }
 
-div#map {
+div#map {
 	position: absolute;
 	width: 0px;
 	height: 0px;
 	left: 0px;
 	top: 0px;
 }
+
+/***** Login form *********/
+.form_table th {
+	font-size: 13px;
+	text-align: right;
+}
+
+.form_table td {
+	padding: 5px;
+}
+
+.form_table input {
+	font-weight: bold;
+	color: #006699;
+}
+/***** End login form ******/
