@@ -32,6 +32,7 @@ class CreateInitialSchema < ActiveRecord::Migration
       t.column "imei",         :string,   :limit => 30
       t.column "phone_number", :string,   :limit => 20
       t.column "recent_location_id", :integer
+      t.column "ip_address", :string
       t.column "created_at",  :datetime
       t.column "updated_at",  :datetime
     end
