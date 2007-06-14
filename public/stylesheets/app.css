@@ -2,4 +2,48 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+div#header {
+	padding: 0;
+	margin: 0;
+	height: 75px;
+	background-color: #0066FF;
+}
+
+div#logo {
+	text-align: right;
+}
+
+div#nav {
+	padding: 0;
+	margin: 0;
+	border: 1px solid #FF0000;
+	color: #FFFFFF;
+	/* User customizable for tabs on left or right */
+	text-align: left;
+	vertical-align: bottom;
+}
+
+#nav_tabs ul {
+	background-color: #000000;
+	line-height: 100px;
+}
+
+#nav_tabs li {
+	list-style-type: none;
+	display: inline;
+	background-color: #003366;
+	padding: 6px;
+}
+
+#nav_tabs a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+#nav_tabs a:hover {
+	background-color: #FF0000;
 }

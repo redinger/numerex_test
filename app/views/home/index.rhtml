@@ -1,2 +1,5 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.rhtml</p>
+<ul>
+    <% for device in @devices %>
+        <li><%= device.name %></li>
+    <% end %>
+</ul>
