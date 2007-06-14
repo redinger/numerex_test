@@ -1,5 +1,16 @@
-<ul>
-    <% for device in @devices %>
-        <li><%= device.name %></li>
-    <% end %>
-</ul>
+<div id="title">
+    Recent Devices and Locations
+</div>
+
+<div id="main_container">
+    <br />
+    <ul id="device_list">
+        <li><a href="">Hello</a></li>
+        <li><a href="">Hello 2</a></li>
+        <% for device in @devices %>
+            <li><a href=""><%= device.name %></a></li>
+        <% end %>
+    </ul>
+    
+    <div id="map"></div>
+</div>

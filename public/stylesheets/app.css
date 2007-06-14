@@ -47,3 +47,48 @@ div#nav {
 #nav_tabs a:hover {
 	background-color: #FF0000;
 }
+
+div#title {
+	margin: 10px 10px 0 10px;
+	padding: 5px;
+	background-color: #369;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div#main_container {
+	background-color: #EEEEEE;
+	margin: 0 10px 10px 10px;
+}
+
+#device_list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;	
+	float: left;
+}
+
+#device_list a {
+	display: block;
+	padding: 3px;
+	width: 160px;
+	background-color: #369;
+	border-bottom: 1px solid #eee;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+#device_list a:link, #navlist a:visited {
+	text-decoration: none;
+}
+
+#device_list a:hover {
+	background-color: #036;
+}
+
+div#map {
+	width: 500px;
+	height: 500px;
+	float: left;
+}
