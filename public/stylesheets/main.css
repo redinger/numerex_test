@@ -1,32 +1,28 @@
 body {
-	margin: 0px; 
-	overflow:hidden;
-	font-family: Arial, Verdana;
-	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #666666;
+	background-color: #FFFFFF;
+	background-image: url(/images/sky_blue_gradient_bg.png);
+	background-repeat: repeat-x;
 }
 
-div#details {
-	width: 300px;
-	height: 200px;
+div#header {
+	margin: 0 auto;
+	width: 900px;
+	margin-top: 30px;
+	vertical-align: middle;
 }
 
-#details_table {
-	font-size: 12px;
+div#header #logo {
+	float: left;
 }
 
-.title {
-	font-weight: bold;
-	font-size: 14px;
+div#content {
+	margin: 0 auto;
+	width: 850px;
+	clear: both;
 }
-
-div#map {
-	position: absolute;
-	width: 0px;
-	height: 0px;
-	left: 0px;
-	top: 0px;
-}
-
 /***** Login form *********/
 .form_table th {
 	font-size: 13px;
@@ -42,3 +38,26 @@ div#map {
 	color: #006699;
 }
 /***** End login form ******/
+
+/******** Login form styles ***********/
+div#login_form_container {
+	padding: 10px;
+	border: 6px solid #336699;
+	background-color: #DEE8F3;
+}
+
+div#login_form_container {
+	line-height: 30px;
+}
+/********* End login form styles ********/
+/*********** Error message div **********/
+div#error_message {
+	border: 2px solid #990000;
+	color: #FFFFFF;
+	background-color: #FF6262;
+	font-size: 16px;
+	font-weight: bold;
+	margin: 10px;
+	padding: 5px;
+}
+/*********** End error message div *******/

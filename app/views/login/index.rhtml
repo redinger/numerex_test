@@ -1,14 +1,42 @@
+<h1>Login</h1>
+
+<div id="login_form_container">
+    <% if flash[:message] %>
+        <div id="error_message">
+            <%= flash[:message] %>
+        </div>
+    <% end %>
+    <form action="/login" method="post">
+        <table class="form_table">
+            <tr><th>Username:</th><td><input type="text" id="username" name="username" class="input" value="<%= flash[:username] %>" /></td></tr>
+            <tr><th>Password:</th><td><input type="password" id="password" name="password" class="input" /> <a href="/login/password">Forgot password?</a></td></tr>
+            <tr><th></th><td><input type="checkbox" /> <span class="small_text">Remember me on this computer</span></td></tr>
+            <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    <% if flash[:message]%>
+        document.getElementById("password").focus();
+    <% else %>
+        document.getElementById("username").focus();
+    <% end %>
+//]]>
+</script>
+
+<!--
 <% form_tag do -%>
-<p><label for="login">Login</label><br/>
+<p><label for="login">Username</label><br/>
 <%= text_field_tag 'login' %></p>
 
 <p><label for="password">Password</label><br/>
 <%= password_field_tag 'password' %></p>
 
-<!-- Uncomment this if you want this functionality
 <p><label for="remember_me">Remember me:</label>
 <%= check_box_tag 'remember_me' %></p>
--->
 
 <p><%= submit_tag 'Log in' %></p>
 <% end -%>
+-->

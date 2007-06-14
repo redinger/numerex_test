@@ -12,8 +12,12 @@ class LoginController < ApplicationController
         self.current_user.remember_me
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-      redirect_back_or_default(:controller => '/login', :action => 'index')
-      flash[:notice] = "Logged in successfully"
+      redirect_back_or_default(:controller => '/home', :action => 'index')
+    # Send them back to the login page with appropriate error message
+    else
+      flash[:message] = 'Please specify a valid username and password.'
+      flash[:username] = params[:username]
+      redirect_to '/login'
     end
   end
 
@@ -34,5 +38,9 @@ class LoginController < ApplicationController
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_back_or_default(:controller => '/login', :action => 'index')
+  end
+  
+  def password
+    
   end
 end
