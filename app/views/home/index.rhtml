@@ -8,8 +8,9 @@
 
 <div id="main_container">
     <ul id="device_list">
+        <li><a href="javascript:allDevices();" style="background-color: #66CC33;">Display All</a></li>
         <% for device in @devices %>
-            <li><a href="javascript: getBreadcrumbs(<%= device.id %>);"><%= device.name %></a></li>
+            <li><a href="javascript:getBreadcrumbs(<%= device.id %>);"><%= device.name %></a></li>
         <% end %>
     </ul>
     

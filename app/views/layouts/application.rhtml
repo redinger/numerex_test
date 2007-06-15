@@ -10,12 +10,24 @@
         
         <script type="text/javascript">
             //<![CDATA[
-                var gmap
+                var gmap;
+                var icon;
+                
                 function load() {
                   if (GBrowserIsCompatible()) {
                     gmap = new GMap2(document.getElementById("map"));
+                    gmap.addControl(new GLargeMapControl());
+                    gmap.addControl(new GMapTypeControl());
                     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
+                    getDevices();
                     resize();
+                    
+                    icon = new GIcon();
+                    icon.image = "/images/ublip_marker.png";
+                    icon.shadow = "/images/ublip_marker_shadow.png";
+				    icon.iconSize = new GSize(23, 36);
+				    icon.iconAnchor = new GPoint(15, 25);
+				    icon.infoWindowAnchor = new GPoint(15, 0);
                   }
                 }
 
@@ -44,6 +56,23 @@
                     main.style.height = (myHeight-hoffset) + 'px';
                     map.style.height = (myHeight-hoffset-20) + 'px';
                     map.style.width = (myWidth-230) + 'px'; 
+                    
+                    gmap.checkResize();
+                }
+                
+                function getDevices() {
+                    GDownloadUrl("/readings/recent", function(data, responseCode) {
+                        var xml = GXml.parse(data);
+                        var lats = xml.documentElement.getElementsByTagName("lat");
+                        var lngs = xml.documentElement.getElementsByTagName("lng");
+                        for(var i = 0; i < lats.length; i++) {
+			             var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
+			             gmap.addOverlay(new GMarker(point, icon));
+			             
+			             if(i == 0)
+			                 gmap.setCenter(point, 13);
+			            }
+                    });
                 }
            //]]>
         </script>

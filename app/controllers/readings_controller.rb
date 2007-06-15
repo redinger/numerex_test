@@ -2,8 +2,9 @@ class ReadingsController < ApplicationController
   
   #Get most recent readings for all devices
   def recent
-    readings = Device.find(:all)
-    render_xml readings.to_xml
+    @devices = Device.find(:all)
+    # Prevent the layout from getting in the way
+    render :layout => false
   end
   
   # Display last N readings for given device

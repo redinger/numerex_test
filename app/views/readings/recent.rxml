@@ -1,0 +1,40 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.devices do
+  @devices.each do |device|
+    xml.device do
+      xml.id(device.id)
+      xml.name(device.name)
+      xml.imei(device.imei)
+      xml.lat(device.readings[0].latitude)
+      xml.lng(device.readings[0].longitude)
+      xml.dt(device.readings[0].created_at)
+    end
+  end
+end
+
+=begin
+xml.instruct! :xml, :version=>"1.0"
+xml.rss(:version=>"2.0", "xmlns:georss" => "http://www.georss.org/georss"){
+  xml.channel{
+    xml.title("Ublip Location Feed")
+    xml.link("http://www.ublip.com")
+    xml.description("Location Matters")
+    xml.language("en-us")
+    for location in @locations
+      xml.item do
+        xml.title("Location reading on " + location.created_at.rfc2822)
+        if location.note != nil
+        xml.description("<strong>Note: </strong> " + location.note + "<br /><strong>Lat/Lng:</strong> " + location.latitude + ", " + location.longitude)
+        else
+        xml.description("<strong>Lat/Lng:</strong> " + location.latitude + ", " + location.longitude)
+        end
+        xml.georss :point, location.latitude+' '+ location.longitude
+         # rfc822
+        xml.pubDate(location.created_at.rfc2822)
+      xml.link("http://dev.ruby9.com:3000/main/view?lat=" + location.latitude + "&lng=" + location.longitude)
+      xml.guid("http://dev.ruby9.com:3000/main/view?lat=" + location.latitude + "&lng=" + location.longitude)
+      end
+    end
+  }
+}
+=end
