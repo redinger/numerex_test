@@ -51,7 +51,7 @@ div#nav {
 div#title {
 	margin: 10px 10px 0 10px;
 	padding: 5px;
-	background-color: #369;
+	background-color: #7CA8D3;
 	color: #FFFFFF;
 	font-size: 14px;
 	font-weight: bold;
@@ -60,10 +60,13 @@ div#title {
 div#main_container {
 	background-color: #EEEEEE;
 	margin: 0 10px 10px 10px;
+	border-left: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
 }
 
 #device_list {
-	margin: 0;
+	margin: 10px;
 	padding: 0;
 	list-style-type: none;	
 	float: left;
@@ -88,6 +91,7 @@ div#main_container {
 }
 
 div#map {
+	margin-top: 10px;
 	width: 500px;
 	height: 500px;
 	float: left;

@@ -10,13 +10,42 @@
         
         <script type="text/javascript">
             //<![CDATA[
+                var gmap
                 function load() {
                   if (GBrowserIsCompatible()) {
-                    var map = new GMap2(document.getElementById("map"));
-                    map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+                    gmap = new GMap2(document.getElementById("map"));
+                    gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
+                    resize();
                   }
                 }
-            //]]>
+
+                window.onresize = resize;
+                
+                function resize() {
+                    var myWidth, myHeight;
+                    if( typeof( window.innerWidth ) == 'number' ) {
+                        //Non-IE
+                        myWidth = window.innerWidth;
+                        myHeight = window.innerHeight;
+                    } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                        //IE 6+ in 'standards compliant mode'
+                        myWidth = document.documentElement.clientWidth;
+                        myHeight = document.documentElement.clientHeight;
+                    } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                        //IE 4 compatible
+                        myWidth = document.body.clientWidth;
+                        myHeight = document.body.clientHeight;
+                    }
+                    
+                    var hoffset = 75+50;
+                    var main = document.getElementById("main_container");
+                    var map = document.getElementById("map");
+                    
+                    main.style.height = (myHeight-hoffset) + 'px';
+                    map.style.height = (myHeight-hoffset-20) + 'px';
+                    map.style.width = (myWidth-230) + 'px'; 
+                }
+           //]]>
         </script>
 	</head>
 	<body onload="load();">

@@ -1,16 +1,18 @@
 <div id="title">
-    Recent Devices and Locations
+    <span style="float: left;">Recent Devices and Locations</span>
+    <span style="float: right; font-weight: normal; font-size: 12px;">
+        <a href=""><img src="/images/rss.png" alt="Subsribe to this feed" title="Subscribe to this feed" border="0" /></a>
+    </span>
+    <div style="clear: both;"></div>
 </div>
 
 <div id="main_container">
-    <br />
     <ul id="device_list">
-        <li><a href="">Hello</a></li>
-        <li><a href="">Hello 2</a></li>
         <% for device in @devices %>
-            <li><a href=""><%= device.name %></a></li>
+            <li><a href="javascript: getBreadcrumbs(<%= device.id %>);"><%= device.name %></a></li>
         <% end %>
     </ul>
     
     <div id="map"></div>
+    <div style="clear: both" />
 </div>
