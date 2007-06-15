@@ -1,4 +1,3 @@
 class Device < ActiveRecord::Base
-  has_many :sensors
-  has_many :locations
+  has_many :readings, :order => "created_at desc", :limit => 25
 end
