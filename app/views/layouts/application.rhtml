@@ -4,9 +4,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>Ublip - Location Matters</title>
         <%= stylesheet_link_tag "app" %>
-        <!-- Dev include 
+        <!-- Dev include
         <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBSSqky6nndM48J7LWYfi11THuhEtxRJbRLHbJNMAlJ5HI0ywIQWp934fQ" type="text/javascript"></script>
         -->
+        
         <!-- Prod include -->
         <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAuuM51OQ5BjDaW1x4b-MN6RQdy8buJCn4UCOrVn-gOC82x0BwgBRfUA9c-fxzF43pSDpXTxs1j8Dfsw" type="text/javascript"></script>
         <script type="text/javascript">
@@ -62,6 +63,7 @@
                 }
                 
                 function getDevices() {
+                    var bounds = gmap.getBounds();
                     GDownloadUrl("/readings/recent", function(data, responseCode) {
                         var xml = GXml.parse(data);
                         var lats = xml.documentElement.getElementsByTagName("lat");
@@ -70,9 +72,14 @@
 			             var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
 			             gmap.addOverlay(new GMarker(point, icon));
 			             
+			             bounds.extend(point)
+			             
 			             if(i == 0)
 			                 gmap.setCenter(point, 13);
 			            }
+			            
+			            gmap.setZoom(gmap.getBoundsZoomLevel(bounds));
+			            
                     });
                 }
            //]]>
