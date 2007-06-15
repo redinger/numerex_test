@@ -8,7 +8,7 @@
     <% end %>
     <form action="/login" method="post">
         <table class="form_table">
-            <tr><th>Username:</th><td><input type="text" id="username" name="username" class="input" value="<%= flash[:username] %>" /></td></tr>
+            <tr><th>Email:</th><td><input type="text" id="username" name="username" class="input" value="<%= flash[:username] %>" /></td></tr>
             <tr><th>Password:</th><td><input type="password" id="password" name="password" class="input" /> <a href="/login/password">Forgot password?</a></td></tr>
             <tr><th></th><td><input type="checkbox" /> <span class="small_text">Remember me on this computer</span></td></tr>
             <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
