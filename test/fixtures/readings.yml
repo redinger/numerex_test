@@ -1,5 +1,90 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
-  id: 1
-two:
-  id: 2
+1:
+ id: 1
+ latitude: 32.9333
+ longitude: -96.8226
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+2:
+ id: 2
+ latitude: 32.934
+ longitude: -96.8231
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+3:
+ id: 3
+ latitude: 32.9395
+ longitude: -96.8244
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+4:
+ id: 4
+ latitude: 32.94
+ longitude: -96.8217
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+5:
+ id: 5
+ latitude: 32.9484
+ longitude: -96.8232
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+6:
+ id: 6
+ latitude: 32.9514
+ longitude: -96.8228
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+7:
+ id: 7
+ latitude: 32.9531
+ longitude: -96.8219
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+8:
+ id: 8
+ latitude: 32.9587
+ longitude: -96.8209
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+9:
+ id: 9
+ latitude: 32.9599
+ longitude: -96.8212
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+10:
+ id: 10
+ latitude: 32.9574
+ longitude: -96.8229
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+11:
+ id: 11
+ latitude: 32.9575
+ longitude: -96.8228
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+12:
+ id: 12
+ latitude: 32.9574
+ longitude: -96.8228
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+13:
+ id: 13
+ latitude: 32.9575
+ longitude: -96.8217
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+14:
+ id: 14
+ latitude: 32.9542
+ longitude: -96.8249
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+15:
+ id: 15
+ latitude: 32.9542
+ longitude: -96.8282
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>

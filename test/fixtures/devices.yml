@@ -1,5 +1,17 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
-  id: 1
-two:
-  id: 2
+device1:
+ id: 1
+ name: device 1
+ imei: 1234
+ created_at: <%= Time.now.to_s :db %>
+ 
+device2:
+ id: 2
+ name: device 2
+ imei: 5678
+ created_at: <%= Time.now.to_s :db %>
+ 
+device3:
+ id: 3
+ name: device 3
+ imei: 54321
+ created_at: <%= Time.now.to_s :db %>

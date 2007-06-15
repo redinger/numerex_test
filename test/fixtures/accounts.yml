@@ -1,0 +1,23 @@
+dennis:
+ id: 1
+ company: Dennis Co
+ subdomain: dennis
+ created_at: <%= 1.day.ago.to_s :db %>
+
+nick:
+ id: 2
+ company: Nick Co
+ subdomain: nick
+ created_at: <%= 2.day.ago.to_s :db %>
+ 
+ken:
+ id: 3
+ company: Ken Co
+ subdomain: ken
+ created_at: <%= 3.day.ago.to_s :db %>
+ 
+byron:
+ id: 4
+ company: Byron Co
+ subdomain: byron
+ created_at: <%= 4.day.ago.to_s :db %>
