@@ -13,8 +13,8 @@ function load() {
     icon = new GIcon();
     icon.image = "/images/ublip_marker.png";
     icon.shadow = "/images/ublip_marker_shadow.png";
-    icon.iconSize = new GSize(23, 36);
-    icon.iconAnchor = new GPoint(15, 25);
+    icon.iconSize = new GSize(23, 34);
+    icon.iconAnchor = new GPoint(11, 34);
     icon.infoWindowAnchor = new GPoint(15, 0);
   }
 }
