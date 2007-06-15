@@ -7,7 +7,7 @@ class LoginController < ApplicationController
 
   def index
     if request.post?
-      self.current_user = User.authenticate(params[:login], params[:password])
+      self.current_user = User.authenticate(params[:email], params[:password])
       if logged_in?
         if params[:remember_me] == "1"
           self.current_user.remember_me
@@ -17,7 +17,7 @@ class LoginController < ApplicationController
       # Send them back to the login page with appropriate error message
       else
         flash[:message] = 'Please specify a valid username and password.'
-        flash[:username] = params[:username]
+        flash[:username] = params[:email]
         redirect_to '/login'
       end
     # Display the appropriate login form based on subdomain
@@ -37,7 +37,6 @@ class LoginController < ApplicationController
     @user.save!
     self.current_user = @user
     redirect_back_or_default(:controller => '/login', :action => 'index')
-    flash[:notice] = "Thanks for signing up!"
   rescue ActiveRecord::RecordInvalid
     render :action => 'signup'
   end
