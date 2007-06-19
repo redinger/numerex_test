@@ -1,6 +1,6 @@
 class AddEventTypeToReadingsTable < ActiveRecord::Migration
   def self.up
-    add_column :readings, :event_type, :string, :limite => 25
+    add_column :readings, :event_type, :string, :limit => 25
   end
 
   def self.down
