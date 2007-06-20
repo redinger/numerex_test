@@ -31,16 +31,6 @@ class LoginController < ApplicationController
     end
   end
 
-  def signup
-    @user = User.new(params[:user])
-    return unless request.post?
-    @user.save!
-    self.current_user = @user
-    redirect_back_or_default(:controller => '/login', :action => 'index')
-  rescue ActiveRecord::RecordInvalid
-    render :action => 'signup'
-  end
-  
   def logout
     self.current_user.forget_me if logged_in?
     cookies.delete :auth_token
