@@ -9,11 +9,17 @@ class User < ActiveRecord::Base
     
     # Verify the user belongs to the subdomain
     if user.account.subdomain != subdomain
-      return nil
+      nil # User does not belong
+    # User belongs to subdomain so let's authenticate 
     else
-      (user && user.authenticated?(password) && user.account.is_verified) ? user : nil
+      if (user && user.authenticated?(password) && user.account.is_verified)
+        user.last_login_dt = Time.now
+        user.save
+        user 
+      else
+        nil # User does not belong
+      end
     end
-    
   end
 
   # Encrypts some data with the salt.
