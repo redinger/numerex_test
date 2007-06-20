@@ -6,8 +6,10 @@ class LoginController < ApplicationController
   before_filter :login_from_cookie
 
   def index
+    # Handles the login form post
     if request.post?
-      self.current_user = User.authenticate(params[:email], params[:password])
+      # Authenticate based on un/pw as well as subdomain
+      self.current_user = User.authenticate(request.subdomains.first, params[:email], params[:password])
       if logged_in?
         if params[:remember_me] == "1"
           self.current_user.remember_me
