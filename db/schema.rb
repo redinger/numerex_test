@@ -2,26 +2,29 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "accounts", :force => true do |t|
-    t.column "company",    :string,   :limit => 75
-    t.column "address",    :string,   :limit => 50
-    t.column "city",       :string,   :limit => 50
-    t.column "state",      :string,   :limit => 25
-    t.column "zip",        :string,   :limit => 15
-    t.column "subdomain",  :string,   :limit => 100
-    t.column "updated_at", :datetime
-    t.column "created_at", :datetime
+    t.column "company",     :string,   :limit => 75
+    t.column "address",     :string,   :limit => 50
+    t.column "city",        :string,   :limit => 50
+    t.column "state",       :string,   :limit => 25
+    t.column "zip",         :string,   :limit => 15
+    t.column "subdomain",   :string,   :limit => 100
+    t.column "updated_at",  :datetime
+    t.column "created_at",  :datetime
+    t.column "is_verified", :boolean,                 :default => false
   end
 
   create_table "devices", :force => true do |t|
-    t.column "name",               :string,   :limit => 75
-    t.column "imei",               :string,   :limit => 30
-    t.column "phone_number",       :string,   :limit => 20
-    t.column "recent_location_id", :integer
-    t.column "created_at",         :datetime
-    t.column "updated_at",         :datetime
+    t.column "name",                :string,   :limit => 75
+    t.column "imei",                :string,   :limit => 30
+    t.column "phone_number",        :string,   :limit => 20
+    t.column "recent_location_id",  :integer,                :default => 0
+    t.column "ip_address",          :string
+    t.column "created_at",          :datetime
+    t.column "updated_at",          :datetime
+    t.column "provision_status_id", :integer,  :limit => 2,  :default => 0
   end
 
   create_table "devices_users", :force => true do |t|
@@ -47,6 +50,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column "device_id",  :integer
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
+    t.column "event_type", :string,   :limit => 25
   end
 
   create_table "sessions", :force => true do |t|
@@ -72,6 +76,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column "account_id",                :integer
     t.column "is_master",                 :boolean,                :default => false
     t.column "is_admin",                  :boolean,                :default => false
+    t.column "last_login_dt",             :datetime
   end
 
 end
