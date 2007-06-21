@@ -6,6 +6,10 @@ body {
 	font-size: 12px;
 }
 
+div#content {
+	margin: 10px;
+}
+
 div#header {
 	padding: 0;
 	margin: 0;
