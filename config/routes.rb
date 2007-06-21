@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :devices
+  # map.resources :devices
   # The priority is based upon order of creation: first created -> highest priority.
   
   # Sample of regular route:
