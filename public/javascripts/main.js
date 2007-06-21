@@ -1,6 +1,7 @@
 var gmap;
 var icon;
 var recenticon;
+var iconcount = 2;
 
                 
 function load() {
@@ -11,18 +12,11 @@ function load() {
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
     getRecentReadings();
     resize();
-    
-    icon = new GIcon();
-    icon.image = "/images/ublip_marker.png";
-    icon.shadow = "/images/ublip_marker_shadow.png";
-    icon.iconSize = new GSize(23, 34);
-    icon.iconAnchor = new GPoint(11, 34);
-    icon.infoWindowAnchor = new GPoint(15, 0);
 	
 	recenticon = new GIcon();
-    recenticon.image = "/images/ublip_marker_current.png";
+    recenticon.image = "/icons/1.png";
     recenticon.shadow = "/images/ublip_marker_shadow.png";
-    recenticon.iconSize = new GSize(23, 34);
+    recenticon.iconSize = new GSize(22, 35);
     recenticon.iconAnchor = new GPoint(11, 34);
     recenticon.infoWindowAnchor = new GPoint(15, 0);
 	
@@ -92,12 +86,22 @@ function getBreadcrumbs(id) {
          
          	if(i == 0)
 		 	 	{
-            	gmap.setCenter(point, 13);
+            	
+				gmap.setCenter(point, 13);
 			 	gmap.addOverlay(new GMarker(point, recenticon));
+				
 		 	 	}
 			else
 				{
+				icon = new GIcon();
+   				icon.image = "/icons/" + iconcount + ".png";
+   				icon.shadow = "/images/ublip_marker_shadow.png";
+    			icon.iconSize = new GSize(22, 35);
+    			icon.iconAnchor = new GPoint(11, 34);
+    			icon.infoWindowAnchor = new GPoint(15, 0);
+				
 				gmap.addOverlay(new GMarker(point, icon));
+				iconcount++;
 				}
 		 
         }
