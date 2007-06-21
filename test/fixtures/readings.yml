@@ -80,11 +80,11 @@
  id: 14
  latitude: 32.9542
  longitude: -96.8249
- device_id: 1
+ device_id: 2
  created_at: <%= Time.now.to_s :db %>
 15:
  id: 15
  latitude: 32.9542
  longitude: -96.8282
- device_id: 1
+ device_id: 3
  created_at: <%= Time.now.to_s :db %>
