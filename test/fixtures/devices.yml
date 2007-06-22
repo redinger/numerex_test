@@ -3,7 +3,7 @@ device1:
  name: device 1
  imei: 1234
  created_at: <%= Time.now.to_s :db %>
- recent_location_id: 1
+ recent_reading_id: 1
  provision_status_id: 1
  
  
@@ -12,7 +12,7 @@ device2:
  name: device 2
  imei: 5678
  created_at: <%= Time.now.to_s :db %>
- recent_location_id: 2
+ recent_reading_id: 2
  provision_status_id: 1
  
 device3:
@@ -20,7 +20,7 @@ device3:
  name: device 3
  imei: 54321
  created_at: <%= Time.now.to_s :db %>
- recent_location_id: 3
+ recent_reading_id: 3
  provision_status_id: 1
  
 device4:
@@ -35,4 +35,5 @@ device5:
  name: unprovisioned
  imei: 33333
  created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 5
  provision_status_id: 0
