@@ -3,15 +3,25 @@ device1:
  name: device 1
  imei: 1234
  created_at: <%= Time.now.to_s :db %>
+ recent_location_id: 1
+ 
  
 device2:
  id: 2
  name: device 2
  imei: 5678
  created_at: <%= Time.now.to_s :db %>
+ recent_location_id: 2
  
 device3:
  id: 3
  name: device 3
  imei: 54321
+ created_at: <%= Time.now.to_s :db %>
+ recent_location_id: 3
+ 
+device4:
+ id: 4
+ name: device 4 [no data]
+ imei: 9999
  created_at: <%= Time.now.to_s :db %>
