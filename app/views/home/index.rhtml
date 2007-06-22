@@ -10,7 +10,7 @@
     <ul id="device_list">
         <li><a href="javascript:getRecentReadings();" style="background-color: #66CC33;">Display All</a></li>
         <% for device in @devices %>
-            <li><a href="javascript:getBreadcrumbs(<%= device.id %>);"><%= device.name %></a></li>
+            <li><a href="javascript:getBreadcrumbs(<%= device.id %>);"><%= device.name %> - <%= device.recent_reading_id %></a></li>
         <% end %>
     </ul>
     
