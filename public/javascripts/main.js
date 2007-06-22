@@ -68,7 +68,7 @@ function getRecentReadings() {
 			}
         }
 		
-        gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)); 
+        gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
     });
 }
 
