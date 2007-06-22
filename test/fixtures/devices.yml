@@ -32,6 +32,7 @@ device4:
  imei: 9999
  created_at: <%= Time.now.to_s :db %>
  provision_status_id: 1
+ account_id: 1
  
 device5:
  id: 5
