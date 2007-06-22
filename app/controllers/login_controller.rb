@@ -15,7 +15,8 @@ class LoginController < ApplicationController
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
-        redirect_back_or_default(:controller => '/home', :action => 'index')
+        session[:account_id] = self.current_user.account_id # Store the account id
+        redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else
         flash[:message] = 'Please specify a valid username and password.'

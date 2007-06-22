@@ -2,7 +2,7 @@ class ReadingsController < ApplicationController
   
   #Get most recent readings for all devices
   def recent
-    @devices = Device.find(:all)
+    @devices = Device.get_devices(session[:account_id])
     # Prevent the layout from getting in the way
     render :layout => false
   end
