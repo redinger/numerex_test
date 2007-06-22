@@ -61,10 +61,11 @@ function getRecentReadings() {
         var lngs = xml.documentElement.getElementsByTagName("lng");
         
 		for(var i = 0; i < lats.length; i++) {
-         var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
-         gmap.addOverlay(new GMarker(point, icon));
-         
-         bounds.extend(point)
+			if(lats[i].firstChild.nodeValue != 0) {
+		        var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
+		        gmap.addOverlay(new GMarker(point, icon));
+		        bounds.extend(point)
+			}
         }
 		
         gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)); 
@@ -79,20 +80,14 @@ function getBreadcrumbs(id) {
 		var lngs = xml.documentElement.getElementsByTagName("longitude");
 		gmap.clearOverlays();
 			
-		for(var i = 0; i < lats.length; i++) 
-		{
+		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
          
-         	if(i == 0)
-		 	 	{
-            	
-				gmap.setCenter(point, 13);
+         	if(i == 0) {
+            	gmap.setCenter(point, 13);
 			 	gmap.addOverlay(new GMarker(point, recenticon));
-				
-		 	 	}
-			else
-				{
+			} else {
 				icon = new GIcon();
    				icon.image = "/icons/" + iconcount + ".png";
    				icon.shadow = "/images/ublip_marker_shadow.png";
@@ -102,8 +97,7 @@ function getBreadcrumbs(id) {
 				
 				gmap.addOverlay(new GMarker(point, icon));
 				iconcount++;
-				}
-		 
+			}
         }
 
 		var zoom = gmap.getBoundsZoomLevel(bounds);
