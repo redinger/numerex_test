@@ -2,7 +2,7 @@ class DevicesController < ApplicationController
   #scaffold :device
   
   def index
-    @devices = Device.find(:all)
+    @devices = Device.get_devices(session[:account_id])
   end
   
   # User chooses a device to add
