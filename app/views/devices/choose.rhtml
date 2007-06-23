@@ -1,4 +1,9 @@
-<h3>Please enter the IMEI of a device you wish to add to this account</h3>
+<% if flash[:message] %>
+<div id="error_message">
+    <%= flash[:message] %>
+</div>
+<% end %>
+<h3>Please enter the IMEI of your device and we'll take care of the rest</h3>
 <form method="post">
-    IMEI: <input type="text" size="20" /> <input type="submit" value="add" />
+    IMEI: <input type="text" size="20" name="imei" value="<%= flash[:imei] %>" /> <input type="submit" value="add" />
 </form>

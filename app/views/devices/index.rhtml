@@ -1,10 +1,13 @@
 <div style="margin: 10px;">
+    <% if flash[:message] %>
+        <div id="success_message"><%= flash[:message] %></div>
+    <% end %>
     <h3>Add a Device</h3>
     <h4>What type of device do you need?</h2>
     <ul>
         <li>Personal tracking with a mobile phone (FREE) - <a href="/devices/choose/1">add</a></li>
-        <li>Personal tracking with device mounted in car - <a href="/devices/choose/2">add</a></li>
-        <li>Fleet tracking with device mounted in vehicle - <a href="/devices/choose/3">add</a></li>
+        <li>Personal tracking with device mounted in car - <a href="/devices/choose/2">buy</a></li>
+        <li>Fleet tracking with device mounted in vehicle - <a href="/devices/choose/3">buy</a></li>
     </ul>
     <hr />
     <h3>Your Active Devices</h3>
