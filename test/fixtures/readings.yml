@@ -2,89 +2,119 @@
  id: 1
  latitude: 32.9333
  longitude: -96.8226
+ speed: 28 
+ direction: 160
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 2:
  id: 2
  latitude: 32.934
  longitude: -96.8231
- device_id: 2
+ speed: 39 
+ direction: 130
+ device_id: 1
  created_at: <%= Time.now.to_s :db %>
 3:
  id: 3
  latitude: 32.9395
  longitude: -96.8244
- device_id: 3
+ speed: 80 
+ direction: 130
+ device_id: 1
  created_at: <%= Time.now.to_s :db %>
 4:
  id: 4
  latitude: 32.94
  longitude: -96.8217
- device_id: 5
+ speed: 45 
+ direction: 110
+ device_id: 1
  created_at: <%= Time.now.to_s :db %>
 5:
  id: 5
  latitude: 32.9484
  longitude: -96.8232
+ speed: 65 
+ direction: 170
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 6:
  id: 6
  latitude: 32.9514
  longitude: -96.8228
+ speed: 90 
+ direction: 190
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 7:
  id: 7
  latitude: 32.9531
  longitude: -96.8219
+ speed: 70 
+ direction: 120
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 8:
  id: 8
  latitude: 32.9587
  longitude: -96.8209
+ speed: 11 
+ direction: 120
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 9:
  id: 9
  latitude: 32.9599
  longitude: -96.8212
+ speed: 22 
+ direction: 150
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 10:
  id: 10
  latitude: 32.9574
  longitude: -96.8229
+ speed: 33 
+ direction: 160
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 11:
  id: 11
  latitude: 32.9575
  longitude: -96.8228
+ speed: 55 
+ direction: 170
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 12:
  id: 12
  latitude: 32.9574
  longitude: -96.8228
+ speed: 50 
+ direction: 180
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 13:
  id: 13
  latitude: 32.9575
  longitude: -96.8217
+ speed: 40 
+ direction: 190
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
 14:
  id: 14
  latitude: 32.9542
  longitude: -96.8249
- device_id: 2
+ speed: 30 
+ direction: 200
+ device_id: 1
  created_at: <%= Time.now.to_s :db %>
 15:
  id: 15
  latitude: 32.9542
  longitude: -96.8282
- device_id: 3
+ speed: 50 
+ direction: 240
+ device_id: 1
  created_at: <%= Time.now.to_s :db %>
