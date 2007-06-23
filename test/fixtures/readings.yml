@@ -8,19 +8,19 @@
  id: 2
  latitude: 32.934
  longitude: -96.8231
- device_id: 1
+ device_id: 2
  created_at: <%= Time.now.to_s :db %>
 3:
  id: 3
  latitude: 32.9395
  longitude: -96.8244
- device_id: 1
+ device_id: 3
  created_at: <%= Time.now.to_s :db %>
 4:
  id: 4
  latitude: 32.94
  longitude: -96.8217
- device_id: 1
+ device_id: 5
  created_at: <%= Time.now.to_s :db %>
 5:
  id: 5
