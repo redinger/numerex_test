@@ -12,15 +12,15 @@
  longitude: -96.8231
  speed: 39 
  direction: 130
- device_id: 1
+ device_id: 2
  created_at: <%= Time.now.to_s :db %>
 3:
  id: 3
  latitude: 32.9395
+ speed: 80
  longitude: -96.8244
- speed: 80 
  direction: 130
- device_id: 1
+ device_id: 3
  created_at: <%= Time.now.to_s :db %>
 4:
  id: 4
@@ -28,7 +28,7 @@
  longitude: -96.8217
  speed: 45 
  direction: 110
- device_id: 1
+ device_id: 5
  created_at: <%= Time.now.to_s :db %>
 5:
  id: 5
@@ -108,7 +108,7 @@
  longitude: -96.8249
  speed: 30 
  direction: 200
- device_id: 1
+ device_id: 2
  created_at: <%= Time.now.to_s :db %>
 15:
  id: 15
@@ -116,5 +116,5 @@
  longitude: -96.8282
  speed: 50 
  direction: 240
- device_id: 1
+ device_id: 3
  created_at: <%= Time.now.to_s :db %>
