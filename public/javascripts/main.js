@@ -70,18 +70,21 @@ function getRecentReadings() {
         var lats = xml.documentElement.getElementsByTagName("lat");
         var lngs = xml.documentElement.getElementsByTagName("lng");
         
-		for(var i = 0; i < lats.length; i++) {
-			if(lats[i].firstChild.nodeValue != 0) {
-		        var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
-		        gmap.addOverlay(new GMarker(point, iconALL));
-		        bounds.extend(point)
-			}
-			if(lats[i].firstChild.nodeValue != 0) {
-		        var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
-		        gmap.addOverlay(new GMarker(point, icon));
-		        bounds.extend(point)
-			}
-        }
+	for(var i = 0; i < lats.length; i++) {
+        	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
+         	bounds.extend(point)
+			
+         	if(i == 0)
+		 	 	{ 	
+				gmap.setCenter(point, 13);
+			 	gmap.addOverlay(createDisplayAll(point));
+				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
+				}
+			else
+				{
+				gmap.addOverlay(createDisplayAll(point));
+				}
+	    }
 		
         gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
     });
@@ -159,6 +162,19 @@ function getBreadcrumbs(id)
         return marker;
 		}	
 
+	function createDisplayAll(point) 
+		{   
+					 
+   		var marker = new GMarker(point, iconALL);
+		
+		GEvent.addListener(marker, "click", function() 
+			{
+        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
+			
+        	});
+		
+        return marker;
+		}
 
 
 
