@@ -102,7 +102,6 @@ div#main_container {
 }
 
 div#map {
-	margin-top: 10px;
 	width: 500px;
 	height: 500px;
 	float: left;
@@ -136,4 +135,37 @@ div#error_message {
 
 .form_table td {
 	padding: 5px;
+}
+
+.device_overview_table {
+	padding: 0;
+	margin: 0;
+	border-collapse: collapse;
+}
+
+.device_overview_table th {
+	background-color: #999999;
+	padding: 3px;
+	border: 1px solid #FFFFFF;
+}
+
+.device_overview_table td {
+	padding: 3px;
+	border: 1px solid #FFFFFF;
+}
+
+.device_overview_table .header {
+	background-color: #849DB3;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;
+}
+
+.light_row {
+	background-color: #EEEEEE;
+}
+
+.dark_row {
+	background-color: #CCCCCC;
 }
