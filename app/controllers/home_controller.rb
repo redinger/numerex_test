@@ -4,7 +4,4 @@ class HomeController < ApplicationController
     @devices = Device.get_devices(session[:account_id]) # Get devices associated with account
   end
   
-  def index_new
-    @devices = Device.get_devices(session[:account_id]) # Get devices associated with account
-  end
 end
