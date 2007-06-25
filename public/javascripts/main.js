@@ -13,7 +13,6 @@ function load()
     gmap.addControl(new GMapTypeControl());
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
     getRecentReadings();
-    resize();
 	
 	recenticon = new GIcon();
     recenticon.image = "/icons/1.png";
@@ -36,7 +35,7 @@ window.onresize = resize;
 
 function resize() 
 {
-    var myWidth, myHeight;
+    /*var myWidth, myHeight;
     if( typeof( window.innerWidth ) == 'number' ) {
         //Non-IE
         myWidth = window.innerWidth;
@@ -57,7 +56,7 @@ function resize()
     
     main.style.height = (myHeight-hoffset) + 'px';
     map.style.height = (myHeight-hoffset-20) + 'px';
-    map.style.width = (myWidth-230) + 'px'; 
+    map.style.width = (myWidth-230) + 'px'; */
     
     gmap.checkResize();
 }
