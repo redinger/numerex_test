@@ -170,7 +170,7 @@ function getBreadcrumbs(id)
 		
 		GEvent.addListener(marker, "click", function() 
 			{
-        	marker.openInfoWindowHtml("Device Id :" + name + "<br/>" + "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
+        	marker.openInfoWindowHtml("Device Id: " + name + "<br/>" + "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
 			
         	});
 		
