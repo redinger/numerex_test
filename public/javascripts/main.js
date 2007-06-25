@@ -1,11 +1,13 @@
 var gmap;
-var icon;
+var iconNow;
 var recenticon;
 var iconcount = 2;
 
                 
-function load() {
-  if (GBrowserIsCompatible()) {
+function load() 
+{
+  if (GBrowserIsCompatible()) 
+  	{
     gmap = new GMap2(document.getElementById("map"));
     gmap.addControl(new GLargeMapControl());
     gmap.addControl(new GMapTypeControl());
@@ -18,14 +20,22 @@ function load() {
     recenticon.shadow = "/images/ublip_marker_shadow.png";
     recenticon.iconSize = new GSize(22, 35);
     recenticon.iconAnchor = new GPoint(11, 34);
-    recenticon.infoWindowAnchor = new GPoint(15, 0);
+    recenticon.infoWindowAnchor = new GPoint(15, 0);	
 	
-  }
+	iconALL = new GIcon();
+    iconALL.image = "/icons/ublip_marker.png";
+    iconALL.shadow = "/images/ublip_marker_shadow.png";
+    iconALL.iconSize = new GSize(23, 34);
+    iconALL.iconAnchor = new GPoint(11, 34);
+    iconALL.infoWindowAnchor = new GPoint(15, 0);
+	
+  	}
 }
 
 window.onresize = resize;
 
-function resize() {
+function resize() 
+{
     var myWidth, myHeight;
     if( typeof( window.innerWidth ) == 'number' ) {
         //Non-IE
@@ -63,6 +73,11 @@ function getRecentReadings() {
 		for(var i = 0; i < lats.length; i++) {
 			if(lats[i].firstChild.nodeValue != 0) {
 		        var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
+		        gmap.addOverlay(new GMarker(point, iconALL));
+		        bounds.extend(point)
+			}
+			if(lats[i].firstChild.nodeValue != 0) {
+		        var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
 		        gmap.addOverlay(new GMarker(point, icon));
 		        bounds.extend(point)
 			}
@@ -72,40 +87,81 @@ function getRecentReadings() {
     });
 }
 
-function getBreadcrumbs(id) {
+function getBreadcrumbs(id) 
+{
 	var bounds = new GLatLngBounds();
-	GDownloadUrl("/readings/last/" + id, function(data, responseCode) {
+	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
+	{
 		var xml = GXml.parse(data);
 		var lats = xml.documentElement.getElementsByTagName("latitude");
 		var lngs = xml.documentElement.getElementsByTagName("longitude");
+		var alts = xml.documentElement.getElementsByTagName("altitude");
+		var spds = xml.documentElement.getElementsByTagName("speed");
+		var dirs = xml.documentElement.getElementsByTagName("direction");
+		
 		gmap.clearOverlays();
+		
+		iconcount = 2;
 			
 		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
-         
-         	if(i == 0) {
-            	gmap.setCenter(point, 13);
-			 	gmap.addOverlay(new GMarker(point, recenticon));
-			} else {
-				icon = new GIcon();
-   				icon.image = "/icons/" + iconcount + ".png";
-   				icon.shadow = "/images/ublip_marker_shadow.png";
-    			icon.iconSize = new GSize(22, 35);
-    			icon.iconAnchor = new GPoint(11, 34);
-    			icon.infoWindowAnchor = new GPoint(15, 0);
-				
-				gmap.addOverlay(new GMarker(point, icon));
+			
+         	if(i == 0)
+		 	 	{ 	
+				gmap.setCenter(point, 13);
+			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue));
+				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dirs[0].firstChild.nodeValue + "<br/>" + "Speed: " + spds[0].firstChild.nodeValue + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue);
+				}
+			else
+				{
+				gmap.addOverlay(createPast(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue));
 				iconcount++;
-			}
-        }
+				}
+	    }
+    
 
 		var zoom = gmap.getBoundsZoomLevel(bounds);
 		if(zoom > 15)
 			zoom = 15;
-		
 		gmap.setZoom(zoom); 
-
-
 	});
 }
+		
+	function createNow(point, alt, spd, dir) 
+		{    
+   		var marker = new GMarker(point, recenticon);
+		GEvent.addListener(marker, "click", function() 
+			{
+        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
+        	});
+		
+        return marker;
+		}
+	
+	function createPast(point, alt, spd, dir) 
+		{   
+		iconNow = new GIcon();
+   		iconNow.image = "/icons/" + iconcount + ".png";
+   		iconNow.shadow = "/images/ublip_marker_shadow.png";
+    	iconNow.iconSize = new GSize(22, 35);
+    	iconNow.iconAnchor = new GPoint(11, 34);
+    	iconNow.infoWindowAnchor = new GPoint(15, 0);
+				 
+   		var marker = new GMarker(point, iconNow);
+		
+		GEvent.addListener(marker, "click", function() 
+			{
+        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
+			iconcount++;
+        	});
+		
+        return marker;
+		}	
+
+
+
+
+
+
+
