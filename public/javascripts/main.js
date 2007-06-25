@@ -73,16 +73,17 @@ function getRecentReadings() {
 	for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
+			var names = xml.documentElement.getElementsByTagName("name");
 			
          	if(i == 0)
 		 	 	{ 	
 				gmap.setCenter(point, 13);
-			 	gmap.addOverlay(createDisplayAll(point));
-				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
+			 	gmap.addOverlay(createDisplayAll(point, names[i].firstChild.nodeValue));
+				gmap.openInfoWindowHtml(point, "Device Id: " + names[0].firstChild.nodeValue + "<br/>" + "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
 				}
 			else
 				{
-				gmap.addOverlay(createDisplayAll(point));
+				gmap.addOverlay(createDisplayAll(point, names[i].firstChild.nodeValue));
 				}
 	    }
 		
@@ -162,14 +163,14 @@ function getBreadcrumbs(id)
         return marker;
 		}	
 
-	function createDisplayAll(point) 
+	function createDisplayAll(point, name) 
 		{   
 					 
    		var marker = new GMarker(point, iconALL);
 		
 		GEvent.addListener(marker, "click", function() 
 			{
-        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
+        	marker.openInfoWindowHtml("Device Id :" + name + "<br/>" + "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
 			
         	});
 		
