@@ -90,6 +90,7 @@ div#main_container {
 	display: block;
 	background-color: #CCCCCC;
 	padding: 3px;
+	border-bottom: 1px solid #eee;
 }
 
 #device_list a:link, #navlist a:visited {
@@ -122,5 +123,17 @@ div#error_message {
 	font-size: 14px;
 	font-weight: bold;
 	color: #FFFFFF;
+	padding: 5px;
+}
+
+.form_table {
+	padding: 5px;
+}
+
+.form_table th {
+	text-align: right;
+}
+
+.form_table td {
 	padding: 5px;
 }

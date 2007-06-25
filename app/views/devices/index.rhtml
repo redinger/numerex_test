@@ -13,7 +13,7 @@
     <h3>Your Active Devices</h3>
     <ul>
     <% for device in @devices %>
-    	<li><a href=""><%= device.name %></a></li>
+    	<li><a href="/devices/edit/<%= device.id %>"><%= device.name %></a></li>
     <% end %>
     </ul>
 </div>

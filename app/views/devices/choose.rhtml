@@ -3,7 +3,12 @@
     <%= flash[:message] %>
 </div>
 <% end %>
-<h3>Please enter the IMEI of your device and we'll take care of the rest</h3>
-<form method="post">
-    IMEI: <input type="text" size="20" name="imei" value="<%= flash[:imei] %>" /> <input type="submit" value="add" />
+<h3>Device Information</h3>
+<h4>Please assign a name to your device and enter the IMEI below.</h4>
+<form method="post" class="form_table">
+<table>
+    <tr><th>Name:</th><td><input type="text" size="20" name="name" value="<%= flash[:name] %>" /></td></tr>
+    <tr><th>IMEI:</th><td><input type="text" size="20" name="imei" value="<%= flash[:imei] %>" /></td></tr>
+    <tr><td colspan="2" align="right"><input type="submit" value="done" /></td></tr>
+</table>
 </form>
