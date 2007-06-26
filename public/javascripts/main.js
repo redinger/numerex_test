@@ -2,6 +2,8 @@ var gmap;
 var iconNow;
 var recenticon;
 var iconcount = 2;
+var prevSelectedRow;
+var prevSelectedRowClass;
 
                 
 function load() 
@@ -68,7 +70,7 @@ function getRecentReadings() {
         var xml = GXml.parse(data);
         var lats = xml.documentElement.getElementsByTagName("lat");
         var lngs = xml.documentElement.getElementsByTagName("lng");
-        
+		
 	for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
@@ -87,10 +89,17 @@ function getRecentReadings() {
 	    }
 		
         gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
+		
+		// Hide the View All link and change the device_name text
+		document.getElementById("device_name").innerHTML = "All Devices";
+		document.getElementById("view_all_link").style.visibility = "hidden";
+		// Deselect highlighted row
+		if(prevSelectedRow != undefined)
+			prevSelectedRow.className = prevSelectedRowClass;
     });
 }
 
-function getBreadcrumbs(id) 
+function getBreadcrumbs(id, name) 
 {
 	var bounds = new GLatLngBounds();
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
@@ -128,6 +137,19 @@ function getBreadcrumbs(id)
 		if(zoom > 15)
 			zoom = 15;
 		gmap.setZoom(zoom); 
+		
+		// Update the name in the map panel and display the View All link
+		document.getElementById("device_name").innerHTML = name;
+		document.getElementById("view_all_link").style.visibility = "visible";
+		// Highlight the table rows and save the old reference to revert back
+		// Deselect highlighted row
+		if(prevSelectedRow != undefined)
+			prevSelectedRow.className = prevSelectedRowClass;
+			
+		var currRow = document.getElementById("row"+id);
+		prevSelectedRow = currRow;
+		prevSelectedRowClass = currRow.className;
+		currRow.className = "selected_row";
 	});
 }
 		

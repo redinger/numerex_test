@@ -1,14 +1,14 @@
 <table width="100%" border="0" style="padding: 10px;">
     <tr>
         <td width="50%" valign="top">
-            <table width="100%" class="device_overview_table">
+            <table width="100%" class="panel_table">
                 <tr><td colspan="3" class="header">Device Summary (<%= @devices.size %> devices)</td></tr>
                 <tr><th>Name</th><th>Recent Location</th><th>Date/Time</th></tr>
                 <% for device in @devices %>
-                    <tr class="<%= cycle('dark_row', 'light_row') %>">
-                        <td><a href="javascript:getBreadcrumbs(<%= device.id %>);"><%= device.name %></a></td>
-                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].latitude %>, <%= device.readings[0].longitude %><% end %></td>
-                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].created_at %><% end %></td>
+                    <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
+                        <td><% if device.recent_reading_id != 0 %><a href="javascript:getBreadcrumbs(<%= device.id %>, '<%= device.name %>');"><%= device.name %></a><% else %><%= device.name %><% end %></td>
+                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].latitude %>, <%= device.readings[0].longitude %><% else %>N/A<% end %></td>
+                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].created_at %><% else %>N/A<% end %></td>
                     </tr>
                 <% end %>
             </table>
@@ -29,7 +29,10 @@
         </td>
         <td>&nbsp;</td>
         <td valign="top" width="50%">
-            <div id="map" style="width: 100%"></div>
+            <table width="100%" class="panel_table">
+                <tr><td class="header">Locations for <span id="device_name">All Devices</span> <span id="view_all_link" style="visibility: hidden;">- <a href="javascript:getRecentReadings();">View All</a></span></td></tr>
+                <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%"></div></td></tr>
+            </table>
         </td>
     </tr>
 </table>

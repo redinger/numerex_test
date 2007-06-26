@@ -137,24 +137,24 @@ div#error_message {
 	padding: 5px;
 }
 
-.device_overview_table {
+.panel_table {
 	padding: 0;
 	margin: 0;
 	border-collapse: collapse;
 }
 
-.device_overview_table th {
+.panel_table th {
 	background-color: #999999;
 	padding: 3px;
 	border: 1px solid #FFFFFF;
 }
 
-.device_overview_table td {
+.panel_table td {
 	padding: 3px;
 	border: 1px solid #FFFFFF;
 }
 
-.device_overview_table .header {
+.panel_table .header {
 	background-color: #849DB3;
 	color: #FFFFFF;
 	font-size: 14px;
@@ -168,4 +168,13 @@ div#error_message {
 
 .dark_row {
 	background-color: #CCCCCC;
+}
+
+.selected_row {
+	background-color: #0066FF;
+	color: #FFFFFF;
+}
+
+.selected_row a {
+	color: #FFFFFF;
 }
