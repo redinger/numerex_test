@@ -1,6 +1,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   belongs_to :account
+  validates_uniqueness_of :email, :scope => :account_id # No dupes within account
 
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
   def self.authenticate(subdomain, email, password)
