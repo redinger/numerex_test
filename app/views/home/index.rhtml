@@ -2,7 +2,7 @@
     <tr>
         <td width="50%" valign="top">
             <table width="100%" class="panel_table">
-                <tr><td colspan="3" class="header">Device Summary (<%= @devices.size %> devices)</td></tr>
+                <tr><td colspan="3" class="header">Device Summary (<%= @devices.size %> total)</td></tr>
                 <tr><th>Name</th><th>Recent Location</th><th>Date/Time</th></tr>
                 <% for device in @devices %>
                     <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
