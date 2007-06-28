@@ -128,7 +128,7 @@ function getBreadcrumbs(id, name)
 				}
 			else
 				{
-				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue));
+				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue/10));
 				gmap.addOverlay(createPast(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue));
 				
 				iconcount++;
