@@ -110,7 +110,7 @@ function getBreadcrumbs(id, name)
 		var alts = xml.documentElement.getElementsByTagName("altitude");
 		var spds = xml.documentElement.getElementsByTagName("speed");
 		var dirs = xml.documentElement.getElementsByTagName("direction");
-		
+				
 		gmap.clearOverlays();
 		
 		iconcount = 2;
@@ -122,12 +122,15 @@ function getBreadcrumbs(id, name)
          	if(i == 0)
 		 	 	{ 	
 				gmap.setCenter(point, 13);
+				
 			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue));
 				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dirs[0].firstChild.nodeValue + "<br/>" + "Speed: " + spds[0].firstChild.nodeValue + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue);
 				}
 			else
 				{
+				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue));
 				gmap.addOverlay(createPast(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue));
+				
 				iconcount++;
 				}
 	    }
@@ -164,8 +167,56 @@ function getBreadcrumbs(id, name)
         return marker;
 		}
 	
-	function createPast(point, alt, spd, dir) 
+	function createArrow(point, dir) 
 		{   
+		
+		if(dir >= 337.5 || dir < 22.5)
+				{
+					icondir = "n";
+				}
+				else if(dir >= 22.5 && dir < 67.5)
+				{
+					icondir = "ne";
+				}
+				else if(dir >= 67.5 && dir < 112.5)
+				{
+					icondir = "e";
+				}
+				else if(dir >= 112.5 && dir < 157.5)
+				{
+					icondir = "se";
+				}
+				else if(dir >= 157.5 && dir < 202.5)
+				{
+					icondir = "s";
+				}
+				else if(dir >= 202.5 && dir < 247.5)
+				{
+					icondir = "sw";
+				}
+				else if(dir >= 247.5 && dir < 292.5)
+				{
+					icondir = "w";
+				}
+				else if(dir >= 292.5 && dir < 337.5)
+				{
+					icondir = "nw";
+				}
+		
+		iconArrow = new GIcon();
+   		iconArrow.image = "/icons/arrows/" + icondir + ".png";
+   		iconArrow.iconSize = new GSize(45, 45);
+    	iconArrow.iconAnchor = new GPoint(22.5, 45);
+    	iconArrow.infoWindowAnchor = new GPoint(15, 0);
+				
+		var arrow = new GMarker(point, iconArrow);
+		
+		return arrow;
+		}	
+		
+function createPast(point, alt, spd, dir) 
+		{   
+				
 		iconNow = new GIcon();
    		iconNow.image = "/icons/" + iconcount + ".png";
    		iconNow.shadow = "/images/ublip_marker_shadow.png";
@@ -175,13 +226,15 @@ function getBreadcrumbs(id, name)
 				 
    		var marker = new GMarker(point, iconNow);
 		
+		
 		GEvent.addListener(marker, "click", function() 
 			{
         	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
-			iconcount++;
+			
         	});
 		
         return marker;
+		
 		}	
 
 	function createDisplayAll(point, name) 
