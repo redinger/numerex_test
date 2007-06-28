@@ -128,9 +128,9 @@ function getBreadcrumbs(id, name)
 				}
 			else
 				{
-				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue/10));
-				gmap.addOverlay(createPast(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue));
-				
+				gmap.addOverlay(createPast(point));
+				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue/10, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue)); //deviding by ten till middleware issue is fixed.
+			
 				iconcount++;
 				}
 	    }
@@ -167,7 +167,7 @@ function getBreadcrumbs(id, name)
         return marker;
 		}
 	
-	function createArrow(point, dir) 
+	function createArrow(point, alt, spd, dir) 
 		{   
 		
 		if(dir >= 337.5 || dir < 22.5)
@@ -211,10 +211,16 @@ function getBreadcrumbs(id, name)
 				
 		var arrow = new GMarker(point, iconArrow);
 		
+		GEvent.addListener(arrow, "click", function() 
+			{
+        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
+			
+        	});
+		
 		return arrow;
 		}	
 		
-function createPast(point, alt, spd, dir) 
+function createPast(point) 
 		{   
 				
 		iconNow = new GIcon();
@@ -226,12 +232,6 @@ function createPast(point, alt, spd, dir)
 				 
    		var marker = new GMarker(point, iconNow);
 		
-		
-		GEvent.addListener(marker, "click", function() 
-			{
-        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
-			
-        	});
 		
         return marker;
 		
