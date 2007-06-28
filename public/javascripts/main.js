@@ -129,7 +129,7 @@ function getBreadcrumbs(id, name)
 			else
 				{
 				gmap.addOverlay(createPast(point));
-				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue/10, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue)); //deviding by ten till middleware issue is fixed.
+				gmap.addOverlay(createArrow(point, dirs[i].firstChild.nodeValue/10, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue)); //deviding by ten till middleware issue is fixed.
 			
 				iconcount++;
 				}
