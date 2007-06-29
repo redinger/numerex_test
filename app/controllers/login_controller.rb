@@ -29,7 +29,7 @@ class LoginController < ApplicationController
       
       # Subdomain does not exist so display appropriate form
       if !@account
-        render_text 'this subdomain does not exist, click here to create your account'        
+        redirect_to :action => "sorry"        
       end
     end
   end
