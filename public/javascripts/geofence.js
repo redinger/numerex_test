@@ -47,7 +47,7 @@ function geocode(address)
 }
 
 function drawCircle(p, r) {
-	var cColor = "#3366ff";
+	var cColor = "#0066FF";
 	var cWidth = 5;
 	var Cradius = r;   
  	var d2r = Math.PI/180; 
