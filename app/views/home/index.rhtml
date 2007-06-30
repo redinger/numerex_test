@@ -13,15 +13,28 @@
                 <% end %>
             </table>
             <br />
-            <div style="border: 1px solid #CCCCCC; padding: 10px;">
-                <span style="font-size: 16px; color: #666666">
+			<div style="border: 1px solid #CCCCCC; padding: 10px;">
+				<span style="font-size: 16px; color: #666666;">
+                    Map Layers
+                </span>
+				<ul>					
+					<li><input type="checkbox"> Service stations</li>
+					<li><input type="checkbox"> Gas stations</li>
+					<li><input type="checkbox"> Pizza parlors</li>
+					<li><input type="checkbox"> Crime areas</li>
+					<li><input type="checkbox"> Traffic</li>
+					<li><input type="text" size="15" /> <input type="submit" value="search" /></li>
+				</ul>
+				<a href="">Add your own layer</a>
+			</div>
+			<br />
+            <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
+                <span style="font-size: 16px; color: #666666;">
                     What would you like to do?
                 </span>
                 <ul>
-                    <li><a href="#">Request location</a></li>
-                    <li><a href="#">View geofence</a></li>
-                    <li><a href="#">Create geofence</a></li>
-                    <li><a href="#">Add new device</a></li>
+                    <li><a href="javascript:go('/geofence/view');">View geofence</a></li>
+                    <li><a href="javascript:go('/geofence/add');">Create geofence</a></li>
                     <li><a href="#">Subscribe to GeoRSS</a></li>
                     <li><a href="#">Export to KML</a></li>
                 </ul>
@@ -30,7 +43,7 @@
         <td>&nbsp;</td>
         <td valign="top" width="50%">
             <table width="100%" class="panel_table">
-                <tr><td class="header">Locations for <span id="device_name">All Devices</span> <span id="view_all_link" style="visibility: hidden;">- <a href="javascript:getRecentReadings();">View All</a></span></td></tr>
+                <tr><td class="header">Locations for <span id="device_name">All Devices</span> <span id="view_all_link" style="visibility: hidden;">- <a href="javascript:getRecentReadings();">View All Devices</a></span></td></tr>
                 <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%"></div></td></tr>
             </table>
         </td>
