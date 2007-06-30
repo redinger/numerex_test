@@ -1,0 +1,16 @@
+<h3>Viewing geofences for <%= @device.name %></h3>
+<select multiple="multiple" size="3" style="float: left;">
+	<% for geofence in @device.geofences %>
+		<option><%= geofence.name %></option>
+	<% end %>
+</select>
+
+<div id="map" style="width: 600px; height: 350px; margin-left: 10px;"></div>
+
+<div style="clear: both;"></div>
+<br />
+<hr />
+<% if @device.geofences.size < 3 %>
+	<a href="/geofence/add/2">Create new geofence</a><br /><br />
+<% end %>
+<a href="/geofence">Edit another device</a>

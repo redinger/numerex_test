@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Ublip - Location Matters</title>
+        <%= stylesheet_link_tag "app", "font_styles" %>
+		<% if request.server_name.index("ubliplocal.com") %>
+            <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBSSqky6nndM48J7LWYfi11THuhEtxRJbRLHbJNMAlJ5HI0ywIQWp934fQ" type="text/javascript"></script>
+        <% else %>
+            <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAuuM51OQ5BjDaW1x4b-MN6RQdy8buJCn4UCOrVn-gOC82x0BwgBRfUA9c-fxzF43pSDpXTxs1j8Dfsw" type="text/javascript"></script>
+        <% end %>
+        <%= javascript_include_tag "geofence" %>
+	</head>
+	<body onload="load();">
+    	   <div id="header">
+    	       <table width="100%" cellpadding="0" cellspacing="0">
+    	           <tr><td><img src="/images/delete/header_left.gif" usemap="#Map2" border="0"/></td><td align="right"><img src="/images/delete/header_right.gif" usemap="#Map" border="0" /></td></tr>
+    	       </table>
+    	   </div>
+    	   <div style="background-color: #EEEEEE; height: 20px;">
+    	       Subnav goes here
+    	   </div>
+    	   
+    	   <div id="content">
+        	   <%= yield %>
+           </div>
+    <map name="Map">
+        <area shape="rect" coords="168,4,217,25" href="/logout">
+        <area shape="rect" coords="133,51,221,74" href="/devices">
+        <area shape="rect" coords="3,49,60,77" href="/users">
+        <area shape="rect" coords="62,49,129,91" href="/settings">
+    </map>
+    <map name="Map2"><area shape="rect" coords="27,50,104,79" href="/home"></map>
+	</body>
+</html>
