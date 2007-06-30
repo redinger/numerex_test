@@ -4,6 +4,7 @@ var recenticon;
 var iconcount = 2;
 var prevSelectedRow;
 var prevSelectedRowClass;
+var currSelectedDeviceId;
 
                 
 function load() 
@@ -96,6 +97,9 @@ function getRecentReadings() {
 		// Deselect highlighted row
 		if(prevSelectedRow != undefined)
 			prevSelectedRow.className = prevSelectedRowClass;
+			
+		// Hide the action panel
+		document.getElementById("action_panel").style.visibility = "hidden";
     });
 }
 
@@ -153,6 +157,11 @@ function getBreadcrumbs(id, name)
 		prevSelectedRow = currRow;
 		prevSelectedRowClass = currRow.className;
 		currRow.className = "selected_row";
+		
+		// Save a global reference to device id
+		currSelectedDeviceId = id;
+		// Display the action panel
+		document.getElementById("action_panel").style.visibility = "visible";
 	});
 }
 		
@@ -250,9 +259,8 @@ function createPast(point)
 		
         return marker;
 		}
-
-
-
-
-
-
+		
+// Goes to specified URL and appends id
+function go(url) {
+	document.location.href = url + '/' + currSelectedDeviceId;
+}
