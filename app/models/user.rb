@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     user = find_by_email(email) # need to get the salt
     
     # Verify the user belongs to the subdomain
-    if user.account.subdomain != subdomain
+    if user && user.account.subdomain != subdomain
       nil # User does not belong
     # User belongs to subdomain so let's authenticate 
     else
