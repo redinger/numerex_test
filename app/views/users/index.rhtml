@@ -1,3 +1,4 @@
+<div style="margin: 10px">
 <h3>Current Users (<%= @users.size %> total)</h3>
 <ul>
     <% for user in @users%>
@@ -7,3 +8,4 @@
 
 <!-- Only admins and masters should see this link -->
 <a href="/users/new">Add a user</a>
+</div>
