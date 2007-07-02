@@ -34,6 +34,7 @@ class DevicesController < ApplicationController
         else
           device = Device.new
           device.name = params[:name]
+          device.imei = params[:imei]
           device.provision_status_id = 1
           device.account_id = session[:account_id]
           device.save
