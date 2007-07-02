@@ -1,4 +1,5 @@
 class GeofenceController < ApplicationController
+  before_filter :authorize
 
   def index
     

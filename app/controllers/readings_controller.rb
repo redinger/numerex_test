@@ -1,4 +1,5 @@
 class ReadingsController < ApplicationController
+  before_filter :authorize
   
   #Get most recent readings for all devices
   def recent

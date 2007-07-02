@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  #scaffold :device
+  before_filter :authorize
   
   def index
     @devices = Device.get_devices(session[:account_id])
