@@ -48,15 +48,25 @@ class DevicesController < ApplicationController
   # User can edit their device
   def edit
     if request.post?
-      device = Device.find(params[:id])
+      device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
       device.name = params[:name]
       device.imei = params[:imei]
       device.save
       flash[:message] = 'Properties for "' + params[:name] + '" were updated successfully'
       redirect_to :controller => "devices"
     else
-      @device = Device.find(params[:id])  
+      @device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])  
     end
   end
   
+  # User can delete their device
+  def delete
+    if request.post?
+      device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
+      device.provision_status_id = 2 # Let's flag it for now instead of deleting it
+      device.save
+      flash[:message] = device.name + " was deleted successfully"
+      redirect_to :controller => "devices"
+    end
+  end
 end

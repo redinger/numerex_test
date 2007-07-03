@@ -7,3 +7,8 @@
 </table>
     <input type="hidden" name="id" value="<%= @device.id %>" />
 </form>
+<hr />
+<form method="post" action="/devices/delete" onsubmit="return confirm('Are you sure you want to delete this device?');">
+	<input type="hidden" name="id" value="<%= @device.id %>" />
+	<input type="submit" value="delete" />
+</form>	
