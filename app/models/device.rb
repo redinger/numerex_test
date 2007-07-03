@@ -4,6 +4,10 @@ class Device < ActiveRecord::Base
   has_many :readings, :order => "created_at desc", :limit => 10
   has_many :geofences, :order => "created_at desc", :limit => 3
   
+  # For now the provision_status_id is represented by
+  # 0 = unprovisioned
+  # 1 = provisioned
+  # 2 = device deleted by user
   def self.get_devices(account_id)
     find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id])
   end
