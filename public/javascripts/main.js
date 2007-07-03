@@ -165,12 +165,12 @@ function getBreadcrumbs(id, name)
 	});
 }
 		
-	function createNow(point, alt, spd, dir) 
+	function createNow(point, alt, spd) 
 		{    
    		var marker = new GMarker(point, recenticon);
 		GEvent.addListener(marker, "click", function() 
 			{
-        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
+        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
         	});
 		
         return marker;
@@ -222,7 +222,7 @@ function getBreadcrumbs(id, name)
 		
 		GEvent.addListener(arrow, "click", function() 
 			{
-        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Direction: " + dir + "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
+        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt);
 			
         	});
 		
