@@ -28,4 +28,5 @@ class GeofenceController < ApplicationController
   def view
     @device = Device.get_device(params[:id], session[:account_id])
   end
+  
 end

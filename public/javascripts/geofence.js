@@ -1,13 +1,31 @@
 var gmap;
 var map;
+var zoom = 9;
+var icon;
+var form;
+var geofences = [];
 
 function load() {
 	if (GBrowserIsCompatible()) {
-		map = document.getElementById("map");
+		map = document.getElementById("geofence_map");
 	    gmap = new GMap2(map);
 	    gmap.addControl(new GLargeMapControl());
 	    gmap.addControl(new GMapTypeControl());
-	    gmap.setCenter(new GLatLng(37.4419, -122.1419), 9);
+	    gmap.setCenter(new GLatLng(37.4419, -122.1419), zoom);
+		
+		icon = new GIcon();
+		icon.image = "/icons/ublip_marker.png";
+    	icon.shadow = "/images/ublip_marker_shadow.png";
+    	icon.iconSize = new GSize(23, 34);
+    	icon.iconAnchor = new GPoint(11, 34);
+		
+		// Form when editing or adding geofence
+		form = document.getElementById("geofence_form");
+		
+		// Display the initial geofence when viewing
+		if(form == null)
+			displayGeofence(0);
+		
 	}
 }
 
@@ -20,33 +38,31 @@ function geocode(address)
     	address,
 		function(point) {
       		if (!point) {
-        		alert(address + " cannot be located.");
+        		alert("This address cannot be located");
       		} else {
 				gmap.clearOverlays();
-        		gmap.setCenter(point, 9);
-        		//var marker = new GMarker(point);
-        		//map.addOverlay(marker);
-        		gmap.openInfoWindowHtml(point, address);
-				
 				// Draw the fence
 				var r = document.getElementById("radius")[document.getElementById("radius").selectedIndex].value;
-				drawCircle(point, r);
+				drawGeofence(point, r);
+						
+        		gmap.addOverlay(createMarker(point));
+        		
+				if(parseInt(r) > 1)
+					zoom = 9;
+				else
+					zoom = 14;
+					
+				gmap.setCenter(point, zoom);
 				
-				/* Save the fence to the database
-				var name = document.getElementById("geofence_form").geofence_name.value;
-				GDownloadUrl("/geofence/save_geofence?perimeter=" + point.lat() + "," + point.lng() + "," + r + "&device_id=1&name=" + name);
-				
-				document.getElementById("geofence").innerHTML = prevHTML;
-				
-				document.getElementById("geofence_select").options[1] = new Option(name);
-				document.getElementById("geofence_select").selectedIndex = 1;*/
-				
+				// Populate the bounds field
+				form.bounds.value = point.lat() + ',' + point.lng() + ',' + r;
       		}
     	}
   	);
 }
 
-function drawCircle(p, r) {
+// Draw geofence
+function drawGeofence(p, r) {
 	var cColor = "#0066FF";
 	var cWidth = 5;
 	var Cradius = r;   
@@ -66,4 +82,42 @@ function drawCircle(p, r) {
   	}
   
   	gmap.addOverlay(new GPolyline(Cpoints,cColor,cWidth)); 
+}
+
+// Marker for geofence preview
+function createMarker(p) {
+	var marker = new GMarker(p, icon);
+	return marker;
+}
+
+// Validation for geofence creation form
+function validate() {
+	if(form.name.value == '') {
+		alert('Please specify a name for your geofence');
+		return false;	
+	}
+	
+	if(form.bounds.value == '') {
+		alert('Please preview your geofence before saving');
+		return false;
+	}
+	
+	return true;
+}
+
+// Display a geofence when selected from the view list
+function displayGeofence(index) {
+	var bounds = geofences[index].bounds.split(",");
+	var point = new GLatLng(parseFloat(bounds[0]), parseFloat(bounds[1]));
+	var radius = parseFloat(bounds[2]);
+	gmap.clearOverlays();
+	drawGeofence(point, radius);
+	gmap.addOverlay(createMarker(point));
+	
+	if(radius > 1)
+		zoom = 9;
+	else
+		zoom = 14;
+	
+	gmap.setCenter(point, zoom);
 }
