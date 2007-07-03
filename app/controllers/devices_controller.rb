@@ -25,7 +25,7 @@ class DevicesController < ApplicationController
             device.name = params[:name]
             device.provision_status_id = 1
             device.save
-            flash[:message] = params[:name] + '" was provisioned successfully'
+            flash[:message] = params[:name] + ' was provisioned successfully'
             redirect_to :controller => 'devices'
           else
             flash[:message] = 'This device has already been added'
@@ -38,7 +38,7 @@ class DevicesController < ApplicationController
           device.provision_status_id = 1
           device.account_id = session[:account_id]
           device.save
-          flash[:message] = params[:name] + '" was created successfully'
+          flash[:message] = params[:name] + ' was created successfully'
           redirect_to :controller => 'devices'
         end
       end
@@ -52,7 +52,7 @@ class DevicesController < ApplicationController
       device.name = params[:name]
       device.imei = params[:imei]
       device.save
-      flash[:message] = params[:name] + '" was updated successfully'
+      flash[:message] = params[:name] + ' was updated successfully'
       redirect_to :controller => "devices"
     else
       @device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])  
@@ -65,7 +65,7 @@ class DevicesController < ApplicationController
       device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
       device.provision_status_id = 2 # Let's flag it for now instead of deleting it
       device.save
-      flash[:message] = device.name + " was deleted successfully"
+      flash[:message] = device.name + ' was deleted successfully'
       redirect_to :controller => "devices"
     end
   end
