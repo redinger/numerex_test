@@ -1,3 +1,7 @@
+<% if flash[:message] %>
+        <div id="success_message"><%= flash[:message] %></div>
+<% end %>
+	
 <h3>Viewing geofences for <%= @device.name %></h3>
 <select multiple="multiple" size="3" style="float: left;">
 	<% for geofence in @device.geofences %>
@@ -11,6 +15,6 @@
 <br />
 <hr />
 <% if @device.geofences.size < 3 %>
-	<a href="/geofence/add/2">Create new geofence</a><br /><br />
+	<a href="/geofence/add/<%= @device.id %>">Create new geofence</a><br /><br />
 <% end %>
 <a href="/geofence">Edit another device</a>

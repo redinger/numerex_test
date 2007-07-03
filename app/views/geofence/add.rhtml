@@ -1,15 +1,17 @@
 <h3>Creating a geofence for <%= @device.name %></h3>
-<div style="background-color: #FFFFCC; padding:10px; width: 500px;">
+<div style="background-color: #FFFFCC; padding:10px; width: 580px;">
 	<ol>
 		<li>Specify a name for your geofence (e.g. Home, Distribution Center)</li>
-		<li>Enter an address, city, or zip in the field below.  Alternatively, you can click on the map to specify the center point for your geofence.</li>
+		<li>Enter an address, city, or zip in the field below.</li>
 		<li>Select a radius (in miles)</li>
 		<li>Preview your geofence by clicking "view"</li>
 		<li>Save your geofence</li>
 	</ol>
 </div>
 
-<form method="post" style="margin-top: 10px; margin-bottom: 10px;" id="geofence_form">
+<div id="geofence_map" style="width: 600px; height: 350px;"></div>
+
+<form method="post" style="margin-top: 10px; margin-bottom: 10px;" id="geofence_form" onSubmit="return validate();">
 	Name: <input type="text" size="15" name="name" />
 	Address: <input type="text" name="address" size="20" />
 	&nbsp;&nbsp;Radius: 
@@ -23,6 +25,8 @@
 		<option value="25">25</option>
 	</select> (miles)
 	<input type="submit" value="view" onclick="geocode(address.value); return false;" /><br />
+	<hr />
+	<input type="submit" value="save" />
+	<input type="hidden" name="id" value="<%= @device.id %>" />
+	<input type="hidden" name="bounds" />
 </form>
-
-<div id="map" style="width: 600px; height: 350px;"></div>

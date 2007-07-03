@@ -11,4 +11,8 @@ class Device < ActiveRecord::Base
   def self.get_devices(account_id)
     find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id])
   end
+  
+  def self.get_device(device_id, account_id)
+    find(device_id, :conditions => ['provision_status_id = 1 and account_id = ?', account_id])
+  end
 end
