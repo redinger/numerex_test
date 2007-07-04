@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Ublip Tracker" height="300" /> 
+  <Content type="html">
+     <![CDATA[
+		<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAuuM51OQ5BjDaW1x4b-MN6RQdy8buJCn4UCOrVn-gOC82x0BwgBRfUA9c-fxzF43pSDpXTxs1j8Dfsw" type="text/javascript"></script>
+		<script type="text/javascript">
+		var icon;
+		var gmap;
+		var rg_url = "http://ws.geonames.org/findNearestAddress?";
+		var html;
+		var speed;
+		var currentLocation;
+
+		_IG_RegisterOnloadHandler(load);
+		function load() {
+			if (GBrowserIsCompatible()) {
+        		gmap = new GMap2(document.getElementById("map"));
+        		gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
+				gmap.addControl(new GSmallMapControl());
+    			gmap.addControl(new GMapTypeControl());
+
+				icon = new GIcon();
+				icon.image = "http://myfleet.ublip.com/icons/ublip_marker.png";
+    			icon.shadow = "http://myfleet.ublip.com/images/ublip_marker_shadow.png";
+    			icon.iconSize = new GSize(23, 34);
+    			icon.iconAnchor = new GPoint(11, 34);
+    			icon.infoWindowAnchor = new GPoint(15, 0);
+
+				getLoc();
+
+      			setInterval("getLoc()", 60000);
+			}
+		}
+
+		function getLoc() {
+			_IG_FetchXmlContent("http://myfleet.ublip.com/readings/recent_public/13", displayLoc, {refreshInterval: 45});
+		}
+
+		function displayLoc(data) {
+			var lat = data.getElementsByTagName("latitude")[0].firstChild.nodeValue;
+			var lng = data.getElementsByTagName("longitude")[0].firstChild.nodeValue;
+			var spd = parseFloat(data.getElementsByTagName("speed")[0].firstChild.nodeValue)/10;
+			speed = spd;
+			var dir = parseFloat(data.getElementsByTagName("direction")[0].firstChild.nodeValue)/10;
+			point = new GLatLng(lat, lng);
+			currentLocation = point;
+			gmap.clearOverlays();
+			gmap.addOverlay(createMarker(point));
+
+			gmap.addOverlay(createArrow(point, spd, dir));
+
+			gmap.setCenter(point);
+
+			_IG_FetchXmlContent(rg_url + "lat=" + lat + "&lng=" + lng, displayStatus);
+		}
+
+		function displayStatus(data) {
+			html = '<span style="font-family: Arial, Helvetica, sans-serif; color: #003399; font-size: 14px">';
+			var streetAddress='';
+			var streetName='';
+			var city='';
+			var state='';
+
+			if(data.getElementsByTagName("streetNumber")[0].firstChild != null)
+				streetAddress = data.getElementsByTagName("streetNumber")[0].firstChild.nodeValue;
+
+			if(data.getElementsByTagName("street")[0].firstChild != null)
+				streetName = data.getElementsByTagName("street")[0].firstChild.nodeValue;
+			
+			if(data.getElementsByTagName("adminName2")[0].firstChild != null)
+				city = data.getElementsByTagName("adminName2")[0].firstChild.nodeValue;
+			
+			if(data.getElementsByTagName("adminCode1")[0].firstChild != null)
+				state = data.getElementsByTagName("adminCode1")[0].firstChild.nodeValue;
+				
+			html += streetAddress + ' ' + streetName + ', ' + city + ', ' + state
+			html += '</span>';
+			html += '<hr />';
+			html += '<span style="font-family: Arial, Helvetica, sans-serif; color: #666666; font-size: 12px">Current speed: </span>';
+			html += '<span style="font-family: Arial, Helvetica, sans-serif; color: #003399; font-size: 12px">' + speed + 'mph</span>';
+			
+			gmap.openInfoWindowHtml(currentLocation, html);
+		}
+
+		function createMarker(point) {
+			var marker = new GMarker(point, icon);
+			return marker;
+		}
+
+		function createArrow(point, spd, dir) {   
+			var icondir;
+
+			if(dir >= 337.5 || dir < 22.5) {
+				icondir = "n";
+			} else if(dir >= 22.5 && dir < 67.5) {
+				icondir = "ne"; 
+			} else if(dir >= 67.5 && dir < 112.5) {
+				icondir = "e";
+			} else if(dir >= 112.5 && dir < 157.5) {
+				icondir = "se";
+			} else if(dir >= 157.5 && dir < 202.5) {
+				icondir = "s";
+			} else if(dir >= 202.5 && dir < 247.5) {
+				icondir = "sw";
+			} else if(dir >= 247.5 && dir < 292.5) {
+				icondir = "w";
+			} else if(dir >= 292.5 && dir < 337.5) {
+				icondir = "nw";
+			}
+		
+			var diricon = new GIcon();
+	   		diricon.image = "http://myfleet.ublip.com/icons/arrows/" + icondir + ".png";
+	   		diricon.iconSize = new GSize(45, 45);
+	    	diricon.iconAnchor = new GPoint(22, 45);
+	    	diricon.infoWindowAnchor = new GPoint(20, 15);
+				
+			var arrow = new GMarker(point, diricon);
+			/*GEvent.addListener(arrow, "click", function() {
+        		arrow.openInfoWindowHtml(html);
+        	});*/
+		
+			return arrow;
+		}
+
+		</script>
+		<div id="map" style="padding: 0; margin: 0; width: 100%; height: 300px;">test</div>
+     ]]>
+
+  </Content> 
+</Module>
