@@ -63,7 +63,7 @@ class DevicesController < ApplicationController
   def delete
     if request.post?
       device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
-      device.update_attribute(:provision_status_id => 2) # Let's flag it for now instead of deleting it
+      device.update_attribute(:provision_status_id, 2) # Let's flag it for now instead of deleting it
       flash[:message] = device.name + ' was deleted successfully'
       redirect_to :controller => "devices"
     end
