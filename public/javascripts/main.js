@@ -6,7 +6,7 @@ var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
 
-                
+            
 function load() 
 {
   if (GBrowserIsCompatible()) 
@@ -30,7 +30,6 @@ function load()
     iconALL.iconSize = new GSize(23, 34);
     iconALL.iconAnchor = new GPoint(11, 34);
     iconALL.infoWindowAnchor = new GPoint(15, 0);
-	
   	}
 }
 
@@ -127,7 +126,7 @@ function getBreadcrumbs(id, name)
          	if(i == 0)
 		 	 	{ 	
 				gmap.setCenter(point, 13);
-				
+  
 			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue));
 				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spds[0].firstChild.nodeValue + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue);
 				}
@@ -140,7 +139,6 @@ function getBreadcrumbs(id, name)
 				}
 	    }
     
-
 		var zoom = gmap.getBoundsZoomLevel(bounds);
 		if(zoom > 15)
 			zoom = 15;
@@ -224,8 +222,7 @@ function getBreadcrumbs(id, name)
 		GEvent.addListener(arrow, "click", function() 
 			{
         	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
-			
-        	});
+			});
 		
 		return arrow;
 		}	
@@ -241,8 +238,7 @@ function createPast(point)
     	iconNow.infoWindowAnchor = new GPoint(15, 0);
 				 
    		var marker = new GMarker(point, iconNow);
-		
-		
+
         return marker;
 		
 		}	
