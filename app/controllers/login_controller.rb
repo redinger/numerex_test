@@ -6,6 +6,12 @@ class LoginController < ApplicationController
   before_filter :login_from_cookie
 
   def index
+    
+    # Check if user is logged in and redirect to home controller if they are
+    if logged_in?
+      redirect_to :controller => 'home' and return
+    end
+    
     # Handles the login form post
     if request.post?
       # Authenticate based on un/pw as well as subdomain
