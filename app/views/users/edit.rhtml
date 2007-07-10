@@ -8,7 +8,7 @@
     <iinput type="hidden" name="id" value="<%= @user.id %>" />
 </form>
 <hr />
-<form method="post" action="/users/delete">
+<form method="post" action="/users/delete" onsubmit="return confirm('Are you sure you want to delete this user?');">
     <input type="hidden" name="id" value="<%= @user.id %>" />
     <input type="submit" value="delete" />
 </form>

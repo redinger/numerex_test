@@ -28,6 +28,7 @@ class UsersController < ApplicationController
       end
       
       if user.save!
+        flash[:message] = user.email + ' was created successfully'
         redirect_to :controller => "users"
       end
       
@@ -38,6 +39,7 @@ class UsersController < ApplicationController
     if request.post?
       user = User.find(params[:id])
       user.destroy
+      flash[:message] = user.email + ' was deleted successfully'
       redirect_to :controller => "users"
     end
   end
