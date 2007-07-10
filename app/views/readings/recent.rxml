@@ -6,10 +6,7 @@ xml.devices do
       xml.name(device.name)
       xml.imei(device.imei)
       # Don't try and display readings data if it doesn't exist
-      if device.recent_reading_id == 0
-        xml.lat(0)
-        xml.lng(0)
-      else
+      if device.recent_reading_id != 0
         xml.lat(device.readings[0].latitude)
         xml.lng(device.readings[0].longitude)
         xml.dt(device.readings[0].created_at)
