@@ -20,6 +20,9 @@ class WsController < ApplicationController
       
       # Save the reading
       if reading.save
+        # Save the reading id with the device
+        device.recent_reading_id = reading.id
+        device.save
         render_text "Success"
       else
         render_text "Error saving data"
