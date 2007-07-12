@@ -4,7 +4,7 @@ class UserTest < Test::Unit::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead.
   # Then, you can remove it from this and the functional test.
   include AuthenticatedTestHelper
-  fixtures :users
+  fixtures :users,:accounts
 
   def test_should_create_user
     assert_difference User, :count do
@@ -13,24 +13,10 @@ class UserTest < Test::Unit::TestCase
     end
   end
 
-  def test_should_require_login
-    assert_no_difference User, :count do
-      u = create_user(:login => nil)
-      assert u.errors.on(:login)
-    end
-  end
-
   def test_should_require_password
     assert_no_difference User, :count do
       u = create_user(:password => nil)
       assert u.errors.on(:password)
-    end
-  end
-
-  def test_should_require_password_confirmation
-    assert_no_difference User, :count do
-      u = create_user(:password_confirmation => nil)
-      assert u.errors.on(:password_confirmation)
     end
   end
 
@@ -42,34 +28,34 @@ class UserTest < Test::Unit::TestCase
   end
 
   def test_should_reset_password
-    users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    assert_equal users(:quentin), User.authenticate('quentin', 'new password')
+    users(:dennis).update_attributes(:password => 'new password', :password_confirmation => 'new password')
+    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'new password')
   end
 
   def test_should_not_rehash_password
-    users(:quentin).update_attributes(:login => 'quentin2')
-    assert_equal users(:quentin), User.authenticate('quentin2', 'test')
+    users(:dennis).update_attributes(:first_name => 'dennis2')
+    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'test')
   end
 
   def test_should_authenticate_user
-    assert_equal users(:quentin), User.authenticate('quentin', 'test')
+    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'test')
   end
 
   def test_should_set_remember_token
-    users(:quentin).remember_me
-    assert_not_nil users(:quentin).remember_token
-    assert_not_nil users(:quentin).remember_token_expires_at
+    users(:dennis).remember_me
+    assert_not_nil users(:dennis).remember_token
+    assert_not_nil users(:dennis).remember_token_expires_at
   end
 
   def test_should_unset_remember_token
-    users(:quentin).remember_me
-    assert_not_nil users(:quentin).remember_token
-    users(:quentin).forget_me
-    assert_nil users(:quentin).remember_token
+    users(:dennis).remember_me
+    assert_not_nil users(:dennis).remember_token
+    users(:dennis).forget_me
+    assert_nil users(:dennis).remember_token
   end
 
   protected
     def create_user(options = {})
-      User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quire', :password_confirmation => 'quire' }.merge(options))
+      User.create({ :email => 'quire@example.com', :password => 'quire2', :password_confirmation => 'quire2', :first_name => 'Dennis', :last_name => 'Baldwin' }.merge(options))
     end
 end
