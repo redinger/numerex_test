@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'device_controller'
+require 'devices_controller'
 
 # Re-raise errors caught by the controller.
 class DeviceController; def rescue_action(e) raise e end; end
