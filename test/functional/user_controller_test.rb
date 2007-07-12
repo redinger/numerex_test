@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'user_controller'
+require 'users_controller'
 
 # Re-raise errors caught by the controller.
 class UserController; def rescue_action(e) raise e end; end
