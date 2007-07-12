@@ -44,7 +44,12 @@
         <td>&nbsp;</td>
         <td valign="top" width="50%">
             <table width="100%" class="panel_table">
-                <tr><td class="header">Locations for <span id="device_name">All Devices</span> <span id="view_all_link" style="visibility: hidden;">- <a href="javascript:getRecentReadings();">View All Devices</a></span></td></tr>
+                <tr>
+                	<td class="header">
+                		<div style="float: left;">Locations for <span id="device_name">All Devices</span> <span id="view_all_link" style="visibility: hidden;">- <a href="javascript:getRecentReadings();">View All Devices</a></span></div>
+						<div style="float: right;"><select><option>Last Hour</option><option>Last Day</option><option>Last Week</option><option>Last Month</option></select></div>
+					</td>
+				</tr>
                 <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%"></div></td></tr>
             </table>
         </td>
