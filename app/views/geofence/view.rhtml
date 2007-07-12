@@ -3,17 +3,21 @@
 <% end %>
 	
 <h3>Viewing geofences for <%= @device.name %></h3>
-<select multiple="multiple" size="3" style="float: left; width: 100px;" onChange="displayGeofence(this.selectedIndex);">
-	<% i = 0 %>
-	<% for geofence in @device.geofences %>
-		<option <% if i ==0 %>selected="selected"<% end %>><%= geofence.name %></option>
-		<% i = i + 1 %>
-	<% end %>
-</select>
+
+<div style="float: left;">
+	<select multiple="multiple" size="3" style="width: 250px;" onChange="displayGeofence(this.selectedIndex);">
+		<% i = 0 %>
+		<% for geofence in @device.geofences %>
+			<option <% if i ==0 %>selected="selected"<% end %>><%= geofence.name %></option>
+			<% i = i + 1 %>
+		<% end %>
+	</select>
+	<br /><br /><a href="javascript:go('/geofence/edit/<%= @device.id %>');">Edit selected geofence</a>
+</div >
 
 <script>
 	<% for geofence in @device.geofences %>
-		geofences.push({name: '<%= geofence.name %>', bounds: '<%= geofence.bounds %>'});
+		geofences.push({id: <%= geofence.id %>, name: '<%= escape_javascript(geofence.name) %>', bounds: '<%= geofence.bounds %>'});
 	<% end %>
 </script>
 
