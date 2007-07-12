@@ -4,6 +4,8 @@ var zoom = 9;
 var icon;
 var form;
 var geofences = [];
+var currSelectedDeviceId;
+var currSelectedGeofenceId;
 
 function load() {
 	if (GBrowserIsCompatible()) {
@@ -23,17 +25,18 @@ function load() {
 		form = document.getElementById("geofence_form");
 		
 		// Display the initial geofence when viewing
-		if(form == null)
+		// Set the initial geofence ID
+		//if(form == null) {
 			displayGeofence(0);
+			currSelectedGeofenceId = geofences[0].id;
+		//}
 		
 	}
 }
 
 // Convert address to lat/lng
-function geocode(address)
-{
+function geocode(address) {
 	var geocoder = new GClientGeocoder();
-
 	geocoder.getLatLng(
     	address,
 		function(point) {
@@ -114,10 +117,16 @@ function displayGeofence(index) {
 	drawGeofence(point, radius);
 	gmap.addOverlay(createMarker(point));
 	
+	currSelectedGeofenceId = geofences[index].id;
+	
 	if(radius > 1)
 		zoom = 9;
 	else
 		zoom = 14;
 	
 	gmap.setCenter(point, zoom);
+}
+
+function go(url) {
+	document.location.href = url + '?geofence_id=' + currSelectedGeofenceId;
 }
