@@ -24,7 +24,7 @@ class GeofenceController < ApplicationController
         rad = fence[2].to_f * 1609.344 # 1 mile in meters
 
         # Call the middleware WS to set the geofence
-        url = 'http://localhost:8080/webservice/simple/at.ws?cmd=AT%24GEOFNC=1,' + rad.to_s + ',' + lat + ',' + lng + '&device=' + device.imei
+        url = 'http://localhost:8080/webservice/simple/at.ws?cmd=AT%24GEOFNC=1,' + rad.round.to_s + ',' + lat + ',' + lng + '&device=' + device.imei
         resp = Net::HTTP.get_response(URI.parse(url))
         # Could be a sync problem, testing for now
         url = 'http://localhost:8080/webservice/simple/at.ws?cmd=AT%26w&device=' + device.imei
