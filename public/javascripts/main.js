@@ -254,10 +254,8 @@ function createPast(point, event_type)
 		
 		if(event_type == defaultEventType)
 			marker = new GMarker(point, iconNow);
-		else {
-			alert('alarm');
+		else 
 			marker = new GMarker(point, alarmIcon);
-		}
 
         return marker;
 		
