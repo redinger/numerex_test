@@ -5,6 +5,9 @@ require 'home_controller'
 class HomeController; def rescue_action(e) raise e end; end
 
 class HomeControllerTest < Test::Unit::TestCase
+  
+  fixtures :users
+  
   def setup
     @controller = HomeController.new
     @request    = ActionController::TestRequest.new
@@ -14,5 +17,11 @@ class HomeControllerTest < Test::Unit::TestCase
   # Replace this with your real tests.
   def test_truth
     assert true
+  end
+  
+  def test_index
+    puts @request
+    get :index, {}, { :user => users(:dennis) } 
+    assert_response :success
   end
 end
