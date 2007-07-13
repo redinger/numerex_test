@@ -1,17 +1,18 @@
 var gmap;
 var iconNow;
+var alarmIcon;
 var recenticon;
 var iconcount = 2;
 var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
+var defaultEventType = "normal_et2";
 
             
 function load() 
 {
-  if (GBrowserIsCompatible()) 
-  	{
-    gmap = new GMap2(document.getElementById("map"));
+  if (GBrowserIsCompatible()) {
+  	gmap = new GMap2(document.getElementById("map"));
     gmap.addControl(new GLargeMapControl());
     gmap.addControl(new GMapTypeControl());
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
@@ -22,7 +23,7 @@ function load()
     recenticon.shadow = "/images/ublip_marker_shadow.png";
     recenticon.iconSize = new GSize(22, 35);
     recenticon.iconAnchor = new GPoint(11, 34);
-    recenticon.infoWindowAnchor = new GPoint(15, 0);	
+    recenticon.infoWindowAnchor = new GPoint(15, 0);		
 	
 	iconALL = new GIcon();
     iconALL.image = "/icons/ublip_marker.png";
@@ -30,13 +31,20 @@ function load()
     iconALL.iconSize = new GSize(23, 34);
     iconALL.iconAnchor = new GPoint(11, 34);
     iconALL.infoWindowAnchor = new GPoint(15, 0);
-  	}
+	
+	// Displayed for exceptions
+	alarmIcon = new GIcon();
+    alarmIcon.image = "/icons/ublip_red.png";
+    alarmIcon.shadow = "/images/ublip_marker_shadow.png";
+    alarmIcon.iconSize = new GSize(23, 34);
+    alarmIcon.iconAnchor = new GPoint(11, 34);
+    alarmIcon.infoWindowAnchor = new GPoint(15, 0);
+  }
 }
 
 window.onresize = resize;
 
-function resize() 
-{
+function resize() {
     /*var myWidth, myHeight;
     if( typeof( window.innerWidth ) == 'number' ) {
         //Non-IE
@@ -102,8 +110,7 @@ function getRecentReadings() {
     });
 }
 
-function getBreadcrumbs(id, name) 
-{
+function getBreadcrumbs(id, name) {
 	var bounds = new GLatLngBounds();
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
 	{
@@ -114,6 +121,7 @@ function getBreadcrumbs(id, name)
 		var spds = xml.documentElement.getElementsByTagName("speed");
 		var dirs = xml.documentElement.getElementsByTagName("direction");
 		var times = xml.documentElement.getElementsByTagName("created-at");
+		var event_type = xml.documentElement.getElementsByTagName("event-type");
 				
 		gmap.clearOverlays();
 		
@@ -127,13 +135,13 @@ function getBreadcrumbs(id, name)
 		 	 	{ 	
 				gmap.setCenter(point, 13);
   
-			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue));
+			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue));
 				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spds[0].firstChild.nodeValue + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue);
 				}
 			else
 				{
-				gmap.addOverlay(createPast(point));
-				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue)); //deviding by ten till middleware issue is fixed.
+				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue));
+				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue)); //dividing by ten till middleware issue is fixed.
 			
 				iconcount++;
 				}
@@ -164,9 +172,15 @@ function getBreadcrumbs(id, name)
 	});
 }
 		
-	function createNow(point, alt, spd, dir, time) 
-		{    
-   		var marker = new GMarker(point, recenticon);
+	function createNow(point, alt, spd, dir, time, event_type) { 
+	   
+   		var marker;
+		
+		if(event_type == defaultEventType)
+			marker = new GMarker(point, recenticon);
+		else
+			marker = new GMarker(point, alarmIcon);
+			
 		GEvent.addListener(marker, "click", function() 
 			{
         	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
@@ -175,8 +189,7 @@ function getBreadcrumbs(id, name)
         return marker;
 		}
 	
-	function createArrow(point, alt, spd, dir, time) 
-		{   
+	function createArrow(point, alt, spd, dir, time) {   
 		
 		if(dir >= 337.5 || dir < 22.5)
 				{
@@ -227,7 +240,7 @@ function getBreadcrumbs(id, name)
 		return arrow;
 		}	
 		
-function createPast(point) 
+function createPast(point, event_type) 
 		{   
 				
 		iconNow = new GIcon();
@@ -236,8 +249,15 @@ function createPast(point)
     	iconNow.iconSize = new GSize(22, 35);
     	iconNow.iconAnchor = new GPoint(11, 34);
     	iconNow.infoWindowAnchor = new GPoint(15, 0);
-				 
-   		var marker = new GMarker(point, iconNow);
+		
+		var marker;
+		
+		if(event_type == defaultEventType)
+			marker = new GMarker(point, iconNow);
+		else {
+			alert('alarm');
+			marker = new GMarker(point, alarmIcon);
+		}
 
         return marker;
 		
