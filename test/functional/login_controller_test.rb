@@ -5,6 +5,9 @@ require 'login_controller'
 class LoginController; def rescue_action(e) raise e end; end
 
 class LoginControllerTest < Test::Unit::TestCase
+  
+  fixtures :users
+  
   def setup
     @controller = LoginController.new
     @request    = ActionController::TestRequest.new
@@ -15,4 +18,26 @@ class LoginControllerTest < Test::Unit::TestCase
   def test_truth
     assert true
   end
+  
+  def test_index
+    get :index
+  end
+  
+  def test_login
+   @request.host="dennis.ublip.com"
+   post :index, {:email => users(:dennis).email, :password => "test"} 
+   assert_redirected_to "/home"
+ end
+ 
+ def test_login_failure
+   @request.host="dennis.ublip.com"
+   post :index, {:email => users(:dennis).email, :password => "wrong"} 
+   assert_redirected_to "/login"
+ end
+ 
+ def test_logout
+   get :logout
+   assert_redirected_to "/login"
+ end
+ 
 end
