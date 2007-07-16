@@ -16,6 +16,7 @@ class WsController < ApplicationController
       reading.altitude = params[:alt]
       reading.speed = params[:spd]
       reading.direction = params[:dir]
+      reading.note = params[:note]
       reading.device_id = device.id
       
       # Save the reading
