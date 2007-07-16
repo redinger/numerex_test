@@ -1,1 +1,25 @@
 <p><a href="/reports">&lt; back</a></p>
+<table width="100%" border="1">
+	<tr>
+		<th>Latitude</th>
+		<th>Longitude</th>
+		<th>Altitude</th>
+		<th>Speed</th>
+		<th>Direction</th>
+		<th>Device ID</th>
+		<th>Created</th>
+		<th>Event Type</th>
+	</tr>
+	<% for reading in @stops %>
+		<tr>
+			<td><%= reading.latitude %></td>
+			<td><%= reading.longitude %></td>
+			<td><%= reading.altitude %></td>
+			<td><%= reading.speed %></td>
+			<td><%= reading.direction %></td>
+			<td><%= reading.device_id %></td>
+			<td><%= reading.created_at %></td>
+			<td><%= reading.event_type %></td>
+		</tr>
+	<% end %>
+</table>
