@@ -148,3 +148,23 @@
  device_id: 3
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+16:
+ id: 16
+ latitude: 32.9543
+ longitude: -96.8283
+ speed: 0
+ direction: 240
+ altitude: 5000
+ device_id: 3
+ created_at: <%= (Time.now+600).to_s :db %>
+ event_type: stop_et41
+17:
+ id: 17
+ latitude: 32.9543
+ longitude: -96.8283
+ speed: 10
+ direction: 240
+ altitude: 5000
+ device_id: 3
+ created_at: <%= (Time.now+1200).to_s :db %>
+ event_type: stop_et41
