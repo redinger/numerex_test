@@ -22,6 +22,7 @@ class LoginController < ApplicationController
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
         session[:account_id] = self.current_user.account_id # Store the account id
+        session[:company] = self.current_user.account.company # Store the user's company name
         redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else
