@@ -15,7 +15,7 @@ class ReadingsController < ApplicationController
     render_xml readings.to_xml
   end
   
-  # Simple test for Google homepage integration
+  # Simple test for iGoogle integration
   def recent_public
     reading = Reading.find(:all, :conditions => ["device_id = ?", params[:id]], :limit => 1, :order => "created_at desc")
     render_xml reading.to_xml
