@@ -8,48 +8,75 @@ body {
 
 div#content {
 	margin: 10px;
+	min-height: 400px;
 }
 
 div#header {
 	padding: 0;
 	margin: 0;
-	height: 75px;
+	min-height: 80px;
 	background-color: #0066FF;
+	position: relative;
+}
+
+div#company {
+	padding: 10px;
+	color: #FFFFFF;
+	font-size: 24px;
 }
 
 div#logo {
 	text-align: right;
 }
 
-div#nav {
-	padding: 0;
-	margin: 0;
-	border: 1px solid #FF0000;
-	color: #FFFFFF;
-	/* User customizable for tabs on left or right */
-	text-align: left;
-	vertical-align: bottom;
+div#footer {
+	border-top: 1px solid #cccccc;
+	padding: 10px 0 0 0;
+	margin: 20px;
+	text-align: center;	
+	color: #666666;
+	font-size: 10px;
+}
+
+#nav_tabs {
+	background-color: #0066FF;
+	padding: 0 15px;
+	position: absolute;
+	bottom: 0px;
 }
 
 #nav_tabs ul {
-	background-color: #000000;
-	line-height: 100px;
+	padding: 0;
+	margin: 0;
 }
 
 #nav_tabs li {
+	float: left;
 	list-style-type: none;
 	display: inline;
 	background-color: #003366;
-	padding: 6px;
+	padding: 5px 0;
+	margin: 0 1px;
 }
 
 #nav_tabs a {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	color: #FFFFFF;
 	text-decoration: none;
+	padding: 5px 10px;
 }
 
 #nav_tabs a:hover {
-	background-color: #FF0000;
+	background-color: #FFFFFF;
+    color: #003366;
+    padding: 5px 10px;
+}
+
+#nav_tabs .selected a {
+	font-weight: bold;
+	color: #0066CC;
+	background-color: #FFFFFF;
+	padding: 5px 10px;
 }
 
 div#title {
