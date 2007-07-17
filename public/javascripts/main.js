@@ -136,7 +136,7 @@ function getBreadcrumbs(id, name) {
 				gmap.setCenter(point, 13);
   
 			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue));
-				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spds[0].firstChild.nodeValue + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue);
+				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spds[0].firstChild.nodeValue/10)*1.15 + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue);
 				}
 			else
 				{
@@ -183,7 +183,7 @@ function getBreadcrumbs(id, name) {
 			
 		GEvent.addListener(marker, "click", function() 
 			{
-        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
+        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
         	});
 		
         return marker;
@@ -234,7 +234,7 @@ function getBreadcrumbs(id, name) {
 		
 		GEvent.addListener(arrow, "click", function() 
 			{
-        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + spd + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
+        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
 			});
 		
 		return arrow;
