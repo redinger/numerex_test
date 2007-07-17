@@ -1,6 +1,14 @@
+	<%
+        @devices = Device.find(:all, :order => "name") 
+     %>
+	<select onchange="device_id = this.options[this.selectedIndex].value;">
+		<option>Select a device</option>
+	<% for device in @devices%>
+		<option value="<%= device.id %>"><a href="/reports/stop/<%= device.id %>"><%= device.name %></a></option>
+	<% end %>
+	</select>
 <ul>
-	<li><a href="/reports/all_readings">All Readings</a></li>
-	<li><a href="/reports/start">Start Exceptions</a></li>
-	<li><a href="/reports/stop">Stop Exceptions</a></li>
-	<li><a href="/reports/speed">Speed Exceptions</a></li>
+	<li><a href="javascript:goTo('/reports/all_readings');">All Readings</a></li>
+	<li><a href="javascript:goTo('/reports/stop')">Stop Exceptions</a></li>
+	<li><a href="javascript:goTo('/reports/speed')">Speed Exceptions</a></li>
 </ul>
