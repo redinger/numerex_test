@@ -10,12 +10,12 @@ class ReportsController < ApplicationController
   
   # Find all readings in descending order, limit 50
   def all_readings
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50)
+    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "device_id='#{params[:id]}'")
     puts @readings.first.class
   end
   
   def stop
-    readings = Reading.find(:all, :order => "created_at asc", :limit => 50, :conditions => "event_type='stop_et41'")
+    readings = Reading.find(:all, :order => "created_at asc", :limit => 50, :conditions => "event_type='stop_et41' and device_id='#{params[:id]}'")
     @stops = Array.new
     readings.each_index { |index|
                             if readings[index].speed==0
@@ -29,12 +29,8 @@ class ReportsController < ApplicationController
                         }
   end
   
-  def start
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "event_type='start'")
-  end
-  
   def speed
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "event_type='speed'")
+    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "event_type='speed' and device_id='#{params[:id]}'")
   end
 
 end
