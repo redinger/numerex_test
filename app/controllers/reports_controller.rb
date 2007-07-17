@@ -1,4 +1,10 @@
 class ReportsController < ApplicationController
+  
+  module StopEvent
+    attr_reader :duration
+    attr_writer :duration
+  end
+  
   def index
   end
   
@@ -9,22 +15,18 @@ class ReportsController < ApplicationController
   end
   
   def stop
-    
-    
     readings = Reading.find(:all, :order => "created_at asc", :limit => 50, :conditions => "event_type='stop_et41'")
     @stops = Array.new
-    
     readings.each_index { |index|
-    
                             if readings[index].speed==0
-                            #  stopEvent = readings[index]
-                              stopEvent = {latitude=>99, durations=>9}
-                              #stopEvent.durations = readings[index+1].created_at - readings[index].created_at
+                              stopEvent = readings[index]
+                              stopEvent.extend(StopEvent)
+                              if(readings[index+1].speed > 0)
+                                stopEvent.duration = readings[index+1].created_at - readings[index].created_at
+                              end
                               @stops.push stopEvent
                             end
-                            
                         }
-    
   end
   
   def start
