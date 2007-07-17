@@ -1,0 +1,21 @@
+<div id="header">
+	<div id="company" style="float: left;"><%= session[:company] %></div>
+	
+	<div id="logo_small" style="float: right;">
+		<a href="/logout" style="color: #FFFFFF; font-size: 10px;">Logout</a>&nbsp;&nbsp;
+		<a href="http://www.ublip.com" target="_blank"><img src="/images/ublip_logo_small.png" alt="Ublip logo" border ="0" style="vertical-align: middle;" /></a>
+	</div>
+
+	<div style="clear:both;"></div>
+
+	<div id="nav_tabs">
+		<ul>
+			<li><%= request.path_info %></li>
+	   		<li class="selected"><a href="/home">Overview</a></li>
+			<li><a href="/reports">Reports</a></li>
+			<li><a href="/devices">Devices</a></li>
+			<li style="float: right;"><a href="/users">Users</a></li>
+			<li style="float: right;"><a href="/settings">Settings</a></li>
+		</ul>
+	</div>
+</div>
