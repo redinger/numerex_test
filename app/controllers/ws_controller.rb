@@ -18,6 +18,7 @@ class WsController < ApplicationController
       reading.direction = params[:dir]
       reading.note = params[:note]
       reading.device_id = device.id
+      reading.event_type = "DEFAULT"
       
       # Save the reading
       if reading.save
