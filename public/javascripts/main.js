@@ -140,6 +140,10 @@ function getBreadcrumbs(id, name) {
 				alts[0].firstChild.nodeValue = "unknown";
 			}
 			
+			if (alts[i].firstChild.nodeValue == "")
+			{
+				alts[i].firstChild.nodeValue = "unknown";
+			}
          	if(i == 0)
 		 	 	{ 
 					
