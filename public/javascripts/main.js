@@ -186,7 +186,7 @@ function getBreadcrumbs(id, name) {
 	   
    		var marker;
 		
-		if (alt() == "")
+		if (alt == "")
 			{
 				alt = "unknown";
 			}
@@ -206,7 +206,7 @@ function getBreadcrumbs(id, name) {
 	
 	function createArrow(point, alt, spd, dir, time) {
 		
-		if (alt() == "")
+		if (alt == "")
 			{
 				alt = "unknown";
 			}   
