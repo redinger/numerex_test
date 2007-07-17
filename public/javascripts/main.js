@@ -84,6 +84,8 @@ function getRecentReadings() {
          	bounds.extend(point)
 			var names = xml.documentElement.getElementsByTagName("name");
 			
+
+			
          	if(i == 0)
 		 	 	{ 	
 				gmap.setCenter(point, 13);
@@ -126,13 +128,21 @@ function getBreadcrumbs(id, name) {
 		gmap.clearOverlays();
 		
 		iconcount = 2;
-			
+		
+	
+		
 		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
 			
+			if (alts[0].firstChild.nodeValue == "")
+			{
+				alts[0].firstChild.nodeValue = "unknown";
+			}
+			
          	if(i == 0)
-		 	 	{ 	
+		 	 	{ 
+					
 				gmap.setCenter(point, 13);
   
 			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue));
@@ -176,6 +186,11 @@ function getBreadcrumbs(id, name) {
 	   
    		var marker;
 		
+		if (alt() == "")
+			{
+				alt = "unknown";
+			}
+			
 		if(event_type == defaultEventType)
 			marker = new GMarker(point, recenticon);
 		else
@@ -189,7 +204,12 @@ function getBreadcrumbs(id, name) {
         return marker;
 		}
 	
-	function createArrow(point, alt, spd, dir, time) {   
+	function createArrow(point, alt, spd, dir, time) {
+		
+		if (alt() == "")
+			{
+				alt = "unknown";
+			}   
 		
 		if(dir >= 337.5 || dir < 22.5)
 				{
