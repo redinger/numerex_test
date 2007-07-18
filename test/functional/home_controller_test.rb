@@ -8,10 +8,20 @@ class HomeControllerTest < Test::Unit::TestCase
   
   fixtures :users
   
+  module RequestExtensions
+    def server_name
+      "helo"
+    end
+    def path_info
+      "adsf"
+    end
+  end
+  
   def setup
     @controller = HomeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    @request.extend(RequestExtensions)
   end
 
   # Replace this with your real tests.

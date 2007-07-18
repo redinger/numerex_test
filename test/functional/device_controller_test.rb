@@ -7,11 +7,21 @@ class DeviceController; def rescue_action(e) raise e end; end
 class DeviceControllerTest < Test::Unit::TestCase 
 
   fixtures :users,:devices,:accounts
+  
+  module RequestExtensions
+    def server_name
+      "helo"
+    end
+    def path_info
+      "adsf"
+    end
+  end
 
   def setup
     @controller = DevicesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    @request.extend(RequestExtensions)
   end
 
   # Replace this with your real tests.
