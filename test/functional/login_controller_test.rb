@@ -25,7 +25,7 @@ class LoginControllerTest < Test::Unit::TestCase
   
   def test_login
    @request.host="dennis.ublip.com"
-   post :index, {:email => users(:dennis).email, :password => "test"} 
+   post :index, {:email => users(:dennis).email, :password => "testing"} 
    assert_redirected_to "/home"
  end
  
