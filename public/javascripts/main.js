@@ -303,3 +303,13 @@ function createPast(point, event_type)
 function go(url) {
 	document.location.href = url + '/' + currSelectedDeviceId;
 }
+
+// Generic function to create a marker with custom icon and html
+function createMarker(point, icon, html) {
+	var marker = new GMarker(point, icon);
+	GEvent.addListener(marker, "click", function() {
+		marker.openInfoWindowHtml(html);
+		gmap.panTo(point);
+	});
+	return marker;
+}
