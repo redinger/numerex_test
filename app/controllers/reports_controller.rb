@@ -21,7 +21,7 @@ class ReportsController < ApplicationController
                             if readings[index].speed==0
                               stopEvent = readings[index]
                               stopEvent.extend(StopEvent)
-                              if(readings[index+1].speed > 0)
+                              if(readings.size>index+1 && readings[index+1].speed > 0)
                                 stopEvent.duration = readings[index+1].created_at - readings[index].created_at
                               end
                               @stops.push stopEvent
