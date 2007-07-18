@@ -157,7 +157,7 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+600).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
 17:
  id: 17
  latitude: 32.9543
@@ -167,7 +167,7 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+1200).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
 18:
  id: 18
  latitude: 32.9543
@@ -177,7 +177,7 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+1300).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
 19:
  id: 19
  latitude: 32.9543
@@ -187,7 +187,7 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+1400).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
 20:
  id: 20
  latitude: 32.9543
@@ -197,7 +197,7 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+1500).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
 21:
  id: 21
  latitude: 32.9543
@@ -207,7 +207,7 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+1600).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
 22:
  id: 22
  latitude: 32.9543
@@ -217,4 +217,14 @@
  altitude: 5000
  device_id: 3
  created_at: <%= (Time.now+1800).to_s :db %>
- event_type: stop_et41
+ event_type: startstop_et41
+23:
+ id: 23
+ latitude: 32.9543
+ longitude: -96.8283
+ speed: 0
+ direction: 240
+ altitude: 5000
+ device_id: 3
+ created_at: <%= (Time.now+1900).to_s :db %>
+ event_type: startstop_et41
