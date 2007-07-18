@@ -23,6 +23,7 @@ class LoginController < ApplicationController
         end
         session[:account_id] = self.current_user.account_id # Store the account id
         session[:company] = self.current_user.account.company # Store the user's company name
+        session[:first_name] = self.current_user.first_name
         redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else
