@@ -34,11 +34,11 @@ class UserTest < Test::Unit::TestCase
 
   def test_should_not_rehash_password
     users(:dennis).update_attributes(:first_name => 'dennis2')
-    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'test')
+    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'testing')
   end
 
   def test_should_authenticate_user
-    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'test')
+    assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'testing')
   end
 
   def test_should_set_remember_token
