@@ -15,7 +15,7 @@ class ReportsController < ApplicationController
   end
   
   def stop
-    readings = Reading.find(:all, :order => "created_at asc", :limit => 50, :conditions => "event_type='stop_et41' and device_id='#{params[:id]}'")
+    readings = Reading.find(:all, :order => "created_at asc", :limit => 50, :conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'")
     @stops = Array.new
     readings.each_index { |index|
                             if readings[index].speed==0
@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
   end
   
   def speed
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "event_type='speed' and device_id='#{params[:id]}'")
+    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
   end
 
 end
