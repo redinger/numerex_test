@@ -19,9 +19,8 @@ class User < ActiveRecord::Base
     # User belongs to subdomain so let's authenticate 
     else
       if (user && user.authenticated?(password) && user.account.is_verified)
-        user.last_login_dt = Time.now
-        user.save
-        user 
+        user.update_attribute(:last_login_dt, Time.now)
+        user
       else
         nil # User does not belong
       end
