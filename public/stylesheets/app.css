@@ -171,30 +171,31 @@ div#error_message {
 }
 
 .panel_table th {
-	background-color: #999999;
-	padding: 3px;
+	background-color: #CCCCCC;
+	color: #003366;
+	padding: 5px;
 	border: 1px solid #FFFFFF;
 }
 
 .panel_table td {
-	padding: 3px;
+	padding: 5px;
 	border: 1px solid #FFFFFF;
 }
 
 .panel_table .header {
-	background-color: #849DB3;
+	background-color: #6699CC;
 	color: #FFFFFF;
-	font-size: 14px;
+	font-size: 12px;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding: 5px;
 }
 
 .light_row {
-	background-color: #EEEEEE;
+	background-color: #FFFFFF;
 }
 
 .dark_row {
-	background-color: #CCCCCC;
+	background-color: #EEEEEE;
 }
 
 .selected_row {
