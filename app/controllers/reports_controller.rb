@@ -1,5 +1,7 @@
 class ReportsController < ApplicationController
   
+  StopThreshold = 300; #stop event is triggered at 5min idle time
+  
   module StopEvent
     attr_reader :duration
     attr_writer :duration
@@ -22,7 +24,7 @@ class ReportsController < ApplicationController
                               stopEvent = readings[index]
                               stopEvent.extend(StopEvent)
                               if(readings.size>index+1 && readings[index+1].speed > 0)
-                                stopEvent.duration = readings[index+1].created_at - readings[index].created_at
+                                stopEvent.duration = readings[index+1].created_at - readings[index].created_at + StopThreshold
                               end
                               @stops.push stopEvent
                             end

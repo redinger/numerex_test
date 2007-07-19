@@ -32,10 +32,10 @@ class ReportsControllerTest < Test::Unit::TestCase
     assert_template "stop"
     stops = assigns(:stops)
     assert_equal 5, stops.size
-    assert_equal 600, stops[0].duration
-    assert_equal 100, stops[1].duration
+    assert_equal 900, stops[0].duration
+    assert_equal 400, stops[1].duration
     assert_equal nil, stops[2].duration
-    assert_equal 200, stops[3].duration
+    assert_equal 500, stops[3].duration
     assert_equal nil, stops[4].duration
     
   end
