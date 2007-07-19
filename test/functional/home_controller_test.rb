@@ -1,12 +1,13 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'home_controller'
 
+
 # Re-raise errors caught by the controller.
 class HomeController; def rescue_action(e) raise e end; end
 
 class HomeControllerTest < Test::Unit::TestCase
   
-  fixtures :users
+  fixtures :users, :accounts, :devices, :readings
   
   module RequestExtensions
     def server_name
@@ -31,7 +32,7 @@ class HomeControllerTest < Test::Unit::TestCase
   
   def test_index
     puts @request
-    get :index, {}, { :user => users(:dennis) } 
+    get :index, {}, { :user => users(:dennis), :account_id => accounts(:dennis)} 
     assert_response :success
   end
 end
