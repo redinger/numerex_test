@@ -84,6 +84,7 @@ function getRecentReadings() {
          	bounds.extend(point)
 			var names = xml.documentElement.getElementsByTagName("name");
 			
+			
 
 			
          	if(i == 0)
@@ -124,6 +125,7 @@ function getBreadcrumbs(id, name) {
 		var dirs = xml.documentElement.getElementsByTagName("direction");
 		var times = xml.documentElement.getElementsByTagName("created-at");
 		var event_type = xml.documentElement.getElementsByTagName("event-type");
+		var notes = xml.documentElement.getElementsByTagName("note");
 				
 		gmap.clearOverlays();
 		
@@ -135,27 +137,27 @@ function getBreadcrumbs(id, name) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
 			
-			if (alts[0].firstChild.nodeValue == "")
-			{
-				alts[0].firstChild.nodeValue = "unknown";
-			}
-			
-			if (alts[i].firstChild.nodeValue == "")
-			{
-				alts[i].firstChild.nodeValue = "unknown";
-			}
-         	if(i == 0)
+			if (notes.firstChild)
+  				{ 
+				note = notes[i].firstChild.nodeValue ;
+				}
+				else
+				{ 
+				note = " ";
+				}
+    
+	     	if(i == 0)
 		 	 	{ 
 					
 				gmap.setCenter(point, 13);
   
-			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue));
-				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spds[0].firstChild.nodeValue/10)*1.15 + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue);
+			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue, note));
+				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spds[0].firstChild.nodeValue/10)*1.15 + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue + "<br/>" + note);
 				}
 			else
 				{
 				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue));
-				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue)); //dividing by ten till middleware issue is fixed.
+				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, note)); //dividing by ten till middleware issue is fixed.
 			
 				iconcount++;
 				}
@@ -186,7 +188,7 @@ function getBreadcrumbs(id, name) {
 	});
 }
 		
-	function createNow(point, alt, spd, dir, time, event_type) { 
+	function createNow(point, alt, spd, dir, time, event_type, note) { 
 	   
    		var marker;
 		
@@ -197,18 +199,22 @@ function getBreadcrumbs(id, name) {
 			
 		if(event_type == defaultEventType)
 			marker = new GMarker(point, recenticon);
+			
+		else if(event_type == "DEFAULT")
+			marker = new GMarker(point, recenticon);
+			
 		else
 			marker = new GMarker(point, alarmIcon);
 			
 		GEvent.addListener(marker, "click", function() 
 			{
-        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
+        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time + "<br/>" + note);
         	});
 		
         return marker;
 		}
 	
-	function createArrow(point, alt, spd, dir, time) {
+	function createArrow(point, alt, spd, dir, time, note) {
 		
 		if (alt == "")
 			{
@@ -258,7 +264,7 @@ function getBreadcrumbs(id, name) {
 		
 		GEvent.addListener(arrow, "click", function() 
 			{
-        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time);
+        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time + "<br/>" + note);
 			});
 		
 		return arrow;
