@@ -6,7 +6,7 @@ var iconcount = 2;
 var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
-var defaultEventType = "normal_et2";
+
 
             
 function load() 
@@ -136,28 +136,35 @@ function getBreadcrumbs(id, name) {
 		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
-			
-			if (notes.firstChild)
-  				{ 
-				note = notes[i].firstChild.nodeValue ;
-				}
-				else
-				{ 
-				note = " ";
-				}
+				//note="crap";
+			if(notes[i].childNodes.length != 0)
+			{	
+//			if (typeof notes[i].firstChild.nodeValue != 'undefined')
+//  			{                 
+				gnote = notes[i].firstChild.nodeValue;
+//				}
+//			else
+//				{ 
+//				gnote = "abbb";
+//				}
+			}
+			else
+			{
+				gnote = ""
+			}
     
 	     	if(i == 0)
 		 	 	{ 
 					
 				gmap.setCenter(point, 13);
   
-			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue, note));
-				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spds[0].firstChild.nodeValue/10)*1.15 + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue + "<br/>" + note);
+			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue, gnote));
+				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spds[0].firstChild.nodeValue/10)*1.15 + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue + "<br/>" + gnote);
 				}
 			else
 				{
 				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue));
-				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, note)); //dividing by ten till middleware issue is fixed.
+				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, gnote)); //dividing by ten till middleware issue is fixed.
 			
 				iconcount++;
 				}
@@ -197,15 +204,16 @@ function getBreadcrumbs(id, name) {
 				alt = "unknown";
 			}
 			
-		if(event_type == defaultEventType)
-			marker = new GMarker(point, recenticon);
-			
-		else if(event_type == "DEFAULT")
-			marker = new GMarker(point, recenticon);
-			
+		if(event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
+			{
+			marker = new GMarker(point, alarmIcon);	
+			}	
+				
 		else
-			marker = new GMarker(point, alarmIcon);
-			
+			{
+			marker = new GMarker(point, recenticon);
+			}	
+	
 		GEvent.addListener(marker, "click", function() 
 			{
         	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time + "<br/>" + note);
@@ -282,10 +290,15 @@ function createPast(point, event_type)
 		
 		var marker;
 		
-		if(event_type == defaultEventType)
+		if(event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
+			{
+			marker = new GMarker(point, alarmIcon);	
+			}	
+				
+		else
+			{
 			marker = new GMarker(point, iconNow);
-		else 
-			marker = new GMarker(point, alarmIcon);
+			}	
 
         return marker;
 		
