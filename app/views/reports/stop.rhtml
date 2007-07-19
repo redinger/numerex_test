@@ -1,20 +1,14 @@
 <p><a href="/reports">&lt; back</a></p>
 <table width="100%" border="1">
 	<tr>
-		<th>Latitude</th>
-		<th>Longitude</th>
-		<th>Altitude</th>
-		<th>Device ID</th>
-		<th>Created</th>
+		<th>Time</th>
+		<th>Location</th>
 		<th>Stop Duration</th>
 	</tr>
 	<% for reading in @stops %>
 		<tr>
-			<td><%= reading.latitude %></td>
-			<td><%= reading.longitude %></td>
-			<td><%= reading.altitude %></td>
-			<td><%= reading.device_id %></td>
 			<td><%= reading.created_at %></td>
+			<td><%= reading.address %></td>
 			<td><%= reading.duration || "unknown" %></td>
 		</tr>
 	<% end %>

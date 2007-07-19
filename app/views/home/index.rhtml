@@ -8,7 +8,7 @@
                     <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
                         <!--<td>a</td>-->
                         <td><% if device.recent_reading_id != 0 %><a href="javascript:getBreadcrumbs(<%= device.id %>, '<%= escape_javascript(device.name) %>');" title="Click for device details"><%= device.name %></a><% else %><%= device.name %><% end %></td>
-                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].latitude %>, <%= device.readings[0].longitude %><% else %>N/A<% end %></td>
+                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].address %><% else %>N/A<% end %></td>
                         <td><% if device.recent_reading_id != 0 %><%= time_ago_in_words device.readings[0].created_at %> ago <% else %>N/A<% end %></td>
                     </tr>
                 <% end %>
