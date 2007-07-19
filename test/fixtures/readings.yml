@@ -1,14 +1,14 @@
-1:
+reading1:
  id: 1
- latitude: 32.9333
- longitude: -96.8226
+ latitude: 32.63585
+ longitude: -97.17569
  speed: 28 
  direction: 160
  altitude: 5000
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
-2:
+reading2:
  id: 2
  latitude: 32.934
  longitude: -96.8231
