@@ -228,3 +228,15 @@
  device_id: 3
  created_at: <%= (Time.now+1900).to_s :db %>
  event_type: startstop_et41
+24:
+ id: 24
+ latitude: 32.9543
+ longitude: -96.8283
+ speed: 0
+ note: Time for a bath
+ event_type: 
+ direction: 240
+ altitude: 5000
+ device_id: 6
+ created_at: <%= (Time.now+1900).to_s :db %>
+ event_type: startstop_et41

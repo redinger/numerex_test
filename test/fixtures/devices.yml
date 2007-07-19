@@ -41,3 +41,12 @@ device5:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 5
  provision_status_id: 0
+  
+device6:
+ id: 6
+ name: BlackBerry 8800
+ imei: 55124
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 6
+ provision_status_id: 1
+ account_id: 1 # Dennis Co
