@@ -1,6 +1,13 @@
     <% if flash[:message] %>
         <div id="success_message"><%= flash[:message] %></div>
     <% end %>
+	<h3>Your Active Devices</h3>
+    <ul>
+    <% for device in @devices %>
+    	<li><a href="/devices/view/<%= device.id %>"><%= device.name %></a></li>
+    <% end %>
+    </ul>
+	<hr />
     <h3>Add a Device</h3>
     <h4>What type of device do you need?</h2>
     <ul>
@@ -8,10 +15,4 @@
         <li>Personal tracking with device mounted in car - <a href="/devices/choose/2">buy</a></li>
         <li>Fleet tracking with device mounted in vehicle - <a href="/devices/choose/3">buy</a></li>
     </ul>
-    <hr />
-    <h3>Your Active Devices</h3>
-    <ul>
-    <% for device in @devices %>
-    	<li><a href="/devices/edit/<%= device.id %>"><%= device.name %></a></li>
-    <% end %>
-    </ul>
+   
