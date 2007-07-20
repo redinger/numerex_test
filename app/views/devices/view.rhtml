@@ -59,7 +59,9 @@
 	</tr>
 </table>
 
-<script>getBreadcrumbs(<%= @device.id %>);</script>
+<script>
+	var device_id = <%= @device.id %>;
+</script>
 
 <!--
 <div>Events</div>

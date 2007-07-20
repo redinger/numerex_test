@@ -17,9 +17,12 @@ function load()
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
 	
 	// Only load this on home page
-	if(document.location.href.split("/")[3] == 'home')
+	var page = document.location.href.split("/")[3];
+	if(page == 'home')
     	getRecentReadings();
-	
+	else
+		getBreadcrumbs(device_id);
+			
 	recenticon = new GIcon();
     recenticon.image = "/icons/1.png";
     recenticon.shadow = "/images/ublip_marker_shadow.png";
