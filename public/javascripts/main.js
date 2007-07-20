@@ -6,6 +6,7 @@ var iconcount = 2;
 var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
+var devices = []; // JS device model
 
 
             
@@ -76,28 +77,18 @@ function getRecentReadings() {
     var bounds = new GLatLngBounds();
     GDownloadUrl("/readings/recent", function(data, responseCode) {
         var xml = GXml.parse(data);
+		var ids = xml.documentElement.getElementsByTagName("id");
+		var names = xml.documentElement.getElementsByTagName("name");
         var lats = xml.documentElement.getElementsByTagName("lat");
         var lngs = xml.documentElement.getElementsByTagName("lng");
+		var dts = xml.documentElement.getElementsByTagName("dt");
 		
-	for(var i = 0; i < lats.length; i++) {
-        	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
-         	bounds.extend(point)
-			var names = xml.documentElement.getElementsByTagName("name");
-			
-			
-
-			
-         	if(i == 0)
-		 	 	{ 	
-				gmap.setCenter(point, 13);
-			 	gmap.addOverlay(createDisplayAll(point, names[i].firstChild.nodeValue));
-				gmap.openInfoWindowHtml(point, "Device Id: " + names[0].firstChild.nodeValue + "<br/>" + "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
-				}
-			else
-				{
-				gmap.addOverlay(createDisplayAll(point, names[i].firstChild.nodeValue));
-				}
-	    }
+		for(var i = 0; i < lats.length; i++) {
+			devices[i] = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, dt: dts[i].firstChild.nodeValue};
+	        var point = new GLatLng(devices[i].lat, devices[i].lng);
+			gmap.addOverlay(createDisplayAll(point, devices[i].name));
+	        bounds.extend(point)
+		}
 		
         gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
 		
@@ -111,6 +102,37 @@ function getRecentReadings() {
 		// Hide the action panel
 		document.getElementById("action_panel").style.visibility = "hidden";
     });
+}
+
+// Center map on device and show details
+function centerMap(id) {
+	var device = getDeviceById(id);
+	var point = new GLatLng(device.lat, device.lng);
+	gmap.panTo(point);
+	gmap.openInfoWindowHtml(point, createDeviceHtml(id));	
+}
+
+// Get a device object based on id
+function getDeviceById(id) {
+	for(var i=0; i < devices.length; i++) {
+		var device = devices[i];
+		if(device.id == id)
+			return device;
+	}
+}
+
+// Create html for selected device
+function createDeviceHtml(id) {
+	var device = getDeviceById(id);
+	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at<br /> <span class="blue_bold">' 
+		+ device.lat + ', ' + device.lng + '</span><br />about <span class="blue_bold">' + device.dt + '</span><br /><hr />';
+	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/devices/view/' + id + '">View details</a></div>';
+	return html;
+}
+
+// 
+function getAddressFromLatLng() {
+	
 }
 
 function getBreadcrumbs(id, name) {
