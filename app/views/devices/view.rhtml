@@ -7,7 +7,7 @@
 					<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
 				<% end %>
 			</select>
-			<a href="/devices/edit/<%= device.id %>">edit</a>
+			<a href="/devices/edit/<%= @device.id %>">edit</a>
 		</td>
 		<td>
 			<strong>Event Reports</strong><br />
