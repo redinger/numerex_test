@@ -1,0 +1,17 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.readings do
+  @readings.each do |reading|
+    xml.reading do
+      xml.created_at((time_ago_in_words reading.created_at) + ' ago')
+      xml.device_id(reading.device_id)
+      xml.lat(reading.latitude)
+      xml.lng(reading.longitude)
+      xml.alt(reading.altitude)
+      xml.spd(reading.speed)
+      xml.dir(reading.direction)
+      xml.event_type(reading.event_type)
+      xml.note(reading.note)
+      
+    end
+  end
+end

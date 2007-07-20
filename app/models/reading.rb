@@ -3,7 +3,7 @@ require "rexml/document"
 
 class Reading < ActiveRecord::Base
   belongs_to :device
-  
+=begin  
   ReverseGeocodeURL = "http://ws.geonames.org/findNearestAddress"
   def address
       base = ReverseGeocodeURL + "?lat=" + latitude.to_s + "&lng=" + longitude.to_s
@@ -22,6 +22,6 @@ class Reading < ActiveRecord::Base
   rescue
       latitude.to_s + ", " + longitude.to_s
   end
-   
   end
+=end   
 end

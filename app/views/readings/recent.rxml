@@ -9,7 +9,7 @@ xml.devices do
       if device.recent_reading_id != 0
         xml.lat(device.readings[0].latitude)
         xml.lng(device.readings[0].longitude)
-        xml.dt(device.readings[0].created_at)
+        xml.dt((time_ago_in_words device.readings[0].created_at) + ' ago')
       end
     end
   end

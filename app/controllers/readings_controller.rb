@@ -11,8 +11,8 @@ class ReadingsController < ApplicationController
   # Display last N readings for given device
   def last
     # TODO fix this so that the user can only view readings for their device
-    readings = Reading.find(:all, :conditions => ["device_id = ?", params[:id]], :limit => 25, :order => "created_at desc")
-    render_xml readings.to_xml
+    @readings = Reading.find(:all, :conditions => ["device_id = ?", params[:id]], :limit => 25, :order => "created_at desc")
+    render :layout => false
   end
   
   # Simple test for iGoogle integration
