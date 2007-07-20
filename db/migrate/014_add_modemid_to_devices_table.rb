@@ -1,6 +1,6 @@
 class AddModemIdToDevicesTable < ActiveRecord::Migration 
-def self.up
-    add_column :devices, :modem_id, :string, :limit=>30
+  def self.up
+    add_column :devices, :modem_id, :string, :limit => 30
   end
 
   def self.down
