@@ -19,7 +19,13 @@
 			<br /><a href="/geofence/add/<%= @device.id %>">Click here</a> to create one.
 		</td>
 		<td align="right">
-			<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/tracker.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
+			<% if params[:id] == 23 %>
+				<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/dennisbb8800.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
+			<% elsif params[:id] == 27 %>
+				<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/jeffbb8800.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
+			<% else %>
+				<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/tracker.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
+			<% end %>
 		</td>
 	</tr>	
 </table>
