@@ -10,6 +10,8 @@
 		var rg_url = "http://ws.geonames.org/findNearestAddress?";
 		var html;
 		var speed;
+		var note;
+		var gnote;
 		var currentLocation;
 
 		_IG_RegisterOnloadHandler(load);
@@ -43,12 +45,13 @@
 			var spd = parseFloat(data.getElementsByTagName("speed")[0].firstChild.nodeValue)/10;
 			speed = spd;
 			var dir = parseFloat(data.getElementsByTagName("direction")[0].firstChild.nodeValue)/10;
+			gnote = data.getElementsByTagName("note")[0].firstChild.nodeValue;
 			point = new GLatLng(lat, lng);
 			currentLocation = point;
 			gmap.clearOverlays();
-			gmap.addOverlay(createMarker(point));
+			gmap.addOverlay(createMarker(point));		
 
-			gmap.addOverlay(createArrow(point, spd, dir));
+			gmap.addOverlay(createArrow(point, spd, dir, gnote));
 
 			gmap.setCenter(point);
 
@@ -79,7 +82,9 @@
 			html += '<hr />';
 			html += '<span style="font-family: Arial, Helvetica, sans-serif; color: #666666; font-size: 12px">Current speed: </span>';
 			html += '<span style="font-family: Arial, Helvetica, sans-serif; color: #003399; font-size: 12px">' + speed + 'mph</span>';
-			
+			html += '</span>';
+			html += '<hr />';
+			html += '<span style="font-family: Arial, Helvetica, sans-serif; color: #666666; font-size: 12px">' + gnote + '</span>';
 			gmap.openInfoWindowHtml(currentLocation, html);
 		}
 
@@ -88,7 +93,7 @@
 			return marker;
 		}
 
-		function createArrow(point, spd, dir) {   
+		function createArrow(point, spd, dir, gnote) {   
 			var icondir;
 
 			if(dir >= 337.5 || dir < 22.5) {
