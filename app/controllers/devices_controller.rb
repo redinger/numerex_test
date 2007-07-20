@@ -9,6 +9,8 @@ class DevicesController < ApplicationController
   def view
     @device = Device.get_device(params[:id], session[:account_id])
     @device_names = Device.get_names(session[:account_id])
+    @readings = Reading.find(:all, :conditions => ["device_id = ?", @device.id], :limit => 25, :order => "created_at desc")
+    render :layout => 'application'
   end
   
   # User chooses a device to add

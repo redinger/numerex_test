@@ -6,9 +6,7 @@ var iconcount = 2;
 var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
-var devices = []; // JS device model
-
-
+var devices = []; // JS devices model
             
 function load() 
 {
@@ -17,7 +15,10 @@ function load()
     gmap.addControl(new GLargeMapControl());
     gmap.addControl(new GMapTypeControl());
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
-    getRecentReadings();
+	
+	// Only load this on home page
+	if(document.location.href.split("/")[3] == 'home')
+    	getRecentReadings();
 	
 	recenticon = new GIcon();
     recenticon.image = "/icons/1.png";
@@ -135,18 +136,18 @@ function getAddressFromLatLng() {
 	
 }
 
-function getBreadcrumbs(id, name) {
+function getBreadcrumbs(id) {
 	var bounds = new GLatLngBounds();
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
 	{
 		var xml = GXml.parse(data);
-		var lats = xml.documentElement.getElementsByTagName("latitude");
-		var lngs = xml.documentElement.getElementsByTagName("longitude");
-		var alts = xml.documentElement.getElementsByTagName("altitude");
-		var spds = xml.documentElement.getElementsByTagName("speed");
-		var dirs = xml.documentElement.getElementsByTagName("direction");
-		var times = xml.documentElement.getElementsByTagName("created-at");
-		var event_type = xml.documentElement.getElementsByTagName("event-type");
+		var lats = xml.documentElement.getElementsByTagName("lat");
+		var lngs = xml.documentElement.getElementsByTagName("lng");
+		var alts = xml.documentElement.getElementsByTagName("alt");
+		var spds = xml.documentElement.getElementsByTagName("spd");
+		var dirs = xml.documentElement.getElementsByTagName("dir");
+		var times = xml.documentElement.getElementsByTagName("created_at");
+		var event_type = xml.documentElement.getElementsByTagName("event_type");
 		var notes = xml.documentElement.getElementsByTagName("note");
 				
 		gmap.clearOverlays();
@@ -197,6 +198,7 @@ function getBreadcrumbs(id, name) {
 			zoom = 15;
 		gmap.setZoom(zoom); 
 		
+		/*
 		// Update the name in the map panel and display the View All link
 		document.getElementById("device_name").innerHTML = name;
 		document.getElementById("view_all_link").style.visibility = "visible";
@@ -213,7 +215,7 @@ function getBreadcrumbs(id, name) {
 		// Save a global reference to device id
 		currSelectedDeviceId = id;
 		// Display the action panel
-		document.getElementById("action_panel").style.visibility = "visible";
+		document.getElementById("action_panel").style.visibility = "visible";*/
 	});
 }
 		

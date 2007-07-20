@@ -1,16 +1,63 @@
-<div style="float: left; padding: 5px;">
-	<span class="dark_blue_header">Viewing Details for: </span>
-	<select>
-		<% for device in @device_names %>
-			<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
-		<% end %>
-	</select>
-</div>
+<table width="100%" border="0">
+	<tr>
+		<td>
+			<span class="dark_blue_header">Viewing Details for: </span>
+			<select onchange="document.location.href='/devices/view/' + this.options[this.selectedIndex].value;">
+				<% for device in @device_names %>
+					<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
+				<% end %>
+			</select>
+		</td>
+		<td>
+			<strong>Event Reports</strong><br />
+			<a href="/reports/start/<%= @device.id %>">Start</a> |
+			<a href="/reports/stop/<%= @device.id %>">Stop</a> |
+			<a href="/reports/speed/<%= @device.id %>">Speed</a>
+		</td>
+		<td>
+			You currently have <%= @device.geofences.size %> geofences set for this device.
+			<br /><a href="/geofence/add/<%= @device.id %>">Click here</a> to create one.
+		</td>
+		<td align="right">
+			<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/tracker.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
+		</td>
+	</tr>	
+</table>
+<br />
+<table width="100%">
+	<tr>
+		<td width="50%" valign="top">
+			<table width="100%" class="panel_table">
+			 	<tr>
+			 		<td class="header" colspan="2">
+			 			Location History
+					</td>
+				</tr>
+				<tr><th>Location</th><th>When Reported</th></tr>
+				<% for reading in @readings %>
+					<tr class="<%= cycle('dark_row', 'light_row') %>"><td><a href="#"><%= reading.latitude %>, <%= reading.longitude %></a></td><td><%= time_ago_in_words reading.created_at %> ago</td></tr>
+				<% end %>
+			</table>
+		</td>
+		<td>
+			<table width="100%" class="panel_table">
+                <tr>
+                	<td class="header">		
+						Location Map	
+					</td>
+				</tr>
+				<tr class="dark_row"><td valign="top"><div id="map" style="width: 100%"></div></td></tr>
+			</table>
+		</td>
+	</tr>
+</table>
 
-<div style="clear: both"></div>
+<script>getBreadcrumbs(<%= @device.id %>);</script>
 
+<!--
 <div>Events</div>
 <div>Map</div>
 <div>Location history w/paging</div>
 <div>Weather</div>
 <div>Geofences</div>
+-->
