@@ -5,6 +5,12 @@ class DevicesController < ApplicationController
     @devices = Device.get_devices(session[:account_id])
   end
   
+  # Device details view
+  def view
+    @device = Device.get_device(params[:id], session[:account_id])
+    @device_names = Device.get_names(session[:account_id])
+  end
+  
   # User chooses a device to add
   # 1 Mobile phone tracker
   # 2 Personal tracker

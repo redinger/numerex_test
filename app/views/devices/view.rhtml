@@ -1,0 +1,16 @@
+<div style="float: left; padding: 5px;">
+	<span class="dark_blue_header">Viewing Details for: </span>
+	<select>
+		<% for device in @device_names %>
+			<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
+		<% end %>
+	</select>
+</div>
+
+<div style="clear: both"></div>
+
+<div>Events</div>
+<div>Map</div>
+<div>Location history w/paging</div>
+<div>Weather</div>
+<div>Geofences</div>

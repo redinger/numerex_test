@@ -15,4 +15,9 @@ class Device < ActiveRecord::Base
   def self.get_device(device_id, account_id)
     find(device_id, :conditions => ['provision_status_id = 1 and account_id = ?', account_id])
   end
+  
+  # Get names/ids for list box - don't want to get an entire devices object
+  def self.get_names(account_id)
+    find_by_sql(["select id, name from devices where account_id = ?", account_id])
+  end
 end
