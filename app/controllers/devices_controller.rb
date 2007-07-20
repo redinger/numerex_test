@@ -61,7 +61,7 @@ class DevicesController < ApplicationController
       device.imei = params[:imei]
       device.save
       flash[:message] = params[:name] + ' was updated successfully'
-      redirect_to :controller => "devices"
+      redirect_to :controller => 'devices', :action => 'view', :id => device.id
     else
       @device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])  
     end
