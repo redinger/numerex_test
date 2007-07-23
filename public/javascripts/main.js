@@ -35,7 +35,7 @@ function load()
     iconALL.shadow = "/images/ublip_marker_shadow.png";
     iconALL.iconSize = new GSize(23, 34);
     iconALL.iconAnchor = new GPoint(11, 34);
-    iconALL.infoWindowAnchor = new GPoint(15, 0);
+    iconALL.infoWindowAnchor = new GPoint(11, 34);
 	
 	// Displayed for exceptions
 	alarmIcon = new GIcon();
@@ -45,35 +45,6 @@ function load()
     alarmIcon.iconAnchor = new GPoint(11, 34);
     alarmIcon.infoWindowAnchor = new GPoint(15, 0);
   }
-}
-
-window.onresize = resize;
-
-function resize() {
-    /*var myWidth, myHeight;
-    if( typeof( window.innerWidth ) == 'number' ) {
-        //Non-IE
-        myWidth = window.innerWidth;
-        myHeight = window.innerHeight;
-    } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
-        //IE 6+ in 'standards compliant mode'
-        myWidth = document.documentElement.clientWidth;
-        myHeight = document.documentElement.clientHeight;
-    } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
-        //IE 4 compatible
-        myWidth = document.body.clientWidth;
-        myHeight = document.body.clientHeight;
-    }
-    
-    var hoffset = 75+50;
-    var main = document.getElementById("main_container");
-    var map = document.getElementById("map");
-    
-    main.style.height = (myHeight-hoffset) + 'px';
-    map.style.height = (myHeight-hoffset-20) + 'px';
-    map.style.width = (myWidth-230) + 'px'; */
-    
-    gmap.checkResize();
 }
 
 function getRecentReadings() {
@@ -104,7 +75,7 @@ function getRecentReadings() {
 				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
 				devices.push(device);
 		        var point = new GLatLng(device.lat, device.lng);
-				gmap.addOverlay(createDisplayAll(point, device.name));
+				gmap.addOverlay(createMarker(point, iconALL, createDeviceHtml(device.id)));
 		        bounds.extend(point)
 			}
 		}
@@ -151,11 +122,6 @@ function createDeviceHtml(id) {
 		
 	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/devices/view/' + id + '">View details</a></div>';
 	return html;
-}
-
-// 
-function getAddressFromLatLng() {
-	
 }
 
 function getBreadcrumbs(id) {
@@ -350,20 +316,6 @@ function createPast(point, event_type)
 		
 		}	
 
-	function createDisplayAll(point, name) 
-		{   
-					 
-   		var marker = new GMarker(point, iconALL);
-		
-		GEvent.addListener(marker, "click", function() 
-			{
-        	marker.openInfoWindowHtml("Device Id: " + name + "<br/>" + "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng());
-			
-        	});
-		
-        return marker;
-		}
-		
 // Goes to specified URL and appends id
 function go(url) {
 	document.location.href = url + '/' + currSelectedDeviceId;
