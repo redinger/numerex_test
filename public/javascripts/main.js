@@ -86,12 +86,27 @@ function getRecentReadings() {
         var lats = xml.documentElement.getElementsByTagName("lat");
         var lngs = xml.documentElement.getElementsByTagName("lng");
 		var dts = xml.documentElement.getElementsByTagName("dt");
+		var addresses = xml.documentElement.getElementsByTagName("address");
+		var notes = xml.documentElement.getElementsByTagName("note");
 		
 		for(var i = 0; i < lats.length; i++) {
-			devices[i] = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, dt: dts[i].firstChild.nodeValue};
-	        var point = new GLatLng(devices[i].lat, devices[i].lng);
-			gmap.addOverlay(createDisplayAll(point, devices[i].name));
-	        bounds.extend(point)
+			if(lats[i].firstChild) {
+				// Check for existence of address
+				var address = "N/A";
+				if(addresses[i].firstChild != undefined)
+					address = addresses[i].firstChild.nodeValue;
+					
+				// Check for existence of note
+				var note;
+				if(notes[i].firstChild != undefined)
+					note = notes[i].firstChild.nodeValue;
+					
+				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
+				devices.push(device);
+		        var point = new GLatLng(device.lat, device.lng);
+				gmap.addOverlay(createDisplayAll(point, device.name));
+		        bounds.extend(point)
+			}
 		}
 		
         gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
@@ -129,7 +144,11 @@ function getDeviceById(id) {
 function createDeviceHtml(id) {
 	var device = getDeviceById(id);
 	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at<br /> <span class="blue_bold">' 
-		+ device.lat + ', ' + device.lng + '</span><br />about <span class="blue_bold">' + device.dt + '</span><br /><hr />';
+		+ device.address + '</span><br />about <span class="blue_bold">' + device.dt + '</span><hr />';
+		
+	if(device.note != undefined)
+		html += '<strong>Note:</strong> ' + device.note + '<hr />';
+		
 	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/devices/view/' + id + '">View details</a></div>';
 	return html;
 }
