@@ -8,7 +8,7 @@
 	<% for reading in @stops %>
 		<tr>
 			<td><%= reading.created_at %></td>
-			<td><%= reading.latitude %><%= reading.longitude %></td>
+			<td><%= reading.shortAddress %></td>
 			<td><%= reading.duration || "unknown" %></td>
 		</tr>
 	<% end %>
