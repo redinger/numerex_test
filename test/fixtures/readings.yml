@@ -8,7 +8,23 @@ reading1:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
- address: address 1
+ address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <geonames>
+  <address>
+  <street>Big Springs Dr</street>
+  <streetNumber>6762</streetNumber>
+  <lat>32.63572095955121</lat>
+  <lng>-97.17576352980528</lng>
+  <distance>0.02</distance>
+  <postalcode>76001</postalcode>
+  <placename>Arlington</placename>
+  <adminName2>Tarrant</adminName2>
+  <adminCode1>TX</adminCode1>
+  <adminName1>Texas</adminName1>
+  <countryCode>US</countryCode>
+  </address>
+  </geonames>
+
 reading2:
  id: 2
  latitude: 32.934
@@ -19,8 +35,24 @@ reading2:
  device_id: 2
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
- address: address 2
-3:
+ address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <geonames>
+  <address>
+  <street>Inwood Rd</street>
+  <streetNumber/>
+  <lat>32.933975620572134</lat>
+  <lng>-96.82316361506956</lng>
+  <distance>0.01</distance>
+  <postalcode>00</postalcode>
+  <placename>Farmers Branch</placename>
+  <adminName2>Dallas</adminName2>
+  <adminCode1>TX</adminCode1>
+  <adminName1>Texas</adminName1>
+  <countryCode>US</countryCode>
+  </address>
+  </geonames>
+ 
+reading3:
  id: 3
  latitude: 32.9395
  speed: 80
@@ -30,8 +62,8 @@ reading2:
  device_id: 3
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
- address: address 3
-4:
+ address:
+reading4:
  id: 4
  latitude: 32.94
  longitude: -96.8217
