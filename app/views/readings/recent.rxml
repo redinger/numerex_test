@@ -5,11 +5,18 @@ xml.devices do
       xml.id(device.id)
       xml.name(device.name)
       xml.imei(device.imei)
+      
       # Don't try and display readings data if it doesn't exist
       if device.recent_reading_id != 0
         xml.lat(device.readings[0].latitude)
         xml.lng(device.readings[0].longitude)
+        xml.address(device.readings[0].address)
         xml.dt((time_ago_in_words device.readings[0].created_at) + ' ago')
+      else # Display empty nodes
+        xml.lat
+        xml.lng
+        xml.address
+        xml.dt
       end
     end
   end
