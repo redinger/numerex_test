@@ -8,6 +8,7 @@ reading1:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 1
 reading2:
  id: 2
  latitude: 32.934
@@ -18,6 +19,7 @@ reading2:
  device_id: 2
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 2
 3:
  id: 3
  latitude: 32.9395
@@ -28,6 +30,7 @@ reading2:
  device_id: 3
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 3
 4:
  id: 4
  latitude: 32.94
@@ -38,6 +41,7 @@ reading2:
  device_id: 5
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 4
 5:
  id: 5
  latitude: 32.9484
@@ -48,6 +52,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 5
 6:
  id: 6
  latitude: 32.9514
@@ -58,6 +63,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: exitgeofen_et51
+ address: address 6
 7:
  id: 7
  latitude: 32.9531
@@ -68,6 +74,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 7
 8:
  id: 8
  latitude: 32.9587
@@ -78,6 +85,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 8
 9:
  id: 9
  latitude: 32.9599
@@ -88,6 +96,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 9
 10:
  id: 10
  latitude: 32.9574
@@ -98,6 +107,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 10
 11:
  id: 11
  latitude: 32.9575
@@ -108,6 +118,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 11
 12:
  id: 12
  latitude: 32.9574
@@ -118,6 +129,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 12
 13:
  id: 13
  latitude: 32.9575
@@ -128,6 +140,7 @@ reading2:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 13
 14:
  id: 14
  latitude: 32.9542
@@ -138,6 +151,7 @@ reading2:
  device_id: 2
  created_at: <%= Time.now.to_s :db %>
  event_type: entergeofen_et11
+ address: address 14
 15:
  id: 15
  latitude: 32.9542
@@ -148,6 +162,7 @@ reading2:
  device_id: 3
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: address 15
 16:
  id: 16
  latitude: 32.9543
@@ -158,6 +173,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+600).to_s :db %>
  event_type: startstop_et41
+ address: address 16
 17:
  id: 17
  latitude: 32.9543
@@ -168,6 +184,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1200).to_s :db %>
  event_type: startstop_et41
+ address: address 17
 18:
  id: 18
  latitude: 32.9543
@@ -178,6 +195,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1300).to_s :db %>
  event_type: startstop_et41
+ address: address 18
 19:
  id: 19
  latitude: 32.9543
@@ -188,6 +206,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1400).to_s :db %>
  event_type: startstop_et41
+ address: address 19
 20:
  id: 20
  latitude: 32.9543
@@ -198,6 +217,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1500).to_s :db %>
  event_type: startstop_et41
+ address: address 20
 21:
  id: 21
  latitude: 32.9543
@@ -208,6 +228,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1600).to_s :db %>
  event_type: startstop_et41
+ address: address 21
 22:
  id: 22
  latitude: 32.9543
@@ -218,6 +239,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1800).to_s :db %>
  event_type: startstop_et41
+ address: address 22
 23:
  id: 23
  latitude: 32.9543
@@ -228,6 +250,7 @@ reading2:
  device_id: 3
  created_at: <%= (Time.now+1900).to_s :db %>
  event_type: startstop_et41
+ address: address 23
 24:
  id: 24
  latitude: 32.9543
@@ -240,3 +263,4 @@ reading2:
  device_id: 6
  created_at: <%= (Time.now+1900).to_s :db %>
  event_type: startstop_et41
+ address: address 24
