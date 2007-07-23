@@ -80,7 +80,6 @@ reading5:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
-<<<<<<< .mine
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
   <geonames>
   <address>
@@ -97,9 +96,6 @@ reading5:
   <countryCode>US</countryCode>
   </address>
   </geonames>
- 
-=======
->>>>>>> .r467
 6:
  id: 6
  latitude: 32.9514
