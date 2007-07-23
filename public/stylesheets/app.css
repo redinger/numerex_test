@@ -206,3 +206,10 @@ div#error_message {
 .selected_row a {
 	color: #FFFFFF;
 }
+
+hr {
+	color: #CCCCCC;
+	background-color: #CCCCCC;
+	border: 0;
+	height: 1px;
+}
