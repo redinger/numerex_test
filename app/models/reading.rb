@@ -3,25 +3,26 @@ require "rexml/document"
 
 class Reading < ActiveRecord::Base
   belongs_to :device
-=begin  
-  ReverseGeocodeURL = "http://ws.geonames.org/findNearestAddress"
-  def address
-      base = ReverseGeocodeURL + "?lat=" + latitude.to_s + "&lng=" + longitude.to_s
-   begin
-      resp = Net::HTTP.get_response(URI.parse(base))
-      data = resp.body
-      doc = REXML::Document.new data
-      streetNumber = doc.get_text('/geonames/address/streetNumber').to_s
-      restOfAddress = doc.get_text('/geonames/address/street').to_s + ", " + doc.get_text('/geonames/address/placename').to_s + ", " + doc.get_text('/geonames/address/adminName1').to_s
-    
-      if streetNumber==""
-        restOfAddress
+
+  def shortAddress
+    begin
+      if address != nil
+        doc = REXML::Document.new address
+        streetNumber = doc.get_text('/geonames/address/streetNumber').to_s
+        restOfAddress = doc.get_text('/geonames/address/street').to_s + ", " + doc.get_text('/geonames/address/placename').to_s + ", " + doc.get_text('/geonames/address/adminName1').to_s
+        if(streetNumber.nil? && restOfAddress.nil?)
+           return latitude.to_s + ", " + longitude.to_s
+        end
+        if streetNumber==""
+          restOfAddress
+        else
+          streetNumber + " " + restOfAddress
+        end
       else
-        streetNumber + " " + restOfAddress
+        latitude.to_s + ", " + longitude.to_s
       end
-  rescue
+    rescue
       latitude.to_s + ", " + longitude.to_s
-  end
-  end
-=end   
+    end
+ end
 end
