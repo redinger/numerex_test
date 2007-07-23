@@ -16,7 +16,7 @@ xml.devices do
       else # We got data
         xml.lat(device.readings[0].latitude)
         xml.lng(device.readings[0].longitude)
-        xml.address(device.readings[0].address)
+        xml.address(device.readings[0].shortAddress)
         xml.dt((time_ago_in_words device.readings[0].created_at) + ' ago')
         xml.note(device.readings[0].note)
       end
