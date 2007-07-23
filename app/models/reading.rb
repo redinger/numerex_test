@@ -6,23 +6,19 @@ class Reading < ActiveRecord::Base
 
   def shortAddress
     begin
-      if address != nil
         doc = REXML::Document.new address
         streetNumber = doc.get_text('/geonames/address/streetNumber').to_s
-        restOfAddress = doc.get_text('/geonames/address/street').to_s + ", " + doc.get_text('/geonames/address/placename').to_s + ", " + doc.get_text('/geonames/address/adminName1').to_s
-        if(streetNumber.nil? && restOfAddress.nil?)
-           return latitude.to_s + ", " + longitude.to_s
-        end
-        if streetNumber==""
-          restOfAddress
-        else
-          streetNumber + " " + restOfAddress
-        end
-      else
-        latitude.to_s + ", " + longitude.to_s
-      end
+        street = doc.get_text('/geonames/address/street').to_s
+        city = doc.get_text('/geonames/address/placename').to_s 
+        state = doc.get_text('/geonames/address/adminName1').to_s
+        streetAddress = [streetNumber, street]
+        streetAddress.delete("")
+        shortAddress = [ streetAddress.join(' '), city, state]
+        shortAddress.delete("")
+        shortAddress.join(', ')
     rescue
       latitude.to_s + ", " + longitude.to_s
     end
- end
+  end
+  
 end

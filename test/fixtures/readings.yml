@@ -70,16 +70,36 @@ reading4:
  device_id: 5
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
-5:
+reading5:
  id: 5
- latitude: 32.9484
- longitude: -96.8232
+ latitude: 48.049269
+ longitude: -114.078745
  speed: 65 
  direction: 170
  altitude: 5000
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+<<<<<<< .mine
+ address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <geonames>
+  <address>
+  <street/>
+  <streetNumber/>
+  <lat>48.049269</lat>
+  <lng>-114.078745</lng>
+  <distance>0.08</distance>
+  <postalcode>00</postalcode>
+  <placename>Bigfork</placename>
+  <adminName2>Flathead</adminName2>
+  <adminCode1>MT</adminCode1>
+  <adminName1>Montana</adminName1>
+  <countryCode>US</countryCode>
+  </address>
+  </geonames>
+ 
+=======
+>>>>>>> .r467
 6:
  id: 6
  latitude: 32.9514
