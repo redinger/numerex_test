@@ -44,6 +44,14 @@ function load()
     alarmIcon.iconSize = new GSize(23, 34);
     alarmIcon.iconAnchor = new GPoint(11, 34);
     alarmIcon.infoWindowAnchor = new GPoint(15, 0);
+	
+	var infoWin = gmap.getInfoWindow();
+	
+	GEvent.addListener(infoWin, "closeclick", function() {
+		if(prevSelectedRow)
+			highlightRow(0);
+	});
+	
   }
 }
 
@@ -99,7 +107,7 @@ function centerMap(id) {
 	var device = getDeviceById(id);
 	var point = new GLatLng(device.lat, device.lng);
 	gmap.panTo(point);
-	gmap.openInfoWindowHtml(point, createDeviceHtml(id));	
+	gmap.openInfoWindowHtml(point, createDeviceHtml(id));
 }
 
 // Get a device object based on id
@@ -124,6 +132,27 @@ function createDeviceHtml(id) {
 	return html;
 }
 
+// When a device is selected let's highlight the row and deselect the current
+// Pass 0 to deselect all
+function highlightRow(id) {
+	var row = document.getElementById("row"+id);
+	
+	// Set the previous state back to normal
+	if(prevSelectedRow) {
+		prevSelectedRow.className = prevSelectedRowClass;
+	}
+	
+	// An id of 0 deselects all
+	if(id > 0) {
+		prevSelectedRow = row;
+		prevSelectedRowClass = row.className;
+		
+		// Hihlight the current row
+		row.className = 'selected_row';
+	}
+}
+
+// Breadcrumb view for device details/history
 function getBreadcrumbs(id) {
 	var bounds = new GLatLngBounds();
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
