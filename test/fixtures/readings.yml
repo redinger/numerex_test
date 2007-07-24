@@ -289,3 +289,45 @@ reading5:
  created_at: <%= (Time.now+1900).to_s :db %>
  event_type: startstop_et41
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
+25:
+ id: 25
+ latitude: 32.63585
+ longitude: -97.17569
+ speed: 0 
+ direction: 160
+ altitude: 5000
+ device_id: 1
+ created_at: <%= Time.now.to_s :db %>
+ event_type: normal_et2
+ address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  <geonames>
+  <address>
+  <street>Big Springs Dr</street>
+  <streetNumber>6762</streetNumber>
+  <lat>32.63572095955121</lat>
+  <lng>-97.17576352980528</lng>
+  <distance>0.02</distance>
+  <postalcode>76001</postalcode>
+  <placename>Arlington</placename>
+  <adminName2>Tarrant</adminName2>
+  <adminCode1>TX</adminCode1>
+  <adminName1>Texas</adminName1>
+  <countryCode>US</countryCode>
+  </address>
+  </geonames>
+26:
+ id: 26
+ latitude: 32.9550
+ longitude: -96.8290
+ speed: 0
+ note: Time for a bath
+ event_type: 
+ direction: 240
+ altitude: 5000
+ device_id: 6
+ created_at: <%= (Time.now+1900).to_s :db %>
+ event_type: startstop_et41
+ address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
+
+
+ 
