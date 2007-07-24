@@ -1,0 +1,15 @@
+<h3>Settings</h3>
+<form method="post">
+<div style="background-color: #FFFFCC; padding: 10px; color: #666666;">
+	<span style="font-size: 16px; font-weight: bold">Company or Group Name</span><br />
+	Your company or group name is used to personalize your login screen and header banner.
+	 <br /><br />
+	<input type="text" name="company" value="<%= @account.company %>" size="30" />
+</div>
+<div style="background-color: #FFFFCC; padding: 10px; color: #666666;">
+	<span style="font-size: 16px; font-weight: bold">Notifications</span><br />
+</div>
+<br />
+<input type="submit" value="save" />&nbsp;&nbsp;
+<a href="javascript:history.go(-1);">cancel</a>
+</form>
