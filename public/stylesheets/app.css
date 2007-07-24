@@ -199,12 +199,7 @@ div#error_message {
 }
 
 .selected_row {
-	background-color: #0066FF;
-	color: #FFFFFF;
-}
-
-.selected_row a {
-	color: #FFFFFF;
+	background-color: #FFFFCC;
 }
 
 hr {
