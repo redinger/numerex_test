@@ -37,6 +37,20 @@ function load()
     iconALL.iconAnchor = new GPoint(11, 34);
     iconALL.infoWindowAnchor = new GPoint(11, 34);
 	
+	ParkedIcon = new GIcon();
+    ParkedIcon.image = "/icons/ublip_parked.png";
+    ParkedIcon.shadow = "/images/ublip_marker_shadow.png";
+    ParkedIcon.iconSize = new GSize(23, 34);
+    ParkedIcon.iconAnchor = new GPoint(11, 34);
+    ParkedIcon.infoWindowAnchor = new GPoint(11, 34);
+	
+	ParkedIconN = new GIcon();
+    ParkedIconN.image = "/icons/ublip_parkedn.png";
+    ParkedIconN.shadow = "/images/ublip_marker_shadow.png";
+    ParkedIconN.iconSize = new GSize(22, 35);
+    ParkedIconN.iconAnchor = new GPoint(11, 34);
+    ParkedIconN.infoWindowAnchor = new GPoint(15, 0);
+	
 	// Displayed for exceptions
 	alarmIcon = new GIcon();
     alarmIcon.image = "/icons/ublip_red.png";
@@ -203,7 +217,7 @@ function getBreadcrumbs(id) {
 				}
 			else
 				{
-				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue));
+				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue, spds[i].firstChild.nodeValue));
 				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, gnote)); //dividing by ten till middleware issue is fixed.
 			
 				iconcount++;
@@ -248,6 +262,11 @@ function getBreadcrumbs(id) {
 		if(event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
 			{
 			marker = new GMarker(point, alarmIcon);	
+			}
+		
+		else if (spd == 0)	
+			{
+			marker = new GMarker(point, ParkedIconN);
 			}	
 				
 		else
@@ -319,7 +338,7 @@ function getBreadcrumbs(id) {
 		return arrow;
 		}	
 		
-function createPast(point, event_type) 
+function createPast(point, event_type, spd) 
 		{   
 				
 		iconNow = new GIcon();
@@ -334,6 +353,11 @@ function createPast(point, event_type)
 		if(event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
 			{
 			marker = new GMarker(point, alarmIcon);	
+			}
+			
+		else if (spd == 0)	
+			{
+			marker = new GMarker(point, ParkedIcon);
 			}	
 				
 		else
