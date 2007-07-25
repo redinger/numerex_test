@@ -1,6 +1,7 @@
+<span class="dark_blue_header">Viewing Readings for: </span>
 <select onchange="document.location.href='/reports/all/' + this.options[this.selectedIndex].value;">
 	<% for device in @device_names %>
-		<option value="<%= device.id %>" <% if params[:id] == device.id %>selected="selected"<% end %>><%= device.name %></option>
+		<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
 	<% end %>
 </select>
 <br /><br />
