@@ -190,17 +190,10 @@ function getBreadcrumbs(id) {
 		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
          	bounds.extend(point)
-				//note="crap";
+
 			if(notes[i].childNodes.length != 0)
 			{	
-//			if (typeof notes[i].firstChild.nodeValue != 'undefined')
-//  			{                 
 				gnote = notes[i].firstChild.nodeValue;
-//				}
-//			else
-//				{ 
-//				gnote = "abbb";
-//				}
 			}
 			else
 			{
