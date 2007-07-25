@@ -79,6 +79,13 @@ div#footer {
 	padding: 5px 10px;
 }
 
+#nav_tabs .selected_subnav a {
+	font-weight: bold;
+	color: #0066CC;
+	background-color: #EEEEEE;
+	padding: 5px 10px;
+}
+
 div#title {
 	margin: 10px 10px 0 10px;
 	padding: 5px;
