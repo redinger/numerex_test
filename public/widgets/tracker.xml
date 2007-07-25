@@ -34,7 +34,7 @@
 		}
 
 		function getLoc() {
-			_IG_FetchXmlContent("http://myfleet.ublip.com/readings/recent_public/13", displayLoc, {refreshInterval: 45});
+			_IG_FetchXmlContent("http://myfleet.ublip.com/readings/recent_public/32", displayLoc, {refreshInterval: 45});
 		}
 
 		function displayLoc(data) {
