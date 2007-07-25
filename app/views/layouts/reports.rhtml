@@ -13,6 +13,7 @@
 	</head>
 	<body>
    		<%= render :partial => 'layouts/includes/header' %>
+		<div style="background-color: #EEEEEE; padding: 8px 20px;"><a href="/reports/all/<%= params[:id] %>">All Readings</a> | <a href="/reports/stop/<%= params[:id] %>">Stop Events</a> | <a href="/reports/geofence/<%= params[:id] %>">Geofence Events</a></div>
     	<div id="content">
         	<%= yield %>
         </div>

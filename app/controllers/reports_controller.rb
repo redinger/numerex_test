@@ -8,10 +8,12 @@ class ReportsController < ApplicationController
   end
   
   def index
+    @device_names = Device.get_names(session[:account_id])
   end
   
   # Find all readings in descending order, limit 50
-  def all_readings
+  def all
+    @device_names = Device.get_names(session[:account_id])
     @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "device_id='#{params[:id]}'")
     puts @readings.first.class
   end
