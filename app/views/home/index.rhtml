@@ -8,7 +8,7 @@
                     <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
                         <td>
                         	<% if device.recent_reading_id != 0 %>
-								<a href="javascript:centerMap(<%= device.id %>);" title="Center map on this device"><%= device.name %></a>
+								<a href="javascript:centerMap(<%= device.id %>);highlightRow(<%= device.id %>);" title="Center map on this device"><%= device.name %></a>
 							<% else %>
 								<%= device.name %>
 							<% end %>
