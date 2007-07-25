@@ -1,5 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+fenceOne:
   id: 1
-two:
+  fence_num: 1
+  device_id: 1
+  name: home
+fenceTwo:
   id: 2
+  fence_num: 3
+  device_id: 1
+  name: work
