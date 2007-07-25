@@ -1,30 +1,44 @@
-<span class="dark_blue_header">Viewing Readings for: </span>
-<select onchange="document.location.href='/reports/all/' + this.options[this.selectedIndex].value;">
-	<% for device in @device_names %>
-		<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
-	<% end %>
-</select>
-<br /><br />
-<table width="100%" border="1">
+<div style="margin-bottom: 10px;">
+	<div style="float: left;">
+		<span class="dark_blue_header">Viewing Readings for: </span>
+		<select onchange="document.location.href='/reports/all/' + this.options[this.selectedIndex].value;">
+			<% for device in @device_names %>
+				<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+			<% end %>
+		</select>
+	</div>
+	<div style="float: right;">
+		Timeframe: 
+		<select>
+			<option>Today</option>
+			<option>Yesterday</option>
+			<option>Last 7 Days</option>
+			<option>This Month</option>
+			<option>Last Month</option>
+		</select>
+		&nbsp;&nbsp;
+		<a href="">Export</a> &nbsp;|&nbsp; <a href="">RSS</a>
+	</div>
+	<div style="clear: both;"></div>
+</div>
+
+
+<table width="100%" class="panel_table">
 	<tr>
-		<th>Latitude</th>
-		<th>Longitude</th>
+		<th>Location</th>
 		<th>Altitude</th>
 		<th>Speed</th>
 		<th>Direction</th>
-		<th>Device ID</th>
 		<th>Created</th>
 		<th>Event Type</th>
 	</tr>
 	<% for reading in @readings %>
-		<tr>
-			<td><%= reading.latitude %></td>
-			<td><%= reading.longitude %></td>
+		<tr class="<%= cycle('dark_row', 'light_row') %>">
+			<td><%= reading.shortAddress %></td>
 			<td><%= reading.altitude %></td>
 			<td><%= reading.speed %></td>
 			<td><%= reading.direction %></td>
-			<td><%= reading.device_id %></td>
-			<td><%= reading.created_at %></td>
+			<td><%= time_ago_in_words reading.created_at %> ago</td>
 			<td><%= reading.event_type %></td>
 		</tr>
 	<% end %>

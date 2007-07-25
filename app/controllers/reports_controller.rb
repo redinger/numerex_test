@@ -1,6 +1,8 @@
 class ReportsController < ApplicationController
   
-  StopThreshold = 300; #stop event is triggered at 5min idle time
+  StopThreshold = 300 #stop event is triggered at 5min idle time
+  ResultCount = 25 # Number of results per page
+  DayInSeconds = 86400
   
   module StopEvent
     attr_reader :duration
@@ -11,15 +13,20 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
   end
   
-  # Find all readings in descending order, limit 50
-  def all
-    @device_names = Device.get_names(session[:account_id])
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "device_id='#{params[:id]}'")
-    puts @readings.first.class
+ def all
+  unless params[:page]
+    params[:page] = 1
   end
+   
+  page = params[:page].to_i
+  now = Time.now.to_i
+  @device_names = Device.get_names(session[:account_id])
+  @readings = Reading.find(:all, :order => "created_at desc", :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], now, (now-DayInSeconds)], :limit => ResultCount, :offset => (page*ResultCount))
+  #@readings_count = Reading.count [""]
+end
   
   def stop
-    readings = Reading.find(:all, :order => "created_at asc", :limit => 50, :conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'")
+    readings = Reading.find(:all, :order => "created_at asc", :limit => ResultCount, :conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'")
     @stops = Array.new
     readings.each_index { |index|
                             if readings[index].speed==0
@@ -34,7 +41,7 @@ class ReportsController < ApplicationController
   end
   
   def speed
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 50, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
+    @readings = Reading.find(:all, :order => "created_at desc", :limit => 25, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
   end
 
 end
