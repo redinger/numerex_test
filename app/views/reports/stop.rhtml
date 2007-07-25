@@ -9,7 +9,10 @@
 		<tr>
 			<td><%= reading.created_at %></td>
 			<td><%= reading.shortAddress %></td>
-			<td><%= reading.duration || "unknown" %></td>
+			<% length=nil%>
+			<% if(!reading.duration.nil?) then length=distance_of_time_in_words Time.now, Time.now+reading.duration end%>
+			<td><%= length || "unknown" %></td>
+			<% length=nil%>
 		</tr>
 	<% end %>
 </table>
