@@ -2,7 +2,7 @@ class DevicesController < ApplicationController
   before_filter :authorize
   
   def index
-    @devices = Device.get_devices(session[:account_id])
+    @devices = Device.get_names(session[:account_id])
   end
   
   # Device details view
