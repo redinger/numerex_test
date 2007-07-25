@@ -20,4 +20,17 @@ class Device < ActiveRecord::Base
   def self.get_names(account_id)
     find_by_sql(["select id, name from devices where account_id = ?", account_id])
   end
+  
+  def get_fence_by_num(fence_num)
+    Geofence.find(:all, :conditions => ['device_id = ? and fence_num = ?', id, fence_num])[0]
+  end
+  
+  def online?
+    if(!last_online_time.nil? && Time.now-last_online_time<20*60)
+       return true
+     else
+      return false
+    end
+    puts Time.now - last_online_time
+  end
 end
