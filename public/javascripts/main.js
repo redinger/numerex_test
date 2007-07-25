@@ -211,7 +211,7 @@ function getBreadcrumbs(id) {
 			else
 				{
 				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue, spds[i].firstChild.nodeValue));
-				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, gnote)); //dividing by ten till middleware issue is fixed.
+				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, gnote, event_type[i].firstChild.nodeValue)); //dividing by ten till middleware issue is fixed.
 			
 				iconcount++;
 				}
@@ -275,17 +275,21 @@ function getBreadcrumbs(id) {
         return marker;
 		}
 	
-	function createArrow(point, alt, spd, dir, time, note) {
+	function createArrow(point, alt, spd, dir, time, note, event_type) {
 		
 		if (alt == "")
 			{
 				alt = "unknown";
 			}   
-		
-		if(dir >= 337.5 || dir < 22.5)
+		if(spd == 0 || event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
+				{
+				icondir = "none"	
+				}
+				else if(dir >= 337.5 || dir < 22.5)
 				{
 					icondir = "n";
 				}
+				
 				else if(dir >= 22.5 && dir < 67.5)
 				{
 					icondir = "ne";
