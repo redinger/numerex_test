@@ -9,7 +9,7 @@ class Device < ActiveRecord::Base
   # 1 = provisioned
   # 2 = device deleted by user
   def self.get_devices(account_id)
-    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id])
+    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id], :order => 'name')
   end
   
   def self.get_device(device_id, account_id)
@@ -18,7 +18,7 @@ class Device < ActiveRecord::Base
   
   # Get names/ids for list box - don't want to get an entire devices object
   def self.get_names(account_id)
-    find_by_sql(["select id, name from devices where account_id = ?", account_id])
+    find_by_sql(["select id, name from devices where account_id = ? order by name", account_id])
   end
   
   def get_fence_by_num(fence_num)
