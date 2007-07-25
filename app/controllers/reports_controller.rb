@@ -21,7 +21,8 @@ class ReportsController < ApplicationController
   page = params[:page].to_i
   now = Time.now.to_i
   @device_names = Device.get_names(session[:account_id])
-  @readings = Reading.find(:all, :order => "created_at desc", :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], now, (now-DayInSeconds)], :limit => ResultCount, :offset => (page*ResultCount))
+  @readings = Reading.find(:all, :order => "created_at desc", :conditions => ["device_id = ?", params[:id]], :limit => ResultCount, :offset => (page*ResultCount))
+  #@readings = Reading.find(:all, :order => "created_at desc", :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], now, (now-DayInSeconds)], :limit => ResultCount, :offset => (page*ResultCount))
   #@readings_count = Reading.count [""]
 end
   
