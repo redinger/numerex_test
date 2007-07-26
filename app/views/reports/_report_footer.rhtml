@@ -1,6 +1,17 @@
 <%
 	# Showing 25 results/page
+	result_count = 25
+	num_pages = (@record_count.to_f/result_count.to_f).ceil
+	url = '/reports/all/' + params[:id]
+	
+	if params[:t]
+		url = url + '?t=' + params[:t]
+	end
 %>
-<div>
-	Paging controls go down here....yadda yadda
+<div style="margin: 10px 0; text-align: center;">
+	<% if @record_count > result_count %>
+		<% 1.upto(num_pages) do |i| %>
+			<% if @page == i %><%= i %><% else %><a href="<%= url %>&p=<%= i %>"><%= i %></a><% end %>&nbsp;&nbsp;
+		<% end %>
+	<% end %>
 </div>
