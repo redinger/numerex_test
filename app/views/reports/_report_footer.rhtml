@@ -5,7 +5,7 @@
 	url = '/reports/all/' + params[:id]
 	
 	if params[:t]
-		url = url + '?t=' + params[:t]
+		url = url + '?t=' + params[:t].to_s
 	end
 %>
 <div style="margin: 10px 0; text-align: center;">
