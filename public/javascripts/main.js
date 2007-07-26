@@ -90,7 +90,7 @@ function getRecentReadings() {
 					address = addresses[i].firstChild.nodeValue;
 					
 				// Check for existence of note
-				var note;
+				var note = '';
 				if(notes[i].firstChild != undefined)
 					note = notes[i].firstChild.nodeValue;
 					
@@ -139,7 +139,7 @@ function createDeviceHtml(id) {
 	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at<br /> <span class="blue_bold">' 
 		+ device.address + '</span><br />about <span class="blue_bold">' + device.dt + '</span><hr />';
 		
-	if(device.note != undefined)
+	if(device.note != '')
 		html += '<strong>Note:</strong> ' + device.note + '<hr />';
 		
 	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/devices/view/' + id + '">View details</a></div>';
