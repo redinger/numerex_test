@@ -1,25 +1,31 @@
 <div style="margin-bottom: 10px;">
-	<div style="float: left;">
-		<span class="dark_blue_header">Viewing Readings for: </span>
-		<select onchange="document.location.href='/reports/all/' + this.options[this.selectedIndex].value;">
-			<% for device in @device_names %>
-				<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
-			<% end %>
-		</select>
-	</div>
-	<div style="float: right;">
-		Timeframe: 
-		<select>
-			<option>Today</option>
-			<option>Yesterday</option>
-			<option>Last 7 Days</option>
-			<option>This Month</option>
-			<option>Last Month</option>
-		</select>
-		&nbsp;&nbsp;
-		<a href="">Export</a> &nbsp;|&nbsp; <a href="">RSS</a>
-	</div>
-	<div style="clear: both;"></div>
+	<table width="100%">
+		<tr>
+			<td align="left">
+				<span class="dark_blue_header">Viewing Readings for: </span>
+				<select onchange="document.location.href='/reports/all/' + this.options[this.selectedIndex].value;">
+					<% for device in @device_names %>
+						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+					<% end %>
+				</select>
+			</td>
+			<td align="center">
+				Viewing <strong>1-25</strong> of <strong><%= @readings_count %></strong> total readings
+			</td>
+			<td align="right">
+				Timeframe: 
+				<select>
+					<option>Today</option>
+					<option>Yesterday</option>
+					<option>Last 7 Days</option>
+					<option>This Month</option>
+					<option>Last Month</option>
+				</select>
+				&nbsp;&nbsp;
+				<a href="">Export</a> &nbsp;|&nbsp; <a href="">RSS</a>
+			</td>
+		</tr>
+	</table>
 </div>
 
 

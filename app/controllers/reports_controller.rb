@@ -19,11 +19,15 @@ class ReportsController < ApplicationController
   end
    
   page = params[:page].to_i
-  now = Time.now.to_i
+  end_time = Time.now.to_i # Current time in seconds
+  start_time = end_time - (86400) # Start time in seconds
   @device_names = Device.get_names(session[:account_id])
-  @readings = Reading.find(:all, :order => "created_at desc", :conditions => ["device_id = ?", params[:id]], :limit => ResultCount, :offset => (page*ResultCount))
-  #@readings = Reading.find(:all, :order => "created_at desc", :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], now, (now-DayInSeconds)], :limit => ResultCount, :offset => (page*ResultCount))
-  #@readings_count = Reading.count [""]
+  @readings = Reading.find(:all, :order => "created_at desc", 
+              :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
+              :limit => ResultCount, 
+              :offset => ((page-1)*ResultCount))
+  @readings_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
+  puts @readings_count
 end
   
   def stop
