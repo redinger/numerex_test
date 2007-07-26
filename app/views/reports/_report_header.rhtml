@@ -1,0 +1,38 @@
+<%
+	if params[:action] == 'all'
+		title = 'Readings'
+	elsif params[:action] == 'stop'
+		title = 'Stop Events'
+	elsif params[:action] == 'geofence'
+		title = 'Geofence Events'
+	end
+%>
+
+<div style="margin-bottom: 10px;">
+	<table width="100%">
+		<tr>
+			<td align="left">
+				<span class="dark_blue_header"><%= title %> for: </span>
+				<select onchange="document.location.href='/reports/<%= params[:action] %>/' + this.options[this.selectedIndex].value;">
+					<% for device in @device_names %>
+						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+					<% end %>
+				</select>
+			</td>
+			<td align="center">
+				Viewing <strong>1-25</strong> of <strong><%= @record_count %></strong> total readings
+			</td>
+			<td align="right">
+				Timeframe: 
+				<select onchange="document.location.href='/reports/<%= params[:action] %>/?t=' + this.options[this.selectedIndex].value;">
+					<option value="today" <% if params[:t] == 'today' %>selected="selected"<% end %>>Today</option>
+					<option value="yesterday" <% if params[:t] == 'yesterday' %>selected="selected"<% end %>>Yesterday</option>
+					<option value="last_7" <% if params[:t] == 'last_7' %>selected="selected"<% end %>>Last 7 Days</option>
+					<option value="last_30" <% if params[:t] == 'last_30' %>selected="selected"<% end %>>Last 30 Days</option>
+				</select>
+				&nbsp;&nbsp;
+				<a href="">Export</a> &nbsp;|&nbsp; <a href="">RSS</a>
+			</td>
+		</tr>
+	</table>
+</div>

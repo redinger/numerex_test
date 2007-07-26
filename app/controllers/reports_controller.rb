@@ -26,12 +26,22 @@ class ReportsController < ApplicationController
               :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
               :limit => ResultCount, 
               :offset => ((page-1)*ResultCount))
-  @readings_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
-  puts @readings_count
+  @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
 end
   
   def stop
-    readings = Reading.find(:all, :order => "created_at asc", :limit => ResultCount, :conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'")
+    unless params[:page]
+      params[:page] = 1
+    end
+   
+    page = params[:page].to_i
+    @device_names = Device.get_names(session[:account_id])
+    readings = Reading.find(:all, :order => "created_at desc", 
+               :limit => ResultCount,
+               :conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'",
+               :limit => ResultCount,
+               :offset => ((page-1)*ResultCount))
+               
     @stops = Array.new
     readings.each_index { |index|
                             if readings[index].speed==0
