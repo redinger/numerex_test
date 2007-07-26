@@ -13,35 +13,49 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
   end
   
- def all
-  unless params[:page]
-    params[:page] = 1
-  end
-   
-  page = params[:page].to_i
-  end_time = Time.now.to_i # Current time in seconds
-  start_time = end_time - (86400) # Start time in seconds
-  @device_names = Device.get_names(session[:account_id])
-  @readings = Reading.find(:all, :order => "created_at desc", 
-              :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
-              :limit => ResultCount, 
-              :offset => ((page-1)*ResultCount))
-  @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
-end
-  
-  def stop
-    unless params[:page]
-      params[:page] = 1
+   def all
+    unless params[:p]
+      params[:p] = 1
+    end 
+    @page = params[:p].to_i
+    
+    unless params[:t]
+      params[:t] = 1
     end
+    timespan = params[:t].to_i
+  
+    end_time = Time.now.to_i # Current time in seconds
+    start_time = end_time - (86400 * timespan) # Start time in seconds
+    @device_names = Device.get_names(session[:account_id])
+    @readings = Reading.find(:all, :order => "created_at desc", 
+                :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
+                :limit => ResultCount, 
+                :offset => ((@page-1)*ResultCount))
+    @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
+  end
+    
+  def stop
+    unless params[:p]
+      params[:p] = 1
+    end 
+    @page = params[:p].to_i
+    
+    unless params[:t]
+      params[:t] = 1
+    end
+    timespan = params[:t].to_i
+    
+    end_time = Time.now.to_i # Current time in seconds
+    start_time = end_time - (86400 * timespan) # Start time in seconds
    
-    page = params[:page].to_i
     @device_names = Device.get_names(session[:account_id])
     readings = Reading.find(:all, :order => "created_at desc", 
                :limit => ResultCount,
-               :conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'",
+               #:conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'",
+               :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
                :limit => ResultCount,
-               :offset => ((page-1)*ResultCount))
-               
+               :offset => ((@page-1)*ResultCount))
+    @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])           
     @stops = Array.new
     readings.each_index { |index|
                             if readings[index].speed==0

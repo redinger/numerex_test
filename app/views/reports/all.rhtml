@@ -6,8 +6,8 @@
 		<th>Altitude (m)</th>
 		<th>Speed (mph)</th>
 		<th>Direction</th>
-		<th>Created</th>
 		<th>Event Type</th>
+		<th>When</th>
 	</tr>
 	<% for reading in @readings %>
 		<tr class="<%= cycle('dark_row', 'light_row') %>">
@@ -15,8 +15,8 @@
 			<td><%= reading.altitude %></td>
 			<td><%= reading.speed %></td>
 			<td><%= reading.direction %></td>
-			<td><%= time_ago_in_words reading.created_at %> ago</td>
 			<td><%= reading.event_type %></td>
+			<td><%= time_ago_in_words reading.created_at %> ago</td>
 		</tr>
 	<% end %>
 </table>

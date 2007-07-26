@@ -6,6 +6,13 @@
 	elsif params[:action] == 'geofence'
 		title = 'Geofence Events'
 	end
+
+	result_count = 25
+	start_num = ((@page-1)*result_count)+1
+	end_num = (start_num + result_count)-1
+	if end_num > @record_count
+		end_num = @record_count
+	end
 %>
 
 <div style="margin-bottom: 10px;">
@@ -20,15 +27,18 @@
 				</select>
 			</td>
 			<td align="center">
-				Viewing <strong>1-25</strong> of <strong><%= @record_count %></strong> total readings
+				<% if @record_count > 0 %>
+					Viewing <strong><%= start_num %>-<%= end_num %></strong> of <strong><%= @record_count %></strong> total readings
+				<% else %>
+					<span style="background-color: #FFFFCC; font-weight: bold; padding: 8px 20px; color: #666666;"> We're sorry, there's no data for this device within the specified timeframe.</span>
+				<% end %>
 			</td>
 			<td align="right">
 				Timeframe: 
-				<select onchange="document.location.href='/reports/<%= params[:action] %>/?t=' + this.options[this.selectedIndex].value;">
-					<option value="today" <% if params[:t] == 'today' %>selected="selected"<% end %>>Today</option>
-					<option value="yesterday" <% if params[:t] == 'yesterday' %>selected="selected"<% end %>>Yesterday</option>
-					<option value="last_7" <% if params[:t] == 'last_7' %>selected="selected"<% end %>>Last 7 Days</option>
-					<option value="last_30" <% if params[:t] == 'last_30' %>selected="selected"<% end %>>Last 30 Days</option>
+				<select onchange="document.location.href='/reports/<%= params[:action] %>/<%= params[:id] %>?t=' + this.options[this.selectedIndex].value;">
+					<option value="1" <% if params[:t] == '1' %>selected="selected"<% end %>>Last 24 Hours</option>
+					<option value="7" <% if params[:t] == '7' %>selected="selected"<% end %>>Last 7 Days</option>
+					<option value="30" <% if params[:t] == '30' %>selected="selected"<% end %>>Last 30 Days</option>
 				</select>
 				&nbsp;&nbsp;
 				<a href="">Export</a> &nbsp;|&nbsp; <a href="">RSS</a>
