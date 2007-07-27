@@ -18,6 +18,7 @@ class ReportsController < ApplicationController
       params[:p] = 1
     end 
     @page = params[:p].to_i
+    @result_count = ResultCount
     
     unless params[:t]
       params[:t] = 1
@@ -29,8 +30,8 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @readings = Reading.find(:all, :order => "created_at desc", 
                 :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
-                :limit => ResultCount, 
-                :offset => ((@page-1)*ResultCount))
+                :limit => @result_count, 
+                :offset => ((@page-1)*@result_count))
     @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
   end
     
@@ -39,6 +40,7 @@ class ReportsController < ApplicationController
       params[:p] = 1
     end 
     @page = params[:p].to_i
+    @result_count = ResultCount
     
     unless params[:t]
       params[:t] = 1
@@ -53,8 +55,8 @@ class ReportsController < ApplicationController
                :limit => ResultCount,
                #:conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'",
                :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
-               :limit => ResultCount,
-               :offset => ((@page-1)*ResultCount))
+               :limit => @result_count,
+               :offset => ((@page-1)*@result_count))
     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])           
     @stops = Array.new
     readings.each_index { |index|
