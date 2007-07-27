@@ -168,7 +168,6 @@ function highlightRow(id) {
 
 // Breadcrumb view for device details/history
 function getBreadcrumbs(id) {
-	var bounds = new GLatLngBounds();
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
 	{
 		var xml = GXml.parse(data);
@@ -181,15 +180,10 @@ function getBreadcrumbs(id) {
 		var event_type = xml.documentElement.getElementsByTagName("event_type");
 		var notes = xml.documentElement.getElementsByTagName("note");
 				
-		gmap.clearOverlays();
-		
 		iconcount = 2;
-		
-	
 		
 		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
-         	bounds.extend(point)
 
 			if(notes[i].childNodes.length != 0)
 			{	
@@ -217,29 +211,6 @@ function getBreadcrumbs(id) {
 				}
 	    }
     
-		var zoom = gmap.getBoundsZoomLevel(bounds);
-		if(zoom > 15)
-			zoom = 15;
-		gmap.setZoom(zoom); 
-		
-		/*
-		// Update the name in the map panel and display the View All link
-		document.getElementById("device_name").innerHTML = name;
-		document.getElementById("view_all_link").style.visibility = "visible";
-		// Highlight the table rows and save the old reference to revert back
-		// Deselect highlighted row
-		if(prevSelectedRow != undefined)
-			prevSelectedRow.className = prevSelectedRowClass;
-			
-		var currRow = document.getElementById("row"+id);
-		prevSelectedRow = currRow;
-		prevSelectedRowClass = currRow.className;
-		currRow.className = "selected_row";
-		
-		// Save a global reference to device id
-		currSelectedDeviceId = id;
-		// Display the action panel
-		document.getElementById("action_panel").style.visibility = "visible";*/
 	});
 }
 		
