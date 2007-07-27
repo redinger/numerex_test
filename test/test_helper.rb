@@ -26,3 +26,25 @@ class Test::Unit::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+
+class Time 
+  class << self
+    attr_accessor :warp
+    alias_method :real_now, :now
+    def now
+      warp
+    end
+    alias_method :new, :now
+  end
+end
+Time.warp = Time.real_now
+
+def pretend_now_is(time)   
+  begin
+    Time.warp = time
+    yield
+  ensure
+    Time.warp = Time.real_now
+  end
+end
