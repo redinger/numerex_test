@@ -194,7 +194,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= Time.now.to_s :db %>
+ created_at: 2007-7-26 14:05:59
  event_type: normal_et2
 16:
  id: 16
@@ -204,7 +204,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+600).to_s :db %>
+ created_at: 2007-7-26 14:15:59 
  event_type: startstop_et41
 17:
  id: 17
@@ -214,7 +214,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1200).to_s :db %>
+ created_at: 2007-7-26 14:25:59 
  event_type: startstop_et41
 18:
  id: 18
@@ -224,7 +224,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1300).to_s :db %>
+ created_at: 2007-7-26 14:27:39
  event_type: startstop_et41
 19:
  id: 19
@@ -234,7 +234,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1400).to_s :db %>
+ created_at: 2007-7-26 14:29:19 
  event_type: startstop_et41
 20:
  id: 20
@@ -244,7 +244,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1500).to_s :db %>
+ created_at: 2007-7-26  14:30:59
  event_type: startstop_et41
 21:
  id: 21
@@ -254,7 +254,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1600).to_s :db %>
+ created_at: 2007-7-26 14:32:39 
  event_type: startstop_et41
 22:
  id: 22
@@ -264,7 +264,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1800).to_s :db %>
+ created_at: 2007-7-26 14:35:59
  event_type: startstop_et41
 23:
  id: 23
@@ -274,7 +274,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 3
- created_at: <%= (Time.now+1900).to_s :db %>
+ created_at: 2007-7-26 14:37:39 
  event_type: startstop_et41
 24:
  id: 24
