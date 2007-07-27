@@ -51,7 +51,7 @@ class ReportsController < ApplicationController
     start_time = end_time - (86400 * timespan) # Start time in seconds
    
     @device_names = Device.get_names(session[:account_id])
-    readings = Reading.find(:all, :order => "created_at desc", 
+    readings = Reading.find(:all, :order => "created_at asc", 
                :limit => ResultCount,
                #:conditions => "event_type='startstop_et41' and device_id='#{params[:id]}'",
                :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
