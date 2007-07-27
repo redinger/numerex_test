@@ -7,6 +7,7 @@ var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
 var devices = []; // JS devices model
+var readings = []; //JS readings model
             
 function load() 
 {
@@ -20,7 +21,7 @@ function load()
 	var page = document.location.href.split("/")[3];
 	if(page == 'home')
     	getRecentReadings();
-	else
+	else 
 		getBreadcrumbs(device_id);
 			
 	recenticon = new GIcon();
@@ -69,6 +70,7 @@ function load()
   }
 }
 
+// Display all devices on overview page
 function getRecentReadings() {
 	gmap.clearOverlays();
     var bounds = new GLatLngBounds();
@@ -104,13 +106,6 @@ function getRecentReadings() {
 		
         gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
 		
-		// Hide the View All link and change the device_name text
-		document.getElementById("device_name").innerHTML = "All Devices";
-		document.getElementById("view_all_link").style.visibility = "hidden";
-		// Deselect highlighted row
-		if(prevSelectedRow != undefined)
-			prevSelectedRow.className = prevSelectedRowClass;
-			
 		// Hide the action panel
 		document.getElementById("action_panel").style.visibility = "hidden";
     });
@@ -146,6 +141,35 @@ function createDeviceHtml(id) {
 	return html;
 }
 
+// Center map on reading and show details
+function centerMapOnReading(id) {
+	var reading = getReadingById(id);
+	var point = new GLatLng(reading.lat, reading.lng);
+	gmap.panTo(point);
+	gmap.openInfoWindowHtml(point, createReadingHtml(id));
+}
+
+// Get a reading based on id
+function getReadingById(id) {
+	for(var i=0; i < readings.length; i++) {
+		var reading = readings[i];
+		if(reading.id == id)
+			return reading;
+	}
+}
+
+// Create html for selected reading
+function createReadingHtml(id) {
+	var reading = getReadingById(id);
+	var html = '<div class="dark_grey"><span class="blue_bold">' + reading.address + '</span><br />about <span class="blue_bold">' + reading.dt + '</span><hr />';
+		
+	if(reading.note != '')
+		html += '<strong>Note:</strong> ' + reading.note + '<hr />';
+		
+	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a></div>';
+	return html;
+}
+
 // When a device is selected let's highlight the row and deselect the current
 // Pass 0 to deselect all
 function highlightRow(id) {
@@ -171,17 +195,57 @@ function getBreadcrumbs(id) {
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
 	{
 		var xml = GXml.parse(data);
+		var ids = xml.documentElement.getElementsByTagName("id");
 		var lats = xml.documentElement.getElementsByTagName("lat");
 		var lngs = xml.documentElement.getElementsByTagName("lng");
 		var alts = xml.documentElement.getElementsByTagName("alt");
 		var spds = xml.documentElement.getElementsByTagName("spd");
 		var dirs = xml.documentElement.getElementsByTagName("dir");
-		var times = xml.documentElement.getElementsByTagName("created_at");
-		var event_type = xml.documentElement.getElementsByTagName("event_type");
+		var dts = xml.documentElement.getElementsByTagName("dt");
+		var addresses = xml.documentElement.getElementsByTagName("address");
+		var events = xml.documentElement.getElementsByTagName("event_type");
 		var notes = xml.documentElement.getElementsByTagName("note");
 				
-		iconcount = 2;
+		for(var i = lats.length-1; i >= 0; i--) {
+			if(lats[i].firstChild) {
+				// Check for existence of address
+				var address = "N/A";
+				if(addresses[i].firstChild != undefined)
+					address = addresses[i].firstChild.nodeValue;
+					
+				// Check for existence of note
+				var note = '';
+				if(notes[i].firstChild != undefined)
+					note = notes[i].firstChild.nodeValue;
+					
+				var reading = {id: ids[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
+				readings.push(reading);
+		        var point = new GLatLng(reading.lat, reading.lng);
+				var speed = spds[i].firstChild.nodeValue;
+				var event = events[i].firstChild.nodeValue;
+				
+				// Different icon types
+				var icon;
+				if(event == "exitgeofen_et51" || event == "entergeofen_et11") // Geofence exception
+					icon = alarmIcon;
+				else if(speed == 0) // Vehicle not moving
+					icon = ParkedIcon;
+				else // All is well
+					icon = iconALL;
+				
+				if(i == 0) {
+					gmap.addOverlay(createMarker(point, recenticon, createReadingHtml(reading.id)));
+					gmap.setCenter(point, 15);
+					gmap.openInfoWindowHtml(point, createReadingHtml(reading.id));
+					highlightRow(reading.id);
+				} else {
+					gmap.addOverlay(createMarker(point, icon, createReadingHtml(reading.id)));
+				}
+			}
+		}
 		
+		/*iconcount = 2;
+	
 		for(var i = 0; i < lats.length; i++) {
         	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
 
@@ -209,8 +273,7 @@ function getBreadcrumbs(id) {
 			
 				iconcount++;
 				}
-	    }
-    
+	    }*/
 	});
 }
 		
@@ -336,11 +399,6 @@ function createPast(point, event_type, spd)
         return marker;
 		
 		}	
-
-// Goes to specified URL and appends id
-function go(url) {
-	document.location.href = url + '/' + currSelectedDeviceId;
-}
 
 // Generic function to create a marker with custom icon and html
 function createMarker(point, icon, html) {

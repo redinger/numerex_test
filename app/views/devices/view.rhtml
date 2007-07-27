@@ -10,10 +10,10 @@
 			<a href="/devices/edit/<%= @device.id %>">edit</a>
 		</td>
 		<td>
-			<strong>Event Reports</strong><br />
-			<a href="/reports/start/<%= @device.id %>">Start</a> |
-			<a href="/reports/stop/<%= @device.id %>">Stop</a> |
-			<a href="/reports/speed/<%= @device.id %>">Speed</a>
+			<strong>Detailed Reports</strong><br />
+			<a href="/reports/all/<%= @device.id %>">Readings</a> |
+			<a href="/reports/stop/<%= @device.id %>">Stops</a> |
+			<a href="/reports/geofence/<%= @device.id %>">Geofences</a>
 		</td>
 		<td>
 			You currently have <%= @device.geofences.size %> geofences set for this device.
@@ -42,7 +42,20 @@
 				</tr>
 				<tr><th>Location</th><th>Speed (mph)</th><th>When Reported</th><th>Event</th></tr>
 				<% for reading in @readings %>
-					<tr <% if reading.event_type == 'exitgeofen_et51' %>style="background-color: #FF8080;"<% else %>class="<%= cycle('dark_row', 'light_row') %><% end %>"><td><a href="#"><%= reading.shortAddress %></a></td><td><%= reading.speed/10 %></td><td><%= time_ago_in_words reading.created_at %> ago</td><td><%= reading.event_type %></td></tr>
+					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
+						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>);"><%= reading.shortAddress %></a></td>
+						<td><%= reading.speed/10 %></td>
+						<td><%= time_ago_in_words reading.created_at %> ago</td>
+						<td>
+							<% if reading.event_type == 'exitgeofen_et51' || reading.event_type == 'entergeofen_et12' %>
+								<a href="/reports/geofences/<%= @device.id %>">Geofence</a>
+							<% elsif reading.event_type =='startstop_et41' %>
+								<a href="/reports/stop/<%= @device.id %>">Stop</a>
+							<% else %>
+								-
+							<% end %>
+						</td>
+					</tr>
 				<% end %>
 			</table>
 		</td>
