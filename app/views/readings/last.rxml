@@ -4,6 +4,7 @@ xml.readings do
     xml.reading do
       xml.created_at((time_ago_in_words reading.created_at) + ' ago')
       xml.device_id(reading.device_id)
+      xml.address(reading.shortAddress)
       xml.lat(reading.latitude)
       xml.lng(reading.longitude)
       xml.alt(reading.altitude)
