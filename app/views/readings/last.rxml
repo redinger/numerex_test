@@ -2,7 +2,8 @@ xml.instruct! :xml, :version=>"1.0"
 xml.readings do
   @readings.each do |reading|
     xml.reading do
-      xml.created_at((time_ago_in_words reading.created_at) + ' ago')
+      xml.id(reading.id)
+      xml.dt((time_ago_in_words reading.created_at) + ' ago')
       xml.device_id(reading.device_id)
       xml.address(reading.shortAddress)
       xml.lat(reading.latitude)
