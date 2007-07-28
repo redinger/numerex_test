@@ -24,6 +24,7 @@
 %>
 <div style="margin: 10px 0; text-align: center;">
 	<% if @record_count > @result_count %>
+		<strong>Page:</strong>
 		<% start_page.upto(end_page) do |i| %>
 			<% if @page == i %><%= i %><% else %><a href="<%= url %>&p=<%= i %>"><%= i %></a><% end %>&nbsp;&nbsp;
 		<% end %>
