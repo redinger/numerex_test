@@ -275,7 +275,7 @@ function getBreadcrumbs(id) {
 					gmap.openInfoWindowHtml(point, createReadingHtml(reading.id));
 					highlightRow(reading.id);
 				} else {
-					gmap.addOverlay(createMarker(point, icon, createReadingHtml(reading.id)));
+					gmap.addOverlay(createMarker(reading.id, point, icon, createReadingHtml(reading.id)));
 				}
 			}
 		}
