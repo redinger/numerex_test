@@ -1,7 +1,7 @@
 <table width="100%" border="0">
 	<tr>
 		<td>
-			<span class="dark_blue_header">Viewing Details for: </span>
+			<span class="dark_blue_header">Viewing: </span>
 			<select onchange="document.location.href='/devices/view/' + this.options[this.selectedIndex].value;">
 				<% for device in @device_names %>
 					<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
