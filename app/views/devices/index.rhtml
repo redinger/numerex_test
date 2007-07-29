@@ -2,11 +2,17 @@
         <div id="success_message"><%= flash[:message] %></div>
     <% end %>
 	<h3>Your Active Devices</h3>
-    <ul>
-    <% for device in @devices %>
-    	<li><a href="/devices/view/<%= device.id %>"><%= device.name %></a></li>
-    <% end %>
-    </ul>
+	
+	<div id="device_list">
+	    <ul>
+	    <% for device in @devices %>
+	    	<li>
+	    		<a href="/devices/view/<%= device.id %>"><%= device.name %></a> - 
+				<% if device.recent_reading_id != 0 %>reported <%= time_ago_in_words device.readings[0].created_at %> ago<% else %>no report yet<% end %>
+			</li>
+	    <% end %>
+	    </ul>
+	</div>
 	<hr />
     <h3>Add a Device</h3>
     <h4>What type of device do you need?</h2>

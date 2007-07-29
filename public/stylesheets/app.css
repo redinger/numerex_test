@@ -86,6 +86,23 @@ div#footer {
 	padding: 5px 10px;
 }
 
+#device_list ul {
+	padding: 0;
+	margin: 0;
+}
+
+#device_list li {
+	list-style-type: none;
+	background-color: #EEEEEE;
+	padding: 5px;
+	margin: 5px;
+	color: #666666;
+}
+
+#device_list a {
+	color: #333333;
+}
+
 div#title {
 	margin: 10px 10px 0 10px;
 	padding: 5px;
@@ -103,14 +120,14 @@ div#main_container {
 	border-bottom: 1px solid #CCCCCC;
 }
 
-#device_list {
+#device_list_old {
 	margin: 10px;
 	padding: 0;
 	list-style-type: none;	
 	float: left;
 }
 
-#device_list a {
+#device_list_old a {
 	display: block;
 	padding: 3px;
 	width: 160px;
@@ -120,18 +137,18 @@ div#main_container {
 	color: #FFFFFF;
 }
 
-#device_list .no_data {
+#device_list_old .no_data {
 	display: block;
 	background-color: #CCCCCC;
 	padding: 3px;
 	border-bottom: 1px solid #eee;
 }
 
-#device_list a:link, #navlist a:visited {
+#device_list_old a:link, #navlist a:visited {
 	text-decoration: none;
 }
 
-#device_list a:hover {
+#device_list_old a:hover {
 	background-color: #036;
 }
 

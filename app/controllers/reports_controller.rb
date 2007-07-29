@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
   end
   
   def index
-    @device_names = Device.get_names(session[:account_id])
+    @devices = Device.get_devices(session[:account_id])
   end
   
    def all
