@@ -20,20 +20,23 @@
                 <% end %>
             </table>
             <br />
-			<div style="border: 1px solid #CCCCCC; padding: 10px;">
-				<span style="font-size: 16px; color: #666666;">
-                    Map Layers
-                </span>
-				<ul>					
-					<!--<li><input type="checkbox"> Geofences</li>
+			<div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
+				<div class="dark_grey">
+                   <div class="dark_blue_header" style="margin-bottom: 5px;">Traffic Overlay</div>
+					Click the checkbox below to view a traffic overlay on the map.  The traffic overlay is a series of stop light icons that you can click and zoom into for more
+					detailed information.
+					<p><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Show traffic overlay</p>
+                </div>
+				<!--<ul>					
+					<li><input type="checkbox"> Geofences</li>
 					<li><input type="checkbox"> Crime areas</li>
-					<li><input type="checkbox"> Service stations</li>-->
+					<li><input type="checkbox"> Service stations</li>
 					<li><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Traffic</li>
 					<li><input type="checkbox" onclick="getLocal(this, 'gas stations');"> Gas stations</li>
 					<li><input type="checkbox"> Pizza parlors</li>
 					<li><input type="text" size="15" /> <input type="submit" value="search" /></li>
-				</ul>
-				<a href="">Add your own layer</a>
+					<a href="">Add your own layer</a>
+				</ul>-->
 			</div>
 			<br />
             <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
