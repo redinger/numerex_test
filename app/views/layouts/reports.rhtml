@@ -11,7 +11,11 @@
         <% end %>
 		<%= javascript_include_tag "main" %>
 	</head>
+	<% if params[:action] == 'index' %>
+	<body>
+	<% else %>
 	<body onload="load();">
+	<% end %>
    		<%= render :partial => 'layouts/includes/header' %>
 		<div style="background-color: #EEEEEE; padding: 8px 20px;">
 			<% if params[:action] != 'index' %>
