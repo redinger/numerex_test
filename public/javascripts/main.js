@@ -17,13 +17,6 @@ function load()
     gmap.addControl(new GMapTypeControl());
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
 	
-	// Only load this on home page
-	var page = document.location.href.split("/")[3];
-	if(page == 'home')
-    	getRecentReadings();
-	else 
-		getBreadcrumbs(device_id);
-			
 	recenticon = new GIcon();
     recenticon.image = "/icons/1.png";
     recenticon.shadow = "/images/ublip_marker_shadow.png";
@@ -62,10 +55,26 @@ function load()
 	
 	var infoWin = gmap.getInfoWindow();
 	
+	// Detect when info window is closed
 	GEvent.addListener(infoWin, "closeclick", function() {
 		if(prevSelectedRow)
 			highlightRow(0);
 	});
+	
+	GEvent.addListener(gmap, "click", function(marker, point) {
+		if (marker) {
+	    	highlightRow(marker.id);
+	  	}
+	});
+	
+	// Only load this on home page
+	var page = document.location.href.split("/")[3];
+	if(page == 'home')
+    	getRecentReadings();
+	else if(page == 'reports')
+		getReportBreadcrumbs();
+	else 
+		getBreadcrumbs(device_id);
 	
   }
 }
@@ -99,7 +108,7 @@ function getRecentReadings() {
 				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
 				devices.push(device);
 		        var point = new GLatLng(device.lat, device.lng);
-				gmap.addOverlay(createMarker(point, iconALL, createDeviceHtml(device.id)));
+				gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
 		        bounds.extend(point)
 			}
 		}
@@ -190,6 +199,33 @@ function highlightRow(id) {
 	}
 }
 
+// Breadcrumb view for reports pages - client reports model is already populated
+function getReportBreadcrumbs() {
+	for(var i = 0; i < readings.length; i++) {
+		var id = readings[i].id;
+		var point = new GLatLng(readings[i].lat, readings[i].lng);
+		
+		gmap.addOverlay(createMarker(id, point, getMarkerIcon(readings[i]), createReadingHtml(id)));
+		
+		if(i == 0) {
+			gmap.setCenter(point, 10);
+			gmap.openInfoWindowHtml(point, createReadingHtml(id));
+			highlightRow(id);
+		}
+	}
+}
+
+// Determines which icon to display based on event
+function getMarkerIcon(obj) {
+	var event = obj.event;
+	
+	if(event == "exitgeofen_et51" || event == "entergeofen_et11" || event == "startstop_et41") {
+		return alarmIcon;
+	}
+	
+	return iconALL;
+}
+
 // Breadcrumb view for device details/history
 function getBreadcrumbs(id) {
 	GDownloadUrl("/readings/last/" + id, function(data, responseCode) 
@@ -234,7 +270,7 @@ function getBreadcrumbs(id) {
 					icon = iconALL;
 				
 				if(i == 0) {
-					gmap.addOverlay(createMarker(point, recenticon, createReadingHtml(reading.id)));
+					gmap.addOverlay(createMarker(reading.id, point, recenticon, createReadingHtml(reading.id)));
 					gmap.setCenter(point, 15);
 					gmap.openInfoWindowHtml(point, createReadingHtml(reading.id));
 					highlightRow(reading.id);
@@ -277,89 +313,37 @@ function getBreadcrumbs(id) {
 	});
 }
 		
-	function createNow(point, alt, spd, dir, time, event_type, note) { 
-	   
-   		var marker;
-		
-		if (alt == "")
-			{
-				alt = "unknown";
-			}
-			
-		if(event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
-			{
-			marker = new GMarker(point, alarmIcon);	
-			}
-		
-		else if (spd == 0)	
-			{
-			marker = new GMarker(point, ParkedIconN);
-			}	
-				
-		else
-			{
-			marker = new GMarker(point, recenticon);
-			}	
+function createArrow(dir) {
+	var iconDir;
+	var icon;
 	
-		GEvent.addListener(marker, "click", function() 
-			{
-        	marker.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time + "<br/>" + note);
-        	});
+	if(spd == 0 || event_type == "exitgeofen_et51" || event_type == "entergeofen_et11") {
+		icondir = "none"	
+	} else if(dir >= 337.5 || dir < 22.5) {
+		icondir = "n";
+	} else if(dir >= 22.5 && dir < 67.5) {
+		icondir = "ne";
+	} else if(dir >= 67.5 && dir < 112.5) {
+		icondir = "e";
+	} else if(dir >= 112.5 && dir < 157.5) {
+		icondir = "se";
+	} else if(dir >= 157.5 && dir < 202.5) {
+		icondir = "s";
+	} else if(dir >= 202.5 && dir < 247.5) {
+		icondir = "sw";
+	} else if(dir >= 247.5 && dir < 292.5) {
+		icondir = "w";
+	} else if(dir >= 292.5 && dir < 337.5) {
+		icondir = "nw";
+	}
 		
-        return marker;
-		}
-	
-	function createArrow(point, alt, spd, dir, time, note, event_type) {
-		
-		if (alt == "")
-			{
-				alt = "unknown";
-			}   
-		if(spd == 0 || event_type == "exitgeofen_et51" || event_type == "entergeofen_et11")
-				{
-				icondir = "none"	
-				}
-				else if(dir >= 337.5 || dir < 22.5)
-				{
-					icondir = "n";
-				}
+	iconArrow = new GIcon();
+   	iconArrow.image = "/icons/arrows/" + icondir + ".png";
+   	iconArrow.iconSize = new GSize(45, 45);
+    iconArrow.iconAnchor = new GPoint(22.5, 45);
+    iconArrow.infoWindowAnchor = new GPoint(15, 0);
 				
-				else if(dir >= 22.5 && dir < 67.5)
-				{
-					icondir = "ne";
-				}
-				else if(dir >= 67.5 && dir < 112.5)
-				{
-					icondir = "e";
-				}
-				else if(dir >= 112.5 && dir < 157.5)
-				{
-					icondir = "se";
-				}
-				else if(dir >= 157.5 && dir < 202.5)
-				{
-					icondir = "s";
-				}
-				else if(dir >= 202.5 && dir < 247.5)
-				{
-					icondir = "sw";
-				}
-				else if(dir >= 247.5 && dir < 292.5)
-				{
-					icondir = "w";
-				}
-				else if(dir >= 292.5 && dir < 337.5)
-				{
-					icondir = "nw";
-				}
-		
-		iconArrow = new GIcon();
-   		iconArrow.image = "/icons/arrows/" + icondir + ".png";
-   		iconArrow.iconSize = new GSize(45, 45);
-    	iconArrow.iconAnchor = new GPoint(22.5, 45);
-    	iconArrow.infoWindowAnchor = new GPoint(15, 0);
-				
-		var arrow = new GMarker(point, iconArrow);
+	var arrow = new GMarker(point, iconArrow);
 		
 		GEvent.addListener(arrow, "click", function() 
 			{
@@ -367,7 +351,7 @@ function getBreadcrumbs(id) {
 			});
 		
 		return arrow;
-		}	
+	}	
 		
 function createPast(point, event_type, spd) 
 		{   
@@ -401,8 +385,9 @@ function createPast(point, event_type, spd)
 		}	
 
 // Generic function to create a marker with custom icon and html
-function createMarker(point, icon, html) {
+function createMarker(id, point, icon, html) {
 	var marker = new GMarker(point, icon);
+	marker.id = id; // Assign a unique id to the marker
 	GEvent.addListener(marker, "click", function() {
 		marker.openInfoWindowHtml(html);
 		gmap.panTo(point);
