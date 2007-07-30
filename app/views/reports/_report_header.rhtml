@@ -23,7 +23,7 @@
 					<% for device in @device_names %>
 						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
 					<% end %>
-				</select>
+				</select> <a href="/devices/view/<%= params[:id] %>">details</a>
 			</td>
 			<td align="center">
 				<% if @record_count > 0 %>
