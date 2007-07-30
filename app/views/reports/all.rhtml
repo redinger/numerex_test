@@ -14,15 +14,17 @@
 				</tr>
 				<% for reading in @readings %>
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
-						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)"><%= reading.shortAddress %></a></td>
+						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location"><%= reading.shortAddress %></a></td>
 						<td><%= reading.altitude %></td>
 						<td><%= reading.speed %></td>
 						<td><%= reading.direction %></td>
 						<td>
-							<% if reading.event_type == 'exitgeofen_et51' || reading.event_type == 'entergeofen_et12' %>
-								<a href="/reports/geofences/<%= params[:id] %>">Geofence</a>
+							<% if reading.event_type.index('enter') %>
+								<a href="/reports/geofences/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
+							<% elsif reading.event_type.index('exit') %>
+								<a href="/reports/geofences/<%= params[:id] %>" title="View geofence report">Exit geofence</a>
 							<% elsif reading.event_type =='startstop_et41' %>
-								<a href="/reports/stop/<%= params[:id] %>">Stop</a>
+								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Stop</a>
 							<% else %>
 								-
 							<% end %>

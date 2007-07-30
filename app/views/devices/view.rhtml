@@ -47,10 +47,12 @@
 						<td><%= reading.speed/10 %></td>
 						<td><%= time_ago_in_words reading.created_at %> ago</td>
 						<td>
-							<% if reading.event_type == 'exitgeofen_et51' || reading.event_type == 'entergeofen_et12' %>
-								<a href="/reports/geofences/<%= @device.id %>">Geofence</a>
+							<% if reading.event_type.index('enter') %>
+								<a href="/reports/geofences/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
+							<% elsif reading.event_type.index('exit') %>
+								<a href="/reports/geofences/<%= params[:id] %>" title="View geofence report">Exit geofence</a>
 							<% elsif reading.event_type =='startstop_et41' %>
-								<a href="/reports/stop/<%= @device.id %>">Stop</a>
+								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Stop</a>
 							<% else %>
 								-
 							<% end %>
