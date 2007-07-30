@@ -26,7 +26,11 @@ class Device < ActiveRecord::Base
   end
   
   def online?
-    if(!last_online_time.nil? && Time.now-last_online_time<20*60)
+    if(online_threshold.nil?)
+       return true
+    end
+  
+    if(!last_online_time.nil? && Time.now-last_online_time < online_threshold*60)
        return true
      else
       return false
