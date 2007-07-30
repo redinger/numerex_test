@@ -23,5 +23,6 @@ class DeviceTest < Test::Unit::TestCase
     assert_equal true, devices(:device1).online?
     assert_equal false, devices(:device2).online?
     assert_equal false, devices(:device3).online?
+    assert_equal true, devices(:device4).online?
   end
 end

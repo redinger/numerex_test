@@ -7,6 +7,7 @@ device1:
  provision_status_id: 1
  account_id: 1 # Dennis Co
  last_online_time: <%= Time.now.to_s :db %> 
+ online_threshold: 10
  
 device2:
  id: 2
@@ -16,6 +17,7 @@ device2:
  recent_reading_id: 2
  provision_status_id: 1
  account_id: 1 # Dennis Co
+ online_threshold: 10
  
 device3:
  id: 3
@@ -26,6 +28,7 @@ device3:
  provision_status_id: 1
  account_id: 2 # Nick Co
  last_online_time: <%= (Time.now-20*60).to_s :db %> 
+ online_threshold: 10
  
 device4:
  id: 4
