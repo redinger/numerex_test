@@ -1,6 +1,6 @@
 <%
 	num_pages = (@record_count.to_f/@result_count.to_f).ceil
-	url = '/reports/all/' + params[:id]
+	url = '/reports/' + params[:action] + '/' + params[:id]
 
 	# Page offset = number of pages to display before and after current page
 	page_offset = 10
