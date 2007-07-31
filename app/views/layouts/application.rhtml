@@ -13,6 +13,16 @@
 	</head>
 	<body onload="load();">
    		<%= render :partial => 'layouts/includes/header' %>
+		<%
+			# Hack for devices view
+			if(params[:controller] == 'devices' && params[:action] == 'view') 
+		%>
+			<div id="subnav">
+				<a href="/devices/choose" title="Add a new device">New</a>&nbsp;|&nbsp;
+				<a href="/devices/edit/<%= @device.id %>" title="Edit this device">Edit</a>&nbsp;|&nbsp;
+				<a href="/geofence/view/<%= @device.id %>" title="Create and edit geofences for this device">Manage Geofences</a>
+			</div>
+		<% end %>
     	<div id="content">
         	<%= yield %>
         </div>
