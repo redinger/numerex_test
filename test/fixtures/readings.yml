@@ -287,7 +287,7 @@ reading5:
  altitude: 5000
  device_id: 6
  created_at: <%= (Time.now+1900).to_s :db %>
- event_type: startstop_et41
+ event_type: DEFAULT
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
 25:
  id: 25
@@ -324,7 +324,7 @@ reading5:
  event_type: 
  direction: 240
  altitude: 5000
- device_id: 6
+ device_id: DEFAULT
  created_at: <%= (Time.now+1900).to_s :db %>
  event_type: startstop_et41
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
