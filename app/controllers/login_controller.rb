@@ -21,6 +21,7 @@ class LoginController < ApplicationController
           self.current_user.remember_me
           cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
         end
+        session[:user_id] = self.current_user.id # Store current user's id
         session[:account_id] = self.current_user.account_id # Store the account id
         session[:company] = self.current_user.account.company # Store the user's company name
         session[:first_name] = self.current_user.first_name
