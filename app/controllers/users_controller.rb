@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_filter :authorize
   
   def index
+    @current_user = User.find(session[:user_id])
     @users = User.find(:all, :conditions => ["account_id = ?", session[:account_id]])
   end
   
