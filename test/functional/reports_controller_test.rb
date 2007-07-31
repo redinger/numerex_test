@@ -23,7 +23,21 @@ class ReportsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
     @request.extend(RequestExtensions)
   end
+  
+  # Test all readings report
+  def test_all
+    # Device 1, page 1
+    get :all, {:id => 1}, {:user => users(:dennis)}
+    assert_response :success
+    readings = assigns(:readings)
+    assert_equal "6762 Big Springs Dr, Arlington, Texas", readings[0].shortAddress
+    assert_equal 28, readings[0].speed
+    
+    # Device 1, page 2
+    # Need to figure out how to manage the ResultCount mock being set at 5
+  end
 
+  # Test stop report
   def test_stop
     pretend_now_is(Time.at(1185490000)) do
       get :stop, {:id=>"3", :t=>"1"}, { :user => users(:dennis) } 
@@ -41,6 +55,16 @@ class ReportsControllerTest < Test::Unit::TestCase
       assert_equal 500, stops[0].duration
       assert_equal nil, stops[1].duration
     end
+  end
+  
+  # Test geofence report
+  def test_geofence
+    get :geofence, {:id => 1, :t => 30}, {:user => users(:dennis)}
+    assert_response :success
+    readings = assigns(:readings)
+    assert_equal "Yates Dr, Hurst, Texas", readings[0].shortAddress
+    assert_equal 0, readings[0].speed
+    assert_equal "exitgeofen_et51", readings[0].event_type
   end
   
   # Report exports.  Needs support for readings, stops, and geofence exports
