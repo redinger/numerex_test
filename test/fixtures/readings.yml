@@ -276,7 +276,7 @@ reading5:
  device_id: 3
  created_at: 2007-7-26 14:37:39 
  event_type: startstop_et41
-24:
+reading24:
  id: 24
  latitude: 32.9543
  longitude: -96.8283
@@ -286,7 +286,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 6
- created_at: <%= (Time.now+1900).to_s :db %>
+ created_at: <%= (Time.now).to_s :db %>
  event_type: DEFAULT
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
 25:
@@ -315,7 +315,7 @@ reading5:
   <countryCode>US</countryCode>
   </address>
   </geonames>
-26:
+reading26:
  id: 26
  latitude: 32.9550
  longitude: -96.8290
@@ -325,7 +325,7 @@ reading5:
  direction: 240
  altitude: 5000
  device_id: 6
- created_at: <%= (Time.now+1900).to_s :db %>
+ created_at: <%= (Time.now).to_s :db %>
  event_type: DEFAULT
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
 
