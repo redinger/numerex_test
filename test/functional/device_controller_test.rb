@@ -59,15 +59,15 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_equal devices(:device1).provision_status_id, 2
   end
   
-  def test_choose
-    post :choose, {:imei => "33333", :name => "device 1"}, { :user => users(:dennis), :account_id => "1" }
+  def test_choose_MT
+    post :choose_MT, {:imei => "33333", :name => "device 1"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "devices"
     assert_equal devices(:device5).provision_status_id, 1
     assert_equal devices(:device5).account_id, 1
   end
   
   def test_choose_new
-    post :choose, {:imei => "314159", :name => "new device"}, { :user => users(:dennis), :account_id => "1" }
+    post :choose_MT, {:imei => "314159", :name => "new device"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "devices"
     newDevice = Device.find_by_imei("314159")
     assert_equal newDevice.provision_status_id, 1
@@ -75,9 +75,16 @@ class DeviceControllerTest < Test::Unit::TestCase
   end
   
   def test_choose_already_provisioned
-    post :choose, {:imei => "1234"}, { :user => users(:dennis), :account_id => "1" }
+    post :choose_MT, {:imei => "1234"}, { :user => users(:dennis), :account_id => "1" }
     assert_equal flash[:message] , 'This device has already been added'
     assert_response :success
+  end
+  
+   def test_choose_phone
+    post :choose_phone, {:imei => "33333", :name => "device 1", :phone_number => "5551212"}, { :user => users(:dennis), :account_id => "1" }
+    assert_redirected_to :controller => "devices"
+    assert_equal devices(:device5).provision_status_id, 1
+    assert_equal devices(:device5).account_id, 1
   end
   
 end
