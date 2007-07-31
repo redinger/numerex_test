@@ -1,3 +1,4 @@
+
 class DevicesController < ApplicationController
   before_filter :authorize
   
@@ -13,42 +14,22 @@ class DevicesController < ApplicationController
     render :layout => 'application'
   end
   
-  # User chooses a device to add
-  # 1 Mobile phone tracker
-  # 2 Personal tracker
-  # 3 Fleet tracker
+  def choose_phone
+    if (request.post? && params[:imei] != '')
+      device = provision_device(params[:imei])
+      if(!device.nil?)
+        Text_Message_Webservice.send_message(params[:phone_number], "please click on http://www.db75.com/downloads/ublip.jad")
+        redirect_to :controller => 'devices', :action => 'view', :id => device.id
+      end
+    end
+  end
   
   # A device can provisioned
-  def choose
-    # User is associating device with account via IMEI
-    if request.post?
-      if(params[:imei] != '')
-        device = Device.find_by_imei(params[:imei]) # Determine if device is already in system
-        
-        # Device is already in the system so let's associate it with this account
-        if(device)
-          if(device.provision_status_id == 0)
-            device.account_id = session[:account_id]
-            imei = params[:imei]
-            device.name = params[:name]
-            device.provision_status_id = 1
-            device.save
-            flash[:message] = params[:name] + ' was provisioned successfully'
-            redirect_to :controller => 'devices'
-          else
-            flash[:message] = 'This device has already been added'
-          end
-        # No device with this IMEI exists so let's add it
-        else
-          device = Device.new
-          device.name = params[:name]
-          device.imei = params[:imei]
-          device.provision_status_id = 1
-          device.account_id = session[:account_id]
-          device.save
-          flash[:message] = params[:name] + ' was created successfully'
-          redirect_to :controller => 'devices'
-        end
+  def choose_MT
+    if (request.post? && params[:imei] != '')
+      device = provision_device(params[:imei])
+      if(!device.nil?)
+        redirect_to :controller => 'devices', :action => 'view', :id => device.id
       end
     end
   end
@@ -75,5 +56,34 @@ class DevicesController < ApplicationController
       flash[:message] = device.name + ' was deleted successfully'
       redirect_to :controller => "devices"
     end
+  end
+  
+  def provision_device(imei)
+    device = Device.find_by_imei(imei) # Determine if device is already in system
+        
+    # Device is already in the system so let's associate it with this account
+    if(device)
+      if(device.provision_status_id == 0)
+        device.account_id = session[:account_id]
+        imei = params[:imei]
+        device.name = params[:name]
+        device.provision_status_id = 1
+        device.save
+        flash[:message] = params[:name] + ' was provisioned successfully'
+      else
+        flash[:message] = 'This device has already been added'
+        return nil
+      end
+      # No device with this IMEI exists so let's add it
+    else
+      device = Device.new
+      device.name = params[:name]
+      device.imei = params[:imei]
+      device.provision_status_id = 1
+      device.account_id = session[:account_id]
+      device.save
+      flash[:message] = params[:name] + ' was created successfully'
+    end
+    return device
   end
 end
