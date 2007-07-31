@@ -75,7 +75,27 @@ class ReportsController < ApplicationController
   
   # Display geofence exceptions
   def geofence
+    unless params[:p]
+      params[:p] = 1
+    end 
+    @page = params[:p].to_i
+    @result_count = ResultCount
     
+    unless params[:t]
+      params[:t] = 1
+    end
+    timespan = params[:t].to_i
+    
+    end_time = Time.now.to_i # Current time in seconds
+    start_time = end_time - (86400 * timespan) # Start time in seconds
+   
+    @device_names = Device.get_names(session[:account_id])
+    @readings = Reading.find(:all, :order => "created_at asc", 
+               :limit => ResultCount,
+               :conditions => ["device_id = ? and event_type like '%geofen%' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
+               :limit => @result_count,
+               :offset => ((@page-1)*@result_count))
+    @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
   end
   
   # Export report data to CSV - limiting to 100 readings

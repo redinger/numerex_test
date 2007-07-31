@@ -1,0 +1,44 @@
+<%= render :partial => 'report_header' %>
+
+<table width="100%">
+	<tr>
+		<td width=60%" valign="top">
+			<table class="panel_table">
+				<tr>
+					<th>Location</th>
+					<th>Altitude (m)</th>
+					<th>Speed (mph)</th>
+					<th>Direction</th>
+					<th>Event Type</th>
+					<th>When</th>
+				</tr>
+				<% for reading in @readings %>
+					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
+						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location"><%= reading.shortAddress %></a></td>
+						<td><%= reading.altitude %></td>
+						<td><%= reading.speed %></td>
+						<td><%= reading.direction %></td>
+						<td>
+							<% if reading.event_type.index('enter') %>
+								Enter geofence
+							<% elsif reading.event_type.index('exit') %>
+								Exit geofence
+							<% elsif reading.event_type =='startstop_et41' %>
+								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Stop</a>
+							<% else %>
+								-
+							<% end %>
+						</td>
+						<td><%= time_ago_in_words reading.created_at %> ago</td>
+					</tr>
+					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= reading.shortAddress %>', dt: '<%= time_ago_in_words reading.created_at %> ago', note: '<%= reading.note %>', event: '<%= reading.event_type %>'});</script>
+				<% end %>
+			</table>
+		</td>
+		<td width="40%" valign="top">
+			<div id="map" style="width: 100%; height: 600px;"></div>
+		</td>
+	</tr>
+</table>
+
+<%= render :partial => 'report_footer' %>
