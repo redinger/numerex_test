@@ -19,7 +19,7 @@ class DevicesController < ApplicationController
       device = provision_device(params[:imei])
       if(!device.nil?)
         Text_Message_Webservice.send_message(params[:phone_number], "please click on http://www.db75.com/downloads/ublip.jad")
-        redirect_to :controller => 'devices', :action => 'view', :id => device.id
+        redirect_to :controller => 'devices', :action => 'index'
       end
     end
   end
@@ -29,7 +29,7 @@ class DevicesController < ApplicationController
     if (request.post? && params[:imei] != '')
       device = provision_device(params[:imei])
       if(!device.nil?)
-        redirect_to :controller => 'devices', :action => 'view', :id => device.id
+        redirect_to :controller => 'devices', :action => 'index'
       end
     end
   end
