@@ -40,7 +40,9 @@
 					<option value="30" <% if params[:t] == '30' %>selected="selected"<% end %>>Last 30 Days</option>
 				</select>
 				&nbsp;&nbsp;
-				<a href="">Export</a> &nbsp;|&nbsp; <a href="">RSS</a>
+				<% if @record_count > 0 %>
+					<a href="/reports/export/<%= params[:id] %>?type=<%= params[:action] %>&p=<%= @page %>&t=<%= params[:t] %>" target="_blank" title="Export up to 100 readings for selected timeframe">Export</a>
+				<% end %>
 			</td>
 		</tr>
 	</table>

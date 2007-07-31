@@ -6,7 +6,10 @@ class ReportsController; def rescue_action(e) raise e end; end
 
 class ReportsControllerTest < Test::Unit::TestCase
   
-  module PathInfo
+  module RequestExtensions
+    def server_name
+      "yoohoodilly"
+    end
     def path_info
       "asdf"
     end
@@ -18,16 +21,10 @@ class ReportsControllerTest < Test::Unit::TestCase
     @controller = ReportsController.new
     @request    = ActionController::TestRequest.new 
     @response   = ActionController::TestResponse.new
-    @request.extend(PathInfo)
+    @request.extend(RequestExtensions)
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
-  
   def test_stop
-    
     pretend_now_is(Time.at(1185490000)) do
       get :stop, {:id=>"3", :t=>"1"}, { :user => users(:dennis) } 
       stops = assigns(:stops)
@@ -44,5 +41,22 @@ class ReportsControllerTest < Test::Unit::TestCase
       assert_equal 500, stops[0].duration
       assert_equal nil, stops[1].duration
     end
+  end
+  
+  # Report exports.  Needs support for readings, stops, and geofence exports
+  def test_export
+    get :export, {:id => 6, :type => 'all'}, {:user => users(:dennis)}
+    assert_response :success
+    assert_kind_of Proc, @response.body
+    output = StringIO.new
+    assert_nothing_raised { @response.body.call(@response, output) }
+    assert_equal csv_data, output.string
+  end
+  
+  private
+  def csv_data
+    reading1 = readings(:reading24)
+    reading2 = readings(:reading26)
+    "latitude,longitude,address,speed,direction,altitude,event_type,note,when\r\n#{reading1.latitude},#{reading1.longitude},\"#{reading1.shortAddress}\",#{reading1.speed},#{reading1.direction},#{reading1.altitude},#{reading1.event_type},#{reading1.note},#{reading1.created_at}\r\n#{reading2.latitude},#{reading2.longitude},\"#{reading2.shortAddress}\",#{reading2.speed},#{reading2.direction},#{reading2.altitude},#{reading2.event_type},#{reading2.note},#{reading2.created_at}\r\n"
   end
 end
