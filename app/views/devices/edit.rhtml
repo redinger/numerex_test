@@ -7,15 +7,6 @@
 </table>
     <input type="hidden" name="id" value="<%= @device.id %>" />
 </form>
-<br />
-
-<% if @device.geofences.size > 0 %>
-	<a href="/geofence/view/<%= @device.id %>">View Geofences</a><br />
-<% end %>
-
-<% if @device.geofences.size < 3 %>
-<a href="/geofence/add/<%= @device.id %>">Add Geofence</a>
-<% end %>
 <hr />
 <form method="post" action="/devices/delete" onsubmit="return confirm('Are you sure you want to delete this device?');">
 	<input type="hidden" name="id" value="<%= @device.id %>" />
