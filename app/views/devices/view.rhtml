@@ -1,4 +1,4 @@
-<table width="100%" border="0">
+<table width="100%">
 	<tr>
 		<td>
 			<span class="dark_blue_header">Viewing: </span>
@@ -7,17 +7,19 @@
 					<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
 				<% end %>
 			</select>
-			<a href="/devices/edit/<%= @device.id %>">edit</a>
 		</td>
 		<td>
 			<strong>Detailed Reports</strong><br />
-			<a href="/reports/all/<%= @device.id %>">Readings</a> |
-			<a href="/reports/stop/<%= @device.id %>">Stops</a> |
-			<a href="/reports/geofence/<%= @device.id %>">Geofences</a>
+			<a href="/reports/all/<%= @device.id %>" title="View readings for this device">Readings</a> |
+			<a href="/reports/stop/<%= @device.id %>" title="View stop events for this device">Stops</a> |
+			<a href="/reports/geofence/<%= @device.id %>" title="View geofence events for this device">Geofences</a>
 		</td>
 		<td>
-			You currently have <%= @device.geofences.size %> geofences set for this device.
-			<br /><a href="/geofence/add/<%= @device.id %>">Click here</a> to create one.
+			<% if @device.geofences.size == 0 %>
+				You currently have 0 geofences set for this device.<br /><a href="/geofence/add/<%= @device.id %>">Click here</a> to add one.
+			<% else %>
+				You currently have <a href="/geofence/view/<%= @device.id %>" title="View geofences for this device"><%= @device.geofences.size %> geofences</a> set for this device.
+			<% end %>
 		</td>
 		<td align="right">
 			<% if params[:id] == '23' %>
@@ -30,7 +32,7 @@
 		</td>
 	</tr>	
 </table>
-<br />
+<div style="height: 5px;"></div>
 <table width="100%">
 	<tr>
 		<td width="50%" valign="top">
