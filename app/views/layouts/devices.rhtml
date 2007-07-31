@@ -7,6 +7,11 @@
 	</head>
 	<body>
    		<%= render :partial => 'layouts/includes/header' %>
+		<div id="subnav">
+			<% if params[:action] == 'index' %>
+				<a href="/devices/choose" title="Add a new device">New</a>
+			<% end %>
+		</div>
     	<div id="content">
         	<%= yield %>
         </div>
