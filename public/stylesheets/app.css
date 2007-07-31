@@ -38,6 +38,11 @@ div#footer {
 	font-size: 10px;
 }
 
+div#subnav {
+	background-color: #EEEEEE;
+	padding: 7px 20px;
+}
+
 #nav_tabs {
 	background-color: #0066FF;
 	padding: 0 15px;
