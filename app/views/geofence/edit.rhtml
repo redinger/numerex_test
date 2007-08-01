@@ -26,7 +26,7 @@
 	</select> (miles)
 	<input type="submit" value="view" onclick="geocode(address.value); return false;" /><br />
 	<hr />
-	<input type="submit" value="save" /> <a href="/geofence/view/<%= @geofence.device.id %>">cancel</a>
+	<input type="submit" value="save" /> <a href="javascript:history.go(-1);">cancel</a>
 	<input type="hidden" name="device_id" value="<%= @geofence.device.id %>" />
 	<input type="hidden" name="geofence_id" value="<%= @geofence.id %>" />
 	<input type="hidden" name="bounds" />

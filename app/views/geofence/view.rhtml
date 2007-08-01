@@ -12,7 +12,6 @@
 			<% i = i + 1 %>
 		<% end %>
 	</select>
-	<br /><br /><a href="javascript:go('/geofence/edit/<%= @device.id %>');">Edit selected geofence</a>
 </div >
 
 <script>
@@ -24,9 +23,3 @@
 <div id="geofence_map" style="width: 600px; height: 350px; margin-left: 10px; float: left;"></div>
 
 <div style="clear: both;"></div>
-<br />
-<hr />
-<% if @device.geofences.size < 3 %>
-	<a href="/geofence/add/<%= @device.id %>">Create new geofence</a><br /><br />
-<% end %>
-<a href="/geofence">Edit another device</a>

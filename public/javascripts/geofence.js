@@ -23,14 +23,19 @@ function load() {
 		
 		// Form when editing or adding geofence
 		form = document.getElementById("geofence_form");
-		
-		// Display the initial geofence when viewing
-		// Set the initial geofence ID
-		//if(form == null) {
+
+		// Display the initial geofence, but not when adding a new one
+		var action = document.location.href.split("/")[4];
+		// Display the device location
+		if(action == "add") {
+			var point = new GLatLng(device.lat, device.lng);
+			gmap.addOverlay(createMarker(point));
+			gmap.openInfoWindowHtml(point, 'Last location for ' + device.name);
+			gmap.setCenter(point, 15);
+		} else {
 			displayGeofence(0);
 			currSelectedGeofenceId = geofences[0].id;
-		//}
-		
+		}
 	}
 }
 
@@ -41,15 +46,13 @@ function geocode(address) {
     	address,
 		function(point) {
       		if (!point) {
-        		alert("This address cannot be located");
+        		alert("We're sorry, this address cannot be located");
       		} else {
 				gmap.clearOverlays();
 				// Draw the fence
 				var r = document.getElementById("radius")[document.getElementById("radius").selectedIndex].value;
 				drawGeofence(point, r);
 						
-        		gmap.addOverlay(createMarker(point));
-        		
 				if(parseInt(r) > 1)
 					zoom = 9;
 				else

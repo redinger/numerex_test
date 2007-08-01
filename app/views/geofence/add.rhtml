@@ -26,7 +26,11 @@
 	</select> (miles)
 	<input type="submit" value="view" onclick="geocode(address.value); return false;" /><br />
 	<hr />
-	<input type="submit" value="save" />
+	<input type="submit" value="save" />&nbsp;&nbsp;<a href="javascript:history.go(-1)">cancel</a>
 	<input type="hidden" name="id" value="<%= @device.id %>" />
 	<input type="hidden" name="bounds" />
 </form>
+
+<script>
+	var device = {name: '<%= @device.name %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>, address: '<%= @device.readings[0].shortAddress %>'};
+</script>

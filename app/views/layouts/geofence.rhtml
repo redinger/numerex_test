@@ -13,7 +13,10 @@
 	</head>
 	<body onload="load();">
     	  <%= render :partial => 'layouts/includes/header' %>
-    	   
+    	   <div id="subnav">
+    	   		<a href="/geofence/add/<%= params[:id] %>" title="Create new geofence">New</a>&nbsp;|&nbsp;
+				<a href="javascript:go('/geofence/edit/<%= params[:id] %>');" title="Edit this geofence">Edit</a>
+    	   </div>
     	   <div id="content">
         	   <%= yield %>
            </div>
