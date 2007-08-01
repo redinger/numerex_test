@@ -205,7 +205,7 @@ function getReportBreadcrumbs() {
 		var id = readings[i].id;
 		var point = new GLatLng(readings[i].lat, readings[i].lng);
 		
-		gmap.addOverlay(createMarker(id, point, getMarkerIcon(readings[i]), createReadingHtml(id)));
+		gmap.addOverlay(createMarker(id, point, getMarkerType(readings[i]), createReadingHtml(id)));
 		
 		if(i == 0) {
 			gmap.setCenter(point, 10);
@@ -216,11 +216,14 @@ function getReportBreadcrumbs() {
 }
 
 // Determines which icon to display based on event
-function getMarkerIcon(obj) {
+function getMarkerType(obj) {
 	var event = obj.event;
+	var speed = obj.speed;
 	
-	if(event == "exitgeofen_et51" || event == "entergeofen_et11" || event == "startstop_et41") {
+	if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1) {
 		return alarmIcon;
+	} else if(speed == 0) {
+		return ParkedIcon;
 	}
 	
 	return iconALL;
@@ -254,20 +257,14 @@ function getBreadcrumbs(id) {
 				if(notes[i].firstChild != undefined)
 					note = notes[i].firstChild.nodeValue;
 					
-				var reading = {id: ids[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
-				readings.push(reading);
-		        var point = new GLatLng(reading.lat, reading.lng);
 				var speed = spds[i].firstChild.nodeValue;
 				var event = events[i].firstChild.nodeValue;
+				var reading = {id: ids[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, event: event};
+				readings.push(reading);
+		        var point = new GLatLng(reading.lat, reading.lng);
 				
 				// Different icon types
-				var icon;
-				if(event == "exitgeofen_et51" || event == "entergeofen_et11") // Geofence exception
-					icon = alarmIcon;
-				else if(speed == 0) // Vehicle not moving
-					icon = ParkedIcon;
-				else // All is well
-					icon = iconALL;
+				var icon = getMarkerType(reading);
 				
 				if(i == 0) {
 					gmap.addOverlay(createMarker(reading.id, point, recenticon, createReadingHtml(reading.id)));
