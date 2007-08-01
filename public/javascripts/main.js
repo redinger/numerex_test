@@ -113,7 +113,7 @@ function getRecentReadings() {
 			}
 		}
 		
-        gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)-1); 
+        gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)); 
 		
 		// Hide the action panel
 		document.getElementById("action_panel").style.visibility = "hidden";
