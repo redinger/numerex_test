@@ -29,6 +29,12 @@ class LoginControllerTest < Test::Unit::TestCase
    assert_redirected_to "/home"
  end
  
+ def test_login_same_email_diff_act
+   @request.host="nick.ublip.com"
+   post :index, {:email => users(:dennis).email, :password => "testing"} 
+   assert_redirected_to "/home"
+ end
+ 
  def test_login_failure
    @request.host="dennis.ublip.com"
    post :index, {:email => users(:dennis).email, :password => "wrong"} 
