@@ -47,7 +47,7 @@ byron:
  created_at: <%= 4.days.ago.to_s :db %>
  is_master: 1
  is_admin: 1
- 
+
 demo:
  id: 5
  first_name: demo
@@ -57,3 +57,15 @@ demo:
  crypted_password: <%= User.encrypt('testing', SALT) %>
  account_id: 1
  created_at: <%= 1.day.ago.to_s :db %>
+ 
+dennis2:
+ id: 6
+ first_name: dennis
+ last_name: baldwin
+ email: dennis@ublip.com
+ salt: <%= SALT %>
+ crypted_password: <%= User.encrypt('testing', SALT) %>
+ account_id: 2
+ created_at: <%= 1.day.ago.to_s :db %>
+ is_master: 1
+ is_admin: 1
