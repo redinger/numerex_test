@@ -146,7 +146,7 @@ function createDeviceHtml(id) {
 	if(device.note != '')
 		html += '<strong>Note:</strong> ' + device.note + '<hr />';
 		
-	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/devices/view/' + id + '">View details</a></div>';
+	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/reports/all/' + id + '">View details</a></div>';
 	return html;
 }
 
