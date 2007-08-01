@@ -11,19 +11,14 @@ class User < ActiveRecord::Base
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
   def self.authenticate(subdomain, email, password)
     
-    user = find_by_email(email) # need to get the salt
+    account = Account.find_by_subdomain(subdomain)
+    user = find_by_email_and_account_id(email, account.id ) 
     
-    # Verify the user belongs to the subdomain
-    if user && user.account.subdomain != subdomain
-      nil # User does not belong
-    # User belongs to subdomain so let's authenticate 
+    if (user && user.authenticated?(password) && user.account.is_verified)
+      user.update_attribute(:last_login_dt, Time.now)
+      user
     else
-      if (user && user.authenticated?(password) && user.account.is_verified)
-        user.update_attribute(:last_login_dt, Time.now)
-        user
-      else
-        nil # User does not belong
-      end
+      nil # User does not belong
     end
   end
 
