@@ -9,20 +9,10 @@
         <% else %>
             <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAuuM51OQ5BjDaW1x4b-MN6RQdy8buJCn4UCOrVn-gOC82x0BwgBRfUA9c-fxzF43pSDpXTxs1j8Dfsw" type="text/javascript"></script>
         <% end %>
-        <%= javascript_include_tag "main", "layers", "yahoo_local" %>
+        <%= javascript_include_tag "main", "layers" %>
 	</head>
 	<body onload="load();">
    		<%= render :partial => 'layouts/includes/header' %>
-		<%
-			# Hack for devices view
-			if(params[:controller] == 'devices' && params[:action] == 'view') 
-		%>
-			<div id="subnav">
-				<a href="/devices/choose" title="Add a new device">New</a>&nbsp;|&nbsp;
-				<a href="/devices/edit/<%= @device.id %>" title="Edit this device">Edit</a>&nbsp;|&nbsp;
-				<a href="/geofence/view/<%= @device.id %>" title="Create and edit geofences for this device">Manage Geofences</a>
-			</div>
-		<% end %>
     	<div id="content">
         	<%= yield %>
         </div>

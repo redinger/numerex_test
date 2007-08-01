@@ -7,14 +7,14 @@
 					<option value="<%= device.id %>" <% if @device.id == device.id %>selected="selected"<% end %>><%= device.name %></option>
 				<% end %>
 			</select>
+			&nbsp;<a href="/devices/edit/<%= @device.id %>">Edit</a>
 		</td>
 		<td>
 			<strong>Detailed Reports</strong><br />
-			<a href="/reports/all/<%= @device.id %>" title="View readings for this device">Readings</a> |
 			<a href="/reports/stop/<%= @device.id %>" title="View stop events for this device">Stops</a> |
 			<a href="/reports/geofence/<%= @device.id %>" title="View geofence events for this device">Geofences</a>
 		</td>
-		<td>
+		<td align="center">
 			<% if @device.geofences.size == 0 %>
 				You currently have 0 geofences set for this device.<br /><a href="/geofence/add/<%= @device.id %>">Click here</a> to add one.
 			<% else %>
@@ -22,13 +22,7 @@
 			<% end %>
 		</td>
 		<td align="right">
-			<% if params[:id] == '23' %>
-				<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/dennisbb8800.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
-			<% elsif params[:id] == '27' %>
-				<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/jeffbb8800.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
-			<% else %>
-				<a href="http://fusion.google.com/add?moduleurl=http%3A//myfleet.ublip.com/widgets/tracker.xml" title="Add this device to iGoogle"><img src="http://buttons.googlesyndication.com/fusion/add.gif" width="104" height="17" border="0" alt="Add to this device to iGoogle"></a>
-			<% end %>
+			<a href="/reports/export/" title="">Export</a>
 		</td>
 	</tr>	
 </table>

@@ -7,7 +7,7 @@
 	    <ul>
 	    <% for device in @devices %>
 	    	<li>
-	    		<a href="/devices/view/<%= device.id %>"><%= device.name %></a> - 
+	    		<strong><%= device.name %></strong></a> - <a href="/devices/edit/<%= device.id %>" title="Edit properties for this device">edit</a> | <a href="/geofence/view/<%= device.id %>" title="Create and edit geofences for this device">geofences</a><br />
 				<% if device.recent_reading_id != 0 %>reported <%= time_ago_in_words device.readings[0].created_at %> ago<% else %>no report yet<% end %>
 			</li>
 	    <% end %>

@@ -6,18 +6,14 @@
 			<table class="panel_table">
 				<tr>
 					<th>Location</th>
-					<th>Altitude (m)</th>
 					<th>Speed (mph)</th>
-					<th>Direction</th>
 					<th>Event Type</th>
 					<th>When</th>
 				</tr>
 				<% for reading in @readings %>
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
 						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location"><%= reading.shortAddress %></a></td>
-						<td><%= reading.altitude %></td>
 						<td><%= reading.speed %></td>
-						<td><%= reading.direction %></td>
 						<td>
 							<% if reading.event_type.index('enter') %>
 								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
