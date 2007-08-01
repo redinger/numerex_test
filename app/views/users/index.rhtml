@@ -8,7 +8,7 @@
 	    <% for user in @users%>
 	        <li style="padding: 5px;">
 				<strong><%= user.first_name %> <%= user.last_name %></strong> (<%= user.email %>) - <a href="/users/edit/<%= user.id %>">edit</a><br />
-				last logged in <%= time_ago_in_words user.last_login_dt %> ago
+				<% if user.last_login_dt.nil? %>never logged in<% else %>logged in <%= time_ago_in_words user.last_login_dt %> ago<% end %>
 			</li>
 	    <% end %>
 	</ul>
