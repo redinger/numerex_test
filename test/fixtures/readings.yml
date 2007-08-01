@@ -2,7 +2,7 @@ reading1:
  id: 1
  latitude: 32.63585
  longitude: -97.17569
- speed: 28 
+ speed: 28.5 
  direction: 160
  altitude: 5000
  device_id: 1
@@ -28,7 +28,7 @@ reading2:
  id: 2
  latitude: 32.934
  longitude: -96.8231
- speed: 39 
+ speed: 39.4 
  direction: 130
  altitude: 5000
  device_id: 2
