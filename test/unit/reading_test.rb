@@ -17,6 +17,12 @@ class ReadingTest < Test::Unit::TestCase
     assert_equal "32.94, -96.8217", readings(:reading4).shortAddress
   end
   
+  
+  def test_speed_round
+    assert_equal 29, readings(:reading1).speed
+    assert_equal 39, readings(:reading2).speed
+  end
+  
    
   
 
