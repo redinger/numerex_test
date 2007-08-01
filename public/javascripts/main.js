@@ -175,7 +175,6 @@ function createReadingHtml(id) {
 	if(reading.note != '')
 		html += '<strong>Note:</strong> ' + reading.note + '<hr />';
 		
-	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a></div>';
 	return html;
 }
 
@@ -208,7 +207,7 @@ function getReportBreadcrumbs() {
 		gmap.addOverlay(createMarker(id, point, getMarkerType(readings[i]), createReadingHtml(id)));
 		
 		if(i == 0) {
-			gmap.setCenter(point, 10);
+			gmap.setCenter(point, 15);
 			gmap.openInfoWindowHtml(point, createReadingHtml(id));
 			highlightRow(id);
 		}
