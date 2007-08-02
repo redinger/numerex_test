@@ -1,8 +1,7 @@
+	<h3>Your Active Devices (<%= @devices.size %> total)</h3>
     <% if flash[:message] %>
         <div id="success_message"><%= flash[:message] %></div>
     <% end %>
-	<h3>Your Active Devices (<%= @devices.size %> total)</h3>
-	
 	<div id="device_list">
 	    <ul>
 	    <% for device in @devices %>
