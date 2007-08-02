@@ -53,6 +53,10 @@ class UserTest < Test::Unit::TestCase
     users(:dennis).forget_me
     assert_nil users(:dennis).remember_token
   end
+  
+  def test_save
+    users(:dennis).save!
+  end
 
   protected
     def create_user(options = {})
