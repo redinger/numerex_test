@@ -31,7 +31,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     assert_response :success
     readings = assigns(:readings)
     assert_equal "6762 Big Springs Dr, Arlington, Texas", readings[0].shortAddress
-    assert_equal 28, readings[0].speed
+    assert_equal 29, readings[0].speed
     
     # Device 1, page 2
     # Need to figure out how to manage the ResultCount mock being set at 5
