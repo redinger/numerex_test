@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   validates_presence_of :first_name, :last_name, :email
   validates_uniqueness_of :email, :scope => :account_id # No dupes within account
   validates_confirmation_of :password
-  validates_length_of :password, :within => 6..30
+  validates_length_of :password, :on => :create, :within => 6..30
   before_save :encrypt_password
 
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
