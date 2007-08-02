@@ -9,12 +9,10 @@ class UsersController < ApplicationController
   def edit
     if request.post?
       user = User.find(params[:id])
+      params[:is_admin] ? params[:user][:is_admin] = 1 : params[:user][:is_admin] = 0
       user.update_attributes(params[:user])
-      params[:is_admin] ? user.is_admin = 1 : user.is_admin = 0
-      
-      if user.save!
-        redirect_to :controller => "users"
-      end
+      flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully'      
+      redirect_to :controller => "users"
     else
       @user = User.find(params[:id]) 
     end
