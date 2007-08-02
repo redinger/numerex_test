@@ -27,7 +27,7 @@ class DevicesController < ApplicationController
   # A device can provisioned
   def choose_MT
     if (request.post? && params[:imei] != '')
-      device = provision_device(params[:imei])
+      device = provision_device(params[:imei], :online_threshold => '10')
       if(!device.nil?)
         redirect_to :controller => 'devices', :action => 'index'
       end
@@ -58,7 +58,7 @@ class DevicesController < ApplicationController
     end
   end
   
-  def provision_device(imei)
+  def provision_device(imei, extras=nil)
     device = Device.find_by_imei(imei) # Determine if device is already in system
         
     # Device is already in the system so let's associate it with this account
@@ -79,6 +79,9 @@ class DevicesController < ApplicationController
       device = Device.new
       device.name = params[:name]
       device.imei = params[:imei]
+      if(!extras.nil?)
+        device.online_threshold = extras[:online_threshold].nil? ? nil : extras[:online_threshold]
+      end
       device.provision_status_id = 1
       device.account_id = session[:account_id]
       device.save
