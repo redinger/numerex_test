@@ -1,15 +1,30 @@
-<h3>Settings</h3>
+<h3>General Settings</h3>
+<% if flash[:message] %>
+	<div id="success_message"><%= flash[:message] %></div>
+<% end %>
 <form method="post">
-<div style="background-color: #FFFFCC; padding: 10px; color: #666666;">
-	<span style="font-size: 16px; font-weight: bold">Company or Group Name</span><br />
-	Your company or group name is used to personalize your login screen and header banner.
-	 <br /><br />
+<div style="padding: 10px; color: #666666; width: 700px; border-bottom: 1px solid #CCCCCC;">
+	<span style="font-size: 14px; font-weight: bold">Company or Group Name</span><br />
+	Your company or group name is used to personalize your login screen and header banner.  Please note that changing your company or group name applies to all users within this account.<br /><br />
 	<input type="text" name="company" value="<%= @account.company %>" size="30" />
 </div>
-<div style="background-color: #FFFFCC; padding: 10px; color: #666666;">
-	<span style="font-size: 16px; font-weight: bold">Notifications</span><br />
+<div style="padding: 10px; color: #666666; width: 700px; border-bottom: 1px solid #CCCCCC;">
+	<span style="font-size: 14px; font-weight: bold">Notifications</span><br />
+	Check the box below if you'd like to receive exception notifications for this account.  All exceptions will be sent to the email address associated with your account.  Exceptions
+	include entering a geofence, exiting a geofence, and stops.<br /><br />
+	<input type="checkbox" name="notify" value="1" <% if @user.enotify %> checked="checked"<% end %>/> Enable notifications
+</div>
+<div style="padding: 10px; color: #666666; width: 700px; border-bottom: 1px solid #CCCCCC;">
+	<span style="font-size: 14px; font-weight: bold">Time Zone</span><br />
+	Please specify your time zone.  This will ensure that all times displayed within the application are converted to your local time. 
+	<br /><br />
+	<select name="time_zone">
+		<option value=''>No time zone selected</option>
+		<% TimeZone.us_zones.each{|i| %>
+			<option value="<%= i.name %>" <%if i.name == @user.time_zone %> selected="selected"<% end %>><%= i %></option>
+		<% } %>
+	</select>
 </div>
 <br />
 <input type="submit" value="save" />&nbsp;&nbsp;
-<a href="javascript:history.go(-1);">cancel</a>
 </form>
