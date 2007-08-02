@@ -1,3 +1,8 @@
+<% if flash[:message] %>
+<div id="error_message">
+    <%= flash[:message] %>
+</div>
+<% end %>
 <h3>Add a New User</h3>
 <form method="post">
     First Name: <input type="text" name="user[first_name]" size="20" /><br />
