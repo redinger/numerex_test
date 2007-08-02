@@ -25,7 +25,7 @@
 								-
 							<% end %>
 						</td>
-						<td><% if session[:time_zone].nil? || session[:time_zone] == '' %><%= time_ago_in_words reading.created_at %><% else %><%= TimeZone[session[:time_zone]].adjust(reading.created_at) %><% end %></td>
+						<td><% if session[:time_zone].nil? || session[:time_zone] == '' %><%= time_ago_in_words reading.created_at %> ago<% else %><%= TimeZone[session[:time_zone]].adjust(reading.created_at) %><% end %></td>
 					</tr>
 					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= reading.shortAddress %>', dt: '<%= time_ago_in_words reading.created_at %> ago', note: '<%= reading.note %>', event: '<%= reading.event_type %>'});</script>
 				<% end %>
