@@ -1,6 +1,6 @@
 desc 'Exports data from MySQL and creates fixure'
 task :extract_fixtures => :environment do 
-  sql = "SELECT * FROM readings order by created_at desc limit 50" 
+  sql = "SELECT * FROM readings where event_type='startstop_et41' order by created_at desc limit 50" 
   skip_tables = ["schema_info"]
   table_name = 'readings'
   ActiveRecord::Base.establish_connection 
