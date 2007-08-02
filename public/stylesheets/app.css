@@ -170,6 +170,7 @@ div#success_message {
 	font-weight: bold;
 	color: #FFFFFF;
 	padding: 5px;
+	margin: 10px 5px;
 }
 
 div#error_message {
