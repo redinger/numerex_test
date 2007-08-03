@@ -170,10 +170,10 @@ function getReadingById(id) {
 // Create html for selected reading
 function createReadingHtml(id) {
 	var reading = getReadingById(id);
-	var html = '<div class="dark_grey"><span class="blue_bold">' + reading.address + '</span><br />about <span class="blue_bold">' + reading.dt + '</span><hr />';
-		
+	var html = '<div class="dark_grey"><span class="blue_bold">' + reading.address + "<br />" + "</span>about " + '<class="dark_grey"><span class="blue_bold">' + reading.dt + "</span><br />"
+			
 	if(reading.note != '')
-		html += '<strong>Note:</strong> ' + reading.note + '<hr />';
+		html += '<strong>Note:</strong> ' + reading.note + "<br/>";
 		
 	return html;
 }
