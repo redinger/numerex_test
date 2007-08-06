@@ -279,6 +279,16 @@ reading5:
  device_id: 3
  created_at: 2007-7-26 14:37:39 
  event_type: startstop_et41
+II245:
+ id: 245
+ latitude: 32.9543
+ longitude: -96.8284
+ speed: 0
+ direction: 240
+ altitude: 5000
+ device_id: 3
+ created_at: 2007-7-26 14:47:00 
+ event_type: normal_et2
 I24:
  id: 124
  latitude: 32.9543
