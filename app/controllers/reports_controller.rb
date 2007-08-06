@@ -3,7 +3,7 @@ require 'fastercsv'
 class ReportsController < ApplicationController
   before_filter :authorize
   
-  StopThreshold = 300 #stop event is triggered at 5min idle time
+  StopThreshold = 180 #stop event is triggered at 3min idle time
   ResultCount = 25 # Number of results per page
   DayInSeconds = 86400
   
@@ -55,22 +55,36 @@ class ReportsController < ApplicationController
    
     @device_names = Device.get_names(session[:account_id])
     readings = Reading.find(:all, :order => "created_at asc", 
-               :limit => ResultCount,
-               :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
-               :limit => @result_count,
-               :offset => ((@page-1)*@result_count))
+               :limit => ResultCount*3,
+               :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])           
     @stops = Array.new
+    filter_stops(readings)
     readings.each_index { |index|
+                            currentReading = readings[index]
                             if readings[index].speed==0
                               stopEvent = readings[index]
                               stopEvent.extend(StopEvent)
                               if(readings.size>index+1 && readings[index+1].speed > 0)
                                 stopEvent.duration = readings[index+1].created_at - readings[index].created_at + StopThreshold
+                              else
+                                nextReading = Reading.find(:first, :order => "created_at asc",
+                                     :conditions => ["event_type <> 'startstop_et41' and device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], readings[index].created_at.to_i, end_time] )
+                                if( !nextReading.nil? && nextReading.speed>0 && nextReading.distance_to(readings[index], :units => :kms)<1)
+                                  stopEvent.duration = nextReading.created_at - readings[index].created_at + StopThreshold
+                                else
+                                  next_moving_reading_after_stop = Reading.find(:first, :order => "created_at desc",
+                                    :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ? and speed <> 0", params[:id], readings[index].created_at.to_i, Time.now.to_i])
+                                  if(next_moving_reading_after_stop.nil?) 
+                                    stopEvent.duration = -1
+                                  end
+                                  
+                                end
                               end
                               @stops.push stopEvent
                             end
                         }
+    @stops = @stops.slice!( (@page-1)*@result_count, @page*@result_count)
   end
   
   # Display geofence exceptions
@@ -130,6 +144,19 @@ class ReportsController < ApplicationController
   
   def speed
     @readings = Reading.find(:all, :order => "created_at desc", :limit => 25, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
+  end
+  
+  def filter_stops(readings)
+  
+    readings.each_index {|index| 
+                           if(readings.size>index+1)
+                              r1 = readings[index]
+                              r2 = readings[index+1]
+                              if(r1.speed==0 && r2.speed==0 && r1.distance_to(r2, :units => :kms) <= 0.03)
+                                readings.delete_at(index+1)
+                              end
+                          end
+                        }
   end
   
   private
