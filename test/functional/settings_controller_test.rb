@@ -35,7 +35,7 @@ class SettingsControllerTest < Test::Unit::TestCase
     assert_equal nil, user.time_zone
     
     # Post the settings
-    post :index, {:company => 'New Co', :notify => 1, :time_zone => 'Central Time (US & Canada)'}, {:account_id => 1, :user_id => 1}
+    post :index, {:company => 'New Co', :notify => 1}, {:account_id => 1, :user_id => 1}
     assert_redirected_to :controller => 'settings', :action => 'index'
     
     # Verify the settings were saved
@@ -43,6 +43,5 @@ class SettingsControllerTest < Test::Unit::TestCase
     user = assigns(:user)
     assert_equal 'New Co', account.company
     assert_equal true, user.enotify
-    assert_equal 'Central Time (US & Canada)', user.time_zone
   end
 end
