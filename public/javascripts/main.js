@@ -141,12 +141,12 @@ function getDeviceById(id) {
 function createDeviceHtml(id) {
 	var device = getDeviceById(id);
 	
-	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + "</span> was last seen at " + "<br />" + '<div class="dark_grey"><span class="blue_bold">' + device.address + "<br />" + "</span>about " + '<class="dark_grey"><span class="blue_bold">' + device.dt + "</span><br />";
+	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at ' + '<br /><span class="blue_bold">' + device.address + '</span><br />about <span class="blue_bold">' + device.dt + '</span><br />';
 	
 	if(device.note != '')
-		html += '<strong>Note:</strong> ' + device.note + "<br/>";
+		html += '<br /><strong>Note:</strong> ' + device.note + '<br/>';
 		
-	html += '<a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/reports/all/' + id + '">View details</a></div>';
+	html += '<br /><a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/reports/all/' + id + '">View details</a></div>';
 	return html;
 }
 
@@ -170,10 +170,10 @@ function getReadingById(id) {
 // Create html for selected reading
 function createReadingHtml(id) {
 	var reading = getReadingById(id);
-	var html = '<div class="dark_grey"><span class="blue_bold">' + reading.address + "<br />" + "</span>about " + '<class="dark_grey"><span class="blue_bold">' + reading.dt + "</span><br />"
+	var html = '<div class="dark_grey"><span class="blue_bold">' + reading.address + '<br />' + reading.dt + '</span><br />';
 			
 	if(reading.note != '')
-		html += '<strong>Note:</strong> ' + reading.note + "<br/>";
+		html += '<br /><strong>Note:</strong> ' + reading.note + '<br/>';
 		
 	return html;
 }
