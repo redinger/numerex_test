@@ -69,8 +69,8 @@ class ReportsController < ApplicationController
                                 stopEvent.duration = readings[index+1].created_at - readings[index].created_at + StopThreshold
                               else
                                 nextReading = Reading.find(:first, :order => "created_at asc",
-                                     :conditions => ["event_type <> 'startstop_et41' and device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], readings[index].created_at.to_i, end_time] )
-                                if( !nextReading.nil? && nextReading.speed>0 && nextReading.distance_to(readings[index], :units => :kms)<1)
+                                     :conditions => ["speed <> '0' and event_type <> 'startstop_et41' and device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], readings[index].created_at.to_i, end_time] )
+                                if( !nextReading.nil? && nextReading.distance_to(readings[index], :units => :kms)<1)
                                   stopEvent.duration = nextReading.created_at - readings[index].created_at + StopThreshold
                                 else
                                   next_moving_reading_after_stop = Reading.find(:first, :order => "created_at desc",
