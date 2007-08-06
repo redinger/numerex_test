@@ -26,7 +26,8 @@ class Reading < ActiveRecord::Base
           streetAddress.delete("")
           shortAddress = [ streetAddress.join(' '), city, state]
           shortAddress.delete("")
-          shortAddress.join(', ')
+          addressString = shortAddress.join(', ')
+          addressString.empty? ? latitude.to_s + ", " + longitude.to_s : addressString
       rescue
         latitude.to_s + ", " + longitude.to_s
       end
