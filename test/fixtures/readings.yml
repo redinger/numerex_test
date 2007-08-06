@@ -57,9 +57,12 @@ reading3:
  longitude: -96.8244
  direction: 130
  altitude: 5000
- device_id: 3
+ device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
+ address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <geonames/>
+ 
 reading4:
  id: 4
  latitude: 32.94
@@ -248,7 +251,7 @@ reading5:
  event_type: startstop_et41
 21:
  id: 21
- latitude: 32.9543
+ latitude: 32.9542
  longitude: -96.8283
  speed: 0
  direction: 240
@@ -258,7 +261,7 @@ reading5:
  event_type: startstop_et41
 22:
  id: 22
- latitude: 32.9543
+ latitude: 32.9545
  longitude: -96.8283
  speed: 60
  direction: 240
@@ -275,6 +278,26 @@ reading5:
  altitude: 5000
  device_id: 3
  created_at: 2007-7-26 14:37:39 
+ event_type: startstop_et41
+I24:
+ id: 124
+ latitude: 32.9543
+ longitude: -96.8284
+ speed: 10
+ direction: 240
+ altitude: 5000
+ device_id: 3
+ created_at: 2007-7-26 14:47:39 
+ event_type: normal_et2
+I25:
+ id: 125
+ latitude: 32.9543
+ longitude: -96.8300
+ speed: 0
+ direction: 240
+ altitude: 5000
+ device_id: 3
+ created_at: 2007-7-26 14:48:39 
  event_type: startstop_et41
 reading24:
  id: 24
