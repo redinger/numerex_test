@@ -20,9 +20,25 @@ class ReadingTest < Test::Unit::TestCase
   
   def test_speed_round
     assert_equal 29, readings(:reading1).speed
-    assert_equal 39, readings(:reading2).speed
+    assert_equal 39, readings(:reading2).speed  
   end
   
+  def test_distance
+    reading1 = Reading.new
+    reading1.latitude=32.6782
+    reading1.longitude=-97.0449
+    
+    reading2 = Reading.new
+    reading2.latitude=32.6782
+    reading2.longitude=-97.0446
+    
+    reading3 = Reading.new
+    reading3.latitude=32.6752
+    reading3.longitude=-97.0425
+    
+    puts reading1.distance_to(reading2)*1000
+    puts reading1.distance_to(reading3)*1000
+  end
    
   
 
