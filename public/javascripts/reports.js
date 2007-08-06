@@ -1,7 +1,11 @@
 // Switch between devices on reports view but keep the timeframe, if it exists
 function changeDevice(device_id, report_type) {
+	var url = '/reports/' + report_type + '/' + device_id;
 	
-	document.location.href='/reports/' + report_type + '/' + device_id + '?t=' + getQryParam('t');
+	if(document.location.search != '')
+		url += '?t=' + getQryParam('t');
+		
+	document.location.href= url;
 }
 
 // Get the value of a query parameter based on key
