@@ -25,8 +25,6 @@ class LoginController < ApplicationController
         session[:account_id] = self.current_user.account_id # Store the account id
         session[:company] = self.current_user.account.company # Store the user's company name
         session[:first_name] = self.current_user.first_name # Store user's first name
-        session[:time_zone] = self.current_user.time_zone # Store the user's time zone
-        puts session[:time_zone]
         redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else
