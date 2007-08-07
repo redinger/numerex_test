@@ -152,7 +152,7 @@ class ReportsController < ApplicationController
                            if(readings.size>index+1)
                               r1 = readings[index]
                               r2 = readings[index+1]
-                              if(r1.speed==0 && r2.speed==0 && r1.distance_to(r2, :units => :kms) <= 0.03)
+                              if(r1.speed==0 && r2.speed==0 && r1.distance_to(r2, :units => :kms) <= 0.04)
                                 readings.delete_at(index+1)
                               end
                           end
