@@ -26,7 +26,7 @@ device3:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 3
  provision_status_id: 1
- account_id: 2 # Nick Co
+ account_id: 1 # Nick Co
  last_online_time: <%= (Time.now-20*60).to_s :db %> 
  online_threshold: 10
  
