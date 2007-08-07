@@ -146,17 +146,22 @@ class ReportsController < ApplicationController
     @readings = Reading.find(:all, :order => "created_at desc", :limit => 25, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
   end
   
+  #this method will delete any redundannt stops from readings
   def filter_stops(readings)
-  
-    readings.each_index {|index| 
+    anyDeletions = true;
+    until anyDeletions==false
+      anyDeletions = false;
+      readings.each_index {|index| 
                            if(readings.size>index+1)
                               r1 = readings[index]
                               r2 = readings[index+1]
                               if(r1.speed==0 && r2.speed==0 && r1.distance_to(r2, :units => :kms) <= 0.04)
                                 readings.delete_at(index+1)
+                                anyDeletions = true
                               end
                           end
                         }
+      end
   end
   
   private
