@@ -13,7 +13,8 @@
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
 						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)"><%= reading.shortAddress %></a></td>
 						<% length=nil%>
-						<% if(!reading.duration.nil?) then length=distance_of_time_in_words Time.now, Time.now+reading.duration end%>
+						<% if(!reading.duration.nil? && reading.duration>0) then length=time_ago_in_words Time.now+reading.duration end%>
+						<% if(!reading.duration.nil? && reading.duration<0) then length="in progress: " + (time_ago_in_words reading.created_at) + " so far" end%>
 						<td><%= length || "unknown" %></td>
 						<% length=nil%>
 						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script></td>
