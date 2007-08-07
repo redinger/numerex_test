@@ -57,7 +57,6 @@ class ReportsController < ApplicationController
     readings = Reading.find(:all, :order => "created_at asc", 
                :limit => ResultCount*3,
                :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
-    @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])           
     @stops = Array.new
     filter_stops(readings)
     readings.each_index { |index|
@@ -84,6 +83,7 @@ class ReportsController < ApplicationController
                               @stops.push stopEvent
                             end
                         }
+    @record_count = @stops.size         
     @stops = @stops.slice!( (@page-1)*@result_count, @page*@result_count)
   end
   

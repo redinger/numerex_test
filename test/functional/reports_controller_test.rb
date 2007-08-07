@@ -43,6 +43,7 @@ class ReportsControllerTest < Test::Unit::TestCase
       puts "now is:" + Time.now.to_s
       get :stop, {:id=>"3", :t=>"1"}, { :user => users(:dennis) } 
       stops = assigns(:stops)
+      assert_equal 7, assigns(:record_count)
       assert_response :success
       assert_template "stop"
       
