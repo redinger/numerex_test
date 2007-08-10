@@ -14,12 +14,12 @@
 						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)"><%= reading.shortAddress %></a></td>
 						<% length=nil%>
 						<% if(!reading.duration.nil? && reading.duration>0) then length=time_ago_in_words Time.now+reading.duration end%>
-						<% if(!reading.duration.nil? && reading.duration<0) then length="in progress: " + (time_ago_in_words reading.created_at) + " so far" end%>
+						<% if(!reading.duration.nil? && reading.duration<0) then length="in progress: " + (time_ago_in_words reading.created_at+@stop_threshold) + " so far" end%>
 						<td><%= length || "unknown" %></td>
 						<% length=nil%>
 						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script></td>
 					</tr>
-					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= reading.note %>', event: '<%= reading.event_type %>'});</script>
+					<script><![CDATA[readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= reading.note %>', event: '<%= reading.event_type %>'});]]></script>
 				<% end %>
 			</table>
 		</td>
