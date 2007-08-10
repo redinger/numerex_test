@@ -56,7 +56,6 @@ class ReportsController < ApplicationController
    
     @device_names = Device.get_names(session[:account_id])
     readings = Reading.find(:all, :order => "created_at asc", 
-               :limit => ResultCount*3,
                :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
     @stops = Array.new
     filter_stops(readings)
