@@ -19,7 +19,7 @@
 						<% length=nil%>
 						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script></td>
 					</tr>
-					<script><![CDATA[readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= reading.note %>', event: '<%= reading.event_type %>'});]]></script>
+					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= reading.note %>', event: '<%= reading.event_type %>'});</script>
 				<% end %>
 			</table>
 		</td>
