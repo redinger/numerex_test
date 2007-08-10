@@ -44,6 +44,7 @@ class ReportsController < ApplicationController
     end 
     @page = params[:p].to_i
     @result_count = ResultCount
+    @stop_threshold = StopThreshold
     
     unless params[:t]
       params[:t] = 1
