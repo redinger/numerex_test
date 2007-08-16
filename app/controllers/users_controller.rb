@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authorize
+ 
   
   def index
     @current_user = User.find(session[:user_id])
@@ -28,22 +29,33 @@ class UsersController < ApplicationController
       if params[:is_admin]
         user.is_admin = 1
       end
-      begin
-        user.save!
-        flash[:message] = user.email + ' was created successfully'
-        redirect_to :controller => "users"
-      rescue ActiveRecord::RecordInvalid
-          flash[:message] = $!
-      end
+      @users = User.find(:all, :conditions => ['account_id =?', user.account_id])
+	  
+	   if @users.size < 5
+        begin
+          user.save!
+          flash[:message] = user.email + ' was created successfully'
+          redirect_to :controller => "users"
+        rescue ActiveRecord::RecordInvalid
+            flash[:message] = "There were errors in creating your account. Please review the form below."
+        end
+      else
+        flash[:message] = "There are already 5 users in this account"
+      end  
     end
   end
   
   def delete
     if request.post?
-      user = User.find(params[:id])
-      user.destroy
-      flash[:message] = user.email + ' was deleted successfully'
-      redirect_to :controller => "users"
+     user = User.find(params[:id])
+     if user.is_master == false   
+        user.destroy
+        flash[:message] = user.email + ' was deleted successfully'
+        redirect_to :controller => "users"
+      else  
+        flash[:message] = 'Master user cannot be deleted'
+        redirect_to :controller => "users"
+      end  
     end
   end
 end
