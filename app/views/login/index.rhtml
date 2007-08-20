@@ -6,37 +6,53 @@
             <%= flash[:message] %>
         </div>
     <% end %>
-    <form action="/login" method="post">
-        <table class="form_table">
-            <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%= flash[:username] %>" /></td></tr>
-            <tr><th>Password:</th><td><input type="password" id="password" name="password" class="input" /> <a href="/login/password">Forgot password?</a></td></tr>
-            <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
-            <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
-        </table>
-    </form>
+    <%if session[:user_id] %>
+        <%user = User.find(session[:user_id])%>
+    <%end%>
+
+    <%if user != nil%>
+        
+           <form action="/login" method="post" id="logform">
+                <table class="form_table">
+                    <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%=user.email%>"/></td></tr>
+                    <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input" onfocus="settext(this.id);"/> <a href="/login/password">Forgot password?</a></td></tr>
+                    <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
+                    <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
+                </table>
+            </form>
+                
+       
+    <%else%>
+        <form action="/login" method="post" id="logform">
+            <table class="form_table">
+                <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="" /></td></tr>
+                <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input"/> <a href="/login/password">Forgot password?</a></td></tr>
+                <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
+                <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
+            </table>
+        </form>    
+    <%end%>    
 </div>
 
 <script type="text/javascript">
 //<![CDATA[
-    <% if flash[:message]%>
-        document.getElementById("password").focus();
+    <% if user%>
+        function settext(x)
+        {
+         var y = document.getElementById("username").value
+        if( y == "<%=user.email%>")
+        {    
+        document.getElementById(x).value= "<%=user.crypted_password%>"
+        }
+         else
+        {
+         <%= remote_function(:update => "logform", :url => {:controller => 'login', :action => 'get_password_from_cookie'}, :with => "'id=' + $('username').value")%>
+        }
+        }
     <% else %>
         document.getElementById("username").focus();
     <% end %>
+    
+   
 //]]>
 </script>
-
-<!--
-<% form_tag do -%>
-<p><label for="login">Username</label><br/>
-<%= text_field_tag 'login' %></p>
-
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password' %></p>
-
-<p><label for="remember_me">Remember me:</label>
-<%= check_box_tag 'remember_me' %></p>
-
-<p><%= submit_tag 'Log in' %></p>
-<% end -%>
--->

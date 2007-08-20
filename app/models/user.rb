@@ -21,6 +21,20 @@ class User < ActiveRecord::Base
       nil # User does not belong
     end
   end
+  
+  def self.authenticate_crypt(subdomain, email, password)
+    
+    account = Account.find_by_subdomain(subdomain)
+    user = find_by_email_and_account_id(email, account.id ) 
+    
+    if (user && user.crypted_password && user.account.is_verified)
+      user.update_attribute(:last_login_dt, Time.now)
+      user
+    else
+      nil # User does not belong
+    end
+  end
+  
 
   # Encrypts some data with the salt.
   def self.encrypt(password, salt)
