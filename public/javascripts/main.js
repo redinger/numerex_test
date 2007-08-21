@@ -1,11 +1,8 @@
 var gmap;
-var iconNow;
-var alarmIcon;
-var recenticon;
-var iconcount = 2;
 var prevSelectedRow;
 var prevSelectedRowClass;
 var currSelectedDeviceId;
+var iconALL;
 var devices = []; // JS devices model
 var readings = []; //JS readings model
             
@@ -17,41 +14,12 @@ function load()
     gmap.addControl(new GMapTypeControl());
     gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
 	
-	recenticon = new GIcon();
-    recenticon.image = "/icons/1.png";
-    recenticon.shadow = "/images/ublip_marker_shadow.png";
-    recenticon.iconSize = new GSize(22, 35);
-    recenticon.iconAnchor = new GPoint(11, 34);
-    recenticon.infoWindowAnchor = new GPoint(15, 0);		
-	
 	iconALL = new GIcon();
     iconALL.image = "/icons/ublip_marker.png";
     iconALL.shadow = "/images/ublip_marker_shadow.png";
     iconALL.iconSize = new GSize(23, 34);
     iconALL.iconAnchor = new GPoint(11, 34);
     iconALL.infoWindowAnchor = new GPoint(11, 34);
-	
-	ParkedIcon = new GIcon();
-    ParkedIcon.image = "/icons/ublip_parked.png";
-    ParkedIcon.shadow = "/images/ublip_marker_shadow.png";
-    ParkedIcon.iconSize = new GSize(23, 34);
-    ParkedIcon.iconAnchor = new GPoint(11, 34);
-    ParkedIcon.infoWindowAnchor = new GPoint(11, 34);
-	
-	ParkedIconN = new GIcon();
-    ParkedIconN.image = "/icons/ublip_parkedn.png";
-    ParkedIconN.shadow = "/images/ublip_marker_shadow.png";
-    ParkedIconN.iconSize = new GSize(22, 35);
-    ParkedIconN.iconAnchor = new GPoint(11, 34);
-    ParkedIconN.infoWindowAnchor = new GPoint(15, 0);
-	
-	// Displayed for exceptions
-	alarmIcon = new GIcon();
-    alarmIcon.image = "/icons/ublip_red.png";
-    alarmIcon.shadow = "/images/ublip_marker_shadow.png";
-    alarmIcon.iconSize = new GSize(23, 34);
-    alarmIcon.iconAnchor = new GPoint(11, 34);
-    alarmIcon.infoWindowAnchor = new GPoint(15, 0);
 	
 	var infoWin = gmap.getInfoWindow();
 	
@@ -181,6 +149,9 @@ function createReadingHtml(id) {
 // When a device is selected let's highlight the row and deselect the current
 // Pass 0 to deselect all
 function highlightRow(id) {
+	if(id == undefined)
+		return;
+		
 	var row = document.getElementById("row"+id);
 	
 	// Set the previous state back to normal
@@ -204,7 +175,7 @@ function getReportBreadcrumbs() {
 		var id = readings[i].id;
 		var point = new GLatLng(readings[i].lat, readings[i].lng);
 		
-		gmap.addOverlay(createMarker(id, point, getMarkerType(readings[i]), createReadingHtml(id)));
+		gmap.addOverlay(createMarker(id, point, getMarkerType(i, readings[i]), createReadingHtml(id)));
 		
 		if(i == 0) {
 			gmap.setCenter(point, 15);
@@ -214,18 +185,23 @@ function getReportBreadcrumbs() {
 	}
 }
 
-// Determines which icon to display based on event
-function getMarkerType(obj) {
+// Determines which icon to display based on event or display numbered icon
+function getMarkerType(index, obj) {
 	var event = obj.event;
 	var speed = obj.speed;
+	var icon = new GIcon();	
+	icon.iconSize = new GSize(23, 34);
+	icon.iconAnchor = new GPoint(11, 34);
+	icon.infoWindowAnchor = new GPoint(11, 34);
+    icon.shadow = "/images/ublip_marker_shadow.png";
 	
 	if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1) {
-		return alarmIcon;
-	} else if(speed == 0) {
-		return ParkedIcon;
+		icon.image = "/icons/" + (index+1) + "_red.png";
+	} else {
+	    icon.image = "/icons/" + (index+1) + ".png";
 	}
 	
-	return iconALL;
+	return icon;
 }
 
 // Breadcrumb view for device details/history
@@ -263,7 +239,7 @@ function getBreadcrumbs(id) {
 		        var point = new GLatLng(reading.lat, reading.lng);
 				
 				// Different icon types
-				var icon = getMarkerType(reading);
+				var icon = getMarkerType(i, reading);
 				
 				if(i == 0) {
 					gmap.addOverlay(createMarker(reading.id, point, recenticon, createReadingHtml(reading.id)));
