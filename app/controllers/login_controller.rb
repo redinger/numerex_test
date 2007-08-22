@@ -6,11 +6,19 @@ class LoginController < ApplicationController
   before_filter :login_from_cookie
 
   def index
-    # Check if user is logged in and redirect to home controller if they are
-    #if logged_in?
-    #  redirect_to :controller => 'home' and return
-    #end
-   
+
+    #Check if user is logged in and redirect to home controller if they are
+    if logged_in? 
+      user = self.current_user
+      if !user.remember_token_expires_at.nil? and Time.now < user.remember_token_expires_at 
+          redirect_to :controller => 'home' and return
+      else
+         cookies.delete :auth_token
+         self.current_user.forget_me
+         reset_session     
+      end    
+    end
+    
     # Handles the login form post
     if request.post?
       # Authenticate based on un/pw as well as subdomain
@@ -56,16 +64,37 @@ class LoginController < ApplicationController
       end
     end
   end
+  
+  def password
+  flash[:message] = nil
+  if request.post?
+    user = User.find_by_email(@params['email'])  
+    if user
+      if @params['password'] != ""
+        crypted_password = user.encrypt(@params['password'])
+        user.update_attribute("crypted_password", crypted_password)
+        flash[:message] = 'Password has been reseted successfully.'
+        redirect_to :controller => 'login'
+      else
+        flash[:message] = 'Password cannot be blank.'
+        render :action => 'password'
+      end  
+    else
+      flash[:message] = 'Please specify a valid username.'
+      render :action => 'password'
+    end  
+  end
+  end
 
   def logout
-    #self.current_user.forget_me if self.current_user
-    #cookies.delete :auth_token
+    self.current_user.forget_me if self.current_user
+    cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
     redirect_back_or_default(:controller => '/login', :action => 'index')
   end
   
-  
+
    def login_from_cookie
       return unless cookies['auth_token'] && @session[:user].nil?
       user = User.find_by_remember_token(*cookies['auth_token'].split(","))     
@@ -74,7 +103,7 @@ class LoginController < ApplicationController
          session[:user_id] = user.id # Store current user's id
          session[:account_id] = user.account_id # Store the account id
          session[:company] = user.account.company # Store the user's company name
-         session[:first_name] = user.first_name # Store user's first name 
+         session[:first_name] = user.first_name # Store user's first name
       end
    end
   
