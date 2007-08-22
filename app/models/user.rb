@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
 
   # These create and unset the fields required for remembering users between browser closes
   def remember_me
-    self.remember_token_expires_at = 2.weeks.from_now
+    self.remember_token_expires_at = 1.day.from_now
     self.remember_token = Digest::SHA1.hexdigest("#{salt}--#{self.email}--#{self.remember_token_expires_at}")
     self.password = "" # This bypasses password encryption, thus leaving password intact
     self.save_with_validation(false)
