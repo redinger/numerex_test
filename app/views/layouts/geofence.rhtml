@@ -4,11 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title>Ublip - Location Matters</title>
         <%= stylesheet_link_tag "app", "font_styles" %>
-		<% if request.server_name.index("ubliplocal.com") %>
-            <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBSSqky6nndM48J7LWYfi11THuhEtxRJbRLHbJNMAlJ5HI0ywIQWp934fQ" type="text/javascript"></script>
-        <% else %>
-            <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAuuM51OQ5BjDaW1x4b-MN6RQdy8buJCn4UCOrVn-gOC82x0BwgBRfUA9c-fxzF43pSDpXTxs1j8Dfsw" type="text/javascript"></script>
-        <% end %>
+		<%= render :partial => 'layouts/includes/map_key' %>
         <%= javascript_include_tag "geofence" %>
 	</head>
 	<body onload="load();">
