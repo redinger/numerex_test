@@ -1,0 +1,119 @@
+<h1>Step 1 of 2</h1>
+<div style="background-color: #EEEEEE; padding: 20px; text-align: center; font-size: 16px;">
+	<strong>You're purchasing:</strong><br /><br /> 1 Ublip Tracking Device @ $249.95
+	and monthly service @ $14.95/month
+</div>
+<br />
+<form method="post" action="/order/step2">
+	<table border="0" align="center" width="800">
+		<tr>
+			<td valign="top">
+				<h4>Shipping Address</h4>
+				<table>
+					<tr>
+						<td class="label"><label for="ship_first_name">First Name</label></td>
+						<td><input type="text" class="short_text" name="ship_first_name" id="ship_first_name" /></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="ship_last_name">Last Name</label></td>
+						<td><input type="text" class="short_text" name="ship_last_name" id="ship_last_name" /></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="ship_company">Company</label></td>
+						<td><input type="text" class="short_text" name="ship_company" id="ship_company" /></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="ship_address">Address</label></td>
+						<td><input type="text" class="long_text" name="ship_address" id="ship_address" /></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="ship_address2">Address2</label></td>
+						<td><input type="text" class="long_text"14185  name="ship_address2" id="ship_address2" /> <span class="helper">(e.g. Suite #)</span></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="ship_city">City</label></td>
+						<td><input type="text" class="short_text" name="ship_city" id="ship_city" /></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="state">State</label></td>
+						<td><select name="ship_state" id="ship_state"></select></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="ship_zip">Zip</label></td>
+						<td><input type="text" class="short_text" name="ship_zip" id="ship_zip" /></td>
+					</tr>
+				</table>
+			</td>
+			<td width="25">&nbsp;</td>
+			<td valign="top">
+				<h4>Billing Address</h4>
+				<div style="margin-bottom: 15px; background-color: #FFFFCC; padding: 10px; width: 275px; font-size: 12px; border: 1px solid #CCCCCC;">
+					<input type="checkbox" checked="checked" onclick="toggleBilling(this);" /> Bill to the same address as shipping.
+				</div>
+				<div id="billing_container" style="visibility: hidden;">
+					<table>
+						<tr>
+							<td class="label"><label for="bill_first_name">First Name</label></td>
+							<td><input type="text" class="short_text" name="bill_first_name" id="bill_first_name" /></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="bill_last_name">Last Name</label></td>
+							<td><input type="text" class="short_text" name="bill_last_name" id="bill_last_name" /></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="bill_company">Company</label></td>
+							<td><input type="text" class="short_text" name="bill_company" id="bill_company" /></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="bill_address">Address</label></td>
+							<td><input type="text" class="long_text" name="bill_address" id="bill_address" /></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="bill_address2">Address2</label></td>
+							<td><input type="text" class="long_text" name="bill_address2" id="bill_address2" /> <span class="helper">(e.g. Suite #)</span></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="bill_city">City</label></td>
+							<td><input type="text" class="short_text" name="bill_city" id="bill_city" /></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="state">State</label></td>
+							<td><select name="bill_state" id="bill_state"></select></td>
+						</tr>
+						<tr>
+							<td class="label"><label for="bill_zip">Zip</label></td>
+							<td><input type="text" class="short_text" name="bill_zip" id="bill_zip" /></td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<h4>Account Details</h4>
+				<div class="description_box">
+					This will be your master user account for logging into the Ublip system and tracking your devices.  You'll also need to specify your own
+					unique web address such as <strong>mykids.ublip.com</strong> or <strong>myfleet.ublip.com</strong>. After placing your
+					order you will be able to login and create up to <strong>five</strong> additional user accounts.
+				</div>
+				<table>
+					<tr><td class="label">Email</td><td><input type="text" class="long_text" /> <span class="helper">(this will be your login name)</span></td></tr>
+					<tr><td class="label">Password</td><td><input type="password" class="long_text" maxlength="30" /> <span class="helper">(between 6 and 30 characters)</span></td></tr>
+					<tr><td class="label">Confirm Password</td><td><input type="password" class="long_text" /> <span class="helper">(confirm your password)</span></td></tr>
+					<tr><td class="label">Web Address</td><td>http:// <input type="text" class="short_text" /> .ublip.com <span class="helper">(letters, numbers, and hyphens only - no spaces)</span></td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div style="background-color: #EEEEEE; padding: 10px; text-align: right; margin-top: 20px; border: 1px solid #CCCCCC;">
+					<input type="submit" value="Next step" />
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<script>
+	window.onload = initStep1;
+</script>

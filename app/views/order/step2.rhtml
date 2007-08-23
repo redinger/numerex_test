@@ -1,0 +1,87 @@
+<h1>Step 2 of 2</h1>
+<div style="background-color: #EEEEEE; padding: 20px; text-align: center; font-size: 16px;">
+	<strong>You're purchasing:</strong><br /><br /> 1 Ublip Tracking Device @ $249.95
+	and monthly service @ $14.95/month
+</div>
+
+<form method="post" action="/order/step2">
+	<table border="0" align="center" width="800">
+		<tr>
+			<td>
+				<h4>Shipping Options</h4>
+				<select name="shipping">
+					<option>Standard - $6.95</option>
+					<option>UPS 2-3 Day - $12.95</option>
+					<option>UPS Overnight - $18.95</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				<h4>Billing Details</h4>
+				<div class="description_box">
+					All transactions are processed securely.  You will be billed at the first of the month for your service and can cancel at any time.
+				</div>
+				
+				<table>
+					<tr><td></td><td><img src="/images/cc_types.png" /></td></tr>
+					<tr>
+						<td class="label">Card Type</td><td><select name="cc_type"><option>Visa</option><option>Mastercard</option><option>American Express</option><option>Discover</option></select></td>
+					</tr>
+					<tr>
+						<td class="label">Card Number</td><td><input type="text" class="short_text" /> <span class="helper">(no spaces or hyphens)</span></td>
+					</tr>
+					<tr>
+						<td class="label">Expiration</td>
+						<td>
+							<select name="cc_month" id="cc_month">
+								<option value="01">1 - January</option>
+								<option value="02">2 - February</option>
+								<option value="03">3 - March</option>
+								<option value="04">4 - April</option>
+								<option value="05">5 - May</option>
+								<option value="06">6 - June</option>
+								<option value="07">7 - July</option>
+								<option value="08">8 - August</option>
+								<option value="09">9 - September</option>
+								<option value="10">10 - October</option>
+								<option value="11">11 - November</option>
+								<option value="12">12 - December</option>
+							</select>
+							<select name="cc_year">
+								<option value="07">2007</option>
+								<option value="08">2008</option>
+								<option value="09">2009</option>
+								<option value="10">2010</option>
+								<option value="11">2011</option>
+								<option value="12">2012</option>
+								<option value="13">2013</option>
+								<option value="14">2014</option>
+								<option value="15">2015</option>
+								<option value="16">2016</option>
+								<option value="17">2017</option>
+								<option value="18">2018</option>
+								<option value="19">2019</option>
+								<option value="20">2020</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">CVV</td><td><input type="text" name="cvv" style="width: 50px;" /> <span class="helper">(3 digit code on back of card)</span></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h4>Review Your Order</h4>
+				<div class="description_box">
+					Review order details here
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+		</tr>
+	</table>
+</form>
