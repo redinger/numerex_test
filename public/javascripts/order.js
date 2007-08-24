@@ -31,3 +31,23 @@ function populateStates(id) {
 		e.appendChild(option);
 	}
 }
+
+function calculateTotal(e) {
+	var subtotal = 264.90;
+	var tax = subtotal * 0.0825;
+	var index = e.selectedIndex;
+	var value = parseInt(e.options[index].value);
+	var total = subtotal+tax+value;
+	total = Math.round(total*100)/100;
+	document.getElementById('total').innerHTML = '$' + total;
+}
+
+function toggleOrderButton(checked) {
+	var order_btn = document.getElementById('order_btn');
+	
+	if(checked)
+		order_btn.disabled = false;
+	else
+		order_btn.disabled = true;
+	
+}

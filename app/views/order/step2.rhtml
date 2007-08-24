@@ -29,10 +29,10 @@
 					<tr>
 						<td>Shipping</td>
 						<td>
-							<select name="shipping">
-								<option>Standard - $6.95</option>
-								<option>UPS 2-3 Day - $12.95</option>
-								<option>UPS Overnight - $18.95</option>
+							<select name="shipping" onchange="calculateTotal(this);">
+								<option value="6.95">Standard - $6.95</option>
+								<option value="12.95">UPS 2-3 Day - $12.95</option>
+								<option value="18.95">UPS Overnight - $18.95</option>
 							</select>
 						</td></tr>
 					</tr>
@@ -40,7 +40,7 @@
 					<tr><td>Tax <span class="helper">(8.25%)</span></td><td>$21.85</td></tr>
 					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
 					<tr>
-						<td><strong>Total</strong></td><td><span style="text-decoration: underline; font-weight: bold;">$293.70</span></td></tr>
+						<td><strong>Total</strong></td><td><span style="text-decoration: underline; font-weight: bold;" id="total">$293.70</span></td></tr>
 					</tr>
 				</table>
 			</td>
@@ -99,15 +99,23 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="label">CVV</td><td><input type="text" name="cvv" style="width: 50px;" /> <span class="helper">(3 digit code on back of card)</span></td>
+						<td class="label">CVV2</td><td><input type="text" name="cvv" style="width: 50px;" /> <span class="helper">(3-4 digit code on back of card)</span></td>
 					</tr>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
+				<h4>Review and Agree to Terms</h4>
+				<div class="description_box">
+					<input type="checkbox" onclick="toggleOrderButton(this.checked);" /> I agree to Ublip's <a href="">privacy</a>, <a href="">terms</a>, and <a href="">refund</a> policies.
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
 				<div style="background-color: #EEEEEE; padding: 10px; text-align: right; margin-top: 20px; border: 1px solid #CCCCCC;">
-					<input type="submit" value="Place order and create account" />
+					<input type="submit" value="Place order and create account" disabled="true" id="order_btn" />
 				</div>
 			</td>
 		</tr>
