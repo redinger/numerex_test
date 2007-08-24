@@ -10,4 +10,8 @@ class OrderController < ApplicationController
   def step2
     
   end
+  
+  def complete
+    render_text 'done'
+  end
 end

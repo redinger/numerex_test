@@ -1,0 +1,45 @@
+body {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 15px;
+		color: #333333;
+}
+
+input[type="text"] {
+	border-top: 1px solid #CCCCCC;
+	border-right: 1px solid #EEEEEE;
+	border-bottom: 1px solid #EEEEEE;
+	border-left: 1px solid #CCCCCC;
+	padding: 3px;
+}
+
+.label {
+	text-align: right;
+	padding-right: 10px;
+	font-size: 14px;
+}
+
+.short_text {
+	width: 150px;
+}
+
+.long_text {
+	width: 200px;
+}
+
+h4 {
+	border-bottom: 1px solid #CCCCCC;
+	margin: 20px 0 10px 0px;
+}
+
+.helper {
+	font-size: 11px;
+	font-weight: bold;
+	color: #666666;
+}
+
+.description_box {
+	font-size: 12px;
+	margin-bottom: 15px;
+	background-color: #EEEEEE;
+	padding: 10px;
+}

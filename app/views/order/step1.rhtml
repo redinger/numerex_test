@@ -1,10 +1,36 @@
-<h1>Step 1 of 2</h1>
-<div style="background-color: #EEEEEE; padding: 20px; text-align: center; font-size: 16px;">
-	<strong>You're purchasing:</strong><br /><br /> 1 Ublip Tracking Device @ $249.95
-	and monthly service @ $14.95/month
+<div style="background-color: #EEEEEE; text-align: center; font-size: 16px;">
+	<h1>Step 1 of 2</h1>
 </div>
-<br />
 <form method="post" action="/order/step2">
+		
+	<table width="800" border="0" align="center">
+		<tr>
+			<td colspan="2">
+				<h4>You're Purchasing</h4>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" valign="top"><img src="/images/ublip_product_box.png" /></td>
+			<td>
+				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="300">1 Ublip Tracking Device<br /><span class="helper">(includes antenna, power cable, and mounting)</span></td>
+						<td>$249.95</td>
+					</tr>
+					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
+					<tr>
+						<td>Monthly Ublip Service<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
+						<td>$14.95</td>
+					</tr>
+					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
+					<tr>
+						<td><strong>Subtotal</strong></td><td><span style="text-decoration: underline; font-weight: bold;">$264.90</span></td></tr>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
 	<table border="0" align="center" width="800">
 		<tr>
 			<td valign="top">
@@ -47,8 +73,8 @@
 			<td width="25">&nbsp;</td>
 			<td valign="top">
 				<h4>Billing Address</h4>
-				<div style="margin-bottom: 15px; background-color: #FFFFCC; padding: 10px; width: 275px; font-size: 12px; border: 1px solid #CCCCCC;">
-					<input type="checkbox" checked="checked" onclick="toggleBilling(this);" /> Bill to the same address as shipping.
+				<div class="description_box">
+					<input type="checkbox" checked="checked" onclick="toggleBilling(this);" /> Bill and ship to the same address.
 				</div>
 				<div id="billing_container" style="visibility: hidden;">
 					<table>

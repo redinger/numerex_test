@@ -1,21 +1,53 @@
-<h1>Step 2 of 2</h1>
-<div style="background-color: #EEEEEE; padding: 20px; text-align: center; font-size: 16px;">
-	<strong>You're purchasing:</strong><br /><br /> 1 Ublip Tracking Device @ $249.95
-	and monthly service @ $14.95/month
+<div style="background-color: #EEEEEE; text-align: center; font-size: 16px;">
+	<h1>Step 2 of 2</h1>
 </div>
 
-<form method="post" action="/order/step2">
-	<table border="0" align="center" width="800">
+<form method="post" action="/order/complete">
+	<table width="800" border="0" align="center">
 		<tr>
-			<td>
-				<h4>Shipping Options</h4>
-				<select name="shipping">
-					<option>Standard - $6.95</option>
-					<option>UPS 2-3 Day - $12.95</option>
-					<option>UPS Overnight - $18.95</option>
-				</select>
+			<td colspan="2">
+				<h4>Shipping and Tax</h4>
+				<div class="description_box">
+					Select your preferred shipping method below. Tax applies to Texas residents only.
+				</div>
 			</td>
 		</tr>
+		<tr>
+			<td width="150" valign="top"><img src="/images/ublip_product_box.png" /></td>
+			<td>
+				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="300">1 Ublip Tracking Device<br /><span class="helper">(includes antenna, power cable, and mounting)</span></td>
+						<td>$249.95</td>
+					</tr>
+					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
+					<tr>
+						<td>Monthly Ublip Service<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
+						<td>$14.95</td>
+					</tr>
+					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
+					<tr>
+						<td>Shipping</td>
+						<td>
+							<select name="shipping">
+								<option>Standard - $6.95</option>
+								<option>UPS 2-3 Day - $12.95</option>
+								<option>UPS Overnight - $18.95</option>
+							</select>
+						</td></tr>
+					</tr>
+					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
+					<tr><td>Tax <span class="helper">(8.25%)</span></td><td>$21.85</td></tr>
+					<tr><td colspan="2"><div style="border-bottom: 1px solid #CCCCCC; margin: 10px 0;"></div></td></tr>
+					<tr>
+						<td><strong>Total</strong></td><td><span style="text-decoration: underline; font-weight: bold;">$293.70</span></td></tr>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
+	<table border="0" align="center" width="800">
 		<tr>
 			<td valign="top">
 				<h4>Billing Details</h4>
@@ -73,15 +105,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<h4>Review Your Order</h4>
-				<div class="description_box">
-					Review order details here
+			<td colspan="3">
+				<div style="background-color: #EEEEEE; padding: 10px; text-align: right; margin-top: 20px; border: 1px solid #CCCCCC;">
+					<input type="submit" value="Place order and create account" />
 				</div>
 			</td>
-		</tr>
-		<tr>
-			<td></td>
 		</tr>
 	</table>
 </form>
