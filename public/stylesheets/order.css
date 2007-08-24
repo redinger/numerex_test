@@ -47,3 +47,9 @@ h4 {
 a {
 	color: #0066CC;
 }
+
+hr {
+	height: 1px;
+	border: none;
+	border-bottom: 1px solid #EEEEEE;
+}
