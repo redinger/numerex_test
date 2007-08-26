@@ -36,10 +36,10 @@ function calculateTotal(e) {
 	var subtotal = 264.90;
 	var tax = subtotal * 0.0825;
 	var index = e.selectedIndex;
-	var value = parseInt(e.options[index].value);
-	var total = subtotal+tax+value;
-	total = Math.round(total*100)/100;
-	document.getElementById('total').innerHTML = '$' + total;
+	var shipping = parseFloat(e.options[index].value);
+	var total = subtotal+tax+shipping;
+	total = parseFloat(Math.round(total*100)/100);
+	document.getElementById('total').innerHTML = '$' + total + '0';
 }
 
 function toggleOrderButton(checked) {
