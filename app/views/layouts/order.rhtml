@@ -7,6 +7,19 @@
 <%= javascript_include_tag "order" %>
 </head>
 <body>
+<div id="header">
+   <div id="logo">
+       <a href="http://www.ublip.com" title="Ublip provides simple location tracking software for connecting to remote assets - www.ublip.com.  At Ublip, location matters."><img src="/images/ublip_logo.png" alt="Ublip provides simple location tracking software for connecting to remote assets - www.ublip.com.  At Ublip, location matters." border="0" /></a>
+   </div>
+   <div style="float: right">
+   		<% if params[:action] == 'index' %>
+   			<h1>Step 1 of 2</h1>
+		<% elsif params[:action] == 'step2' %>
+			<h1>Step 2 of 2</h1>
+		<% end %>
+	</div>
+</div>
+<div style="clear: both;"></div>
 <%= yield %>
 </body>
 </html>
