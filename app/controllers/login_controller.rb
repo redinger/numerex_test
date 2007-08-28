@@ -65,25 +65,44 @@ class LoginController < ApplicationController
     end
   end
   
-  def password
-  flash[:message] = nil
-  if request.post?
-    user = User.find_by_email(@params['email'])  
-    if user
-      if @params['password'] != ""
-        crypted_password = user.encrypt(@params['password'])
-        user.update_attribute("crypted_password", crypted_password)
-        flash[:message] = 'Password has been reseted successfully.'
-        redirect_to :controller => 'login'
+ def forgot_password
+    flash[:message] = nil
+    if request.post?
+      account = Account.find_by_subdomain(@params['subdomain'])
+      user = User.find(:first, :conditions => ["email =? AND account_id =?", @params['email'], account.id])  
+      if user
+         key = user.generate_security_token
+         url = url_for(:action => 'password')
+         url += "?user[id]=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
+         Notifier.deliver_forgot_password(user, url)
+         flash['message'] = "Plase check #{user.email} to change the password."
+         redirect_to :action => 'index'
       else
-        flash[:message] = 'Password cannot be blank.'
-        render :action => 'password'
+        flash[:message] = 'Please specify a valid username.'
+        render :action => 'forgot_password'
       end  
-    else
-      flash[:message] = 'Please specify a valid username.'
-      render :action => 'password'
-    end  
+    end
   end
+
+   def password
+    flash[:message] = nil
+    if request.post?
+        @user = User.find(@params['id'])  
+        if @user
+            @user.change_password(@params['user']['password'], @params['user']['password_confirmation'])
+            if @user.save
+              Notifier.deliver_change_password(@user, @params['user']['password'])
+              flash.now['notice'] = "New password is mailed to #{@user.email}"
+              redirect_to :action => 'index'     
+            else  
+               flash[:message] = 'Please specify a valid username.'
+               render :action => 'index'     
+            end 
+        else
+            flash[:message] = 'Please specify a valid username.'
+            render :action => 'index'     
+        end
+   end
   end
 
   def logout

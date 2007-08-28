@@ -69,6 +69,17 @@ class User < ActiveRecord::Base
     self.save_with_validation(false)
   end
 
+
+  def generate_security_token(hours = nil)
+     self.encrypt(self.created_at.to_i) 
+  end
+
+  def change_password(pass, confirm = nil)
+    self.password = pass
+    self.password_confirmation = confirm.nil? ? pass : confirm
+    @new_password = true
+  end
+  
   protected
     # before filter 
     def encrypt_password
