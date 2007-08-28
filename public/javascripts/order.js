@@ -45,10 +45,9 @@ function calculateTotal(e) {
 
 function toggleOrderButton(checked) {
 	var order_btn = document.getElementById('order_btn');
-	
 	if(checked)
 		order_btn.disabled = false;
 	else
 		order_btn.disabled = true;
-	
 }
+
