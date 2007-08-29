@@ -53,6 +53,7 @@ function toggleOrderButton(checked) {
 function validateShipForm(form) {
 	resetFields(form);
 	
+	// Shipping validation
 	var ship_first_name = form.ship_first_name.value.trim();
 	if(ship_first_name.length < 1) {
 		alert('Please enter a valid shipping first name');
@@ -85,14 +86,146 @@ function validateShipForm(form) {
 		return false;
 	}
 	
-	var ship_state = form.ship_state
+	var ship_state = form.ship_state.options[form.ship_state.selectedIndex].value;
+	if(ship_state == '') {
+		alert('Please select a shipping state');
+		form.ship_state.className = 'error_select';
+		form.ship_state.focus();
+		return false;
+	}
+	
+	var ship_zip = form.ship_zip.value.trim();;
+	if(ship_zip.length < 5) {
+		alert('Please enter a valid shipping zip code');
+		form.ship_zip.className = 'error_short';
+		form.ship_zip.focus();
+		return false;
+	}
+	
+	// Billing validation
+	var is_billing_same = form.bill_toggle.checked;
+	
+	// If billing is different than shipping
+	if(!is_billing_same) {
+		var bill_first_name = form.bill_first_name.value.trim();
+		if(bill_first_name.length < 1) {
+			alert('Please enter a valid billing first name');
+			form.bill_first_name.className = 'error_short';
+			form.bill_first_name.focus();
+			return false;
+		}
+		
+		var bill_last_name = form.bill_last_name.value.trim();
+		if(bill_last_name.length < 1) {
+			alert('Please enter a valid billing last name');
+			form.bill_last_name.className = 'error_short';
+			form.bill_last_name.focus();
+			return false;
+		}
+		
+		var bill_address = form.bill_address.value.trim();
+		if(bill_address.length < 1) {
+			alert('Please enter a valid billing address');
+			form.bill_address.className = 'error_short';
+			form.bill_address.focus();
+			return false;
+		}
+		
+		var bill_city = form.bill_city.value.trim();
+		if(bill_city.length < 1) {
+			alert('Please enter a valid billing city');
+			form.bill_city.className = 'error_short';
+			form.bill_city.focus();
+			return false;
+		}
+		
+		var bill_state = form.bill_state.options[form.bill_state.selectedIndex].value;
+		if(bill_state == '') {
+			alert('Please select a billing state');
+			form.bill_state.className = 'error_select';
+			form.bill_state.focus();
+			return false;
+		}
+		
+		var bill_zip = form.bill_zip.value.trim();
+		if(bill_zip.length < 5) {
+			alert('Please enter a valid billing zip code');
+			form.bill_zip.className = 'error_short';
+			form.bill_zip.focus();
+			return false;
+		}
+		
+	}
+	
+	// Email validation
+	var email = form.email.value.trim();
+	if(!validateEmail(email)) {
+		alert('Please enter a valid email address');
+		form.email.className = 'error_long';
+		form.email.focus();
+		return false;
+	}
+	
+	// Make sure the passwords are the proper length
+	var password = form.password.value.trim();
+	var confirm_password = form.confirm_password.value.trim();
+	
+	if(password.length < 6) {
+		alert('Please specify a password of the proper length');
+		form.password.className = 'error_long';
+		form.password.focus();
+		return false;
+	}
+	
+	if(confirm_password.length < 6) {
+		alert('Please specify a confirmation password of the proper length');
+		form.confirm_password.className = 'error_long';
+		form.confirm_password.focus();
+		return false;
+	}
+	
+	// Make sure the passwords match
+	if(password != confirm_password) {
+		alert('Please make sure your passwords match');
+		form.password.className = 'error_long';
+		form.password.focus();
+		return false;
+	}
+	
+	var subdomain = form.subdomain.value.trim();
+	if(!validateSubdomain(subdomain)) {
+		alert('Please make sure your web address contains only letters and numbers');
+		form.subdomain.className = 'error_short';
+		form.subdomain.focus();
+		return false;
+	} else {
+		form.subdomain.value = subdomain;
+	}
 	
 	return true;
 }
 
+// Returns null if invalid, else returns email address
+function validateEmail(email) {
+	var exp = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+	return email.match(exp);
+}
+
+// Make sure the subdomain is alphanumeric
+function validateSubdomain(subdomain) {
+	var exp = /^[0-9a-zA-Z]+$/;
+	return subdomain.match(exp);
+}
+
 function resetFields(form) {
-	form.ship_first_name.className = 'short_text';
-	form.ship_last_name.className = 'short_text';
-	form.ship_address.className = 'long_text';
-	form.ship_city.className = 'short_text';
+	form.ship_first_name.className = form.bill_first_name.className = 'short_text';
+	form.ship_last_name.className = form.bill_last_name.className = 'short_text';
+	form.ship_address.className = form.bill_address.className = 'long_text';
+	form.ship_city.className = form.bill_city.className = 'short_text';
+	form.ship_state.className = form.bill_state.className = '';
+	form.ship_zip.className = form.bill_zip.className = 'short_text';
+	form.email.className = 'long_text';
+	form.password.className = form.confirm_password.className = 'long_text';
+	form.subdomain.className = 'short_text';
+	
 }

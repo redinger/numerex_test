@@ -74,6 +74,20 @@ h4 {
 	padding: 10px;
 }
 
+.error_select {
+	border: 2px solid #EA9797;
+}
+
+.error_short {
+	background-color: #F2C0C0;
+	width: 150px;
+}
+
+.error_long {
+	background-color: #F2C0C0;
+	width: 200px;
+}
+
 a {
 	color: #0066CC;
 }
