@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 12) do
+ActiveRecord::Schema.define(:version => 21) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -26,6 +26,9 @@ ActiveRecord::Schema.define(:version => 12) do
     t.column "updated_at",          :datetime
     t.column "provision_status_id", :integer,  :limit => 2,  :default => 0
     t.column "account_id",          :integer,                :default => 0
+    t.column "last_online_time",    :datetime
+    t.column "modem_id",            :string,   :limit => 30
+    t.column "online_threshold",    :integer
   end
 
   create_table "devices_users", :force => true do |t|
@@ -41,6 +44,13 @@ ActiveRecord::Schema.define(:version => 12) do
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
     t.column "address",    :string
+    t.column "fence_num",  :integer
+  end
+
+  create_table "orders", :force => true do |t|
+    t.column "account_id", :integer
+    t.column "paypal_id",  :string,   :limit => 50
+    t.column "created_at", :datetime
   end
 
   create_table "readings", :force => true do |t|
@@ -54,6 +64,8 @@ ActiveRecord::Schema.define(:version => 12) do
     t.column "updated_at", :datetime
     t.column "event_type", :string,   :limit => 25
     t.column "note",       :string
+    t.column "address",    :string,   :limit => 1024
+    t.column "notified",   :boolean,                  :default => false
   end
 
   create_table "sessions", :force => true do |t|
@@ -79,6 +91,8 @@ ActiveRecord::Schema.define(:version => 12) do
     t.column "is_master",                 :boolean,                :default => false
     t.column "is_admin",                  :boolean,                :default => false
     t.column "last_login_dt",             :datetime
+    t.column "enotify",                   :boolean,                :default => false
+    t.column "time_zone",                 :string
   end
 
 end
