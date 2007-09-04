@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
-# require AR
-
 
 ENV["RAILS_ENV"] ||= "development"
 
 require File.dirname(__FILE__) + "/../../config/environment"
-#require File.dirname(__FILE__) + "/../../app/models/notifier"
 
 $running = true;
 Signal.trap("TERM") do 
