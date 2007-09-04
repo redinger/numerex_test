@@ -1,4 +1,4 @@
-<form method="post" action="/order/complete">
+<form method="post" action="/order/complete" onsubmit="return validateCCForm(this);">
 	<table width="800" border="0" align="center">
 		<tr>
 			<td colspan="2">
@@ -54,10 +54,10 @@
 				<table>
 					<tr><td></td><td><img src="/images/cc_types.png" /></td></tr>
 					<tr>
-						<td class="label">Card Type</td><td><select name="cc_type"><option value="Visa">Visa</option><option value="">Mastercard</option><option>American Express</option><option>Discover</option></select></td>
+						<td class="label">Card Type</td><td><select id="cc_type" name="cc_type"><option value="Visa">Visa</option><option value="">Mastercard</option><option>American Express</option><option>Discover</option></select></td>
 					</tr>
 					<tr>
-						<td class="label">Card Number</td><td><input type="text" class="short_text" /> <span class="helper">(no spaces or hyphens)</span></td>
+						<td class="label">Card Number</td><td><input type="text" class="short_text" id="cc_number" name="cc_number" maxlength="16" /> <span class="helper">(no spaces or hyphens)</span></td>
 					</tr>
 					<tr>
 						<td class="label">Expiration</td>
@@ -76,7 +76,7 @@
 								<option value="11">11 - November</option>
 								<option value="12">12 - December</option>
 							</select>
-							<select name="cc_year">
+							<select name="cc_year" id="cc_year">
 								<option value="07">2007</option>
 								<option value="08">2008</option>
 								<option value="09">2009</option>
@@ -95,7 +95,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="label">CVV2</td><td><input type="text" name="cvv" style="width: 50px;" /> <span class="helper">(3-4 digit code on back of card)</span></td>
+						<td class="label">CVV2</td><td><input type="text" name="cvv2" id="cvv2" class="super_short_text" maxlength="4" /> <span class="helper">(3-4 digit code on back of card)</span></td>
 					</tr>
 				</table>
 			</td>

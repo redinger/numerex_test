@@ -2,7 +2,7 @@ var states = [{name:'Alabama',value:'AL'},{name:'Alaska',value:'AK'},{name:'Ariz
 
 function initStep1() {
 	document.getElementById('ship_first_name').focus();
-	populateStates('ship_state');
+	populateStates('ship_state', default_ship_state);
 }
 
 function toggleBilling(e) {
@@ -12,12 +12,12 @@ function toggleBilling(e) {
 	} else {
 		var len = document.getElementById('bill_state').options.length;
 		if(len == 0)
-			populateStates('bill_state');
+			populateStates('bill_state', default_bill_state);
 		b.style.visibility = 'visible';
 	}
 }
 
-function populateStates(id) {
+function populateStates(id, default_state) {
 	var e = document.getElementById(id);
 	var option = document.createElement('option');
 	option.innerHTML = '- Please select -';
@@ -26,8 +26,12 @@ function populateStates(id) {
 
 	for(var i=0; i < states.length; i++) {
 		var option = document.createElement('option');
-		option.innerHTML = states[i].name
+		option.innerHTML = states[i].name;
 		option.value = states[i].value;
+		
+		if(states[i].value == default_state)
+			option.selected = 'selected';
+			
 		e.appendChild(option);
 	}
 }
@@ -50,8 +54,9 @@ function toggleOrderButton(checked) {
 		order_btn.disabled = true;
 }
 
+// Validate shipping/billing form in step1
 function validateShipForm(form) {
-	resetFields(form);
+	resetShippingFields(form);
 	
 	// Shipping validation
 	var ship_first_name = form.ship_first_name.value.trim();
@@ -205,6 +210,30 @@ function validateShipForm(form) {
 	return true;
 }
 
+// Validate cc form in step 2
+function validateCCForm(form) {
+	resetCCFields(form);
+	// Verify the credit card
+	var cc_number = form.cc_number.value.trim();
+	
+	if(!isNumeric(cc_number) || cc_number.length < 13) {
+		alert('Please enter a valid credit card number');
+		form.cc_number.className = 'error_short';
+		form.cc_number.focus();
+		return false;
+	}
+	
+	// Verify the security code
+	var cvv2 = form.cvv2.value.trim();
+	if(!isNumeric(cvv2) || cvv2.length < 3) {
+		alert('Please enter a valid security code');
+		form.cvv2.className = 'error_super_short';
+		form.cvv2.focus();
+		return false;
+	}
+	return false;
+}
+
 // Returns null if invalid, else returns email address
 function validateEmail(email) {
 	var exp = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
@@ -217,7 +246,14 @@ function validateSubdomain(subdomain) {
 	return subdomain.match(exp);
 }
 
-function resetFields(form) {
+// Make sure value is numeric
+function isNumeric(val) {
+	var exp = /^[0-9]+$/;
+	return val.match(exp);
+}
+
+// Reset shipping fields so they don't display errors
+function resetShippingFields(form) {
 	form.ship_first_name.className = form.bill_first_name.className = 'short_text';
 	form.ship_last_name.className = form.bill_last_name.className = 'short_text';
 	form.ship_address.className = form.bill_address.className = 'long_text';
@@ -227,5 +263,10 @@ function resetFields(form) {
 	form.email.className = 'long_text';
 	form.password.className = form.confirm_password.className = 'long_text';
 	form.subdomain.className = 'short_text';
-	
+}
+
+// Reset cc fields so they don't display errors
+function resetCCFields(form) {
+	form.cc_number.className = 'short_text';
+	form.cvv2.className = 'super_short_text';
 }

@@ -43,35 +43,35 @@
 				<table>
 					<tr>
 						<td class="label"><label for="ship_first_name">* First Name</label></td>
-						<td><input type="text" class="short_text" name="ship_first_name" id="ship_first_name" /></td>
+						<td><input type="text" class="short_text" name="cust[ship_first_name]" id="ship_first_name" value="<% if session[:cust] %><%= session[:cust][:ship_first_name] %><% end %>" /></td>
 					</tr>
 					<tr>
 						<td class="label"><label for="ship_last_name">* Last Name</label></td>
-						<td><input type="text" class="short_text" name="ship_last_name" id="ship_last_name" /></td>
+						<td><input type="text" class="short_text" name="cust[ship_last_name]" id="ship_last_name" value="<% if session[:cust] %><%= session[:cust][:ship_last_name] %><% end %>" /></td>
 					</tr>
 					<tr>
 						<td class="label"><label for="ship_company">Company</label></td>
-						<td><input type="text" class="short_text" name="ship_company" id="ship_company" /></td>
+						<td><input type="text" class="short_text" name="cust[ship_company]" id="ship_company" value="<% if session[:cust] %><%= session[:cust][:ship_company] %><% end %>" /></td>
 					</tr>
 					<tr>
 						<td class="label"><label for="ship_address">* Address</label></td>
-						<td><input type="text" class="long_text" name="ship_address" id="ship_address" /></td>
+						<td><input type="text" class="long_text" name="cust[ship_address]" id="ship_address" value="<% if session[:cust] %><%= session[:cust][:ship_address] %><% end %>" /></td>
 					</tr>
 					<tr>
 						<td class="label"><label for="ship_address2">Address2</label></td>
-						<td><input type="text" class="long_text"14185  name="ship_address2" id="ship_address2" /> <span class="helper">(e.g. Suite #)</span></td>
+						<td><input type="text" class="long_text"14185  name="cust[ship_address2]" id="ship_address2" value="<% if session[:cust] %><%= session[:cust][:ship_address2] %><% end %>" /> <span class="helper">(e.g. Suite #)</span></td>
 					</tr>
 					<tr>
 						<td class="label"><label for="ship_city">* City</label></td>
-						<td><input type="text" class="short_text" name="ship_city" id="ship_city" /></td>
+						<td><input type="text" class="short_text" name="cust[ship_city]" id="ship_city" value="<% if session[:cust] %><%= session[:cust][:ship_city] %><% end %>" /></td>
 					</tr>
 					<tr>
-						<td class="label"><label for="state">* State</label></td>
-						<td><select name="ship_state" id="ship_state"></select></td>
+						<td class="label"><label for="ship_state">* State</label></td>
+						<td><select name="cust[ship_state]" id="ship_state"></select></td>
 					</tr>
 					<tr>
 						<td class="label"><label for="ship_zip">* Zip</label></td>
-						<td><input type="text" class="short_text" name="ship_zip" id="ship_zip" /></td>
+						<td><input type="text" class="short_text" name="cust[ship_zip]" id="ship_zip" value="<% if session[:cust] %><%= session[:cust][:ship_zip] %><% end %>" /></td>
 					</tr>
 				</table>
 			</td>
@@ -85,35 +85,35 @@
 					<table>
 						<tr>
 							<td class="label"><label for="bill_first_name">* First Name</label></td>
-							<td><input type="text" class="short_text" name="bill_first_name" id="bill_first_name" /></td>
+							<td><input type="text" class="short_text" name="cust[bill_first_name]" id="bill_first_name" value="<% if session[:cust] %><%= session[:cust][:bill_first_name] %><% end %>" /></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="bill_last_name">* Last Name</label></td>
-							<td><input type="text" class="short_text" name="bill_last_name" id="bill_last_name" /></td>
+							<td><input type="text" class="short_text" name="cust[bill_last_name]" id="bill_last_name" value="<% if session[:cust] %><%= session[:cust][:bill_last_name] %><% end %>" /></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="bill_company">Company</label></td>
-							<td><input type="text" class="short_text" name="bill_company" id="bill_company" /></td>
+							<td><input type="text" class="short_text" name="cust[bill_company]" id="bill_company" value="<% if session[:cust] %><%= session[:cust][:bill_company] %><% end %>" /></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="bill_address">* Address</label></td>
-							<td><input type="text" class="long_text" name="bill_address" id="bill_address" /></td>
+							<td><input type="text" class="long_text" name="cust[bill_address]" id="bill_address" value="<% if session[:cust] %><%= session[:cust][:bill_address] %><% end %>" /></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="bill_address2">Address2</label></td>
-							<td><input type="text" class="long_text" name="bill_address2" id="bill_address2" /> <span class="helper">(e.g. Suite #)</span></td>
+							<td><input type="text" class="long_text" name="cust[bill_address2]" id="bill_address2" value="<% if session[:cust] %><%= session[:cust][:bill_address2] %><% end %>" /> <span class="helper">(e.g. Suite #)</span></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="bill_city">* City</label></td>
-							<td><input type="text" class="short_text" name="bill_city" id="bill_city" /></td>
+							<td><input type="text" class="short_text" name="cust[bill_city]" id="bill_city" value="<% if session[:cust] %><%= session[:cust][:bill_city] %><% end %>" /></td>
 						</tr>
 						<tr>
-							<td class="label"><label for="state">* State</label></td>
-							<td><select name="bill_state" id="bill_state"></select></td>
+							<td class="label"><label for="bill_state">* State</label></td>
+							<td><select name="cust[bill_state]" id="bill_state"></select></td>
 						</tr>
 						<tr>
 							<td class="label"><label for="bill_zip">* Zip</label></td>
-							<td><input type="text" class="short_text" name="bill_zip" id="bill_zip" /></td>
+							<td><input type="text" class="short_text" name="cust[bill_zip]" id="bill_zip" value="<% if session[:cust] %><%= session[:cust][:bill_zip] %><% end %>" /></td>
 						</tr>
 					</table>
 				</div>
@@ -126,11 +126,16 @@
 					This will be your master user account for logging in and tracking your devices.  You'll also need to specify your own
 					unique web address such as <strong>smithkids.ublip.com</strong> or <strong>123fleet.ublip.com</strong>.
 				</div>
+				<% if flash[:error] %>
+					<div class="error_box" style="background-color: #FF0000;">
+						<%= flash[:error] %>
+					</div>
+				<% end %>
 				<table>
-					<tr><td class="label"><label for="email">* Email</label></td><td><input type="text" class="long_text" name="email" id="email" /> <span class="helper">(this will be your login name)</span></td></tr>
-					<tr><td class="label"><label for="password">* Password</label></td><td><input type="password" class="long_text" maxlength="30" name="password" id="password" /> <span class="helper">(between 6 and 30 characters)</span></td></tr>
-					<tr><td class="label"><label for="confirm_password">* Confirm Password</label></td><td><input type="password" class="long_text" maxlength="30" name="confirm_password" id="confirm_password" /> <span class="helper">(confirm your password)</span></td></tr>
-					<tr><td class="label"><label for="subdomain">* Web Address</label></td><td>http:// <input type="text" class="short_text" name="subdomain" id="subdomain" /> .ublip.com <span class="helper">(letters and numbers only - no spaces)</span></td></tr>
+					<tr><td class="label"><label for="email">* Email</label></td><td><input type="text" class="long_text" name="email" id="email" value="<% if session[:email] %><%= session[:email] %><% end %>" /> <span class="helper">(this will be your login name)</span></td></tr>
+					<tr><td class="label"><label for="password">* Password</label></td><td><input type="password" class="long_text" maxlength="30" name="password" id="password" value="<% if session[:password] %><%= session[:password] %><% end %>" /> <span class="helper">(between 6 and 30 characters)</span></td></tr>
+					<tr><td class="label"><label for="confirm_password">* Confirm Password</label></td><td><input type="password" class="long_text" maxlength="30" name="confirm_password" id="confirm_password" value="<% if session[:password] %><%= session[:password] %><% end %>" /> <span class="helper">(confirm your password)</span></td></tr>
+					<tr><td class="label"><label for="subdomain">* Web Address</label></td><td>http:// <input type="text" class="short_text" name="subdomain" id="subdomain" value="<% if session[:subdomain] %><%= session[:subdomain] %><% end %>" /> .ublip.com <span class="helper">(letters and numbers only - no spaces)</span></td></tr>
 				</table>
 			</td>
 		</tr>
@@ -145,5 +150,13 @@
 </form>
 
 <script>
+	var default_ship_state, default_bill_state;
+	<% if session[:cust] %>
+		default_ship_state = '<%= session[:cust][:ship_state] %>';
+		default_bill_state = '<%= session[:cust][:bill_state] %>';
+	<% end %>
 	window.onload = initStep1;
+	<% if flash[:error] %>
+		document.getElementById('subdomain').focus();
+	<% end %>
 </script>
