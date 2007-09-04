@@ -27,6 +27,14 @@ def forgot_password(user, url=nil)
     @body["app_name"] = "Ublip"
   end
 
+  def notify_reading(user, action, reading)
+    setup_email(user)
+    @subject = reading.device.name + ' ' + action
+    @body["action"] = action
+    @body["name"] = "#{user.first_name} #{user.last_name}"
+    @body["device_name"] = reading.device.name
+    @body["time"] = reading.created_at
+  end
 
    def setup_email(user)
     @recipients = "#{user.email}"
