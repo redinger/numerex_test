@@ -127,7 +127,7 @@
 					unique web address such as <strong>smithkids.ublip.com</strong> or <strong>123fleet.ublip.com</strong>.
 				</div>
 				<% if flash[:error] %>
-					<div class="error_box" style="background-color: #FF0000;">
+					<div class="error_box">
 						<%= flash[:error] %>
 					</div>
 				<% end %>
@@ -155,8 +155,11 @@
 		default_ship_state = '<%= session[:cust][:ship_state] %>';
 		default_bill_state = '<%= session[:cust][:bill_state] %>';
 	<% end %>
-	window.onload = initStep1;
+	
 	<% if flash[:error] %>
-		document.getElementById('subdomain').focus();
+		window.onload = initStep1('subdomain');
+		document.getElementById('subdomain').className = 'error_short';
+	<% else %>
+		window.onload = initStep1('ship_first_name');
 	<% end %>
 </script>

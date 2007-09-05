@@ -48,10 +48,6 @@ input[type="text"], input[type="password"], select {
 	font-size: 12px;
 }
 
-.super_short_text {
-	width: 50px;
-}
-
 .short_text {
 	width: 150px;
 }
@@ -82,11 +78,6 @@ h4 {
 	border: 2px solid #EA9797;
 }
 
-.error_super_short {
-	background-color: #F2C0C0;
-	width: 50px;
-}
-
 .error_short {
 	background-color: #F2C0C0;
 	width: 150px;
@@ -95,6 +86,13 @@ h4 {
 .error_long {
 	background-color: #F2C0C0;
 	width: 200px;
+}
+
+.error_box {
+	font-weight: bold;
+	background-color: #F2C0C0;
+	padding: 10px;
+	margin-bottom: 10px;
 }
 
 a {

@@ -28,6 +28,7 @@ class OrderController < ApplicationController
   # Paypal authorization
   def complete
     
+    
   end
   
   private
