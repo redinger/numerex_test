@@ -68,7 +68,7 @@ class LoginController < ApplicationController
  def forgot_password
     flash[:message] = nil
     if request.post?
-      account = Account.find_by_subdomain(@params['subdomain'])
+      account = Account.find_by_subdomain(request.subdomains.first)
       user = User.find(:first, :conditions => ["email =? AND account_id =?", @params['email'], account.id])  
       if user
          key = user.generate_security_token
