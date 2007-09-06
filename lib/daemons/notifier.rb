@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= "development"
+#ENV["RAILS_ENV"] ||= "development"
 
 require File.dirname(__FILE__) + "/../../config/environment"
 
@@ -9,7 +9,7 @@ Signal.trap("TERM") do
   $running = false
 end
 
-#while($running) do
+while($running) do
   ActiveRecord::Base.logger << "This notification daemon is still running at #{Time.now}.\n"
 
   readings_to_notify = Reading.find(:all, :conditions => "event_type like '%geofen%' and notified='0'")
@@ -19,18 +19,15 @@ end
   readings_to_notify.each do |reading| 
     reading.device.account.users.each do |user|
       if user.enotify? 
-        ActiveRecord::Base.logger << "notify: #{user.email}\n"
-        action = reading.event_type.include?('exit') ? "exited a geofence" : "entered a geofence"
-        
-        mail = Notifier.create_notify_reading(user, action, reading)
-        puts(mail.to_s)
-        # would really want to replace previous 2 lines with something like:
-        # Notifier.deliver_notify_reading(user, action, reading)
+        ActiveRecord::Base.logger << "notifying: #{user.email}\n"
+        action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
+        action += reading.get_fence_name unless reading.get_fence_name.nil?
+        mail = Notifier.deliver_notify_reading(user, action, reading)
       end
     end
     reading.notified = true
     reading.save
   end
-#  sleep 10
+  sleep 10
 
-#end
+end
