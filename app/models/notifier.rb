@@ -38,7 +38,7 @@ def forgot_password(user, url=nil)
 
    def setup_email(user)
     @recipients = "#{user.email}"
-    @from       = "Ublip.com"
+    @from       = "postmaster@ublip.com"
     @subject    = "Forgotten Password request"
     @sent_on    = Time.now
     @headers['Content-Type'] = "text/plain; charset=utf-16"
