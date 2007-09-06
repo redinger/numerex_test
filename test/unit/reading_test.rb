@@ -40,6 +40,10 @@ class ReadingTest < Test::Unit::TestCase
     puts reading1.distance_to(reading3)*1000
   end
    
+  def test_fence_name
+    assert_nil readings(:reading1).get_fence_name
+    assert_equal "home", readings(:readings_224).get_fence_name
+  end
   
 
   end
