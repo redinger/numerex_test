@@ -10,6 +10,16 @@ class Reading < ActiveRecord::Base
   def speed
     read_attribute(:speed).round
   end
+  
+  def get_fence_name
+    if(!self.event_type.include?("geofen"))
+      return nil
+    else
+       fenceNumber = self.event_type[self.event_type.length-1].chr
+       fence = Geofence.find(:first, :conditions => ["fence_num = ?",fenceNumber])
+       return fence.name
+    end
+  end
 
 
   def shortAddress
