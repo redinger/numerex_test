@@ -58,9 +58,3 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
-
-
-ActionMailer::Base.server_settings = {
-  :address => "59.144.125.113",	#Needs to configure this setting to send email, Please provide public IP address here.
-  :port => 25
-}
