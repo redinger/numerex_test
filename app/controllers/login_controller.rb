@@ -106,7 +106,7 @@ class LoginController < ApplicationController
   end
 
   def logout
-    self.current_user.forget_me if self.current_user
+    self.current_user.forget_me if self.current_user!=:false
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
