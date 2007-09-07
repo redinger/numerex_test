@@ -23,7 +23,7 @@ class OrderController < ApplicationController
     end
     
     #Estimated shipping
-    if session[:qty].to_i > 1
+    if session[:qty] > 1
       @ship_ground = 12.95 + (session[:qty]*4.95)
     else
       @ship_ground = 12.95
@@ -72,9 +72,9 @@ class OrderController < ApplicationController
   end
   
   # PayPal authorization
-  def complete
+  def process_order
     # Calculate charges based on product (annual or yearly) and quantity
-    qty = params[:qty].to_i
+    qty = session[:qty]
     
     
 
@@ -117,8 +117,14 @@ class OrderController < ApplicationController
       :l_amt1          => '14.95'  
     }
     
+    # If paypal success then complete the order
+    redirect_to :action => 'complete'
     
-    
+    # If not send them back to step 2 and provide proper feedback
+  end
+  
+  def complete
+    # Send email acknowledgement
   end
   
 end
