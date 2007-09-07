@@ -11,22 +11,22 @@
 			<td>
 				<table width="100%" border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td width="300">1 Ublip Tracking Device (<%=session[:product_code]%>)<br /><span class="helper">(includes antenna, power cable, and mounting kit)</span></td>
+						<td width="300">Ublip Tracking Device (x <%=session[:qty]%>)<br /><span class="helper">(includes antenna, power cable, and mounting kit)</span></td>
 						<td>$249.95</td>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
-						<td>Monthly Ublip Service<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
-						<td>$14.95</td>
+						<td><%if(session[:service_code]=='US1000')%>Monthly<%else%>Annual<%end%> Ublip Service (x <%=session[:qty]%>)<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
+						<td>$<%=session[:service_price]%></td>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
-						<td><strong>Subtotal</strong></td><td><span style="text-decoration: underline; font-weight: bold;">$264.90</span></td></tr>
+						<td><strong>Subtotal</strong></td><td><span style="text-decoration: underline; font-weight: bold;">$<%=session[:subtotal]%><%if(session[:subtotal]==264.9)%>0<%end%></span></td></tr>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
 						<td>Estimated Shipping</td>
-						<td>$12.95</td>
+						<td>$<%=@ship_ground%></td>
 					</tr>
 				</table>
 			</td>

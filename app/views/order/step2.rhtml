@@ -13,30 +13,32 @@
 			<td>
 				<table width="100%" border="0" cellpadding="0" cellspacing="0">
 					<tr>
-						<td width="300">1 Ublip Tracking Device<br /><span class="helper">(includes antenna, power cable, and mounting)</span></td>
+						<td width="300">Ublip Tracking Device (x <%=session[:qty]%>)<br /><span class="helper">(includes antenna, power cable, and mounting kit)</span></td>
 						<td>$249.95</td>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
-						<td>Monthly Ublip Service<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
-						<td>$14.95</td>
+						<td><%if(session[:service_code]=='US1000')%>Monthly<%else%>Annual<%end%> Ublip Service (x <%=session[:qty]%>)<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
+						<td>$<%=session[:service_price]%></td>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
-					<tr><td>Tax <span class="helper">(8.25%)</span></td><td>$21.85</td></tr>
+					<% if @tax %>
+					<tr><td>Tax <span class="helper">(8.25%)</span></td><td>$<%=@tax%></td></tr>
 					<tr><td colspan="2"><hr /></td></tr>
+					<% end %>
 					<tr>
 						<td>Shipping</td>
 						<td>
 							<select name="shipping" onchange="calculateTotal(this);">
-								<option value="12.95">UPS 3-5 Day - $12.95</option>
-								<option value="24.95">UPS 2 Day - $24.95</option>
-								<option value="49.95">UPS Overnight - $49.95</option>
+								<option value="<%=@ship_ground.to_s%>">UPS 3-5 Day - $<%=@ship_ground.to_s%></option>
+								<option value="<%=@ship_2day.to_s%>">UPS 2 Day - $<%=@ship_2day.to_s%></option>
+								<option value="<%=@ship_overnight.to_s%>">UPS Overnight - $<%=@ship_overnight.to_s%></option>
 							</select>
 						</td></tr>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
-						<td><strong>Total</strong></td><td><span style="text-decoration: underline; font-weight: bold;" id="display_total">$295.70</span></td></tr>
+						<td><strong>Total</strong></td><td><span style="text-decoration: underline; font-weight: bold;" id="display_total">$<%=session[:total]%></span></td></tr>
 					</tr>
 				</table>
 			</td>
@@ -117,7 +119,7 @@
 		</tr>
 	</table>
 	<input type="hidden" name="qty" value="1" />
-	<input type="hidden" name="subtotal" value="264.90" />
-	<input type="hidden" name="tax" value="21.85" />
-	<input type="hidden" name="total" id="total" value="295.70" />
+	<input type="hidden" name="subtotal" id="subtotal" value="<%=session[:subtotal]%>" />
+	<input type="hidden" name="tax" id="tax" value="<%=session[:tax]%>" />
+	<input type="hidden" name="total" id="total" />
 </form>

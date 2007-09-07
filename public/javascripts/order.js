@@ -37,8 +37,8 @@ function populateStates(id, default_state) {
 }
 
 function calculateTotal(e) {
-	var subtotal = 264.90;
-	var tax = subtotal * 0.0825;
+	var subtotal = parseFloat(document.getElementById("subtotal").value);
+	var tax = parseFloat(document.getElementById("tax").value);
 	var index = e.selectedIndex;
 	var shipping = parseFloat(e.options[index].value);
 	var total = subtotal+tax+shipping;
@@ -232,7 +232,7 @@ function validateCCForm(form) {
 		form.cvv2.focus();
 		return false;
 	}
-	return false;
+	return true;
 }
 
 // Returns null if invalid, else returns email address
