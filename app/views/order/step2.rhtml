@@ -22,7 +22,7 @@
 						<td>$<%=session[:service_price]%></td>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
-					<% if @tax %>
+					<% if @tax != 0 %>
 					<tr><td>Tax <span class="helper">(8.25%)</span></td><td>$<%=@tax%></td></tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<% end %>
