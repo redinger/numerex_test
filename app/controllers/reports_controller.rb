@@ -156,8 +156,14 @@ class ReportsController < ApplicationController
                               r1 = readings[index]
                               r2 = readings[index+1]
                               if(r1.speed==0 && r2.speed==0 && r1.distance_to(r2, :units => :kms) <= 0.2)
-                                readings.delete_at(index+1)
-                                anyDeletions = true
+                                
+                                next_moving_reading_after_stop = Reading.find(:first, :order => "created_at desc",
+                                    :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ? and speed <> 0", r1.device_id, r1.created_at.to_i, r2.created_at.to_i])
+                                
+                                if( next_moving_reading_after_stop.nil? )
+                                  readings.delete_at(index+1)
+                                  anyDeletions = true
+                                end
                               end
                           end
                         }
