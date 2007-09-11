@@ -1,3 +1,4 @@
+require 'cgi'
 class OrderController < ApplicationController
   def index
    redirect_to :action => 'step1'
@@ -13,6 +14,7 @@ class OrderController < ApplicationController
       session[:service_price] = params[:service_price]
       session[:qty] = params[:qty].to_i
       session[:subtotal] = (params[:device_price].to_f + params[:service_price].to_f) * params[:qty].to_i
+      session[:subtotal] = sprintf('%0.02f', session[:subtotal]).to_i
     elsif session[:device_code].nil? # The form and session data do not exist
       session[:device_code] = "UD1000"
       session[:device_price] = 249.95
@@ -42,6 +44,18 @@ class OrderController < ApplicationController
       redirect_to :action => 'step1'
     end
     
+    # If billing info is same as shipping then copy over
+    if params[:bill_toggle]
+      params[:cust][:bill_first_name] = params[:cust][:ship_first_name]
+      params[:cust][:bill_last_name] = params[:cust][:ship_last_name]
+      params[:cust][:bill_company] = params[:cust][:ship_company]
+      params[:cust][:bill_address] = params[:cust][:ship_address]
+      params[:cust][:bill_address2] = params[:cust][:ship_address2]
+      params[:cust][:bill_city] = params[:cust][:ship_city]
+      params[:cust][:bill_state] = params[:cust][:ship_state]
+      params[:cust][:bill_zip] = params[:cust][:ship_zip]
+    end
+   
     # Store their information to the session object
     session[:cust] = params[:cust]
     session[:email] = params[:email]
@@ -63,12 +77,13 @@ class OrderController < ApplicationController
     # Determine tax
     if params[:cust][:ship_state] == 'TX'
       @tax = (session[:subtotal] * 0.0825)
-      session[:tax] = @tax
+      session[:tax] = sprintf('%0.02f', @tax).to_i
     else
       @tax = 0
     end
     
     session[:total] = session[:subtotal] + @ship_ground + @tax
+    session[:total] = sprintf('%0.02f', session[:total])
   end
   
   # PayPal authorization
@@ -76,49 +91,80 @@ class OrderController < ApplicationController
     # Calculate charges based on product (annual or yearly) and quantity
     qty = session[:qty]
     
-    
-
+        
     # Create the PayPal request object
     req= {
       :method          => 'DoDirectPayment',
-      :amt             => '295.70',
+      :amt             => session[:total],
       :currencycode    => 'USD',
       :paymentaction   => 'authorization',
-      :creditcardtype  => 'Visa',
-      :acct            => '4721930402892796',
-      :firstname       => 'Dennis',
-      :lastname        => 'Baldwin',
-      :email           => 'dennis@ublip.com',
-      :street          => '6246 Ellsworth Avenue',
-      :city            => 'Dallas',
-      :state           => 'TX',
-      :zip             => '75214',
+      :creditcardtype  => params[:cc_type],
+      :acct            => params[:cc_number].strip,
+      :firstname       => session[:cust][:bill_first_name].strip,
+      :lastname        => session[:cust][:bill_last_name].strip,
+      :email           => session[:email].strip,
+      :street          => session[:cust][:bill_address].strip,
+      :city            => session[:cust][:bill_city].strip,
+      :state           => session[:cust][:bill_state],
+      :zip             => session[:cust][:bill_zip].strip,
       :countrycode     => 'US',
-      :expdate         => '122010',
-      :cvv2            => '396',
-      :shiptoname      => 'Dennis Baldwin',
-      :shiptostreet    => '6246 Ellsworth Avenue',
-      :shiptostreet2   => '',
-      :shiptocity      => 'Dallas',
-      :shiptostate     => 'TX',
+      :expdate         => params[:cc_month] + params[:cc_year],
+      :cvv2            => params[:cvv2].strip,
+      :shiptoname      => session[:cust][:ship_first_name].strip + ' ' + session[:cust][:ship_last_name].strip,
+      :shiptostreet    => session[:cust][:ship_address].strip,
+      :shiptostreet2   => session[:cust][:ship_address2].strip,
+      :shiptocity      => session[:cust][:ship_city].strip,
+      :shiptostate     => session[:cust][:ship_state],
       :shiptocountrycode => 'US',
-      :shiptophonenum  => '2147383404',
-      :shiptozip       => '75214',
-      :itemamt         => '264.90',
-      :shippingamt     => '12.95',
-      :taxamt          => '21.85',
+      :shiptozip       => session[:cust][:ship_zip].strip,
+      :itemamt         => session[:subtotal],
+      :shippingamt     => params[:shipping],
+      :taxamt          => session[:tax],
       :l_name0         => 'Ublip Tracking Device',
-      :l_number0       => 'UD1000',
-      :l_qty0          => '1',
+      :l_number0       => session[:device_code],
+      :l_qty0          => session[:qty],
       :l_amt0          => '249.95',
-      :l_name1         => 'Ublip Monthly Tracking Service',
-      :l_number1       => 'US1000',
-      :l_qty1          => '1',
+      :l_name1         => 'Ublip Tracking Service',
+      :l_number1       => session[:service_code],
+      :l_qty1          => session[:qty],
       :l_amt1          => '14.95'  
     }
     
+    temp = ''
+    req.each {|key,val|
+      temp += key.to_s + ':' + val.to_s + '<br />'
+    }
+    
+    # Initialize the PayPal object
+    caller = PayPalSDKCallers::Caller.new(false)
+    
+    # Create the PayPal transaction
+    transaction = caller.call(req)
+    
+    if transaction.success?   
+      puts transaction.response
+      #session[:dcc_response]=@transaction.response 
+      #redirect_to :controller => 'dcc',:action => 'thanks'
+    else
+      puts transaction.response
+      #session[:paypal_error]=@transaction.response
+      #redirect_to :controller => 'wppro', :action => 'error'
+    end
+    
+  rescue Errno::ENOENT => exception
+    flash[:error] = exception
+    puts exception
+    #redirect_to :controller => 'wppro', :action => 'exception'
+    
+    # Create the PayPal transaction
+    #transaction = caller.call(req)
+    
+    #temp += '<hr />' + transaction.response
+    
+    
+    
     # If paypal success then complete the order
-    redirect_to :action => 'complete'
+    # redirect_to :action => 'complete'
     
     # If not send them back to step 2 and provide proper feedback
   end
