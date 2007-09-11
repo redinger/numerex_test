@@ -122,3 +122,10 @@
 	<input type="hidden" name="tax" id="tax" value="<%=session[:tax]%>" />
 	<input type="hidden" name="total" id="total" />
 </form>
+
+<script>
+	window.onload = function() {
+		var month = new Date().getMonth();
+		document.getElementById('cc_month').selectedIndex = month;
+	}
+</script>
