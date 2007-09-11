@@ -42,7 +42,7 @@ function calculateTotal(e) {
 	var index = e.selectedIndex;
 	var shipping = parseFloat(e.options[index].value);
 	var total = subtotal+tax+shipping;
-	total = parseFloat(Math.round(total*100)/100) + '0';
+	total = parseFloat(Math.round(total*100)/100);
 	document.getElementById('display_total').innerHTML = '$' + total;
 	document.getElementById('total').value = total;
 }
