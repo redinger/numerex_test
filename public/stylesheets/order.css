@@ -38,6 +38,15 @@ div#content {
 	width: 850px;
 }
 
+.processing_message {
+	text-align: right;
+	background-color: #FFFFCC;
+	font-size: 16px;
+	font-weight: bold;
+	visibility: hidden;
+	padding: 10px;
+}
+
 input[type="text"], input[type="password"], select {
 	border-top: 1px solid #CCCCCC;
 	border-right: 1px solid #EEEEEE;

@@ -22,8 +22,8 @@
 						<td>$<%=session[:service_price]%></td>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
-					<% if @tax != 0 %>
-					<tr><td>Tax <span class="helper">(8.25%)</span></td><td><%=number_to_currency @tax%></td></tr>
+					<% if session[:tax] != 0 %>
+					<tr><td>Tax <span class="helper">(8.25%)</span></td><td><%=number_to_currency session[:tax] %></td></tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<% end %>
 					<tr>
@@ -111,6 +111,7 @@
 		</tr>
 		<tr>
 			<td colspan="3">
+				<div id="processing_message"></div>
 				<div style="background-color: #EEEEEE; padding: 10px; text-align: right; margin-top: 20px; border: 1px solid #CCCCCC;">
 					<input type="submit" value="Place order and create account" disabled="true" id="order_btn" />
 				</div>

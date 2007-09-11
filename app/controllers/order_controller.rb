@@ -56,11 +56,13 @@ class OrderController < ApplicationController
       params[:cust][:bill_zip] = params[:cust][:ship_zip]
     end
    
-    # Store their information to the session object
-    session[:cust] = params[:cust]
-    session[:email] = params[:email]
-    session[:password] = params[:password]
-    session[:subdomain] = params[:subdomain]
+    # Store their information to the session object, only if not being redirect from process_order
+    if !session[:paypal_response]
+      session[:cust] = params[:cust]
+      session[:email] = params[:email]
+      session[:password] = params[:password]
+      session[:subdomain] = params[:subdomain]
+    end
     
     # Determine shipping costs
     @ship_ground = 12.95
@@ -75,14 +77,14 @@ class OrderController < ApplicationController
     end
     
     # Determine tax
-    if params[:cust][:ship_state] == 'TX'
-      @tax = (session[:subtotal] * 0.0825)
-      session[:tax] = sprintf('%0.02f', @tax).to_i
+    if session[:cust][:ship_state] == 'TX'
+      tax = (session[:subtotal] * 0.0825)
+      session[:tax] = sprintf('%0.02f', tax).to_i
     else
-      @tax = 0
+      session[:tax] = 0
     end
     
-    session[:total] = session[:subtotal] + @ship_ground + @tax
+    session[:total] = session[:subtotal] + @ship_ground + session[:tax]
     session[:total] = sprintf('%0.02f', session[:total])
   end
   
@@ -91,7 +93,6 @@ class OrderController < ApplicationController
     # Calculate charges based on product (annual or yearly) and quantity
     qty = session[:qty]
     
-        
     # Create the PayPal request object
     req= {
       :method          => 'DoDirectPayment',
@@ -141,32 +142,17 @@ class OrderController < ApplicationController
     # Create the PayPal transaction
     transaction = caller.call(req)
     
-    if transaction.success?   
-      puts transaction.response
-      #session[:dcc_response]=@transaction.response 
-      #redirect_to :controller => 'dcc',:action => 'thanks'
-    else
-      puts transaction.response
-      #session[:paypal_error]=@transaction.response
-      #redirect_to :controller => 'wppro', :action => 'error'
-    end
+    session[:paypal_response] = transaction.response
     
+    if transaction.success?
+      redirect_to :action => 'complete'
+    else
+      redirect_to :action => 'step2'
+    end
+  
   rescue Errno::ENOENT => exception
     flash[:error] = exception
     puts exception
-    #redirect_to :controller => 'wppro', :action => 'exception'
-    
-    # Create the PayPal transaction
-    #transaction = caller.call(req)
-    
-    #temp += '<hr />' + transaction.response
-    
-    
-    
-    # If paypal success then complete the order
-    # redirect_to :action => 'complete'
-    
-    # If not send them back to step 2 and provide proper feedback
   end
   
   def complete
