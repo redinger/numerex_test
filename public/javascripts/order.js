@@ -224,6 +224,29 @@ function validateCCForm(form) {
 		return false;
 	}
 	
+	// Make sure the expiration date is not less than this month/year
+	// Get the selected month and year
+	var cc_month = document.getElementById("cc_month");
+	var month = cc_month.options[cc_month.selectedIndex].value;
+	if(month.indexOf('0')==0) {
+	    month = month.charAt(1);
+	}
+	month = parseInt(month);
+	
+	// Get the current month and year
+	var cc_year = document.getElementById("cc_year");
+	var year = parseInt(cc_year.options[cc_year.selectedIndex].value);
+	var total = month+year;
+	
+	var now = new Date();
+	var total_now = now.getMonth()+1 + now.getFullYear();
+	
+	// Compare the dates
+	if(total < total_now) {
+		alert('Please enter a valid expiration date.');
+		return false;
+	}
+	
 	// Verify the security code
 	var cvv2 = form.cvv2.value.trim();
 	if(!isNumeric(cvv2) || cvv2.length < 3) {
@@ -232,6 +255,7 @@ function validateCCForm(form) {
 		form.cvv2.focus();
 		return false;
 	}
+	
 	return true;
 }
 
