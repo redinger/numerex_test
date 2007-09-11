@@ -14,4 +14,12 @@ class ApplicationController < ActionController::Base
       redirect_to :controller => "login"
     end
   end
+  
+  def authorize_admin
+    puts "user req auth: " + session[:user].id.to_s + session[:user].to_s
+    unless (session[:user] && session[:user]==4213)
+      flash[:message] = "You're not authorized to view this page"
+      raise "not authorized"
+    end
+  end
 end
