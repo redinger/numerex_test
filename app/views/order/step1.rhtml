@@ -21,12 +21,12 @@
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
-						<td><strong>Subtotal</strong></td><td><span style="text-decoration: underline; font-weight: bold;">$<%=session[:subtotal]%><%if(session[:subtotal]==264.9)%>0<%end%></span></td></tr>
+						<td><strong>Subtotal</strong></td><td><span style="text-decoration: underline; font-weight: bold;"><%=number_to_currency session[:subtotal]%></span></td></tr>
 					</tr>
 					<tr><td colspan="2"><hr /></td></tr>
 					<tr>
 						<td>Estimated Shipping</td>
-						<td>$<%=@ship_ground%></td>
+						<td><%=number_to_currency @ship_ground%></td>
 					</tr>
 				</table>
 			</td>
@@ -79,7 +79,7 @@
 			<td valign="top">
 				<h4>Billing Address</h4>
 				<div class="description_box">
-					<input type="checkbox" checked="checked" onclick="toggleBilling(this);" style="padding: 0; margin: 0;" id="bill_toggle" /> Bill and ship to the same address.
+					<input type="checkbox" checked="checked" onclick="toggleBilling(this);" style="padding: 0; margin: 0;" id="bill_toggle" name="bill_toggle" value="true" /> Bill and ship to the same address.
 				</div>
 				<div id="billing_container" style="visibility: hidden;">
 					<table>
