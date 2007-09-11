@@ -243,7 +243,7 @@ function validateCCForm(form) {
 	
 	// Compare the dates
 	if(total < total_now) {
-		alert('Please enter a valid expiration date.');
+		alert('Please enter a valid expiration date');
 		return false;
 	}
 	
@@ -255,6 +255,15 @@ function validateCCForm(form) {
 		form.cvv2.focus();
 		return false;
 	}
+	
+	// Hide the order button
+	toggleOrderButton(false);
+	
+	// Display processing order message
+	var pm = document.getElementById('processing_message')
+	pm.innerHTML = 'Processing order, please wait...';
+	pm.style.visibility = 'visible';
+	pm.className = 'processing_message'
 	
 	return true;
 }
