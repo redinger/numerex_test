@@ -43,4 +43,14 @@ def forgot_password(user, url=nil)
     @sent_on    = Time.now
     @headers['Content-Type'] = "text/plain; charset=utf-16"
   end
+  
+  # Send a confirmation when an order is placed
+  def order_confirmation(cust, email, password, subdomain)
+    @recipients = email
+    @subject = "Thank you for ordering from Ublip"
+    @body["name"] = cust[:ship_first_name]
+    @body["email"] = email
+    @body["password"] = password
+    @body["subdomain"] = subdomain
+  end
 end

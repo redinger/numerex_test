@@ -15,7 +15,7 @@ class OrderController < ApplicationController
       session[:subtotal] = (params[:device_price].to_f + params[:service_price].to_f) * params[:qty].to_i
     elsif session[:device_code].nil? # The form and session data do not exist
       session[:device_code] = "UD1000"
-      session[:device_price] = 49.95
+      session[:device_price] = 249.95
       session[:service_code] = "US1000"
       session[:service_price] = 14.95
       session[:qty] = 1
@@ -54,8 +54,8 @@ class OrderController < ApplicationController
       params[:cust][:bill_zip] = params[:cust][:ship_zip]
     end
    
-    # Store their information to the session object, only if not being redirect from process_order
-    if !session[:paypal_response]
+    # Store their information to the session object, but not when redirected back from process_order
+    if params[:cust]
       session[:cust] = params[:cust]
       session[:email] = params[:email]
       session[:password] = params[:password]
@@ -82,19 +82,13 @@ class OrderController < ApplicationController
       session[:tax] = 0
     end
     
+    # Store the total
     session[:total] = session[:subtotal] + @ship_ground + session[:tax]
     
-    puts '-------------------------'
-    puts 'Subtotal: ' + session[:subtotal].to_s
-    puts 'Tax: ' + session[:tax].to_s
-    puts 'Shipping: ' + @ship_ground.to_s + ',' + @ship_2day.to_s + ',' + @ship_overnight.to_s
-    puts 'Total : ' + session[:total].to_s
   end
   
   # PayPal authorization
   def process_order
-    # Calculate charges based on product (annual or yearly) and quantity
-    qty = session[:qty]
     
     # Create the PayPal request object
     req= {
@@ -127,17 +121,19 @@ class OrderController < ApplicationController
       :l_name0         => 'Ublip Tracking Device',
       :l_number0       => session[:device_code],
       :l_qty0          => session[:qty],
-      :l_amt0          => '249.95',
+      :l_amt0          => session[:device_price],
       :l_name1         => 'Ublip Tracking Service',
       :l_number1       => session[:service_code],
       :l_qty1          => session[:qty],
-      :l_amt1          => '14.95'  
+      :l_amt1          => session[:service_price]  
     }
     
     temp = ''
     req.each {|key,val|
       temp += key.to_s + ':' + val.to_s + '<br />'
     }
+    
+    puts temp
     
     # Initialize the PayPal object
     caller = PayPalSDKCallers::Caller.new(false)
@@ -146,19 +142,17 @@ class OrderController < ApplicationController
     transaction = caller.call(req)
     
     # Save the response so we can display the appropriate message
-    flash[:paypal_response] = transaction.response
+    session[:paypal_response] = flash[:paypal_response] = transaction.response
     
     # Transaction successful
     if transaction.success?
       # Send the email confirmation
+      Notifier.deliver_order_confirmation(session[:cust], session[:email], session[:password], session[:subdomain])      
 
-      # Create the account and user      
+      # Create the account and user
 
       # Clear the session info
-      session[:cust] = ''
-      session[:email] = ''
-      session[:password] = ''
-      session[:subdomain] = ''
+      reset_session
       
       redirect_to :action => 'complete'
     # Failed transaction

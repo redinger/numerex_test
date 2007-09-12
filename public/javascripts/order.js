@@ -291,6 +291,12 @@ function isNumeric(val) {
 
 // Reset shipping fields so they don't display errors
 function resetShippingFields(form) {
+	// If the web address taken message exists then hide it
+	if(document.getElementById('error_box')) {
+		document.getElementById('error_box').style.visibility = 'hidden';
+		document.getElementById('error_box').style.height = '0px';
+	}
+	
 	form.ship_first_name.className = form.bill_first_name.className = 'short_text';
 	form.ship_last_name.className = form.bill_last_name.className = 'short_text';
 	form.ship_address.className = form.bill_address.className = 'long_text';

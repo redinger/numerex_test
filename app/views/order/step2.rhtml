@@ -1,6 +1,8 @@
-<div style="width: 850px;">
-	<%=session[:paypal_response]%>
+<% if flash[:paypal_response] %>
+<div class="paypal_error">
+	There was a problem...
 </div>
+<% end %>
 <form method="post" action="/order/process_order" onsubmit="return validateCCForm(this);">
 	<table width="800" border="0" align="center">
 		<tr>

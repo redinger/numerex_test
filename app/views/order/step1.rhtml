@@ -127,14 +127,14 @@
 					unique web address such as <strong>smithkids.ublip.com</strong> or <strong>123fleet.ublip.com</strong>.
 				</div>
 				<% if flash[:error] %>
-					<div class="error_box">
+					<div class="error_box" id="error_box">
 						<%= flash[:error] %>
 					</div>
 				<% end %>
 				<table>
 					<tr><td class="label"><label for="email">* Email</label></td><td><input type="text" class="long_text" name="email" id="email" value="<% if session[:email] %><%= session[:email] %><% end %>" /> <span class="helper">(this will be your login name)</span></td></tr>
-					<tr><td class="label"><label for="password">* Password</label></td><td><input type="password" class="long_text" maxlength="30" name="password" id="password" /> <span class="helper">(between 6 and 30 characters)</span></td></tr>
-					<tr><td class="label"><label for="confirm_password">* Confirm Password</label></td><td><input type="password" class="long_text" maxlength="30" name="confirm_password" id="confirm_password" /> <span class="helper">(confirm your password)</span></td></tr>
+					<tr><td class="label"><label for="password">* Password</label></td><td><input type="password" class="long_text" maxlength="30" name="password" id="password" value="<% if session[:password] %><%= session[:password] %><% end %>" /> <span class="helper">(between 6 and 30 characters)</span></td></tr>
+					<tr><td class="label"><label for="confirm_password">* Confirm Password</label></td><td><input type="password" class="long_text" maxlength="30" name="confirm_password" id="confirm_password" value="<% if session[:password] %><%= session[:password] %><% end %>" /> <span class="helper">(confirm your password)</span></td></tr>
 					<tr><td class="label"><label for="subdomain">* Web Address</label></td><td>http:// <input type="text" class="short_text" name="subdomain" id="subdomain" value="<% if session[:subdomain] %><%= session[:subdomain] %><% end %>" /> .ublip.com <span class="helper">(letters and numbers only - no spaces)</span></td></tr>
 				</table>
 			</td>
