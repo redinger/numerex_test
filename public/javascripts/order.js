@@ -42,7 +42,7 @@ function calculateTotal(e) {
 	var tax = parseFloat(document.getElementById("tax").value);
 	var index = e.selectedIndex;
 	var shipping = parseFloat(e.options[index].value);
-	var total = subtotal+tax+shipping;
+	var total = parseFloat(subtotal+tax+shipping);
 	document.getElementById('display_total').innerHTML = '$' + total;
 	document.getElementById('total').value = total;
 	// Used when processing order and failure, need to be redirected back to step 2 and maintain selection

@@ -145,14 +145,26 @@ class OrderController < ApplicationController
     # Create the PayPal transaction
     transaction = caller.call(req)
     
-    session[:paypal_response] = transaction.response
+    # Save the response so we can display the appropriate message
+    flash[:paypal_response] = transaction.response
     
+    # Transaction successful
     if transaction.success?
+      # Send the email confirmation
+
+      # Create the account and user      
+
+      # Clear the session info
+      session[:cust] = ''
+      session[:email] = ''
+      session[:password] = ''
+      session[:subdomain] = ''
+      
       redirect_to :action => 'complete'
+    # Failed transaction
     else
       redirect_to :action => 'step2'
     end
-  
   rescue Errno::ENOENT => exception
     flash[:error] = exception
     puts exception
