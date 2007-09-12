@@ -1,3 +1,6 @@
+<div style="width: 850px;">
+	<%=session[:paypal_response]%>
+</div>
 <form method="post" action="/order/process_order" onsubmit="return validateCCForm(this);">
 	<table width="800" border="0" align="center">
 		<tr>
@@ -30,9 +33,9 @@
 						<td>Shipping</td>
 						<td>
 							<select name="shipping" onchange="calculateTotal(this);">
-								<option value="<%=@ship_ground.to_s%>">UPS 3-5 Day - $<%=@ship_ground.to_s%></option>
-								<option value="<%=@ship_2day.to_s%>">UPS 2 Day - $<%=@ship_2day.to_s%></option>
-								<option value="<%=@ship_overnight.to_s%>">UPS Overnight - $<%=@ship_overnight.to_s%></option>
+								<option value="<%=number_to_currency @ship_ground, :unit => ''%>">UPS 3-5 Day - <%=number_to_currency @ship_ground%></option>
+								<option value="<%=number_to_currency @ship_2day, :unit => ''%>">UPS 2 Day - <%=number_to_currency @ship_2day%></option>
+								<option value="<%=number_to_currency @ship_overnight, :unit => ''%>">UPS Overnight - <%=number_to_currency @ship_overnight%></option>
 							</select>
 						</td></tr>
 					</tr>
@@ -119,9 +122,10 @@
 		</tr>
 	</table>
 	<input type="hidden" name="qty" value="1" />
-	<input type="hidden" name="subtotal" id="subtotal" value="<%=session[:subtotal]%>" />
-	<input type="hidden" name="tax" id="tax" value="<%=session[:tax]%>" />
-	<input type="hidden" name="total" id="total" />
+	<input type="hidden" name="subtotal" id="subtotal" value="<%=number_to_currency session[:subtotal], :unit => ''%>" />
+	<input type="hidden" name="tax" id="tax" value="<%=number_to_currency session[:tax], :unit => ''%>" />
+	<input type="hidden" name="total" id="total" value="<%=number_to_currency session[:total], :unit => ''%>" />
+	<input type="hidden" name="shipping_index" id="shipping_index" />
 </form>
 
 <script>

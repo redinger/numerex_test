@@ -1,4 +1,3 @@
-require 'cgi'
 class OrderController < ApplicationController
   def index
    redirect_to :action => 'step1'
@@ -14,10 +13,9 @@ class OrderController < ApplicationController
       session[:service_price] = params[:service_price]
       session[:qty] = params[:qty].to_i
       session[:subtotal] = (params[:device_price].to_f + params[:service_price].to_f) * params[:qty].to_i
-      session[:subtotal] = sprintf('%0.02f', session[:subtotal]).to_i
     elsif session[:device_code].nil? # The form and session data do not exist
       session[:device_code] = "UD1000"
-      session[:device_price] = 249.95
+      session[:device_price] = 49.95
       session[:service_code] = "US1000"
       session[:service_price] = 14.95
       session[:qty] = 1
@@ -79,13 +77,18 @@ class OrderController < ApplicationController
     # Determine tax
     if session[:cust][:ship_state] == 'TX'
       tax = (session[:subtotal] * 0.0825)
-      session[:tax] = sprintf('%0.02f', tax).to_i
+      session[:tax] = tax
     else
       session[:tax] = 0
     end
     
     session[:total] = session[:subtotal] + @ship_ground + session[:tax]
-    session[:total] = sprintf('%0.02f', session[:total])
+    
+    puts '-------------------------'
+    puts 'Subtotal: ' + session[:subtotal].to_s
+    puts 'Tax: ' + session[:tax].to_s
+    puts 'Shipping: ' + @ship_ground.to_s + ',' + @ship_2day.to_s + ',' + @ship_overnight.to_s
+    puts 'Total : ' + session[:total].to_s
   end
   
   # PayPal authorization
@@ -96,7 +99,7 @@ class OrderController < ApplicationController
     # Create the PayPal request object
     req= {
       :method          => 'DoDirectPayment',
-      :amt             => session[:total],
+      :amt             => params[:total],
       :currencycode    => 'USD',
       :paymentaction   => 'authorization',
       :creditcardtype  => params[:cc_type],
@@ -118,9 +121,9 @@ class OrderController < ApplicationController
       :shiptostate     => session[:cust][:ship_state],
       :shiptocountrycode => 'US',
       :shiptozip       => session[:cust][:ship_zip].strip,
-      :itemamt         => session[:subtotal],
+      :itemamt         => params[:subtotal],
       :shippingamt     => params[:shipping],
-      :taxamt          => session[:tax],
+      :taxamt          => params[:tax],
       :l_name0         => 'Ublip Tracking Device',
       :l_number0       => session[:device_code],
       :l_qty0          => session[:qty],

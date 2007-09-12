@@ -36,15 +36,17 @@ function populateStates(id, default_state) {
 	}
 }
 
+// Called when shipping option is selected
 function calculateTotal(e) {
 	var subtotal = parseFloat(document.getElementById("subtotal").value);
 	var tax = parseFloat(document.getElementById("tax").value);
 	var index = e.selectedIndex;
 	var shipping = parseFloat(e.options[index].value);
 	var total = subtotal+tax+shipping;
-	total = parseFloat(Math.round(total*100)/100);
 	document.getElementById('display_total').innerHTML = '$' + total;
 	document.getElementById('total').value = total;
+	// Used when processing order and failure, need to be redirected back to step 2 and maintain selection
+	document.getElementById('shipping_index').value = index;
 }
 
 function toggleOrderButton(checked) {
@@ -231,19 +233,20 @@ function validateCCForm(form) {
 	if(month.indexOf('0')==0) {
 	    month = month.charAt(1);
 	}
-	month = parseInt(month);
+	month = parseInt(month)-1;
 	
-	// Get the current month and year
 	var cc_year = document.getElementById("cc_year");
 	var year = parseInt(cc_year.options[cc_year.selectedIndex].value);
-	var total = month+year;
 	
+	// Get this month's date
 	var now = new Date();
-	var total_now = now.getMonth()+1 + now.getFullYear();
-	
+	var exp_time = new Date(year, month).getTime();
+	var now_time = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 	// Compare the dates
-	if(total < total_now) {
-		alert('Please enter a valid expiration date');
+	if(exp_time < now_time) {
+	    alert('Please enter a valid expiration date');
+		form.cc_month.className = 'error_select';
+		form.cc_month.focus();
 		return false;
 	}
 	
@@ -303,4 +306,5 @@ function resetShippingFields(form) {
 function resetCCFields(form) {
 	form.cc_number.className = 'short_text';
 	form.cvv2.className = 'super_short_text';
+	form.cc_month.className = '';
 }
