@@ -124,9 +124,9 @@
 		</tr>
 	</table>
 	<input type="hidden" name="qty" value="1" />
-	<input type="hidden" name="subtotal" id="subtotal" value="<%=number_to_currency session[:subtotal], :unit => ''%>" />
-	<input type="hidden" name="tax" id="tax" value="<%=number_to_currency session[:tax], :unit => ''%>" />
-	<input type="hidden" name="total" id="total" value="<%=number_to_currency session[:total], :unit => ''%>" />
+	<input type="hidden" name="subtotal" id="subtotal" value="<%=number_to_currency session[:subtotal], :unit => '', :delimiter => ''%>" />
+	<input type="hidden" name="tax" id="tax" value="<%=number_to_currency session[:tax], :unit => '', :delimiter => ''%>" />
+	<input type="hidden" name="total" id="total" value="<%=number_to_currency session[:total], :unit => '', :delimiter => ''%>" />
 	<input type="hidden" name="shipping_index" id="shipping_index" />
 </form>
 
