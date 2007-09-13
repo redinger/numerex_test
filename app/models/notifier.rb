@@ -47,7 +47,8 @@ def forgot_password(user, url=nil)
   # Send a confirmation when an order is placed
   def order_confirmation(cust, email, password, subdomain)
     @from = "orders@ublip.com"
-    @recipients = "#{email}, orders@ublip.com"
+    @recipients = email
+    @bcc = "orders@ublip.com"
     @subject = "Thank you for ordering from Ublip"
     @body["name"] = cust[:ship_first_name]
     @body["email"] = email
