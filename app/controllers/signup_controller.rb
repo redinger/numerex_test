@@ -2,8 +2,9 @@ class SignupController < ApplicationController
 
   # Displays the signup form
   def index
-    @user = User.new
-    @user.account = Account.new
+    redirect_to 'http://www.ublip.com/pricing'
+    #@user = User.new
+    #@user.account = Account.new
   end
   
   def create
