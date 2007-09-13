@@ -43,8 +43,15 @@ function calculateTotal(e) {
 	var index = e.selectedIndex;
 	var shipping = parseFloat(e.options[index].value);
 	var total = parseFloat(subtotal+tax+shipping);
-	document.getElementById('display_total').innerHTML = '$' + total;
+	// Set the value in the form field to be passed on
 	document.getElementById('total').value = total;
+	
+	// Determine whether to display trailing zero when lost in float conversion
+	if(total.toString().split('.')[1].length == 1)
+		total = total.toString() + '0';
+		
+	document.getElementById('display_total').innerHTML = '$' + total;
+	
 	// Used when processing order and failure, need to be redirected back to step 2 and maintain selection
 	document.getElementById('shipping_index').value = index;
 }
@@ -55,6 +62,11 @@ function toggleOrderButton(checked) {
 		order_btn.disabled = false;
 	else
 		order_btn.disabled = true;
+}
+
+function formatTotal(total) {
+	var decimal_places = total.toString().split('.')
+	total.split('.')[1].length == 1
 }
 
 // Validate shipping/billing form in step1

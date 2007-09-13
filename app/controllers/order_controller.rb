@@ -84,7 +84,6 @@ class OrderController < ApplicationController
     
     # Store the total
     session[:total] = session[:subtotal] + @ship_ground + session[:tax]
-    
   end
   
   # PayPal authorization
@@ -125,15 +124,9 @@ class OrderController < ApplicationController
       :l_name1         => 'Ublip Tracking Service',
       :l_number1       => session[:service_code],
       :l_qty1          => session[:qty],
-      :l_amt1          => session[:service_price]  
+      :l_amt1          => session[:service_price],
+      :ipaddress       => request.env['REMOTE_ADDR']
     }
-    
-    temp = ''
-    req.each {|key,val|
-      temp += key.to_s + ':' + val.to_s + '<br />'
-    }
-    
-    puts temp
     
     # Initialize the PayPal object
     caller = PayPalSDKCallers::Caller.new(false)
@@ -144,28 +137,44 @@ class OrderController < ApplicationController
     # Save the response so we can display the appropriate message
     session[:paypal_response] = flash[:paypal_response] = transaction.response
     
+    puts '--------------------------------'
+    puts session[:cust][:ship_company].nil?
+    
+    
     # Transaction successful
     if transaction.success?
+      # Set a default company/group name if it doesn't exist
+      if session[:cust][:ship_company] == ''
+        company = 'My'
+      else
+        company = session[:cust][:ship_company]
+      end
+
+      # Create the user and account
+      user = User.new(:first_name => session[:cust][:ship_first_name], :last_name => session[:cust][:ship_last_name], :email => session[:email], :password => session[:password], :is_admin => 1, :is_master => 1)
+      user.account = Account.new(:subdomain => session[:subdomain].strip.downcase, :company => company, :city => session[:cust][:ship_city], 
+                            :state => session[:cust][:ship_state], :zip => session[:cust][:ship_zip], :is_verified => 1)
+      user.save
+      
       # Send the email confirmation
       Notifier.deliver_order_confirmation(session[:cust], session[:email], session[:password], session[:subdomain])      
 
-      # Create the account and user
-
-      # Clear the session info
-      reset_session
-      
       redirect_to :action => 'complete'
     # Failed transaction
     else
+      # Store the shipping_index so we can maintain the selection when redirected back
+      flash[:shipping_index] = params[:shipping_index]
       redirect_to :action => 'step2'
     end
   rescue Errno::ENOENT => exception
     flash[:error] = exception
     puts exception
   end
-  
+
+  # Order completed successfully
   def complete
-    # Send email acknowledgement
+    # Clear the session
+    reset_session
   end
   
 end
