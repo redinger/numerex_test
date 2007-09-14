@@ -35,6 +35,13 @@ def forgot_password(user, url=nil)
     @body["device_name"] = reading.device.name
     @body["time"] = reading.created_at
   end
+  
+  def device_offline(user, device)
+    setup_email(user)
+    @body["device_name"] = device.name
+    @body["last_online"] = device.last_online_time
+    @body["name"] = "#{user.first_name} #{user.last_name}"
+  end
 
    def setup_email(user)
     @recipients = "#{user.email}"
