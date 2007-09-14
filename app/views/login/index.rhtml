@@ -25,11 +25,11 @@
     <%else%>
         <form action="/login" method="post" id="logform">
             <table class="form_table">
-                <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="" /></td></tr>
+                <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%= flash[:username] %>" /></td></tr>
                 <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input"/> <a href="/login/forgot_password">Forgot password?</a></td></tr>
                 <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
                 <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
-            </table>
+            </table>	
         </form>    
     <%end%>    
 </div>
