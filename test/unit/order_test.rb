@@ -45,11 +45,10 @@ class OrderTest < Test::Unit::TestCase
           :l_qty1          => '1',
           :l_amt1          => '14.95'  
       }
-      @transaction = @caller.call(req)
-      puts '---------------'
-      puts @transaction.response
-      puts '---------------'
-      assert_equal 'Success', @transaction.response["ACK"].to_s       
+      # Need to determine how this can use the test API credentials and not production when we go live
+      #@transaction = @caller.call(req)
+      #puts @transaction.response
+      #assert_equal 'Success', @transaction.response["ACK"].to_s       
  end
 
   def test_do_direct_payment_yearly
@@ -90,11 +89,10 @@ class OrderTest < Test::Unit::TestCase
             :l_qty1          => '1',
             :l_amt1          => '150.00'  
         }
-        @transaction = @caller.call(req)
-        puts '---------------'
-        puts @transaction.response
-        puts '---------------'
-        assert_equal 'Success', @transaction.response["ACK"].to_s 
+        # Need to determine how this can use the test API credentials and not production when we go live
+        #@transaction = @caller.call(req)
+        #puts @transaction.response
+        #assert_equal 'Success', @transaction.response["ACK"].to_s 
     end
 
 end
