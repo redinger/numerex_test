@@ -1,11 +1,17 @@
 <h3>Edit User</h3>
-<form method="post">
-    First Name: <input type="text" name="user[first_name]" value="<%= @user.first_name %>" size="20" /><br />
-    Last Name: <input type="text" name="user[last_name]"  value="<%= @user.last_name %>" size="20" /><br/>
-    Email: <input type="text" name="user[email]" size="20" value="<%= @user.email %>" /><br />
+<form method="post" class="form_table">
+	<table>
+		<tr><th>First Name</th><td><input type="text" name="user[first_name]" value="<%= @user.first_name %>" /></td></tr>
+		<tr><th>Last Name</th><td><input type="text" name="user[last_name]"  value="<%= @user.last_name %>" /></td></tr>
+		<tr><th>Email</th><td><input type="text" name="user[email]" value="<%= @user.email %>" /></td></tr>
+		<tr><td></td><td><a href="">Change password</a></td></tr>
+	</table>
+    <br />
+    <br/>
+    <br />
     <input type="checkbox" name="is_admin" value="1" <% if @user.is_admin %>checked="checked"<% end %> /> Assign administrative privileges?<br />
     <input type="submit" value="update" />&nbsp;&nbsp;&nbsp;<a href="/users">cancel</a>
-    <iinput type="hidden" name="id" value="<%= @user.id %>" />
+    <input type="hidden" name="id" value="<%= @user.id %>" />
 </form>
 <hr />
 <%if @user.is_master == false%>
