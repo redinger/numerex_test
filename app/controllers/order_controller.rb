@@ -137,10 +137,6 @@ class OrderController < ApplicationController
     # Save the response so we can display the appropriate message
     session[:paypal_response] = flash[:paypal_response] = transaction.response
     
-    puts '--------------------------------'
-    puts session[:cust][:ship_company].nil?
-    
-    
     # Transaction successful
     if transaction.success?
       # Set a default company/group name if it doesn't exist
