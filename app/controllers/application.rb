@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
   
   def authorize_admin
-    puts "user req auth: " + session[:user].id.to_s + session[:user].to_s
+    #puts "user req auth: " + session[:user].id.to_s + session[:user].to_s
     unless (session[:user] && session[:user]==2)
       flash[:message] = "You're not authorized to view this page"
       raise "not authorized"
