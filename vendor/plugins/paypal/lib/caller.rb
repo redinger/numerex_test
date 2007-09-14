@@ -45,6 +45,7 @@ module PayPalSDKCallers
       http.verify_mode    = OpenSSL::SSL::VERIFY_NONE unless ssl_strict
       http.use_ssl        = true 
       maskeddata=req_data.sub(/PWD=[^&]*\&/,'PWD=XXXXXX&')
+      maskeddata=req_data.sub(/acct=[^&]*\&/,'acct=XXXXXX&')
       @@PayPalLog.info "Sent: #{maskeddata}"  
       contents, unparseddata = http.post2(@@ep["SERVICE"], req_data, @@headers)    
       @@PayPalLog.info "Received: #{CGI.unescape(unparseddata)}"
