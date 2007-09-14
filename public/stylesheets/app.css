@@ -197,11 +197,16 @@ div#error_message {
 }
 
 .form_table th {
+	color: #666666;
 	text-align: right;
 }
 
 .form_table td {
 	padding: 5px;
+}
+
+.form_table td > input[type="text"] {
+	width: 200px;
 }
 
 .panel_table {
