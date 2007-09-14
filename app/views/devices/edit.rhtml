@@ -1,8 +1,9 @@
 <h3>Editing <%= @device.name %></h3>
 <form method="post" class="form_table">
 <table>
-    <tr><th>Name:</th><td><input type="text" size="20" name="name" value="<%= @device.name %>" /></td></tr>
-    <tr><th>IMEI:</th><td><input type="text" size="20" name="imei" value="<%= @device.imei %>" /></td></tr>
+    <tr><th>Name:</th><td><input type="text" name="name" value="<%= @device.name %>" /></td></tr>
+    <tr><th>IMEI:</th><td><input type="text" name="imei" value="<%= @device.imei %>" /></td></tr>
+	<tr><td></td><td><span style="font-size: 11px; color: #666666">(Please note that an invalid IMEI will cause<br />a temporary loss of data)</span></td></tr>
     <tr><td colspan="2" align="right"><input type="submit" value="save" />&nbsp;&nbsp;<a href="javascript:history.go(-1)">cancel </a></td></tr>
 </table>
     <input type="hidden" name="id" value="<%= @device.id %>" />
