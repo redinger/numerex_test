@@ -12,7 +12,7 @@ class Logger
       @@MyLog = Log4r::Logger.new("paypallog")
       # note: The path prepended to filename is based on Rails path structure. 
       Log4r::FileOutputter.new('paypal_log',
-                       :filename=> "./script/../config/../log/#{filename}",
+                       :filename=> "#{RAILS_ROOT}/log/#{filename}",
                        :trunc=>false,
                        :formatter=> MyFormatter)
       @@MyLog.add('paypal_log')
