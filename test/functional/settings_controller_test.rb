@@ -26,7 +26,7 @@ class SettingsControllerTest < Test::Unit::TestCase
 
   def test_index
     # Get the settings page
-    get :index, {}, {:account_id => 1, :user_id => 4213}
+    get :index, {}, {:account_id => 1, :user_id => 1}
     assert_response :success
     account = accounts(:dennis)
     user = users(:dennis)
@@ -35,7 +35,7 @@ class SettingsControllerTest < Test::Unit::TestCase
     assert_equal nil, user.time_zone
     
     # Post the settings
-    post :index, {:company => 'New Co', :notify => 1}, {:account_id => 1, :user_id => 4213}
+    post :index, {:company => 'New Co', :notify => 1}, {:account_id => 1, :user_id => 1}
     assert_redirected_to :controller => 'settings', :action => 'index'
     
     # Verify the settings were saved
