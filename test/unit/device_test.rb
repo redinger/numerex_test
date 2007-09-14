@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class DeviceTest < Test::Unit::TestCase
-  fixtures :devices, :geofences
+  fixtures :devices, :geofences, :notifications
 
   # Replace this with your real tests.
   def test_truth
@@ -24,5 +24,10 @@ class DeviceTest < Test::Unit::TestCase
     assert_equal false, devices(:device2).online?
     assert_equal false, devices(:device3).online?
     assert_equal true, devices(:device4).online?
+  end
+  
+  def test_last_offline_notification
+    last_offline_notification = devices(:device1).last_offline_notification
+    assert_equal 2, last_offline_notification.id
   end
 end
