@@ -38,6 +38,7 @@ class LoginControllerTest < Test::Unit::TestCase
  def test_login_failure
    @request.host="dennis.ublip.com"
    post :index, {:email => users(:dennis).email, :password => "wrong"} 
+   assert flash[:username]
    assert_redirected_to "/login"
  end
  
