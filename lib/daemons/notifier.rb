@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-#ENV["RAILS_ENV"] ||= "development"
+ENV["RAILS_ENV"] ||= "development"
 
 require File.dirname(__FILE__) + "/../../config/environment"
 
@@ -28,6 +28,26 @@ while($running) do
     reading.notified = true
     reading.save
   end
+  
+  devices_to_notify = Device.find(:all, :conditions => "(now()-last_online_time)/60>online_threshold")
+  devices_to_notify.each do |device| 
+    last_notification = device.last_offline_notification
+    if(last_notification.nil? || Time.now - last_notification.created_at > 24*60*60)
+      device.account.users.each do |user|
+        if(user.enotify?)
+          ActiveRecord::Base.logger << "device offline, notifying: #{user.email}\n"
+          mail = Notifier.deliver_device_offline(user, device)
+          notification = Notification.new
+          notification.user_id = user.id
+          notification.device_id = device.id
+          notification.notification_type = "device_offline"
+          notification.save
+        end
+      end
+    end
+    
+  end
+  
   sleep 10
 
 end
