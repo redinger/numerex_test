@@ -28,7 +28,8 @@ def forgot_password(user, url=nil)
   end
 
   def notify_reading(user, action, reading)
-    setup_email(user)
+    @recipients = user.email
+    @from = "alerts@ublip.com"
     @subject = reading.device.name + ' ' + action
     @body["action"] = action
     @body["name"] = "#{user.first_name} #{user.last_name}"
@@ -37,7 +38,9 @@ def forgot_password(user, url=nil)
   end
   
   def device_offline(user, device)
-    setup_email(user)
+    @recipients = user.email
+    @from = "alerts@ublip.com"
+    @subject = "Device Offline Notification"
     @body["device_name"] = device.name
     @body["last_online"] = device.last_online_time
     @body["name"] = "#{user.first_name} #{user.last_name}"
