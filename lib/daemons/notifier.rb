@@ -29,7 +29,7 @@ while($running) do
     reading.save
   end
   
-  devices_to_notify = Device.find(:all, :conditions => "(now()-last_online_time)/60>online_threshold")
+  devices_to_notify = Device.find(:all, :conditions => "(unix_timestamp(now())-unix_timestamp(last_online_time))/60>online_threshold")
   devices_to_notify.each do |device| 
     last_notification = device.last_offline_notification
     if(last_notification.nil? || Time.now - last_notification.created_at > 24*60*60)
