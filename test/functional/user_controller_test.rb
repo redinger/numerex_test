@@ -27,8 +27,8 @@ class UserControllerTest < Test::Unit::TestCase
   # Replace this with your real tests.
   def test_edit
     params = {:first_name => "qwerty", :last_name => "asdf", :email =>"asdf"}
-    post :edit, {:id => "4213", :user => params}, { :user => users(:dennis), :account_id => "1" }
+    post :edit, {:id => "1", :user => params}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "users"
-    assert_equal "qwerty", User.find(4213).first_name
+    assert_equal "qwerty", User.find(1).first_name
   end
 end
