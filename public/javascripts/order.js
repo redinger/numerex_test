@@ -271,6 +271,15 @@ function validateCCForm(form) {
 		return false;
 	}
 	
+	// Make sure the terms are accepted
+	var cb = document.getElementById("terms_checkbox");
+	if(!cb.checked) {
+		alert("Please agree to Ublip's terms and policies");
+		cb.focus();
+		return false;
+		
+	}
+	
 	// Hide the order button
 	toggleOrderButton(false);
 	
