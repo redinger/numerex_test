@@ -174,6 +174,7 @@ class OrderController < ApplicationController
 
   # Order completed successfully
   def complete
+    @email = session[:email]
     # Clear the session
     reset_session
   end
