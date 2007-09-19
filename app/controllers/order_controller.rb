@@ -1,4 +1,6 @@
 class OrderController < ApplicationController
+  filter_parameter_logging :cc_type, :cc_number, :cvv2, :cc_month, :cc_year
+  
   def index
    redirect_to :action => 'step1'
   end
