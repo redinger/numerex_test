@@ -13,9 +13,34 @@ class UsersController < ApplicationController
       user.update_attributes(params[:user])
       params[:is_admin] ? user.is_admin = 1 : user.is_admin = 0
       
-      if user.save
-        flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully'  
-        redirect_to :controller => "users"
+      # Update the existing password
+      if !params[:password_checkbox].nil?
+        # First make sure the existing password is correct
+        if user.crypted_password == user.encrypt(params[:password])
+          # Let's verify that the new password and confirmation match
+          if params[:new_password] == params[:confirm_new_password]
+            user.password = params[:new_password]
+            # Try and save the updated password with the user info
+            if user.save
+              flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully'
+              redirect_to :controller => 'users'
+            else # Password can't be saved
+              flash[:message] = 'Passwords must be between 6 and 30 characters'
+              redirect_to :controller => 'users', :action => 'edit', :id => user
+            end
+          else
+            flash[:message] = 'Your new password and confirmation must match'
+            redirect_to :controller => 'users', :action => 'edit', :id => user
+          end
+        else # The existing password doesn't match what's in the system
+          flash[:message] = 'Your existing password must match what\'s currently stored in our system'
+          redirect_to :controller => 'users', :action => 'edit', :id => user
+        end
+      else # Update when the password checkbox is not checked
+        if user.save
+          flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully' 
+          redirect_to :controller => 'users'
+        end
       end
     else
       @user = User.find(params[:id]) 

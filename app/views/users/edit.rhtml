@@ -1,17 +1,29 @@
 <h3>Edit User</h3>
+<% if flash[:message]%>
+<div id="error_message">
+	<%= flash[:message] %>
+</div>
+<script>
+window.onload = function() {
+	document.getElementById("password_checkbox").checked = true;
+	enablePasswords(true);
+}
+</script>
+<% end %>
 <form method="post" class="form_table">
 	<table>
 		<tr><th>First Name</th><td><input type="text" name="user[first_name]" value="<%= @user.first_name %>" /></td></tr>
 		<tr><th>Last Name</th><td><input type="text" name="user[last_name]"  value="<%= @user.last_name %>" /></td></tr>
 		<tr><th>Email</th><td><input type="text" name="user[email]" value="<%= @user.email %>" /></td></tr>
-		<tr><td></td><td><a href="">Change password</a></td></tr>
+		<tr><td></td><td><input type="checkbox" onclick="enablePasswords(this.checked);" name="password_checkbox" id="password_checkbox" /> <span class="helper">Click here to change password</span></td></tr>
+		<tr><th>Existing Password</th><td><input type="password" name="password" disabled="true" id="existing_password" /></td></tr>
+		<tr><th>New Password</th><td><input type="password" name="new_password" disabled="true" id="new_password" /></td></tr>
+		<tr><th>Confirm New Password</th><td><input type="password" name="confirm_new_password" disabled="true" id="confirm_new_password" /></td></tr>
+		<tr><td></td><td align="right">
+			<input type="submit" value="update" />&nbsp;&nbsp;&nbsp;<a href="/users">cancel</a>
+    		<input type="hidden" name="id" value="<%= @user.id %>" />
+		</td></tr>
 	</table>
-    <br />
-    <br/>
-    <br />
-    <input type="checkbox" name="is_admin" value="1" <% if @user.is_admin %>checked="checked"<% end %> /> Assign administrative privileges?<br />
-    <input type="submit" value="update" />&nbsp;&nbsp;&nbsp;<a href="/users">cancel</a>
-    <input type="hidden" name="id" value="<%= @user.id %>" />
 </form>
 <hr />
 <%if @user.is_master == false%>
