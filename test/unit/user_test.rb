@@ -55,7 +55,13 @@ class UserTest < Test::Unit::TestCase
   end
   
   def test_save
+    users(:dennis).password = 'testing'
     users(:dennis).save!
+  end
+  
+  # Dennis needs to implement
+  def test_edit
+    
   end
 
   protected
