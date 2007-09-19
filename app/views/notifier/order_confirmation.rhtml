@@ -1,8 +1,7 @@
-Dear <%=@name%>,
+Dear <%=@ship_first_name%>,
 
-Thank you for ordering from Ublip and we're looking forward to providing you
-with the best experience possible.  A copy of your order can be viewed below 
-and if you have any questions please feel free to contact us - support@ublip.com.
+Thank you for ordering from Ublip.  A copy of your order is shown below.
+If you have any questions please contact us - support@ublip.com.
 
 Order #<%=@order_id%>
 
@@ -19,6 +18,13 @@ Billing Address
 <%=@bill_first_name%> <%=@bill_last_name%>
 <%=@bill_address%>
 <%=@bill_city%>, <%=@bill_state%> <%=@bill_zip%>
+
+Ublip Tracking Device (x <%=@qty%>) - $249.95
+First <%if @service_code == 'US1000'%>Month<%else%>Year<%end%> Tracking Service (x <%=@qty%>) - <%=number_to_currency @service_price%>
+Subtotal: <%=number_to_currency @subtotal%>
+Tax: <%=number_to_currency @tax%>
+Shipping: <%=number_to_currency @shipping%>
+Total: <%=number_to_currency @total%>
 
 Web address: http://<%=@subdomain%>.ublip.com
 Login name: <%=@email%>

@@ -153,7 +153,12 @@ class OrderController < ApplicationController
       user.save
       
       # Send the email confirmation
-      Notifier.deliver_order_confirmation(session[:cust], session[:email], session[:password], session[:subdomain])      
+      order_details = {:qty => session[:qty], :shipping => params[:shipping], 
+                    :subtotal => params[:subtotal], :tax => params[:tax], :total => params[:total],
+                    :service_code => session[:service_code], :service_price => session[:service_price]}
+                      
+      Notifier.deliver_order_confirmation(transaction.response["TRANSACTIONID"], 
+                 session[:cust], order_details, session[:email], session[:password], session[:subdomain])      
 
       redirect_to :action => 'complete'
     # Failed transaction
