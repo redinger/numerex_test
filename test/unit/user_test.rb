@@ -59,9 +59,15 @@ class UserTest < Test::Unit::TestCase
     users(:dennis).save!
   end
   
-  # Dennis needs to implement
   def test_edit
-    
+    user = users(:dennis)
+    assert_equal 'dennis', user.first_name
+    assert_equal 'baldwin', user.last_name
+    assert_equal User.encrypt('testing', user.salt), user.crypted_password
+    user.first_name = 'dennis2'
+    user.last_name = 'baldwin2'
+    user.password = 'testing123'
+    user.save!
   end
 
   protected
