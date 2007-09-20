@@ -16,6 +16,8 @@ task :cruise do
   Rake::Task["test:functionals:rcov"].invoke
   mv 'coverage/functionals', "#{out}/functional test coverage" if out
   
-  Rake::Task["test:integration"].invoke
+  # Commenting until we have integration tests...
+  # Rake::Task["test:integration"].invoke 
+  
 end
 
