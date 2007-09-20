@@ -15,14 +15,15 @@
 	Name: <input type="text" size="15" name="name" value="<%= @geofence.name %>" />
 	Address: <input type="text" name="address" size="20" value="<%= @geofence.address %>" />
 	&nbsp;&nbsp;Radius: 
+	<% radius = @geofence.bounds.split(',')[2] %>
 	<select id="radius">
-		<option value="0.1">0.1</option>
-		<option value="0.25">0.25</option>
-		<option value="0.5">0.5</option>
-		<option value="1">1</option>
-		<option value="5">5</option>
-		<option value="10">10</option>
-		<option value="25">25</option>
+		<option value="0.1" <%if radius == '0.1'%>selected="selected"<%end%>>0.1</option>
+		<option value="0.25" <%if radius == '0.25'%>selected="selected"<%end%>>0.25</option>
+		<option value="0.5" <%if radius == '0.5'%>selected="selected"<%end%>>0.5</option>
+		<option value="1" <%if radius == '1'%>selected="selected"<%end%>>1</option>
+		<option value="5" <%if radius == '5'%>selected="selected"<%end%>>5</option>
+		<option value="10" <%if radius == '10'%>selected="selected"<%end%>>10</option>
+		<option value="25" <%if radius == '25'%>selected="selected"<%end%>>25</option>
 	</select> (miles)
 	<input type="submit" value="view" onclick="geocode(address.value); return false;" /><br />
 	<hr />
