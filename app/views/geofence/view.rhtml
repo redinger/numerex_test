@@ -5,13 +5,16 @@
 <h3>Viewing geofences for <%= @device.name %></h3>
 
 <div style="float: left;">
-	<select multiple="multiple" size="3" style="width: 250px;" onChange="displayGeofence(this.selectedIndex);">
+	<select size="3" style="width: 250px;" onChange="displayGeofence(this.selectedIndex);">
 		<% i = 0 %>
 		<% for geofence in @device.geofences %>
 			<option <% if i ==0 %>selected="selected"<% end %>><%= geofence.name %></option>
 			<% i = i + 1 %>
 		<% end %>
 	</select>
+	<p>
+		<a href="javascript:go('/geofence/edit/<%= params[:id] %>');" title="Edit this geofence">Edit selected geofence</a>
+	</p>
 </div >
 
 <script>

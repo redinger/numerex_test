@@ -2,18 +2,18 @@
 <div style="background-color: #FFFFCC; padding:10px; width: 580px;">
 	<ol>
 		<li>Specify a name for your geofence (e.g. Home, Distribution Center)</li>
-		<li>Enter an address, city, or zip in the field below.</li>
-		<li>Select a radius (in miles)</li>
-		<li>Preview your geofence by clicking "view"</li>
+		<li>Enter an address, city, or zip in the address field or click on the map</li>
+		<li>Select a geofence radius</li>
+		<li>Preview your geofence by clicking "preview"</li>
 		<li>Save your geofence</li>
 	</ol>
 </div>
-
+<br />
 <div id="geofence_map" style="width: 600px; height: 350px;"></div>
 
 <form method="post" style="margin-top: 10px; margin-bottom: 10px;" id="geofence_form" onSubmit="return validate();">
 	Name: <input type="text" size="15" name="name" />
-	Address: <input type="text" name="address" size="20" />
+	Address: <input type="text" name="address" id="address" size="20" />
 	&nbsp;&nbsp;Radius: 
 	<select id="radius">
 		<option value="0.1">0.1</option>
@@ -24,9 +24,9 @@
 		<option value="10">10</option>
 		<option value="25">25</option>
 	</select> (miles)
-	<input type="submit" value="view" onclick="geocode(address.value); return false;" /><br />
+	&nbsp;&nbsp;&nbsp;<input type="submit" value="preview" onclick="geocode(address.value); return false;" /><br />
 	<hr />
-	<input type="submit" value="save" />&nbsp;&nbsp;<a href="javascript:history.go(-1)">cancel</a>
+	<input type="submit" value="save" />&nbsp;&nbsp;<a href="/geofence/view/<%=params[:id]%>">cancel</a>
 	<input type="hidden" name="id" value="<%= @device.id %>" />
 	<input type="hidden" name="bounds" />
 </form>

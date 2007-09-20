@@ -8,8 +8,8 @@ class GeofenceController < ApplicationController
   def add
     if request.post?
       device = Device.get_device(params[:id], session[:account_id])
-      if( !device.online?) 
-        flash[:message] = 'Device appears offline, try again later'
+      if(!device.online?) 
+        flash[:message] = 'Device appears offline, please try again later'
         redirect_to :controller => 'geofence', :action => 'view', :id => device.id
         return
       end
@@ -39,7 +39,6 @@ class GeofenceController < ApplicationController
         geofence.save!
         flash[:message] = 'Geofence created succesfully'
       rescue
-        puts $!
         flash[:message] = 'Error creating geofence'
       end
         redirect_to :controller => 'geofence', :action => 'view', :id => device.id
@@ -50,6 +49,10 @@ class GeofenceController < ApplicationController
   
   def view
     @device = Device.get_device(params[:id], session[:account_id])
+    # Send them to the geofence creation form if there aren't any geofences
+    if @device.geofences.size == 0
+      redirect_to :controller => 'geofence', :action => 'add', :id => @device and return
+    end
   end
   
   # TODO Protect this so the user can't specify an arbritray device and geofence id, tie it to account_id
@@ -58,8 +61,8 @@ class GeofenceController < ApplicationController
       begin
         geofence = Geofence.find(params[:geofence_id], :conditions => ["device_id = ?", params[:device_id]])
         device = Device.get_device(params[:device_id], session[:account_id])
-        if( !device.online?) 
-          flash[:message] = 'Device appears offline, try again later'
+        if(!device.online?) 
+          flash[:message] = 'Device appears offline, please try again later'
           redirect_to :controller => 'geofence', :action => 'view', :id => device.id
           return
         end
@@ -78,7 +81,6 @@ class GeofenceController < ApplicationController
         geofence.save
         flash[:message] = 'Geofence updated successfully'
       rescue
-      puts $!
         flash[:message] = 'error updating geofence'
       end
       redirect_to :controller => 'geofence', :action => 'view', :id => params[:device_id]
@@ -92,8 +94,8 @@ class GeofenceController < ApplicationController
       begin
         geofence = Geofence.find(params[:geofence_id], :conditions => ["device_id = ?", params[:device_id]])
         device = Device.get_device(params[:device_id], session[:account_id])
-        if( !device.online?) 
-          flash[:message] = 'Device appears offline, try again later'
+        if(!device.online?) 
+          flash[:message] = 'Device appears offline, please try again later'
           redirect_to :controller => 'geofence', :action => 'view', :id => device.id
           return
         end
@@ -102,7 +104,6 @@ class GeofenceController < ApplicationController
         geofence.destroy
         flash[:message] = 'Geofence deleted successfully'
       rescue
-      puts $!
         flash[:message] = 'Error deleting geofence'
       end
       redirect_to :controller => 'geofence', :action => 'view', :id => params[:device_id]
