@@ -1,5 +1,7 @@
 desc 'Continuous build target'
 task :cruise do
+  ENV['RAILS_ENV'] = 'test'
+  
   out = ENV['CC_BUILD_ARTIFACTS']
   mkdir_p out unless File.directory? out if out
 
