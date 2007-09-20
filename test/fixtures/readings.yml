@@ -443,7 +443,7 @@ readings_049:
 
  event_type: exitgeofen_et51
  direction: "0"
- created_at: 2007-07-18 21:46:21
+ created_at: <%= Time.now.to_s :db %>
 readings_038:
  updated_at:
  latitude: "32.6698"

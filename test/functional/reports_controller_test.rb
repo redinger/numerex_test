@@ -81,9 +81,9 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :geofence, {:id => 1, :t => 30}, {:user => users(:dennis)}
     assert_response :success
     readings = assigns(:readings)
-    assert_equal "Yates Dr, Hurst, Texas", readings[0].shortAddress
-    assert_equal 0, readings[0].speed
-    assert_equal "exitgeofen_et51", readings[0].event_type
+    assert_equal "Yates Dr, Hurst, Texas", readings[1].shortAddress
+    assert_equal 0, readings[1].speed
+    assert_equal "exitgeofen_et51", readings[1].event_type
   end
   
   # Report exports.  Needs support for readings, stops, and geofence exports
