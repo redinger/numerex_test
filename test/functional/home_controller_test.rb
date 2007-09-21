@@ -25,13 +25,7 @@ class HomeControllerTest < Test::Unit::TestCase
     @request.extend(RequestExtensions)
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
-  
   def test_index
-    puts @request
     get :index, {}, { :user => users(:dennis), :account_id => accounts(:dennis)} 
     assert_response :success
   end
