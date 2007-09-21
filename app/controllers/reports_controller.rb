@@ -83,7 +83,8 @@ class ReportsController < ApplicationController
                               @stops.push stopEvent
                             end
                         }
-    @record_count = @stops.size         
+    @record_count = @stops.size   
+    @stops.sort! {|r1,r2| r2.created_at <=> r1.created_at}
     @stops = @stops.slice!( (@page-1)*@result_count, @page*@result_count)
   end
   
@@ -104,7 +105,7 @@ class ReportsController < ApplicationController
     start_time = end_time - (86400 * timespan) # Start time in seconds
    
     @device_names = Device.get_names(session[:account_id])
-    @readings = Reading.find(:all, :order => "created_at asc", 
+    @readings = Reading.find(:all, :order => "created_at desc", 
                :limit => ResultCount,
                :conditions => ["device_id = ? and event_type like '%geofen%' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
                :limit => @result_count,
