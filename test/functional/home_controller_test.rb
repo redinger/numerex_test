@@ -26,7 +26,7 @@ class HomeControllerTest < Test::Unit::TestCase
   end
 
   def test_index
-    get :index, {}, { :user => users(:dennis), :account_id => accounts(:dennis)} 
+    get :index, {}, {:user => users(:dennis)} 
     assert_response :success
   end
 end
