@@ -49,30 +49,32 @@ class ReportsControllerTest < Test::Unit::TestCase
       
       assert_equal 5, stops.size
       
-      assert_equal 780, stops[0].duration
-      assert_equal Time.local(2007, "Jul", 26, 14, 15, 59), stops[0].created_at
+      assert_equal -1, stops[0].duration
+      assert_equal Time.local(2007, "Jul", 26, 16, 55, 0), stops[0].created_at
       
-      assert_equal 280, stops[1].duration
-      assert_equal Time.local(2007, "Jul", 26, 14, 27, 39), stops[1].created_at
+      assert_equal 3480, stops[1].duration
+      assert_equal Time.local(2007, "Jul", 26, 15, 0, 0), stops[1].created_at
       
-      assert_equal 480, stops[2].duration
-      assert_equal Time.local(2007, "Jul", 26, 14, 30, 59), stops[2].created_at
+      assert_equal 780, stops[2].duration
+      assert_equal Time.local(2007, "Jul", 26, 14, 48, 39), stops[2].created_at
       
       assert_equal 780, stops[3].duration
       assert_equal Time.local(2007, "Jul", 26, 14, 37, 39), stops[3].created_at
       
-      assert_equal 780, stops[4].duration
-      assert_equal Time.local(2007, "Jul", 26, 14, 48, 39), stops[4].created_at
+      assert_equal 480, stops[4].duration
+      assert_equal Time.local(2007, "Jul", 26, 14, 30, 59), stops[4].created_at
       
       get :stop, {:id=>"3", :t=>"1", :p => "2"}, { :user => users(:dennis) }
       stops = assigns(:stops)
+      
       assert_equal 2, stops.size
       
-      assert_equal 3480, stops[0].duration
-      assert_equal Time.local(2007, "Jul", 26, 15, 0, 0), stops[0].created_at
+      assert_equal 280, stops[0].duration
+      assert_equal Time.local(2007, "Jul", 26, 14, 27, 39), stops[0].created_at
       
-      assert_equal -1, stops[1].duration
-      assert_equal Time.local(2007, "Jul", 26, 16, 55, 0), stops[1].created_at
+      assert_equal 780, stops[1].duration
+      assert_equal Time.local(2007, "Jul", 26, 14, 15, 59), stops[1].created_at
+      
     end
   end
   
