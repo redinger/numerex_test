@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_filter :authorize
- 
   
   def index
     @current_user = User.find(session[:user_id])
@@ -38,12 +37,12 @@ class UsersController < ApplicationController
         end
       else # Update when the password checkbox is not checked
         if user.save
-          flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully' 
+          flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully'
           redirect_to :controller => 'users'
         end
       end
     else
-      @user = User.find(params[:id]) 
+      @user = User.find(params[:id])
     end
   end
   
