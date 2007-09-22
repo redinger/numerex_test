@@ -4,7 +4,7 @@
 		Have a problem or idea for a new feature?  Please fill out the form below and let us know what's on your mind.  
 		We take the time to review all feedback and value your input.
 	</p>
-	<form method="post" action="/contact/thanks" onsubmit="if(this.feedback.value.trim().length < 5){alert('Please provide your feedback');return false;}">
+	<form method="post" action="/contact/thanks" onsubmit="if(this.feedback.value.trim().length < 5){alert('Please provide your feedback');document.getElementById('feedback').focus();return false;}">
 		<textarea style="width: 450px; height: 100px;" name="feedback" id="feedback"></textarea>
 		<p><input type="submit" value="send" />&nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a></p>
 	</form>
