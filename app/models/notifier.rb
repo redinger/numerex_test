@@ -54,6 +54,15 @@ def forgot_password(user, url=nil)
     @headers['Content-Type'] = "text/plain; charset=utf-16"
   end
   
+  # Send email to support from contact page
+  def app_feedback(email, subdomain, feedback)
+    @from = "support@ublip.com"
+    @recipients = "support@ublip.com"
+    @subject = "Feedback from #{subdomain}.ublip.com"
+    @body["feedback"] = feedback
+    @body["sender"] = email
+  end
+  
   # Send a confirmation when an order is placed
   def order_confirmation(order_id, cust, order_details, email, password, subdomain)
     @from = "orders@ublip.com"

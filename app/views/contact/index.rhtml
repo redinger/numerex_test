@@ -1,0 +1,17 @@
+<h3>Contact Us</h3>
+<div style="margin-left: 10px; color: #666666; width: 500px;">
+	<p>
+		Have a problem or idea for a new feature?  Please fill out the form below and let us know what's on your mind.  
+		We take the time to review all feedback and value your input.
+	</p>
+	<form method="post" action="/contact/thanks" onsubmit="if(this.feedback.value.trim().length < 5){alert('Please provide your feedback');return false;}">
+		<textarea style="width: 450px; height: 100px;" name="feedback" id="feedback"></textarea>
+		<p><input type="submit" value="send" />&nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a></p>
+	</form>
+</div>
+
+<script>
+	window.onload = function() {
+		document.getElementById("feedback").focus();
+	}
+</script>
