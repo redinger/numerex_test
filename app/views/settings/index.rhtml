@@ -11,8 +11,19 @@
 <div style="padding: 10px; color: #666666; width: 700px; border-bottom: 1px solid #CCCCCC;">
 	<span style="font-size: 14px; font-weight: bold">Notifications</span><br />
 	Check the box below if you'd like to receive exception notifications for this account.  All exceptions will be sent to the email address associated with your account.  Exceptions
-	include entering or exiting a geofence boundary.<br /><br />
+	include entering a geofence, exiting a geofence, and stops.<br /><br />
 	<input type="checkbox" name="notify" value="1" <% if @user.enotify %> checked="checked"<% end %>/> Enable notifications
+</div>
+<div style="padding: 10px; color: #666666; width: 700px; border-bottom: 1px solid #CCCCCC;">
+	<span style="font-size: 14px; font-weight: bold">Time Zone</span><br />
+	Please specify your time zone.  This will ensure that all times displayed within the application are converted to your local time. 
+	<br /><br />
+	<select name="time_zone">
+		<option value=''>No time zone selected</option>
+		<% TimeZone.us_zones.each{|i| %>
+			<option value="<%= i.name %>" <%if i.name == @user.time_zone %> selected="selected"<% end %>><%= i %></option>
+		<% } %>
+	</select>
 </div>
 <br />
 <input type="submit" value="save" />&nbsp;&nbsp;
