@@ -25,7 +25,7 @@ nick:
  created_at: <%= 2.days.ago.to_s :db %>
  is_master: 1
  is_admin: 1
- time_zone: Eastern Time (US & Canada)
+ time_zone: Pacific Time (US & Canada)
  
 ken:
  id: 3
@@ -38,6 +38,7 @@ ken:
  created_at: <%= 3.days.ago.to_s :db %>
  is_master: 1
  is_admin: 1
+ time_zone: Eastern Time (US & Canada)
  
 byron:
  id: 4
