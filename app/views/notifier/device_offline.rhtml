@@ -1,5 +1,5 @@
 Dear <%= @name %>,
 
-<%= @device_name %> seems to be offline. This device last communicated at  <%= @last_online.strftime("%H:%M:%S on %A, %B %d, %Y") %>
+<%= @device_name %> seems to be offline. This device last communicated at <%= @last_online.strftime("%I:%M:%S %p %Z on %A, %B %d, %Y") %>
 
 
