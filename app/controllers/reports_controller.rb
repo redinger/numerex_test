@@ -103,7 +103,8 @@ class ReportsController < ApplicationController
     
     end_time = Time.now.to_i # Current time in seconds
     start_time = end_time - (86400 * timespan) # Start time in seconds
-   
+    
+    @geofences = Device.find(params[:id]).geofences # Geofences to display as overlays
     @device_names = Device.get_names(session[:account_id])
     @readings = Reading.find(:all, :order => "created_at desc", 
                :limit => ResultCount,

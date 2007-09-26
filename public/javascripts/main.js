@@ -109,7 +109,7 @@ function getDeviceById(id) {
 function createDeviceHtml(id) {
 	var device = getDeviceById(id);
 	
-	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at ' + '<br /><span class="blue_bold">' + device.address + '</span><br />about <span class="blue_bold">' + device.dt + '</span><br />';
+	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at ' + '<br /><span class="blue_bold">' + device.address + '</span><br /><span class="blue_bold">' + device.dt + '</span><br />';
 	
 	if(device.note != '')
 		html += '<br /><strong>Note:</strong> ' + device.note + '<br/>';
@@ -181,6 +181,15 @@ function getReportBreadcrumbs() {
 			gmap.setCenter(point, 15);
 			gmap.openInfoWindowHtml(point, createReadingHtml(id));
 			highlightRow(id);
+		}
+	}
+	
+	// Display geofences if viewing geofence reports
+	if(document.location.href.split("/")[4] == 'geofence' && geofences.length) {
+		for(var i = 0; i < geofences.length; i++) {
+			var bounds = geofences[i].bounds.split(',');
+			var point = new GLatLng(parseFloat(bounds[0]), parseFloat(bounds[1]));
+			drawGeofence(point, parseFloat(bounds[2]));
 		}
 	}
 }

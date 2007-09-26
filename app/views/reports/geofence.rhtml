@@ -37,4 +37,11 @@
 	</tr>
 </table>
 
+<script>
+var geofences = [];
+<% for geofence in @geofences%>
+	geofences.push({id: <%= geofence.id %>, name: '<%= escape_javascript(geofence.name) %>', bounds: '<%= geofence.bounds %>'});
+<% end %>
+</script>
+
 <%= render :partial => 'report_footer' %>
