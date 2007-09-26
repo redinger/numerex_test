@@ -1,6 +1,13 @@
 <table width="100%" border="0">
     <tr>
         <td width="50%" valign="top">
+        	<% if @devices.size == 0 %>
+        	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
+        		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
+				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
+				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
+        	</div>
+			<% end %>
             <table width="100%" class="panel_table">
                 <tr><td colspan="4" class="header">Device Summary (<%= @devices.size %> total)</td></tr>
                 <tr><th>Name</th><th width="30"></th><th>Last Location</th><th>Last Report</th></tr>
