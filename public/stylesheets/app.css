@@ -261,3 +261,9 @@ hr {
 	color: #666666;
 }
 
+.settings_box {
+	padding: 10px;
+	color: #666666;
+	width: 700px;
+	border-bottom: 1px solid #CCCCCC;
+}
