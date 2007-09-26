@@ -26,3 +26,10 @@ byron:
  created_at: <%= 4.day.ago.to_s :db %>
  is_verified: 1
  
+newcustomer:
+ id: 5
+ company: New Co
+ subdomain: newcustomer
+ created_at: <%= 5.day.ago.to_s :db %>
+ is_verified: 1
+ 
