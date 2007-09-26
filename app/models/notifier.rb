@@ -34,7 +34,7 @@ def forgot_password(user, url=nil)
     @body["action"] = action
     @body["name"] = "#{user.first_name} #{user.last_name}"
     @body["device_name"] = reading.device.name
-    @body["time"] = reading.created_at.getutc
+    @body["time"] = reading.created_at
   end
   
   def device_offline(user, device)
@@ -42,7 +42,7 @@ def forgot_password(user, url=nil)
     @from = "alerts@ublip.com"
     @subject = "Device Offline Notification"
     @body["device_name"] = device.name
-    @body["last_online"] = device.last_online_time.getutc
+    @body["last_online"] = device.last_online_time
     @body["name"] = "#{user.first_name} #{user.last_name}"
   end
 
