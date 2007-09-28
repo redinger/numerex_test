@@ -40,9 +40,11 @@ function load() {
          	});
 		} else {
 			GEvent.addListener(gmap, "click", function(overlay, point) {
-				var latlng = point.lat() + ',' + point.lng();
-				document.getElementById('address').value = latlng;
-          		geocode(latlng);
+				if(point) {
+					var latlng = point.lat() + ',' + point.lng();
+					document.getElementById('address').value = latlng;
+	          		geocode(latlng);
+				}
 			});
 			displayGeofence(0);
 			currSelectedGeofenceId = geofences[0].id;

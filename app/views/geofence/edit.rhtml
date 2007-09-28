@@ -40,6 +40,6 @@
 </form>
 
 <script>
-	var device = {name: '<%= @geofence.device.name %>', lat: <%= @geofence.device.readings[0].latitude %>, lng: <%= @geofence.device.readings[0].longitude %>};
+	var device = {name: '<%= escape_javascript @geofence.device.name %>', lat: <%= @geofence.device.readings[0].latitude %>, lng: <%= @geofence.device.readings[0].longitude %>};
 	geofences.push({id: <%= @geofence.id %>, name: '<%= @geofence.name %>', bounds: '<%= @geofence.bounds %>'})
 </script>

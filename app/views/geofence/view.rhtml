@@ -18,6 +18,7 @@
 </div >
 
 <script>
+	var device = {name: '<%= escape_javascript @device.name %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>};
 	<% for geofence in @device.geofences %>
 		geofences.push({id: <%= geofence.id %>, name: '<%= escape_javascript(geofence.name) %>', bounds: '<%= geofence.bounds %>'});
 	<% end %>
