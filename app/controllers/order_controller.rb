@@ -21,7 +21,7 @@ class OrderController < ApplicationController
       session[:service_code] = "US1000"
       session[:service_price] = 19.95
       session[:qty] = 1
-      session[:subtotal] = 264.90
+      session[:subtotal] = 269.90
     end
     
     #Estimated shipping
