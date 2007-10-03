@@ -43,17 +43,29 @@ function calculateTotal(e) {
 	var index = e.selectedIndex;
 	var shipping = parseFloat(e.options[index].value);
 	var total = parseFloat(subtotal+tax+shipping);
+	total = formatAsCurrency(total);
 	// Set the value in the form field to be passed on
 	document.getElementById('total').value = total;
-	
-	// Determine whether to display trailing zero when lost in float conversion
-	if(total.toString().split('.')[1].length == 1)
-		total = total.toString() + '0';
-		
 	document.getElementById('display_total').innerHTML = '$' + total;
 	
 	// Used when processing order and failure, need to be redirected back to step 2 and maintain selection
 	document.getElementById('shipping_index').value = index;
+}
+
+// Format value as currency with two decimal places
+function formatAsCurrency(amount) {
+	var i = parseFloat(amount);
+	if(isNaN(i)) { i = 0.00; }
+	var minus = '';
+	if(i < 0) { minus = '-'; }
+	i = Math.abs(i);
+	i = parseInt((i + 0.005) * 100);
+	i = i / 100;
+	s = new String(i);
+	if(s.indexOf('.') < 0) { s += '.00'; }
+	if(s.indexOf('.') == (s.length - 2)) { s += '0'; }
+	s = minus + s;
+	return s;
 }
 
 function toggleOrderButton(checked) {
