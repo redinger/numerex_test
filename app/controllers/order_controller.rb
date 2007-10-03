@@ -19,7 +19,7 @@ class OrderController < ApplicationController
       session[:device_code] = "UD1000"
       session[:device_price] = 249.95
       session[:service_code] = "US1000"
-      session[:service_price] = 14.95
+      session[:service_price] = 19.95
       session[:qty] = 1
       session[:subtotal] = 264.90
     end
