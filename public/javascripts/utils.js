@@ -13,3 +13,8 @@ String.prototype.rtrim = function() {
 function displayLocalDT(dt) {
 	return (new Date(dt).toString().split(" GMT")[0]);
 }
+
+// Popup dynamically sized window
+function popIt(url, name, props) {
+	window.open(url, name, props);
+}
