@@ -1,8 +1,8 @@
 class GadgetController < ApplicationController
   
-  before_filter :authorize
   layout nil
+  
   def all
-    @account = Account.find(session[:account_id])
+   @subdomain = request.host.split('.')[0]
   end
 end
