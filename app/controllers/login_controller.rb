@@ -4,6 +4,11 @@ class LoginController < ApplicationController
   include AuthenticatedSystem
   # If you want "remember me" functionality, add this before_filter to Application Controller
   before_filter :login_from_cookie
+  
+  def login_small
+    index
+     render :action => "login/small", :layout => "login_small"
+  end
 
   def index
 
