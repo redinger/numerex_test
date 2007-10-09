@@ -9,9 +9,15 @@ class ApplicationController < ActionController::Base
   
   private
   def authorize
+    puts request.parameters["action"]
     unless session[:user]
       flash[:message] = "You're not currently logged in"
-      redirect_to :controller => "login"
+      if(request.parameters["action"]=="map")
+        @session[:return_to] = request.request_uri
+        redirect_to :controller => "login", :action => "login_small"
+      else
+        redirect_to :controller => "login"
+      end
     end
   end
   
