@@ -3,7 +3,12 @@ class ReadingsController < ApplicationController
   
   #Get most recent readings for all devices
   def recent
-    @devices = Device.get_devices(session[:account_id])
+    if(params[:id].nil?)
+      @devices = Device.get_devices(session[:account_id])
+    else
+      @devices = Device.find(:all, :conditions => ["id = ?", params[:id]])
+    end
+    
     # Prevent the layout from getting in the way
     render :layout => false
   end
