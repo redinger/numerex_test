@@ -4,5 +4,10 @@ class GadgetController < ApplicationController
   
   def all
    @subdomain = request.host.split('.')[0]
-  end
+ end
+ 
+ def single
+   @subdomain = request.host.split('.')[0]
+ end
+ 
 end
