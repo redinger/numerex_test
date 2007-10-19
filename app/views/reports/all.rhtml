@@ -19,8 +19,10 @@
 								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
 							<% elsif reading.event_type.index('exit') %>
 								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Exit geofence</a>
-							<% elsif reading.event_type =='startstop_et41' %>
+							<% elsif reading.event_type =='startstop_et41' && reading.speed==0 %>
 								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Stop</a>
+							<% elsif reading.event_type =='startstop_et41' && reading.speed>0 %>
+								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Start</a>
 							<% else %>
 								-
 							<% end %>
