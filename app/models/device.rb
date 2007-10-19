@@ -20,7 +20,7 @@ class Device < ActiveRecord::Base
   
   # Get names/ids for list box - don't want to get an entire devices object
   def self.get_names(account_id)
-    find_by_sql(["select id, name from devices where account_id = ? order by name", account_id])
+    find_by_sql(["select id, name from devices where account_id = ? and provision_status_id = 1 order by name", account_id])
   end
   
   def get_fence_by_num(fence_num)
