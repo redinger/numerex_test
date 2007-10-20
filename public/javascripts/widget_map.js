@@ -18,7 +18,7 @@ function load() {
 	
 		if(device_id == undefined) {
 			getRecentReadings('');
-			setInterval("getRecentReadings()", 30000);
+			setInterval("getRecentReadings('')", 30000);
 		} else {
 			getRecentReadings(device_id);
 			setInterval("getRecentReadings(" + device_id + ")", 30000);
