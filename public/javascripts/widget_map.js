@@ -21,7 +21,7 @@ function load() {
 			setInterval("getRecentReadings('')", 30000);
 		} else {
 			getRecentReadings(device_id);
-			setInterval("getRecentReadings(" + device_id + ")", 30000);
+			setInterval("getRecentReadings('" + device_id + "')", 30000);
 		}
 	}
 }
