@@ -55,26 +55,24 @@ class ReportsController < ApplicationController
     start_time = end_time - (86400 * timespan) # Start time in seconds
    
     @device_names = Device.get_names(session[:account_id])
-    readings = Reading.find(:all, :order => "created_at asc", 
-               :conditions => ["device_id = ? and event_type='startstop_et41' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
+    stopevent_readings = Reading.find(:all, {:order => "created_at asc", :conditions => ["device_id = ? and event_type=\'startstop_et41\' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time]})
     @stops = Array.new
-    filter_stops(readings)
-    readings.each_index { |index|
-                            currentReading = readings[index]
-                            if readings[index].speed==0
-                              stopEvent = readings[index]
+    filter_stops(stopevent_readings)
+    stopevent_readings.each_index { |index|
+                            currentReading = stopevent_readings[index]
+                            if stopevent_readings[index].speed==0
+                              stopEvent = stopevent_readings[index]
                               stopEvent.extend(StopEvent)
-                              if(readings.size>index+1 && readings[index+1].speed > 0)
-                                stopEvent.duration = readings[index+1].created_at - readings[index].created_at + StopThreshold
+                              if(stopevent_readings.size>index+1 && stopevent_readings[index+1].speed > 0)
+                                stopEvent.duration = stopevent_readings[index+1].created_at - stopevent_readings[index].created_at + StopThreshold
                               else
-                                nextReading = Reading.find(:first, :order => "created_at asc",
-                                     :conditions => ["speed <> '0' and event_type <> 'startstop_et41' and device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], readings[index].created_at.to_i, end_time] )
-                                if( !nextReading.nil? && nextReading.distance_to(readings[index], :units => :kms)<1)
-                                  stopEvent.duration = nextReading.created_at - readings[index].created_at + StopThreshold
+                                next_moving_reading = Reading.find(:first, {:order => "created_at asc", :conditions => ["speed <> \'0\' and event_type <> \'startstop_et41\' and device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], stopevent_readings[index].created_at.to_i, end_time]})
+                                if( !next_moving_reading.nil? && next_moving_reading.distance_to(stopevent_readings[index], :units => :kms)<1)
+                                  stopEvent.duration = next_moving_reading.created_at - stopevent_readings[index].created_at + StopThreshold
                                 else
                                   next_moving_reading_after_stop = Reading.find(:first, :order => "created_at desc",
-                                    :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ? and speed <> 0", params[:id], readings[index].created_at.to_i, Time.now.to_i])
-                                  if(next_moving_reading_after_stop.nil?) 
+                                    :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ? and speed <> 0", params[:id], stopevent_readings[index].created_at.to_i, Time.now.to_i])
+                                  if(next_moving_reading_after_stop.nil? && index == stopevent_readings.size-1) 
                                     stopEvent.duration = -1
                                   end
                                   
