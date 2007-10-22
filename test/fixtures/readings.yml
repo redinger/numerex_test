@@ -1960,6 +1960,26 @@ readings_224:
  event_type: exitgeofen_et51
  direction: "0"
  created_at: 2007-07-24 15:39:58
+9922:
+ id: 9922
+ latitude: 32.9545
+ longitude: -96.8283
+ speed: 60
+ direction: 240
+ altitude: 5000
+ device_id: 6
+ created_at: <%= Time.now.to_s :db %>
+ event_type: startstop_et41
+9923:
+ id: 9923
+ latitude: 32.9543
+ longitude: -96.8283
+ speed: 0
+ direction: 240
+ altitude: 5000
+ device_id: 6
+ created_at: <%= (Time.now-1000).to_s :db %> 
+ event_type: startstop_et41
 
  
 
