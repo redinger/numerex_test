@@ -18,4 +18,11 @@ class GadgetControllerTest < Test::Unit::TestCase
      subdomain = assigns(:subdomain)
     assert_equal "dennis", subdomain
   end
+  
+  def test_single
+     @request.host="dennis.ublip.com"
+     get :single, {:id => "4"}
+     subdomain = assigns(:subdomain)
+     assert_equal "dennis", subdomain
+  end
 end
