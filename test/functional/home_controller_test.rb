@@ -29,4 +29,10 @@ class HomeControllerTest < Test::Unit::TestCase
     get :index, {}, {:user => users(:dennis)} 
     assert_response :success
   end
+  
+  def test_map
+    get :map, {}, {:user=>users(:dennis), :account_id => accounts(:dennis).id}
+    assert_response :success
+  end
+  
 end
