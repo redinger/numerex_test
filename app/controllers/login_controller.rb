@@ -6,8 +6,7 @@ class LoginController < ApplicationController
   before_filter :login_from_cookie
   
   def login_small
-    index
-     render :action => "login/small", :layout => "login_small"
+    render :action => "login/small", :layout => "login_small"
   end
 
   def index

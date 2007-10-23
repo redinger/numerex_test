@@ -7,9 +7,7 @@
         <%= render :partial => 'layouts/includes/map_key' %>
         <%= javascript_include_tag "widget_map", "layers" %>
 	</head>
-	<body onload="load();">
-    	<div id="content">
-        	<%= yield %>
-        </div>
+	<body onload="load();" style="margin: 0; padding: 0;">
+       	<%= yield %>
 	</body>
 </html>
