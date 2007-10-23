@@ -6,9 +6,10 @@ class LoginController < ApplicationController
   before_filter :login_from_cookie
   
   def login_small
+    index
     render :action => "login/small", :layout => "login_small"
   end
-
+  
   def index
 
     #Check if user is logged in and redirect to home controller if they are
