@@ -8,6 +8,7 @@ class GadgetController < ApplicationController
  
  def single
    @subdomain = request.host.split('.')[0]
+   @title = params[:device_name].nil? ? "Ublip Tracker" : "Current Location of #{params[:device_name]}"
  end
  
 end
