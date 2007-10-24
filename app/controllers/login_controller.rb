@@ -7,7 +7,9 @@ class LoginController < ApplicationController
   
   def login_small
     index
-    render :action => "login/small", :layout => "login_small"
+    if(!logged_in?)
+      render :action => "login/small", :layout => "login_small"
+    end
   end
   
   def index
@@ -16,7 +18,7 @@ class LoginController < ApplicationController
     if logged_in? 
       user = self.current_user
       if !user.remember_token_expires_at.nil? and Time.now < user.remember_token_expires_at 
-          redirect_to :controller => 'home' and return
+          redirect_back_or_default :controller => 'home' and return
       else
          cookies.delete :auth_token
          self.current_user.forget_me
@@ -54,9 +56,9 @@ class LoginController < ApplicationController
             redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
           end
         else
-        flash[:message] = 'Please specify a valid username and password.'
-        flash[:username] = params[:email]
-        redirect_to '/login'
+          flash[:message] = 'Please specify a valid username and password.'
+          flash[:username] = params[:email]
+          redirect_back_or_default '/login'
         end
       end
     # Display the appropriate login form based on subdomain
