@@ -25,7 +25,7 @@ module PayPalSDKProfiles
     @@credentials = {"USER" => "dennis_api1.ublip.com", "PWD" => "AX3XE7BA2LTFP5LY", "SIGNATURE" => "A1sZp.DlVATlq3OH5QXy-TDI.cXgAJHMhSqt7qXVeBGRKQ71aKSMySDO"}
     #@@credentials =  {"USER" => "dennis_1187151313_biz_api1.ublip.com", "PWD" => "HDYNJVRNJBVGB2NB", "SIGNATURE" => "AoRDQnBgH.KEqOID7sp.JWkQJVQ.AMsC0nXQPb7Cwm2Zov9Jmm6Djpn3"}
 # endpoint of PayPal server against which call will be made.
-    @@endpoints = {"SERVER" => "api.paypal.com", "SERVICE" => "/nvp/"}
+    @@endpoints = {"SERVER" => "api-3t.paypal.com", "SERVICE" => "/nvp/"}
     #@@endpoints = {"SERVER" => "api.sandbox.paypal.com", "SERVICE" => "/nvp/"}
 # Proxy information of the client environment.    
     @@proxy_info = {"USE_PROXY" => false, "ADDRESS" => nil, "PORT" => nil, "USER" => nil, "PASSWORD" => nil }
