@@ -32,4 +32,10 @@ class NotificationTest < Test::Unit::TestCase
     assert_equal 'Device Offline Notification', response.subject
     assert_match /Dear #{user.first_name} #{user.last_name},\n\ndevice 1 seems to be offline/, response.body
   end
+  
+  def test_notify_forgot_password
+    user = users(:dennis)
+    response = Notifier.deliver_forgot_password(user, "http://a.com")
+    assert_equal 'Forgotten Password Notification', response.subject
+  end
 end
