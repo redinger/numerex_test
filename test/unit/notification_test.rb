@@ -37,5 +37,27 @@ class NotificationTest < Test::Unit::TestCase
     user = users(:dennis)
     response = Notifier.deliver_forgot_password(user, "http://a.com")
     assert_equal 'Forgotten Password Notification', response.subject
+    assert_equal user.email, response.destinations[0]
+  end
+  
+  def test_notify_change_password
+    user = users(:dennis)
+    response = Notifier.deliver_change_password(user, "http://a.com")
+    assert_equal 'Changed Password Notification', response.subject
+    assert_equal user.email, response.destinations[0]
+  end
+  
+  def test_notify_app_feedback
+    user = users(:dennis)
+    response = Notifier.deliver_app_feedback(user, "qwerty", "your app rocks!")
+    assert_equal 'Feedback from qwerty.ublip.com', response.subject
+    assert_equal "support@ublip.com", response.destinations[0]
+  end
+  
+   def test_notify_order_confirmation
+    user = users(:dennis)
+    response = Notifier.deliver_order_confirmation(42, 42, "order_details", user.email, "password", "qwerty")
+    assert_equal 'Thank you for ordering from Ublip', response.subject
+    assert_equal user.email, response.destinations[0]
   end
 end
