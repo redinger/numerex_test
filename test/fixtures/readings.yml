@@ -99,7 +99,7 @@ reading5:
   <countryCode>US</countryCode>
   </address>
   </geonames>
-6:
+reading6:
  id: 6
  latitude: 32.9514
  longitude: -96.8228
@@ -109,6 +109,7 @@ reading5:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: exitgeofen_et51
+ address: >invalid xml<
 7:
  id: 7
  latitude: 32.9531
