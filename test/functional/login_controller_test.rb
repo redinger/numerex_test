@@ -13,11 +13,6 @@ class LoginControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
-
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
   
   def test_index
     get :index
@@ -46,5 +41,11 @@ class LoginControllerTest < Test::Unit::TestCase
    get :logout
    assert_redirected_to "/login"
  end
+ 
+ def test_change_password
+    post :password, {:id => "1", :user => {:password => "newpassword", :password_confirmation =>"newpassword"}}
+    user2 = User.find(1)
+    assert_equal User.encrypt("newpassword", "salty"), user2.crypted_password
+  end
  
 end
