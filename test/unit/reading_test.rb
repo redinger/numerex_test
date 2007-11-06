@@ -15,6 +15,7 @@ class ReadingTest < Test::Unit::TestCase
     assert_equal "Inwood Rd, Farmers Branch, Texas", readings(:reading2).shortAddress
     assert_equal "32.9395, -96.8244", readings(:reading3).shortAddress
     assert_equal "32.94, -96.8217", readings(:reading4).shortAddress
+    assert_equal "32.9514, -96.8228", readings(:reading6).shortAddress
   end
   
   
