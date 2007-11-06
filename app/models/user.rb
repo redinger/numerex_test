@@ -55,14 +55,9 @@ class User < ActiveRecord::Base
     self.save_with_validation(false)
   end
 
-
-  def generate_security_token(hours = nil)
-     self.encrypt(self.created_at.to_i) 
-  end
-
-  def change_password(pass, confirm = nil)
+  def change_password(pass, confirm)
     self.password = pass
-    self.password_confirmation = confirm.nil? ? pass : confirm
+    self.password_confirmation = confirm
     @new_password = true
   end
   
