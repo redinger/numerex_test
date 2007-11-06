@@ -43,23 +43,9 @@ class LoginController < ApplicationController
         redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else
-        if session[:user_id]
-          if self.current_user = User.authenticate_crypt(request.subdomains.first, params[:email], params[:password])
-            if params[:remember_me] == "on"
-              self.current_user.remember_me
-              cookies['auth_token'] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
-            end
-            session[:user_id] = self.current_user.id # Store current user's id
-            session[:account_id] = self.current_user.account_id # Store the account id
-            session[:company] = self.current_user.account.company # Store the user's company name
-            session[:first_name] = self.current_user.first_name # Store user's first name
-            redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
-          end
-        else
           flash[:message] = 'Please specify a valid username and password.'
           flash[:username] = params[:email]
           redirect_back_or_default '/login'
-        end
       end
     # Display the appropriate login form based on subdomain
     else
