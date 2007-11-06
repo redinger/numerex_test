@@ -45,14 +45,6 @@ class UserTest < Test::Unit::TestCase
     assert_equal users(:dennis), User.authenticate('dennis', 'dennis@ublip.com', 'testing')
   end
   
-  def test_should_authenticate_user_crypt
-    assert_equal users(:dennis), User.authenticate_crypt('dennis', 'dennis@ublip.com', 'testing')
-  end
-  
-  #def test_should_not_authenticate_user_crypt
-  #  assert_nil User.authenticate_crypt('dennis', 'dennis@ublip.com', 'badpassword')
-  #end
-
   def test_should_set_remember_token
     users(:dennis).remember_me
     assert_not_nil users(:dennis).remember_token
