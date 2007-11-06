@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
   def authenticated?(password)
     crypted_password == encrypt(password)
   end
+  
+  def generate_security_token(hours = nil)
+     self.encrypt(self.created_at.to_i) 
+  end
 
   def remember_token?
     remember_token_expires_at && Time.now.utc < remember_token_expires_at 
