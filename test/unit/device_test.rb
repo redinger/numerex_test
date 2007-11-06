@@ -4,8 +4,22 @@ class DeviceTest < Test::Unit::TestCase
   fixtures :devices, :geofences, :notifications
 
   # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_get_by_device_and_account
+    device = Device.get_device(1,1)
+    assert_not_nil device
+    assert_equal "device 1", device.name
+  end
+  
+  def test_get_device_by_account
+    devices = Device.get_devices(1)
+    assert_not_nil devices
+    assert_equal 5, devices.size
+  end
+  
+  def test_get_names_by_account
+    devices = Device.get_names(1)
+    assert_not_nil devices
+    assert_equal 5, devices.size
   end
   
   def test_get_fence
