@@ -41,6 +41,5 @@ class Device < ActiveRecord::Base
      else
       return false
     end
-    puts Time.now - last_online_time
   end
 end
