@@ -13,6 +13,11 @@ class ReadingsControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
+  
+  def test_recent
+    get :recent, {}, {:user=>users(:dennis), :account_id => accounts(:dennis).id}
+    assert_response :success
+  end
 
   def test_last
     @request.host="dennis.ublip.com"
