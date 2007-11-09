@@ -16,13 +16,29 @@ class NotificationTest < Test::Unit::TestCase
   
   def test_notify_geofence_exception
     user = users(:dennis)
-    reading = readings(:readings_049) # Geofence exception reading
+    reading = readings(:readings_9924) # Geofence exception reading
+    
     # Action code from notifier daemon
     action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
     action += reading.get_fence_name unless reading.get_fence_name.nil?
     response = Notifier.deliver_notify_reading(user, action, reading)
     assert_equal 'device 1 exited geofence home', response.subject
     assert_match /Dear #{user.first_name} #{user.last_name}/, response.body
+    assert_match /Central Time/, response.body
+    assert_match /2:39/, response.body
+    puts response.body
+  
+    user = users(:nick)
+    # Action code from notifier daemon
+    action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
+    action += reading.get_fence_name unless reading.get_fence_name.nil?
+    response = Notifier.deliver_notify_reading(user, action, reading)
+    assert_equal 'device 1 exited geofence home', response.subject
+    assert_match /Dear #{user.first_name} #{user.last_name}/, response.body
+    assert_match /Pacific Time/, response.body
+    assert_match /12:39/, response.body
+    puts response.body
+  
   end
   
   def test_notify_device_offline
