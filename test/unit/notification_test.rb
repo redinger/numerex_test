@@ -38,6 +38,17 @@ class NotificationTest < Test::Unit::TestCase
     assert_match /Pacific Time/, response.body
     assert_match /12:39/, response.body
     puts response.body
+    
+    user = users(:byron)
+    # Action code from notifier daemon
+    action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
+    action += reading.get_fence_name unless reading.get_fence_name.nil?
+    response = Notifier.deliver_notify_reading(user, action, reading)
+    assert_equal 'device 1 exited geofence home', response.subject
+    puts response.body
+    assert_match /Dear #{user.first_name} #{user.last_name}/, response.body
+    assert_match /Central Time/, response.body
+    assert_match /2:39/, response.body
   
   end
   
