@@ -1,19 +1,22 @@
 xml.instruct! :xml, :version=>"1.0"
-xml.readings do
-  @readings.each do |reading|
-    xml.reading do
-      xml.id(reading.id)
-      xml.dt((time_ago_in_words reading.created_at) + ' ago')
-      xml.device_id(reading.device_id)
-      xml.address(reading.shortAddress)
-      xml.lat(reading.latitude)
-      xml.lng(reading.longitude)
-      xml.alt(reading.altitude)
-      xml.spd(reading.speed)
-      xml.dir(reading.direction)
-      xml.event_type(reading.event_type)
-      xml.note(reading.note)
-      
+xml.rss(:version=>"2.0", "xmlns:georss" => "http://www.georss.org/georss"){
+  xml.channel{
+    xml.title("Ublip Location Feed")
+    xml.link("http://www.ublip.com")
+    xml.description("Location Matters")
+    xml.language("en-us")
+    for location in @locations
+      xml.item do
+        xml.title("Location reading on " + location.created_at.rfc2822)
+        if location.note != nil
+        xml.description(location.note + location.shortAddress)
+        else
+        xml.description( location.shortAddress)
+        end
+        xml.georss :point, location.latitude.to_s+' '+ location.longitude.to_s
+         # rfc822
+        xml.pubDate(location.created_at.rfc2822)
+      end
     end
-  end
-end
+  }
+}
