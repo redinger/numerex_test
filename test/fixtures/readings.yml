@@ -454,7 +454,7 @@ readings_049:
 
  event_type: exitgeofen_et51
  direction: "0"
- created_at: <%= Time.now.to_s :db %>
+ created_at: <%= (Time.now).to_s :db %>
 readings_038:
  updated_at:
  latitude: "32.6698"
@@ -1991,7 +1991,33 @@ readings_224:
  device_id: 1
  created_at: <%= (Time.now-1000).to_s :db %> 
  event_type: startstop_et41
-
- 
-
- 
+readings_9924:
+ updated_at:
+ latitude: "32.8491"
+ altitude: "182"
+ device_id: "1"
+ id: "9924"
+ notified:
+ note:
+ speed: "0"
+ longitude: "-97.1706"
+ address: |
+   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+   <geonames>
+   <address>
+   <street>Yates Dr</street>
+   <streetNumber/>
+   <lat>32.84889592665313</lat>
+   <lng>-97.17110503882051</lng>
+   <distance>0.06</distance>
+   <postalcode>00</postalcode>
+   <placename>Hurst</placename>
+   <adminName2>Tarrant</adminName2>
+   <adminCode1>TX</adminCode1>
+   <adminName1>Texas</adminName1>
+   <countryCode>US</countryCode>
+   </address>
+   </geonames>
+ event_type: exitgeofen_et51
+ direction: "0"
+ created_at: 2007-07-24 15:39:58 
