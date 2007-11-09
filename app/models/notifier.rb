@@ -33,7 +33,10 @@ def forgot_password(user, url=nil)
     @body["action"] = action
     @body["name"] = "#{user.first_name} #{user.last_name}"
     @body["device_name"] = reading.device.name
-    @body["time"] = reading.created_at
+    tz = TimeZone.new(user.time_zone)
+    @body["time"] = tz.adjust(reading.created_at)
+    @body["time_zone"] = tz.to_s.split(/[\(\\s)]/)[2].strip
+    
   end
   
   def device_offline(user, device)
