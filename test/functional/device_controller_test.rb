@@ -23,11 +23,6 @@ class DeviceControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
     @request.extend(RequestExtensions)
   end
-
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
   
   def test_index
     get :index, {}, { :user => users(:dennis) } 
@@ -46,6 +41,13 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_redirected_to :controller => "devices"
   end
   
+  def test_edit_post_unautorized
+    post :edit, {:id => "1", :name => "qwerty", :imei=>"000000"}, { :user => users(:nick), :account_id => "2" }
+    assert_response 500
+    assert_not_equal devices(:device1).name, "qwerty"
+    assert_not_equal devices(:device1).imei, "000000"
+  end
+  
   def test_edit_get
     get :edit, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
     assert_equal devices(:device1).name, "device 1"
@@ -53,10 +55,21 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
+  def test_edit_get_unauthorized
+    get :edit, {:id => "1"}, { :user => users(:nick), :account_id => "2" }
+    assert_response 500
+  end
+  
   def test_delete
     post :delete, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "devices"
-    assert_equal devices(:device1).provision_status_id, 2
+    assert_equal 2, devices(:device1).provision_status_id
+  end
+  
+  def test_delete_unauthorized
+    post :delete, {:id => "1"}, { :user => users(:nick), :account_id => "2" }
+    assert_response 500
+    assert_not_equal devices(:device1).provision_status_id, 2
   end
   
   def test_choose_MT

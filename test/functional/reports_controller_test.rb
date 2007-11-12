@@ -27,7 +27,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   # Test all readings report
   def test_all
     # Device 1, page 1
-    get :all, {:id => 1}, {:user => users(:dennis)}
+    get :all, {:id => 1}, {:user => users(:dennis), :account_id => 1}
     assert_response :success
     readings = assigns(:readings)
     assert_equal "6762 Big Springs Dr, Arlington, Texas", readings[0].shortAddress
@@ -36,12 +36,27 @@ class ReportsControllerTest < Test::Unit::TestCase
     # Device 1, page 2
     # Need to figure out how to manage the ResultCount mock being set at 5
   end
+  
+  def test_all_unauthorized
+    get :all, {:id => 1}, {:user => users(:nick)}
+    assert_nil assigns(:readings)
+    assert_redirected_to "/index"
+  end
+  
+  def test_stop_unauthorized
+    pretend_now_is(Time.at(1185490000)) do
+      puts "now is:" + Time.now.to_s
+      get :stop, {:id=>"3", :t=>"1"}, { :user => users(:nick), :account_id => users(:nick).account_id } 
+      assert_nil assigns(:stops)
+      assert_redirected_to "/index"
+    end
+  end
 
   # Test stop report
   def test_stop
     pretend_now_is(Time.at(1185490000)) do
       puts "now is:" + Time.now.to_s
-      get :stop, {:id=>"3", :t=>"1"}, { :user => users(:dennis) } 
+      get :stop, {:id=>"3", :t=>"1"}, { :user => users(:dennis), :account_id => users(:dennis).account_id } 
       stops = assigns(:stops)
       assert_equal 8, assigns(:record_count)
       assert_response :success
@@ -66,7 +81,7 @@ class ReportsControllerTest < Test::Unit::TestCase
       
      
       
-      get :stop, {:id=>"3", :t=>"1", :p => "2"}, { :user => users(:dennis) }
+      get :stop, {:id=>"3", :t=>"1", :p => "2"}, { :user => users(:dennis), :account_id => users(:dennis).account_id }
       stops = assigns(:stops)
       
       assert_equal 3, stops.size
@@ -85,7 +100,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   
   # Test geofence report
   def test_geofence
-    get :geofence, {:id => 1, :t => 30}, {:user => users(:dennis)}
+    get :geofence, {:id => 1, :t => 30}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
     assert_equal "Yates Dr, Hurst, Texas", readings[1].shortAddress
@@ -93,9 +108,15 @@ class ReportsControllerTest < Test::Unit::TestCase
     assert_equal "exitgeofen_et51", readings[1].event_type
   end
   
+  def test_geofence_unauthorized
+    get :geofence, {:id => 1, :t => 30}, {:user => users(:nick)}
+    assert_redirected_to "/index"
+    assert_nil assigns(:readings)
+  end
+  
   # Report exports.  Needs support for readings, stops, and geofence exports
   def test_export
-    get :export, {:id => 6, :type => 'all'}, {:user => users(:dennis)}
+    get :export, {:id => 6, :type => 'all'}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     assert_kind_of Proc, @response.body
     output = StringIO.new
