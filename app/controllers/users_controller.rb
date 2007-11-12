@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authorize
+  before_filter :authorize_user, :except => :index
   
   def index
     @current_user = User.find(session[:user_id])
@@ -8,7 +9,7 @@ class UsersController < ApplicationController
   
   def edit
     if request.post?
-      user = User.find(params[:id])
+      user = User.find(:first, :conditions => ["id = ? and account_id = ?", params[:id], session[:account_id]])
       user.update_attributes(params[:user])
       params[:is_admin] ? user.is_admin = 1 : user.is_admin = 0
       
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
         end
       end
     else
-      @user = User.find(params[:id])
+      @user = User.find(:first, :conditions => ["id = ? and account_id = ?", params[:id], session[:account_id]])
     end
   end
   

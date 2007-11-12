@@ -2,6 +2,7 @@ require 'fastercsv'
 
 class ReportsController < ApplicationController
   before_filter :authorize
+  before_filter :authorize_device
   
   StopThreshold = 180 #stop event is triggered at 3min idle time
   ResultCount = 25 # Number of results per page
@@ -35,7 +36,7 @@ class ReportsController < ApplicationController
                 :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
                 :limit => @result_count, 
                 :offset => ((@page-1)*@result_count))
-    @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
+      @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
   end
     
   def stop
