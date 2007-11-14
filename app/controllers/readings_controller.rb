@@ -21,6 +21,7 @@ class ReadingsController < ApplicationController
     device = Device.find(params[:id])
     if(device.account_id == account.id)
       @locations = Reading.find(:all, :conditions => ["device_id = ?", params[:id]], :limit => 1, :order => "created_at desc")
+      @device_name = device.name
     else
       @locations = Array.new
     end
