@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authorize
-  before_filter :authorize_user, :except => :index
+  before_filter :authorize_user, :except => ['index', 'new']
   
   def index
     @current_user = User.find(session[:user_id])
