@@ -32,5 +32,5 @@
 </form>
 
 <script>
-	var device = {name: '<%= @device.name %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>, address: '<%= @device.readings[0].shortAddress %>'};
+	var device = {name: '<%= escape_javascript(@device.name) %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>, address: '<%= @device.readings[0].shortAddress %>'};
 </script>
