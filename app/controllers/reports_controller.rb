@@ -2,7 +2,7 @@ require 'fastercsv'
 
 class ReportsController < ApplicationController
   before_filter :authorize
-  before_filter :authorize_device
+  before_filter :authorize_device, :except => ['index']
   
   StopThreshold = 180 #stop event is triggered at 3min idle time
   ResultCount = 25 # Number of results per page
