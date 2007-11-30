@@ -41,7 +41,10 @@
 				</select>
 				&nbsp;&nbsp;
 				<% if @record_count > 0 %>
-					<a href="/reports/export/<%= params[:id] %>?type=<%= params[:action] %>&p=<%= @page %>&t=<%= params[:t] %>" target="_blank" title="Export up to 100 readings for selected timeframe">Export</a>
+					<a href="/reports/export/<%= params[:id] %>?type=<%= params[:action] %>&p=<%= @page %>&t=<%= params[:t] %>" target="_blank" title="Export up to 100 readings for selected timeframe in CSV format">Export</a>
+					<% if params[:action] == 'all' %>
+					| <a href="/readings/last/<%= params[:id] %>" target="_blank"><img src="/images/georss.png" border="0" title="Export this device's most recent location into your favorite RSS or GeoRSS reader" style="vertical-align: text-bottom;" /></a>
+					<% end %>
 				<% end %>
 			</td>
 		</tr>
