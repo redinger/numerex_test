@@ -5,7 +5,7 @@
 <h3>Viewing geofences for <%= @device.name %></h3>
 
 <div style="float: left;">
-	<select size="3" style="width: 250px;" onChange="displayGeofence(this.selectedIndex);">
+	<select size="4" style="width: 250px;" onChange="displayGeofence(this.selectedIndex);">
 		<% i = 0 %>
 		<% for geofence in @device.geofences %>
 			<option <% if i ==0 %>selected="selected"<% end %>><%= geofence.name %></option>
