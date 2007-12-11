@@ -24,8 +24,6 @@ class NotificationTest < Test::Unit::TestCase
     response = Notifier.deliver_notify_reading(user, action, reading)
     assert_equal 'device 1 exited geofence home', response.subject
     assert_match /Dear #{user.first_name} #{user.last_name}/, response.body
-    assert_match /Central Time/, response.body
-    assert_match /2:39/, response.body
     puts response.body
   
     user = users(:nick)
@@ -35,8 +33,6 @@ class NotificationTest < Test::Unit::TestCase
     response = Notifier.deliver_notify_reading(user, action, reading)
     assert_equal 'device 1 exited geofence home', response.subject
     assert_match /Dear #{user.first_name} #{user.last_name}/, response.body
-    assert_match /Pacific Time/, response.body
-    assert_match /12:39/, response.body
     puts response.body
     
     user = users(:byron)
@@ -47,8 +43,6 @@ class NotificationTest < Test::Unit::TestCase
     assert_equal 'device 1 exited geofence home', response.subject
     puts response.body
     assert_match /Dear #{user.first_name} #{user.last_name}/, response.body
-    assert_match /Central Time/, response.body
-    assert_match /2:39/, response.body
   
   end
   
