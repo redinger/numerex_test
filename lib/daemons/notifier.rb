@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= "development"
-
 require File.dirname(__FILE__) + "/../../config/environment"
 
 $running = true;
