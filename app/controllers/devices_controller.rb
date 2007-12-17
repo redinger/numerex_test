@@ -27,7 +27,7 @@ class DevicesController < ApplicationController
   # A device can provisioned
   def choose_MT
     if (request.post? && params[:imei] != '')
-      device = provision_device(params[:imei], :online_threshold => '10')
+      device = provision_device(params[:imei])
       if(!device.nil?)
         redirect_to :controller => 'devices', :action => 'index'
       end
