@@ -85,18 +85,9 @@ class DeviceControllerTest < Test::Unit::TestCase
     newDevice = Device.find_by_imei("314159")
     assert_equal 1, newDevice.provision_status_id
     assert_equal 1, newDevice.account_id
-    assert_equal 10, newDevice.online_threshold
+    assert_equal 90, newDevice.online_threshold
   end
-  
-  def test_choose_new_phone
-    post :choose_phone, {:imei => "31415926", :name => "new device", :phone_number => "4441212"}, { :user => users(:dennis), :account_id => "1" }
-    assert_redirected_to :controller => "devices"
-    newDevice = Device.find_by_imei("31415926")
-    assert_equal 1, newDevice.provision_status_id
-    assert_equal 1, newDevice.account_id
-    assert_nil newDevice.online_threshold
-  end
-  
+
   def test_choose_already_provisioned
     post :choose_MT, {:imei => "1234"}, { :user => users(:dennis), :account_id => "1" }
     assert_equal flash[:message] , 'This device has already been added'
