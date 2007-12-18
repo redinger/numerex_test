@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 21) do
+ActiveRecord::Schema.define(:version => 24) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -21,14 +21,12 @@ ActiveRecord::Schema.define(:version => 21) do
     t.column "imei",                :string,   :limit => 30
     t.column "phone_number",        :string,   :limit => 20
     t.column "recent_reading_id",   :integer,                :default => 0
-    t.column "ip_address",          :string
     t.column "created_at",          :datetime
     t.column "updated_at",          :datetime
     t.column "provision_status_id", :integer,  :limit => 2,  :default => 0
     t.column "account_id",          :integer,                :default => 0
     t.column "last_online_time",    :datetime
-    t.column "modem_id",            :string,   :limit => 30
-    t.column "online_threshold",    :integer
+    t.column "online_threshold",    :integer,                :default => 90
   end
 
   create_table "devices_users", :force => true do |t|
@@ -45,6 +43,13 @@ ActiveRecord::Schema.define(:version => 21) do
     t.column "updated_at", :datetime
     t.column "address",    :string
     t.column "fence_num",  :integer
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.column "user_id",           :integer
+    t.column "device_id",         :integer
+    t.column "created_at",        :datetime
+    t.column "notification_type", :string,   :limit => 25
   end
 
   create_table "orders", :force => true do |t|
