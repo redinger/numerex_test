@@ -41,7 +41,7 @@ production:
   host:      mysql50-2
 
 # Staging
-production:
+staging:
   adapter:   mysql
   database:  ublip_stage
   username:  ublip_db
