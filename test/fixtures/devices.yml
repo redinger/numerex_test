@@ -65,4 +65,12 @@ device7:
  account_id: 2
  last_online_time: <%= Time.now.to_s :db %> 
  
-
+ device8:
+  id: 8
+  name: Fixture Device
+  imei: 1234567891
+  created_at: <%= Time.now.to_s :db %>
+  recent_reading_id: 9926
+  provision_status_id: 1
+  account_id: 6
+  last_online_time: <%= Time.now.to_s :db %>
