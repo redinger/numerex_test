@@ -83,3 +83,13 @@ newcustomer:
  crypted_password: <%= User.encrypt('testing', @SALT) %>
  account_id: 5
  created_at: <%= Time.now.to_s :db %>
+ 
+newcustomer:
+ id: 8
+ first_name: staging
+ last_name: user
+ email: staging@ublip.com
+ salt: <%= @SALT %>
+ crypted_password: <%= User.encrypt('staging', @SALT) %>
+ account_id: 6
+ created_at: <%= Time.now.to_s :db %>
