@@ -32,10 +32,10 @@ newcustomer:
  subdomain: newcustomer
  created_at: <%= 5.day.ago.to_s :db %>
  is_verified: 1
- 
+
 staging:
  id: 6
  company: Ublip Staging
  subdomain: staging
- created_at: <%= Time.now :db %>
- 
+ created_at: <%= Time.now.to_s :db %>
+ is_verified: 1
