@@ -28,9 +28,22 @@ test:
   password: ublip_dev
   socket: /tmp/mysql.sock
 
+# These are ignored when deployed as the deployment recipe creates
+# a symbolic link from the shared config to this file These are here
+# so we have record of our production and staging database logins
+
+# Production
 production:
-  adapter: mysql
-  database: ublip_v2
-  username: root
-  password: ublip
-  socket: /tmp/mysql.sock
+  adapter:   mysql
+  database:  ublip_prod
+  username:  ublip_db
+  password:  pr1c7lic6
+  host:      mysql50-2
+
+# Staging
+production:
+  adapter:   mysql
+  database:  ublip_stage
+  username:  ublip_db
+  password:  pr1c7lic6
+  host:      mysql50-2
