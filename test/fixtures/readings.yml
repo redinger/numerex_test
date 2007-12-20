@@ -2080,4 +2080,4 @@ readings_9926:
     </geonames>
   event_type: exitgeofen_et51
   direction: "0"
-  created_at: 2007-07-24 15:39:58
+  created_at: <%= Time.now.to_s :db %>
