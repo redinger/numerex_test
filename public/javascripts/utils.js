@@ -18,3 +18,7 @@ function displayLocalDT(dt) {
 function popIt(url, name, props) {
 	window.open(url, name, props);
 }
+
+function $(id) {
+	return document.getElementById(id);
+}

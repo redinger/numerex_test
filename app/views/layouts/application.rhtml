@@ -5,7 +5,7 @@
 		<title>Ublip - Location Matters</title>
         <%= stylesheet_link_tag "app", "font_styles" %>
         <%= render :partial => 'layouts/includes/map_key' %>
-        <%= javascript_include_tag "main", "layers" %>
+        <%= javascript_include_tag "main", "layers", "utils" %>
 	</head>
 	<body onload="load();">
    		<%= render :partial => 'layouts/includes/header' %>

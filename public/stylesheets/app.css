@@ -192,6 +192,13 @@ div#error_message {
 	padding: 5px;
 }
 
+div#updating {
+	float: right;
+	background-color: #FFFF00;
+	padding: 0 3px;
+	color: #333333;
+}
+
 .form_table {
 	padding: 5px;
 }

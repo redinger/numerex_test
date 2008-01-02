@@ -5,6 +5,7 @@ var currSelectedDeviceId;
 var iconALL;
 var devices = []; // JS devices model
 var readings = []; //JS readings model
+var zoom = 13;
             
 function load() 
 {
@@ -12,7 +13,7 @@ function load()
   	gmap = new GMap2(document.getElementById("map"));
     gmap.addControl(new GLargeMapControl());
     gmap.addControl(new GMapTypeControl());
-    gmap.setCenter(new GLatLng(37.4419, -122.1419), 13);
+    gmap.setCenter(new GLatLng(37.4419, -122.1419), zoom);
 	
 	iconALL = new GIcon();
     iconALL.image = "/icons/ublip_marker.png";
@@ -35,6 +36,10 @@ function load()
 	  	}
 	});
 	
+	GEvent.addListener(gmap, "zoomend", function(oldZoom, newZoom) {
+		zoom = newZoom;
+	});
+	
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];
 	if(page == 'home' || page == 'admin')
@@ -48,10 +53,11 @@ function load()
 }
 
 // Display all devices on overview page
-function getRecentReadings() {
-	gmap.clearOverlays();
+function getRecentReadings(redrawMap) {
+	$("updating").style.visibility = 'visible';
     var bounds = new GLatLngBounds();
     GDownloadUrl("/readings/recent", function(data, responseCode) {
+		gmap.clearOverlays();
         var xml = GXml.parse(data);
 		var ids = xml.documentElement.getElementsByTagName("id");
 		var names = xml.documentElement.getElementsByTagName("name");
@@ -75,16 +81,31 @@ function getRecentReadings() {
 					
 				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
 				devices.push(device);
+				
+				// Populate the table
+				var row = $("row" + device.id);
+				var tds = row.getElementsByTagName("td");
+				tds[2].innerHTML = device.address;
+				tds[3].innerHTML = device.dt;
+				
 		        var point = new GLatLng(device.lat, device.lng);
 				gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
-		        bounds.extend(point)
+		        bounds.extend(point);
 			}
 		}
 		
-        gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds)); 
+		$("updating").style.visibility = 'hidden';
+		
+		if(redrawMap == undefined || redrawMap == true)
+        	gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds));
+		else {
+			// Do the AJAXY update
+			gmap.setCenter(gmap.getCenter(), zoom);
+			
+		}
 		
 		// Hide the action panel
-		document.getElementById("action_panel").style.visibility = "hidden";
+		// document.getElementById("action_panel").style.visibility = "hidden";
     });
 }
 

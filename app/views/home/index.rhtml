@@ -70,7 +70,8 @@
             <table width="100%" class="panel_table">
                 <tr>
                 	<td class="header">
-                		<div>Locations for <span id="device_name">All Devices</span> <span id="view_all_link" style="visibility: hidden;">- <a href="javascript:getRecentReadings();">View All Devices</a></span></div>
+                		<div style="float: left">Locations for All Devices</div>
+						<div id="updating">Updating locations...</div>
 					</td>
 				</tr>
                 <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%"></div></td></tr>
@@ -78,3 +79,10 @@
         </td>
     </tr>
 </table>
+
+<script>
+	window.setInterval("updateLocations();", 20000);
+	function updateLocations() {
+		getRecentReadings(false);
+	}
+</script>
