@@ -48,21 +48,29 @@ class UsersController < ApplicationController
   end
   
   def new
+    @user = User.new(params[:user])
     if request.post?
-      user = User.new(params[:user])
-      user.account_id = session[:account_id]
+      @user.account_id = session[:account_id]
       if params[:is_admin]
-        user.is_admin = 1
+        @user.is_admin = 1
       end
-      @users = User.find(:all, :conditions => ['account_id =?', user.account_id])
+      @users = User.find(:all, :conditions => ['account_id =?', @user.account_id])
 	  
 	   if @users.size < 5
-        begin
-          user.save!
-          flash[:message] = user.email + ' was created successfully'
-          redirect_to :controller => "users"
-        rescue ActiveRecord::RecordInvalid
-            flash[:message] = "There were errors in creating your account. Please review the form below."
+	      # Check that passwords match
+	      if params[:user][:password] == params[:user][:password_confirmation]
+          if @user.save
+            flash[:message] = @user.email + ' was created successfully'
+            redirect_to :controller => 'users'
+          else # Display errors from model validation
+            error_msg = ''
+            @user.errors.each_full do |error|
+              error_msg += error + '<br />'
+            end
+            flash[:message] = error_msg
+          end
+        else
+          flash[:message] = 'Your new password and confirmation must match'
         end
       else
         flash[:message] = "There are already 5 users in this account"

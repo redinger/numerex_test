@@ -4,12 +4,14 @@
 </div>
 <% end %>
 <h3>Add a New User</h3>
-<form method="post">
-    First Name: <input type="text" name="user[first_name]" size="20" /><br />
-    Last Name: <input type="text" name="user[last_name]" size="20" /><br/>
-    Email: <input type="text" name="user[email]" size="20" /><br />
-    Password: <input type="password" name="user[password]" size="20" /><br />
-    Confirm Password: <input type="password" name="user[password_confirmation]" size="20" /><br />
-    <input type="checkbox" name="is_admin" /> Assign administrative privileges?<br />
-    <input type="submit" value="add" />&nbsp;&nbsp;&nbsp;<a href="/users">cancel</a>
+<form method="post" class="form_table">
+	<table>
+    	<tr><th>First Name</th><td><input type="text" name="user[first_name]" size="20" value="<%= @user.first_name %>" /></td></tr>
+    	<tr><th>Last Name</th><td><input type="text" name="user[last_name]" size="20" value="<%= @user.last_name %>" /></td></tr>
+    	<tr><th>Email</th><td><input type="text" name="user[email]" size="20" value="<%= @user.email %>" /></td></tr>
+    	<tr><th>Password</th><td><input type="password" name="user[password]" size="20" value="<%= @user.password %>" /></td></tr>
+    	<tr><th>Confirm Password</th><td><input type="password" name="user[password_confirmation]" size="20" /></td>
+    	<!--<input type="checkbox" name="is_admin" /> Assign administrative privileges?-->
+		<tr><td colspan="2" align="right"><input type="submit" value="add" />&nbsp;&nbsp;&nbsp;<a href="/users">cancel</a></td></tr>
+	</table>
 </form>
