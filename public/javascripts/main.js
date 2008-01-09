@@ -57,6 +57,7 @@ function getRecentReadings(redrawMap) {
 	$("updating").style.visibility = 'visible';
     var bounds = new GLatLngBounds();
     GDownloadUrl("/readings/recent", function(data, responseCode) {
+		devices = [];
 		gmap.clearOverlays();
         var xml = GXml.parse(data);
 		var ids = xml.documentElement.getElementsByTagName("id");
@@ -96,12 +97,13 @@ function getRecentReadings(redrawMap) {
 		
 		$("updating").style.visibility = 'hidden';
 		
-		if(redrawMap == undefined || redrawMap == true)
-        	gmap.setCenter(bounds.getCenter(), gmap.getBoundsZoomLevel(bounds));
-		else {
+		if(redrawMap == undefined || redrawMap == true) {
+			// If there's only one device let's not zoom all the way in
+			var zl = (devices.length > 1) ? gmap.getBoundsZoomLevel(bounds) : 15;
+        	gmap.setCenter(bounds.getCenter(), zl);			
+		} else {
 			// Do the AJAXY update
 			gmap.setCenter(gmap.getCenter(), zoom);
-			
 		}
 		
 		// Hide the action panel
