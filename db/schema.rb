@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 24) do
+ActiveRecord::Schema.define(:version => 25) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -72,6 +72,11 @@ ActiveRecord::Schema.define(:version => 24) do
     t.column "address",    :string,   :limit => 1024
     t.column "notified",   :boolean,                  :default => false
   end
+
+  add_index "readings", ["device_id"], :name => "readings_device_id"
+  add_index "readings", ["created_at"], :name => "readings_created_at"
+  add_index "readings", ["address"], :name => "readings_address"
+  add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
 
   create_table "sessions", :force => true do |t|
     t.column "session_id", :string
