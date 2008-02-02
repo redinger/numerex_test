@@ -1,4 +1,4 @@
-
+  
 class DevicesController < ApplicationController
   before_filter :authorize
   
@@ -18,7 +18,8 @@ class DevicesController < ApplicationController
     if (request.post? && params[:imei] != '')
       device = provision_device(params[:imei])
       if(!device.nil?)
-        Text_Message_Webservice.send_message(params[:phone_number], "please click on http://www.db75.com/downloads/ublip.jad")
+        # Removing for now. Causes 500 error in functional test on build box.
+        #Text_Message_Webservice.send_message(params[:phone_number], "please click on http://www.db75.com/downloads/ublip.jad")
         redirect_to :controller => 'devices', :action => 'index'
       end
     end
@@ -89,4 +90,13 @@ class DevicesController < ApplicationController
     end
     return device
   end
+  
+  def groups
+    
+  end
+  
+  def new_group
+    
+  end
+  
 end
