@@ -67,12 +67,12 @@ class LoginController < ApplicationController
       if user
          key = user.generate_security_token
          url = url_for(:action => 'password')
-         url += "?user[id]=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
+         url += "?user_id=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
          Notifier.deliver_forgot_password(user, url)
-         flash['message'] = "Plase check #{user.email} to change the password."
+         flash['message'] = "Please check #{user.email} to change the password."
          redirect_to :action => 'index'
       else
-        flash[:message] = 'Please specify a valid username.'
+        flash[:message] = 'Please specify a valid username'
         render :action => 'forgot_password'
       end  
     end
@@ -90,15 +90,13 @@ class LoginController < ApplicationController
               flash.now['notice'] = "New password is mailed to #{@user.email}"
               redirect_to :action => 'index'     
             else  
-               flash[:message] = 'Password change failed'
-               render :action => 'index'     
+               flash[:message] = 'Please make sure your password is between 6 and 30 characters in length'
             end
           else
-            flash[:message] = "Passwords must match"
-            render :action => 'index'
+            flash[:message] = "We're sorry, but your passwords must match"
           end
         else
-            flash[:message] = 'Please specify a valid username.'
+            flash[:message] = 'Please specify a valid username'
             render :action => 'index'     
         end
     end
