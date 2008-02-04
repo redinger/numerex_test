@@ -1,4 +1,4 @@
-require 'lib/Middleware_Gateway'
+require 'lib/middleware_gateway'
 
 class Middleware_Gateway
   
