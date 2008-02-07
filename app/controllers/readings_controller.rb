@@ -29,8 +29,8 @@ class ReadingsController < ApplicationController
   
   # Display last reading for all devices under account
   def all
-    account = Account.find_by_subdomain(request.host.split('.')[0])
-    @devices = account.devices
+    account_id = Account.find_by_subdomain(request.host.split('.')[0]).id
+    @devices = Device.get_devices(account_id)
     render :layout => false
   end
   
