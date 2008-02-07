@@ -1,8 +1,7 @@
 class ReadingsController < ApplicationController
  
-  
-  before_filter :authorize_http, :only => ['last']
-  before_filter :authorize, :except => ['last']
+  before_filter :authorize_http, :only => ['last', 'all']
+  before_filter :authorize, :except => ['last', 'all']
   
   def recent
     if(params[:id].nil?)
@@ -15,7 +14,7 @@ class ReadingsController < ApplicationController
     render :layout => false
   end
   
-  # Display last N readings for given device
+  # Display last reading for device
   def last
     account = Account.find(:first, :conditions => ["subdomain = ?", request.host.split('.')[0]])
     device = Device.find(params[:id])
@@ -25,6 +24,13 @@ class ReadingsController < ApplicationController
     else
       @locations = Array.new
     end
+    render :layout => false
+  end
+  
+  # Display last reading for all devices under account
+  def all
+    account = Account.find_by_subdomain(request.host.split('.')[0])
+    @devices = account.devices
     render :layout => false
   end
   

@@ -23,11 +23,18 @@ class ReadingsControllerTest < Test::Unit::TestCase
     @request.host="dennis.ublip.com"
     @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
     get :last, { :id => "1"}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
-    puts @response.body
     
     assert_select "channel>item" do |element|
        assert_tag :tag => "georss:point", :content => "32.6358 -97.1757"
     end
+  end
+  
+  def test_all
+    @request.host = "dennis.ublip.com"
+     @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
+     get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+     # Simple test to validate there are 5 items in the georss response
+     assert_select "channel item", 5
   end
   
   def test_last_not_auth
