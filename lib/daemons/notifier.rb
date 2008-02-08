@@ -8,16 +8,17 @@ Signal.trap("TERM") do
 end
 
 while($running) do
-  ActiveRecord::Base.logger << "This notification daemon is still running at #{Time.now}.\n"
+  logger = ActiveRecord::Base.logger
+  logger.info("This notification daemon is still running at #{Time.now}.\n")
 
   readings_to_notify = Reading.find(:all, :conditions => "event_type like '%geofen%' and notified='0'")
 
-  ActiveRecord::Base.logger << "Notification needed for #{readings_to_notify.size.to_s} readings\n"
+  logger.info("Notification needed for #{readings_to_notify.size.to_s} readings\n")
   
   readings_to_notify.each do |reading| 
     reading.device.account.users.each do |user|
       if user.enotify? 
-        ActiveRecord::Base.logger << "notifying: #{user.email}\n"
+        logger.info("notifying: #{user.email}\n")
         action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
         action += reading.get_fence_name unless reading.get_fence_name.nil?
         mail = Notifier.deliver_notify_reading(user, action, reading)
@@ -33,7 +34,7 @@ while($running) do
     if(last_notification.nil? || Time.now - last_notification.created_at > 24*60*60)
       device.account.users.each do |user|
         if(user.enotify?)
-          ActiveRecord::Base.logger << "device offline, notifying: #{user.email}\n"
+          logger.info("device offline, notifying: #{user.email}\n")
           mail = Notifier.deliver_device_offline(user, device)
           notification = Notification.new
           notification.user_id = user.id
