@@ -1,5 +1,7 @@
 class Device < ActiveRecord::Base
   belongs_to :account
+  belongs_to :group  
+  
   validates_uniqueness_of :imei
   has_many :readings, :order => "created_at desc", :limit => 1 # Gets the most recent reading
   has_many :geofences, :order => "created_at desc", :limit => 4

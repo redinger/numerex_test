@@ -1,0 +1,212 @@
+      
+          <ilayer name="scroll1" width="600px" height=150 clip="0,0,170,150">
+<layer name="scroll2" width="600px" height=150 bgColor="lightyellow">
+<div id="scroll3" style="width:530px;height:340px;background-color:lightyellow;overflow:scroll">
+       
+       
+        
+    <%if @all_devices.size == 0 %>
+    <table width="100%" border="0">
+    <tr>
+        <td width="50%" valign="top">
+        	
+        	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
+        		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
+				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
+				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
+        	</div>
+   
+
+        	
+	
+			
+				</td></tr>
+			</table>
+			  <%else%>
+<table width="100%" class="panel_table">
+           
+    <tr>
+            <th>
+             Name
+            </th>
+            <th width="30">
+            </th>
+            <th>
+            Last Location
+            </th>
+            <th>
+            Last Report
+            </th>
+    </tr>
+     <%if @devices_all== nil ||  @devices_all.length == 0 %>
+     <%else%>
+    <tr>
+   
+   
+     
+        <td colspan="4" class="header" /> 
+
+        
+                 <span class="rad_1" style="float:left;"></span>
+                
+                
+     
+         
+      Default Group
+        </td>
+    </tr>
+ 
+    <% for device in @devices_all%>
+    
+        
+       
+    <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
+        <td>
+        <% if device.recent_reading_id != 0 %>
+		<a href="javascript:centerMap(<%= device.id%>);highlightRow(<%=device.id %>);" title="Center map on this device"><%= device.name %></a>
+		<% else %>
+		
+		<%= device.name %>
+		<% end %>
+        </td>
+		<td style="font-size:11px;">
+		<a href="/reports/all/<%= device.id %>" title="View device details">details</a>
+		</td>
+        <td>
+        <% if device.recent_reading_id != 0 %>
+        <%= device.readings[0].shortAddress %>
+        <% else %>N/A<% end %>
+        </td>
+        <td>
+        <% if device.recent_reading_id != 0 %>
+        <%= time_ago_in_words device.readings[0].created_at %> ago <% else %>N/A<% end %>
+        </td>
+        </tr>
+        <% end %>
+             <% end %>
+           
+          
+      
+    
+    
+    
+   
+    
+   
+    <%for group_id in @group_for_data%>
+    <tr>
+     
+        <td colspan="4" class="header" /> 
+
+        
+                <% if group_id.image_value ==1%> <span class="rad_1" ></span>
+                <%elsif  group_id.image_value ==2%><span class="rad_2"></span>
+                 <%elsif  group_id.image_value ==3%><span class="rad_3"></span>
+                 <%elsif  group_id.image_value ==4%><span class="rad_4"></span>
+                 <%elsif  group_id.image_value ==5%><span class="rad_5"></span>
+                 <%elsif  group_id.image_value ==6%><span class="rad_6"></span>
+                 <%elsif  group_id.image_value ==7%><span class="rad_7"></span>
+                
+                 <%elsif  group_id.image_value ==8%><span class="rad_8"></span>
+                <%else %>
+                 <span class="rad_1" style="float:left;"></span>
+                
+                <%end%>
+     
+              <%= group_id.name %> 
+        </td>
+    </tr>
+ 
+       
+        <% for device in @devices_ids %>
+         
+       <% if device.group_id==group_id.id%>
+       
+    <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.device.id %>">
+        <td>
+        <% if device.device.recent_reading_id != 0 %>
+		<a href="javascript:centerMap(<%= device.device.id %>);highlightRow(<%= device.device.id %>);" title="Center map on this device"><%= device.device.name %></a>
+		<% else %>
+		
+		<%= device.device.name %>
+		<% end %>
+        </td>
+		<td style="font-size:11px;">
+		<a href="/reports/all/<%= device.device.id %>" title="View device details">details</a>
+		</td>
+        <td>
+        <% if device.device.recent_reading_id != 0 %>
+        <%= device.device.readings[0].shortAddress %>
+        <% else %>N/A<% end %>
+        </td>
+        <td>
+        <% if device.device.recent_reading_id != 0 %>
+        <%= time_ago_in_words device.device.readings[0].created_at %> ago <% else %>N/A<% end %>
+        </td>
+        </tr>
+        <% end %>
+             
+           <% end %>  
+           <%end%>
+           
+        </table>
+        
+        <% end %>
+<br><span style="display:none" style=&{nsstyle};><a href="#" onMousedown="up()"
+onMouseup="clearup()" onClick="return false" onMouseout="clearup()">Up</a> | <a href="#"
+onMousedown="down()" onMouseup="cleardown()" onClick="return false"
+onMouseout="cleardown()">Down</a> | <a href="#" onClick="if (document.layers) scrolldoc.top=0;return false">Top</a> | <a href="#" onClick="if (document.layers) scrolldoc.top=scrolldoc.document.height*(-1)+150;return false">Bottom</a></span>
+ </div>
+</layer>
+</ilayer>
+        
+         
+        <div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
+        <div class="dark_grey">
+        <div class="dark_blue_header" style="margin-bottom: 5px;">
+        Traffic Overlay
+        </div>
+		Click the checkbox below to view a traffic overlay on the map.  The traffic overlay is a series of stop light icons that you can click and zoom for more
+		detailed information.  If you've already zoomed in to an appropriate level, and if data is available for your region, you will see color coded lines. These lines
+		represent how fast traffic is moving:
+					<ul>
+						<li>Green: more than 50 mph</li>
+						<li>Yellow: 25-50 mph</li>
+						<li>Red: less than 25 mph</li>
+						<li>Gray: no data available</li>
+					</ul>
+		<p><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Show traffic overlay</p>
+        </div>
+				<!--<ul>					
+					<li><input type="checkbox"> Geofences</li>
+					<li><input type="checkbox"> Crime areas</li>
+					<li><input type="checkbox"> Service stations</li>
+					<li><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Traffic</li>
+					<li><input type="checkbox" onclick="getLocal(this, 'gas stations');"> Gas stations</li>
+					<li><input type="checkbox"> Pizza parlors</li>
+					<li><input type="text" size="15" /> <input type="submit" value="search" /></li>
+					<a href="">Add your own layer</a>
+				</ul>-->
+		</div>
+			<br />
+            <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
+                <span style="font-size: 16px; color: #666666;">
+                    What would you like to do?
+                </span>
+                <ul>
+                    <li><a href="javascript:go('/geofence/view');">View geofence</a></li>
+                    <li><a href="javascript:go('/geofence/add');">Create geofence</a></li>
+                    <li><a href="#">Subscribe to GeoRSS</a></li>
+                    <li><a href="#">Export to KML</a></li>
+                </ul>
+            </div>
+    
+
+<script>
+	window.setInterval("updateLocations();", 15000);
+	function updateLocations() {
+		getRecentReadings(false);
+	}
+</script>
+
+

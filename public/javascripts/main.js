@@ -42,7 +42,7 @@ function load()
 	
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];
-	if(page == 'home' || page == 'admin')
+	if(page == 'home' || page == 'admin' ||'devices')
     	getRecentReadings();
 	else if(page == 'reports')
 		getReportBreadcrumbs();

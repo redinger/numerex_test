@@ -1,0 +1,81 @@
+
+<% if flash[:message] %>
+<div id="error_message">
+    <%= flash[:message] %>
+</div>
+<% end %>
+
+
+<%=print_messages(@model_obj_array)%>
+<%= error_messages_for 'group'%>
+
+<%= form_tag :action => 'save_group'%>
+
+  <!-- Content starts here -->
+  <div id="content">
+    <div class="grp_3">
+      <h2>Create a Group</h2>
+      <p>Creating a group is simple .just give your group a name .select an icon and specify the devices you want to associate with it.</p>
+      <h3>Group Name</h3>
+       <%= text_field  'group' , 'name',"size"=>"15" %>
+      <h3>Select Icon</h3>
+      <div class="sel_icon">
+        <ul>
+          <li><span class="rad_1"></span>
+            <input name="sel"  <%if @group!=nil ||@group == 0%><% if @group.image_value==1%>checked="checked" <%end%><%end%>type="radio"  value="1"  />
+          </li>
+          <li><span class="rad_2"></span>
+            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%><% if @group.image_value==2%>checked="checked" <%end%>  <%end%>  value="2" />
+          </li>
+          <li><span class="rad_3"></span>
+            <input name="sel" type="radio"<%if @group!=nil ||@group == 0%> <% if @group.image_value==3%>checked="checked" <%end%> <%end%> value="3"  />
+          </li>
+          <li><span class="rad_4"></span>
+            <input name="sel" type="radio"  <%if @group!=nil ||@group == 0%><% if @group.image_value==4%>checked="checked" <%end%><%end%> value="4" />
+          </li>
+          <li><span class="rad_5"></span>
+            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%> <% if @group.image_value==5%>checked="checked" <%end%><%end%> value="5"  />
+          </li>
+          <li><span class="rad_6"></span>
+            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%> <% if @group.image_value==6%>checked="checked" <%end%><%end%> value="6"  />
+          </li>
+          <li><span class="rad_7"></span>
+            <input name="sel" type="radio"<%if @group!=nil ||@group == 0%> <% if @group.image_value==7%>checked="checked" <%end%> <%end%> value="7"  />
+          </li>
+          <li><span class="rad_8"></span>
+            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%><% if @group.image_value==8%>checked="checked" <%end%> <%end%>value="8"  />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br class="clear"/>
+    <div class="sel_dev" >
+      <h3>Select Devices</h3>
+      <p style="border-bottom:1px solid #f1f1f1; padding-bottom:5px;">Some devices may already be associated with another group .In this case .the group name display red after the device name. You can easly reassign any  device to this group by clicking one or more checkboxs below.   </p>
+      <ul style="line-height:1.7em;" >
+        <li>
+              
+        <%for device in @device%>
+         
+            <br />   
+        <input type='checkbox' multiple name='select_devices[]'<%if @group!=nil ||@group == 0%> <%for group_all_data in @group_all_data %><%if  device.id == group_all_data.device_id%> checked="checked" <%end%><%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>
+    <%for group_all_data in @group_all_data %>
+       <%if device.id == group_all_data.device_id %>
+    
+     <span style="color:#f00; "> (<%= group_all_data.group.name%>)</span>
+     
+        <%end %>
+        <%end %>
+        <%end %></li>
+        </ul>
+        
+    </div>
+  </div>
+  <!-- Content ends here -->
+
+   
+
+			
+  	        <%= submit_tag "Create Group" %>
+  	     
+   

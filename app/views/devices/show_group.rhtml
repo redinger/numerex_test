@@ -1,0 +1,46 @@
+ 
+     <select id="type" name="type"  onchange= "<%=remote_function(:url => { :controller => :devices, :action => :group_action}, :with=>"'type=' +escape($F('type'))")%>">
+        
+        
+        <option id="" disabled="disabled"  >  Actions</option>
+        <option id="" disabled="disabled" >   view </option>
+        <option value="all" >   All Assets  </option>
+             <% for group in @group_for_data %>
+        <option value='<%= group.id%>'><%= group.name%> </option>
+              <% end %>
+      </select>
+    
+  
+
+ <div id='show_group'style=" float:left; width:55%; "  >
+    
+ <%=render :partial=> "show_group_by_id"  ,:locals=>{ :devices_all=>@devices_all,:group1=>@group ,:devices_ids=>@devices_ids,:devices=>@devices}%>
+ 
+ 
+ 
+</div> 
+
+
+
+
+
+<table  class="panel_table" border="0" style="float:right; width:43%;">
+                <tr>
+                	<td class="header">
+                		<div style="float: left">Locations for All Devices</div>
+						<div id="updating">Updating locations...</div>
+					</td>
+				</tr>
+                <tr class="dark_row"><td valign="top"><div id="map" style="width:100%;" ></div></td></tr>
+                
+</table>
+
+
+
+           
+       
+
+
+
+
+

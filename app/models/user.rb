@@ -9,10 +9,13 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
 
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
+  #def self.authenticate(email, password)
   def self.authenticate(subdomain, email, password)
     
     account = Account.find_by_subdomain(subdomain)
-    user = find_by_email_and_account_id(email, account.id ) 
+    user = find_by_email_and_account_id(email, account.id )
+    
+    
     
     if (user && user.authenticated?(password) && user.account.is_verified)
       user.update_attribute(:last_login_dt, Time.now)

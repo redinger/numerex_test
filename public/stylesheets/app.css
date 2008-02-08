@@ -4,11 +4,13 @@ body {
 	background-color: #FFFFFF;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
+	min-width:700px;
 }
 
 div#content {
 	margin: 10px;
-	min-height: 400px;
+	padding:0 10px 0 10px;
+
 }
 
 div#header {
@@ -36,6 +38,7 @@ div#footer {
 	text-align: center;	
 	color: #666666;
 	font-size: 10px;
+	clear:both;
 }
 
 div#subnav {
@@ -217,10 +220,9 @@ div#updating {
 }
 
 .panel_table {
-	width: 100%;
+
 	padding: 0;
 	margin: 0;
-	border-collapse: collapse;
 }
 
 .panel_table th {
@@ -242,6 +244,13 @@ div#updating {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding: 5px;
 }
+.header_{
+    background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;
+	width:55%;}
 
 .light_row {
 	background-color: #FFFFFF;
@@ -273,4 +282,8 @@ hr {
 	color: #666666;
 	width: 700px;
 	border-bottom: 1px solid #CCCCCC;
+}
+
+div#side_tb_box{
+width:55%; float:left; margin-top:5px;
 }

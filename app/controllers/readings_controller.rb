@@ -5,7 +5,7 @@ class ReadingsController < ApplicationController
   
   def recent
     if(params[:id].nil?)
-      @devices = Device.get_devices(session[:account_id])
+    @devices = Device.find(:all , :conditions => ["account_id = ?", session[:account_id]])
     else
       @devices = Device.find(:all, :conditions => ["id = ?", params[:id]])
     end

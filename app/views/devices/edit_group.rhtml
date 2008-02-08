@@ -1,0 +1,33 @@
+<%if @group== nil ||@group.length == 0 %>
+<div id="content">
+ <h2>Please Create group First<br/> <%= link_to "Create New group" ,:controller=>"devices", :action=>"new_group"%>     </h2>
+</div>
+
+
+
+  
+<%else%>
+  <!-- Content starts here -->
+  <div id="content">
+    <div>
+      <h2>Your Group</h2>
+      <p>Groups are a great way to keep your device organized . Create a group and devices to it.<br>
+Assign a unique icon for each of your groups. on the overview screen your devices will display in <br>
+groups with the icond you selected.</p>
+    </div>
+   
+    <% for group   in @group%>
+     <div class="crt_group"> 
+        
+	  <%= link_to group.name ,:controller=>"devices", :action=>"edits_group",:group_id=> group.id%>    
+    <br/>
+    </div>
+    <% end%>
+    
+    
+    
+    
+     
+  </div>
+  <!-- Content ends here -->
+ <% end%>
