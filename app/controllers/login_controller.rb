@@ -18,7 +18,7 @@ class LoginController < ApplicationController
     if logged_in? 
       user = self.current_user
       if !user.remember_token_expires_at.nil? and Time.now < user.remember_token_expires_at 
-          redirect_back_or_default :controller => 'devices', :action=>'show_group' and return
+          redirect_back_or_default :controller => 'home', :action => 'index' and return
       else
          cookies.delete :auth_token
          self.current_user.forget_me
@@ -41,7 +41,7 @@ class LoginController < ApplicationController
         session[:company] = self.current_user.account.company # Store the user's company name
         session[:first_name] = self.current_user.first_name # Store user's first name
         session[:email] = self.current_user.email # Store user's email
-        redirect_back_or_default( :controller => 'devices', :action=>'show_group') # Login success
+        redirect_back_or_default :controller => 'home', :action => 'index' and return # Login success
       # Send them back to the login page with appropriate error message
       else
           flash[:message] = 'Please specify a valid username and password.'
