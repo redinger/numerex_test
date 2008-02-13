@@ -7,5 +7,6 @@ class HomeController < ApplicationController
   
   def map
    render :action => "home/map", :layout => "map_only"
+   
  end
 end

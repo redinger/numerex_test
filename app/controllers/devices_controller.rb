@@ -1,7 +1,7 @@
-  
+
 class DevicesController < ApplicationController
+
   before_filter :authorize
-  
   def index
     @devices = Device.get_devices(session[:account_id])
   end
@@ -117,7 +117,7 @@ class DevicesController < ApplicationController
         if @group_device_ids== nil ||@group_device_ids.length == 0 
            @devices_all = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
         else
-           @devices_all =Device.find(:all ,:conditions => [ ' id not in (?) ',group_id])
+           @devices_all =Device.find(:all ,:conditions => [ 'account_id = ? AND id not in (?) ',session[:account_id],group_id])
         end
 
         @all_devices = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
@@ -206,7 +206,7 @@ class DevicesController < ApplicationController
   
   #For creating a new group
   def new_group
-      @device= Device.find(:all)
+      @device= Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
       @group_all_data =GroupDevice.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
   end 
   def show_group_1
@@ -237,8 +237,9 @@ class DevicesController < ApplicationController
       @all_devices = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
          
      end 
+#     redirect_to :controller=>'reading',:action=>'recent'
      render :update do |page|
-              	 
+         	 
 	 page.replace_html "show_group" , :partial => "show_group_by_id",:locals=>{ :all_devices=>@all_devices,:group_for_data=>@group_for_data ,:devices_ids=>@devices_ids,:devices=>@devices}
 	 page.visual_effect :highlight, "show_group"
 	 end

@@ -16,6 +16,8 @@ function load()
     gmap.setCenter(new GLatLng(37.4419, -122.1419), zoom);
 	
 	iconALL = new GIcon();
+	
+	
     iconALL.image = "/icons/ublip_marker.png";
     iconALL.shadow = "/images/ublip_marker_shadow.png";
     iconALL.iconSize = new GSize(23, 34);
@@ -42,7 +44,7 @@ function load()
 	
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];
-	if(page == 'home' || page == 'admin' ||'devices')
+	if(page == 'home' || page == 'admin' ||page=='devices')
     	getRecentReadings();
 	else if(page == 'reports')
 		getReportBreadcrumbs();
@@ -53,10 +55,13 @@ function load()
 }
 
 // Display all devices on overview page
-function getRecentReadings(redrawMap) {
+function getRecentReadings(redrawMap,id) {
+      
 	$("updating").style.visibility = 'visible';
     var bounds = new GLatLngBounds();
-    GDownloadUrl("/readings/recent", function(data, responseCode) {
+    var temp ;
+    temp="/readings/recent/" + id 
+    GDownloadUrl(temp, function(data, responseCode) {
 		devices = [];
 		gmap.clearOverlays();
         var xml = GXml.parse(data);

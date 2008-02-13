@@ -1,5 +1,6 @@
+
  
-     <select id="type" name="type"  onchange= "<%=remote_function(:url => { :controller => :devices, :action => :group_action}, :with=>"'type=' +escape($F('type'))")%>">
+<select id="type1" name="type" onchange=" <%=remote_function(:complete=>"Element.hide('spinner')", :before=>"Element.show('spinner')",:url => { :controller => :devices, :action => :group_action}, :with=>"'type='+escape($F('type1'))")%>;javascript:getRecentReadings(true,document.getElementById('type1').value);">
         
         
         <option id="" disabled="disabled"  >  Actions</option>
@@ -9,38 +10,92 @@
         <option value='<%= group.id%>'><%= group.name%> </option>
               <% end %>
       </select>
-    
-  
+       <%= image_tag("pleasewait.gif",:align => 'absmiddle',
+                                      :border=> 0,
+                                      :id => "spinner",
+                                      :style=>"display: none;" )%>
+   
+ <div style="float:left; width:55%; "> 
 
- <div id='show_group'style=" float:left; width:55%; "  >
+ <div id='show_group'style=" overflow:auto; height:300px; margin-bottom:10px;"  >
     
  <%=render :partial=> "show_group_by_id"  ,:locals=>{ :devices_all=>@devices_all,:group1=>@group ,:devices_ids=>@devices_ids,:devices=>@devices}%>
  
  
  
 </div> 
+<div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
+        <div class="dark_grey">
+        <div class="dark_blue_header" style="margin-bottom: 5px;">
+        Traffic Overlay
+        </div>
+		<p>Click the checkbox below to view a traffic overlay on the map.  The traffic overlay is a series of stop light icons that you can click and zoom for more
+		detailed information.  If you've already zoomed in to an appropriate level, and if data is available for your region, you will see color coded lines. These lines
+		represent how fast traffic is moving:</p>
+					<ul style="margin-top:10px; list-style:disc; margin-left:24px;">
+						<li>Green: more than 50 mph</li>
+						<li>Yellow: 25-50 mph</li>
+						<li>Red: less than 25 mph</li>
+						<li>Gray: no data available</li>
+					</ul>
+					<br />
+		<p><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Show traffic overlay</p>
+        </div>
+				<!--<ul>					
+					<li><input type="checkbox"> Geofences</li>
+					<li><input type="checkbox"> Crime areas</li>
+					<li><input type="checkbox"> Service stations</li>
+					<li><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Traffic</li>
+					<li><input type="checkbox" onclick="getLocal(this, 'gas stations');"> Gas stations</li>
+					<li><input type="checkbox"> Pizza parlors</li>
+					<li><input type="text" size="15" /> <input type="submit" value="search" /></li>
+					<a href="">Add your own layer</a>
+				</ul>-->
+		</div>
+
+</div>
 
 
 
 
-
-<table  class="panel_table" border="0" style="float:right; width:43%;">
+<table  class="panel_table" border="0" style="float:right; width:44%; height:542px;">
                 <tr>
                 	<td class="header">
                 		<div style="float: left">Locations for All Devices</div>
 						<div id="updating">Updating locations...</div>
+						
 					</td>
 				</tr>
                 <tr class="dark_row"><td valign="top"><div id="map" style="width:100%;" ></div></td></tr>
+     
                 
 </table>
 
 
-
+			<br />
+            <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
+                <span style="font-size: 16px; color: #666666;">
+                    What would you like to do?
+                </span>
+                <ul>
+                    <li><a href="javascript:go('/geofence/view');">View geofence</a></li>
+                    <li><a href="javascript:go('/geofence/add');">Create geofence</a></li>
+                    <li><a href="#">Subscribe to GeoRSS</a></li>
+                    <li><a href="#">Export to KML</a></li>
+                </ul>
+                
+            </div>
+ <script type="text/javascript">
+	window.setInterval("updateLocations();", 30000);
+	function updateLocations() {
+	 getRecentReadings(false,document.getElementById('type1').value);
+	 
+		
+	}
+</script>
            
        
-
-
+     
 
 
 

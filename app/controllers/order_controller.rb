@@ -171,7 +171,7 @@ class OrderController < ApplicationController
     end
   rescue Errno::ENOENT => exception
     flash[:error] = exception
-    puts exception
+    
   end
 
   # Order completed successfully
