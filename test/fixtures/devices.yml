@@ -5,7 +5,7 @@ device1:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 1
  provision_status_id: 1
- account_id: 6 # Dennis Co
+ account_id: 1 # Dennis Co
  last_online_time: <%= Time.now.to_s :db %> 
  
 device2:
@@ -15,7 +15,7 @@ device2:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 2
  provision_status_id: 1
- account_id: 6 # Dennis Co
+ account_id: 1 # Dennis Co
  
 device3:
  id: 3
@@ -24,7 +24,7 @@ device3:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 3
  provision_status_id: 1
- account_id: 6 # Nick Co
+ account_id: 1 # Nick Co
  last_online_time: <%= (Time.now-120*60).to_s :db %> 
  
 device4:
@@ -33,7 +33,7 @@ device4:
  imei: 9999
  created_at: <%= Time.now.to_s :db %>
  provision_status_id: 1
- account_id: 6 # Dennis Co
+ account_id: 1 # Dennis Co
  last_online_time: <%= Time.now.to_s :db %> 
  
 device5:
@@ -52,7 +52,7 @@ device6:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 6
  provision_status_id: 1
- account_id: 6 # Dennis Co
+ account_id: 1 # Dennis Co
  last_online_time: <%= Time.now.to_s :db %> 
  
 device7:
@@ -62,7 +62,7 @@ device7:
  created_at: <%= Time.now.to_s :db %>
  recent_reading_id: 9925
  provision_status_id: 1
- account_id: 6
+ account_id: 2
  last_online_time: <%= Time.now.to_s :db %> 
  
 device8:
