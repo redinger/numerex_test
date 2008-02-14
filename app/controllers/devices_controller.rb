@@ -165,6 +165,19 @@ class DevicesController < ApplicationController
            redirect_to :action=>"new_group"
        else
            @group.update
+ @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
+   for device_id in @devices_all
+       devices = Device.find(device_id.device_id)
+       devices.icon_id ="1"
+ 
+            devices.update
+    end    
+          for device_id in @device_id
+       devices = Device.find(device_id)
+       devices.icon_id =@image_value
+ 
+            devices.update
+    end    
            @group_device= GroupDevice.find( :all , :conditions =>["group_id= ?" ,params[:group_id][:id]])
            @group_device_id=@group_device
            group_id = []
@@ -200,7 +213,7 @@ class DevicesController < ApplicationController
 		 id = params[:group_id]
 		 @group = Group.find(id)
       end
-      @device= Device.find(:all)
+      @device= Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
       @group_all_data =GroupDevice.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
   end
   
@@ -255,6 +268,12 @@ class DevicesController < ApplicationController
            flash[:message] = "Group Name Can't Be blank And You have to Chose Atleast One Device "
            redirect_to :action=>"new_group"
         else
+        for device_id in @device_id
+            devices = Device.find(device_id)
+              devices.icon_id =@image_value
+ 
+              devices.update
+    end    
        @group=Group.new()
        @group.name =group_name
        @group.image_value = @image_value
@@ -272,7 +291,7 @@ class DevicesController < ApplicationController
           end
          redirect_to :action=>"show_group"
         else
-          @model_obj_array  = [@group,@group_device]
+         
        redirect_to :action=>"new_group"
         end
         end

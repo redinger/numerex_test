@@ -57,7 +57,7 @@
         <%for device in @device%>
          
             <br />   
-        <input type='checkbox' multiple name='select_devices[]'<%if @group!=nil ||@group == 0%> <%for group_all_data in @group_all_data %><%if  device.id == group_all_data.device_id%> checked="checked" <%end%><%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>
+        <input type='checkbox' multiple name='select_devices[]' <%for group_all_data in @group_all_data %><%if  device.id == group_all_data.device_id%> disabled="disabled" <%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>
     <%for group_all_data in @group_all_data %>
        <%if device.id == group_all_data.device_id %>
     

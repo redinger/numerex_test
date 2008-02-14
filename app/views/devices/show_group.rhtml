@@ -1,6 +1,8 @@
 
- 
-<select id="type1" name="type" onchange=" <%=remote_function(:complete=>"Element.hide('spinner')", :before=>"Element.show('spinner')",:url => { :controller => :devices, :action => :group_action}, :with=>"'type='+escape($F('type1'))")%>;javascript:getRecentReadings(true,document.getElementById('type1').value);">
+   
+ <div style="float:left; width:55%; "> 
+ <p style="background:#6699CC; height:28px; padding-top:4px;">
+ <select id="type1" style="float:right; width:100px; margin-right:6px;" name="type" onchange=" <%=remote_function(:complete=>"Element.hide('spinner')", :before=>"Element.show('spinner')",:url => { :controller => :devices, :action => :group_action}, :with=>"'type='+escape($F('type1'))")%>;javascript:getRecentReadings(true,document.getElementById('type1').value);">
         
         
         <option id="" disabled="disabled"  >  Actions</option>
@@ -14,8 +16,7 @@
                                       :border=> 0,
                                       :id => "spinner",
                                       :style=>"display: none;" )%>
-   
- <div style="float:left; width:55%; "> 
+  </p>                                  
 
  <div id='show_group'style=" overflow:auto; height:300px; margin-bottom:10px;"  >
     
@@ -86,7 +87,7 @@
                 
             </div>
  <script type="text/javascript">
-	window.setInterval("updateLocations();", 30000);
+	window.setInterval("updateLocations();", 5555555530000);
 	function updateLocations() {
 	 getRecentReadings(false,document.getElementById('type1').value);
 	 

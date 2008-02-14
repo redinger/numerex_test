@@ -18,7 +18,7 @@ function load()
 	iconALL = new GIcon();
 	
 	
-    iconALL.image = "/icons/ublip_marker.png";
+   // iconALL.image = "/icons/ublip_marker.png";
     iconALL.shadow = "/images/ublip_marker_shadow.png";
     iconALL.iconSize = new GSize(23, 34);
     iconALL.iconAnchor = new GPoint(11, 34);
@@ -72,6 +72,7 @@ function getRecentReadings(redrawMap,id) {
 		var dts = xml.documentElement.getElementsByTagName("dt");
 		var addresses = xml.documentElement.getElementsByTagName("address");
 		var notes = xml.documentElement.getElementsByTagName("note");
+		var icon_id = xml.documentElement.getElementsByTagName("icon_id");
 		
 		for(var i = 0; i < lats.length; i++) {
 			if(lats[i].firstChild) {
@@ -80,6 +81,32 @@ function getRecentReadings(redrawMap,id) {
 				if(addresses[i].firstChild != undefined)
 					address = addresses[i].firstChild.nodeValue;
 					
+			 // check for the group image
+			
+			 var icon_id_1
+			  if(icon_id[i].firstChild != undefined)
+					icon_id_1 = icon_id[i].firstChild.nodeValue;
+				  
+                     if (icon_id_1 == 1)
+                   iconALL.image=" /icons/ublip_marker.png" ;
+                   else if (icon_id_1 == 2)
+                   iconALL.image=" /icons/ublip_red.png" ;
+                  else if (icon_id_1 == 3)
+                   iconALL.image=" /icons/green_big.png" ;
+                    else if (icon_id_1 == 4)
+                   iconALL.image="/icons/yellow_big.png" ;
+                    else if (icon_id_1 == 5)
+                   iconALL.image="/icons/purple_big.png" ;
+                     else if (icon_id_1 == 6)
+                   iconALL.image="/icons/dark_blue_big.png" ;
+                    else if (icon_id_1 == 7)
+                   iconALL.image="/icons/grey_big.png" ;
+                    else if (icon_id_1 == 8)
+                   iconALL.image="/icons/orange_big.png" ;
+                    else
+                    
+                    iconALL.image = "/icons/ublip_marker.png";
+			  
 				// Check for existence of note
 				var note = '';
 				if(notes[i].firstChild != undefined)

@@ -29,7 +29,6 @@ class LoginController < ApplicationController
     # Handles the login form post
     if request.post?
       # Authenticate based on un/pw as well as subdomain
-      #if self.current_user = User.authenticate(params[:email], params[:password])
       if self.current_user = User.authenticate(request.subdomains.first, params[:email], params[:password])
         if params[:remember_me] == "on"
           self.current_user.remember_me
@@ -41,7 +40,7 @@ class LoginController < ApplicationController
         session[:company] = self.current_user.account.company # Store the user's company name
         session[:first_name] = self.current_user.first_name # Store user's first name
         session[:email] = self.current_user.email # Store user's email
-        redirect_back_or_default(:controller => 'devices', :action => 'show_group') # Login success
+        redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else
           flash[:message] = 'Please specify a valid username and password.'

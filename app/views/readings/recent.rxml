@@ -5,8 +5,8 @@ xml.devices do
       xml.id(device.id)
       xml.name(device.name)
       xml.imei(device.imei)
-      
-      # Just display empty nodes if this device has no readings
+       xml.icon_id(device.icon_id)
+        # Just display empty nodes if this device has no readings
       if device.readings[0].nil?
         xml.lat
         xml.lng
