@@ -14,9 +14,9 @@
 development:
   adapter: mysql
   database: ublip_v2_development
-  username: ublip_dev
-  password: ublip_dev
-  socket: /tmp/mysql.sock
+  username: root  
+  password: rupali
+  host: localhost
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.

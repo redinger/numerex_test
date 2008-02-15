@@ -9,9 +9,11 @@
 	<div style="clear:both;"></div>
 
 	<% page_name = request.path_info.split("/")[1]  %>
+	<% page_action = request.path_info.split("/")[2]  %>
+	
 	<div id="nav_tabs">
 		<ul>
-	   		<li<% if page_name == 'devices' %> class="selected"<% end %>><a href="/devices/show_group">Overview</a></li>
+	   		<li<% if page_name== 'home'%> class="selected"<% end %>><a href="/home">Overview</a></li>
 			<li<% if page_name == 'reports' %> class="selected_subnav"<% end %>><a href="/reports">Reports</a></li>
 			<li<% if page_name == 'contact' %> class="selected"<% end %> style="float: right;"><a href="/contact">Contact</a></li>
 			<li<% if page_name == 'settings' %> class="selected"<% end %> style="float: right;"><a href="/settings">Settings</a></li>

@@ -59,7 +59,7 @@ class ReadingsController < ApplicationController
                  
  
          end
-    printf("query starts here")
+    
         render :layout => false
   end
   
