@@ -150,9 +150,15 @@ class DevicesController < ApplicationController
     end
   # For creating the group
     def create_group
-  
+     @groups = Group.find(:all,:conditions=>["account_id=?",session[:account_id]])
+     
     end 
+    def group_list
+      @groups = Group.find(:all,:conditions=>["account_id=?",session[:account_id]])
+    
+    end
     def update_group
+    
         @group=Group.find(params[:group_id][:id])
         @image_value=params[:sel]
         @device_id= params[:select_devices]
@@ -162,13 +168,15 @@ class DevicesController < ApplicationController
         @group.account_id= session[:account_id]
         if group_name=="" || @device_id== nil || @device_id.length == 0 
            flash[:message] = "Group Name Can't Be blank And You have to Chose Atleast One Device "
-           redirect_to :action=>"new_group"
+           flash[:name]=params[:group][:name]
+         
+           redirect_to :action=>"edits_group", :group_id=>params[:group_id][:id]
        else
            @group.update
  @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
    for device_id in @devices_all
        devices = Device.find(device_id.device_id)
-       devices.icon_id ="1"
+       devices.icon_id ="1" 
  
             devices.update
     end    
@@ -199,12 +207,38 @@ class DevicesController < ApplicationController
                          @group_device.save
                          end
                     end
-           redirect_to :action=>"show_group"
+                      flash[:new]= group_name + " was Update successfully "
+           redirect_to :action=>"group_list"
                  
    
              
    end
    end
+   #fro deleate the group
+   
+   def delete_group
+        params[:group_id][:id]
+   @group=Group.find(params[:group_id][:id])
+      flash[:new]= @group.name +  "  was deleted successfully "
+    @group.destroy
+    @group_devices=GroupDevice.find(:all,:conditions=>["group_id= ?", params[:group_id][:id]])
+   @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
+   for device_id in @devices_all
+       devices = Device.find(device_id.device_id)
+       devices.icon_id ="1" 
+ 
+            devices.update
+    end  
+     for  group_devices in @group_devices
+    
+       group_devices.destroy
+     
+     end 
+     
+     
+    redirect_to :action=>"group_list"
+   
+   end 
    #for edit group
   def edits_group
       account_id = session[:account_id]
@@ -266,6 +300,7 @@ class DevicesController < ApplicationController
         group_name=params[:group][:name]
         if group_name=="" || @device_id== nil || @device_id.length == 0 
            flash[:message] = "Group Name Can't Be blank And You have to Chose Atleast One Device "
+           flash[:group_name]= group_name
            redirect_to :action=>"new_group"
         else
         for device_id in @device_id
@@ -289,7 +324,8 @@ class DevicesController < ApplicationController
                 @group_device.save
               end
           end
-         redirect_to :action=>"show_group"
+          flash[:new]="Group " + group_name +"is succusfuly added"
+         redirect_to :action=>"group_list"
         else
          
        redirect_to :action=>"new_group"

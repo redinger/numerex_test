@@ -16,7 +16,7 @@
       <h2>Create a Group</h2>
       <p>Creating a group is simple .just give your group a name .select an icon and specify the devices you want to associate with it.</p>
       <h3>Group Name</h3>
-       <%= text_field  'group' , 'name',"size"=>"15" %>
+       <%= text_field  'group' , 'name',"size"=>"15",'value'=>flash[:group_name] %>
       <h3>Select Icon</h3>
       <div class="sel_icon">
         <ul>
@@ -75,6 +75,6 @@
    
 
 			
-  	        <%= submit_tag "Create Group" %>
+  	        <%= submit_tag "Create Group" %> &nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a>
   	     
    
