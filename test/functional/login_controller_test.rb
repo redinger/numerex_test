@@ -20,7 +20,7 @@ class LoginControllerTest < Test::Unit::TestCase
   def test_login
    @request.host="dennis.ublip.com"
    post :index, {:email => users(:dennis).email, :password => "testing"} 
-   assert_redirected_to "/home"
+   assert_redirected_to :controller => "home", :action => "index"
    assert_equal accounts(:dennis).id, @request.session[:account_id]
    assert_equal users(:dennis).id, @request.session[:user_id]
    assert_equal users(:dennis).id, @request.session[:user]
@@ -32,7 +32,7 @@ class LoginControllerTest < Test::Unit::TestCase
  def test_login_same_email_diff_act
    @request.host="nick.ublip.com"
    post :index, {:email => users(:dennis2).email, :password => "testing"} 
-   assert_redirected_to "/home"
+   assert_redirected_to :controller => "home", :action => "index"
    assert_equal accounts(:nick).id, @request.session[:account_id]
    assert_equal users(:dennis2).id, @request.session[:user_id]
    assert_equal users(:dennis2).id, @request.session[:user]
