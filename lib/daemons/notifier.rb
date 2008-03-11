@@ -11,7 +11,7 @@ while($running) do
   logger = ActiveRecord::Base.logger
   logger.info("This notification daemon is still running at #{Time.now}.\n")
 
-  readings_to_notify = Reading.find(:all, :conditions => "event_type like '%geofen%' and notified='0'")
+  readings_to_notify = Reading.find(:all, :conditions => "notified='0' and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%')")
 
   logger.info("Notification needed for #{readings_to_notify.size.to_s} readings\n")
   
