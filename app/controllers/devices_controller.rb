@@ -299,7 +299,7 @@ class DevicesController < ApplicationController
         @device_id= params[:select_devices]
         group_name=params[:group][:name]
         if group_name=="" || @device_id== nil || @device_id.length == 0 
-           flash[:message] = "Group Name Can't Be blank And You have to Chose Atleast One Device "
+           flash[:message] = "Please enter a group name and you must select at least one device"
            flash[:group_name]= group_name
            redirect_to :action=>"new_group"
         else

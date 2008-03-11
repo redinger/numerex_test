@@ -5,18 +5,17 @@
 </div>
 <% end %>
 
-
 <%= error_messages_for 'group'%>
 
 <%= form_tag :action => 'save_group'%>
 
   <!-- Content starts here -->
-  <div id="content">
     <div class="grp_3">
-      <h2>Create a Group</h2>
-      <p>Creating a group is simple .just give your group a name .select an icon and specify the devices you want to associate with it.</p>
+      <h2 style="margin-bottom: 0;">Create a Group</h2>
+      <p>Creating a group is simple. Just enter a group name, select an icon color, and specify the devices you want to associate with this group.</p>
+
       <h3>Group Name</h3>
-       <%= text_field  'group' , 'name',"size"=>"15",'value'=>flash[:group_name] %>
+       <%= text_field  'group', 'name', 'value'=>flash[:group_name] %>
       <h3>Select Icon</h3>
       <div class="sel_icon">
         <ul>
@@ -50,7 +49,7 @@
     <br class="clear"/>
     <div class="sel_dev" >
       <h3>Select Devices</h3>
-      <p style="border-bottom:1px solid #f1f1f1; padding-bottom:5px;">Some devices may already be associated with another group .In this case .the group name display red after the device name. You can easly reassign any  device to this group by clicking one or more checkboxs below.   </p>
+      <p>Some devices may already be associated with another group. In this case, the group name will display in red after the device name. You can easily reassign any device to this group by clicking one or more checkboxes below.</p>
       <ul style="line-height:1.7em;" >
         <li>
               
@@ -69,7 +68,6 @@
         </ul>
         
     </div>
-  </div>
   <!-- Content ends here -->
 
    
