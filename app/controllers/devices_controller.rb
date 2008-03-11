@@ -167,13 +167,13 @@ class DevicesController < ApplicationController
         @group.image_value = @image_value
         @group.account_id= session[:account_id]
         if group_name=="" || @device_id== nil || @device_id.length == 0 
-           flash[:message] = "Group Name Can't Be blank And You have to Chose Atleast One Device "
+           flash[:message] = "Please enter a group name and you must select at least one device"
            flash[:name]=params[:group][:name]
          
            redirect_to :action=>"edits_group", :group_id=>params[:group_id][:id]
        else
            @group.update
- @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
+           @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
    for device_id in @devices_all
        devices = Device.find(device_id.device_id)
        devices.icon_id ="1" 
@@ -207,8 +207,8 @@ class DevicesController < ApplicationController
                          @group_device.save
                          end
                     end
-                      flash[:new]= group_name + " was Update successfully "
-           redirect_to :action=>"group_list"
+                      flash[:new]= group_name + " was updated successfully "
+           redirect_to :action=>"groups"
                  
    
              
@@ -261,7 +261,7 @@ class DevicesController < ApplicationController
       redirect_to :action=>'new_group',:group_id=>@group_ids
   end 
   #to show list of group
-  def edit_group
+  def groups
       @group=Group.find(:all  ,:conditions => ["account_id=? ", session[:account_id] ])
   end
   def group_action 
@@ -324,8 +324,8 @@ class DevicesController < ApplicationController
                 @group_device.save
               end
           end
-          flash[:new]="Group " + group_name +"is succusfuly added"
-         redirect_to :action=>"group_list"
+          flash[:message]="Group " + group_name +" was successfully added"
+         redirect_to :action=>"groups"
         else
          
        redirect_to :action=>"new_group"

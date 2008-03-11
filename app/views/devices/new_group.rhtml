@@ -55,7 +55,7 @@
               
         <%for device in @device%>
          
-            <br />   
+        <br />   
         <input type='checkbox' multiple name='select_devices[]' <%for group_all_data in @group_all_data %><%if  device.id == group_all_data.device_id%> disabled="disabled" <%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>
     <%for group_all_data in @group_all_data %>
        <%if device.id == group_all_data.device_id %>
@@ -70,9 +70,13 @@
     </div>
   <!-- Content ends here -->
 
-   
-
-			
-  	        <%= submit_tag "Create Group" %> &nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a>
-  	     
+<div style="margin-top: 10px">
+  <%= submit_tag "Create Group" %> &nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a>
+</div>
+  
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById("group_name").focus();
+	}
+</script>
    
