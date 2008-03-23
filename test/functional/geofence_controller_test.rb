@@ -18,7 +18,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
     #apparent bug in rail makes flash go away after first post in this test
     post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "view" 
-    assert_flash_equal "Geofence created succesfully", :message
+    assert_equal( "Geofence created succesfully", @response.flash[:message] )
     
     post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "view" 
