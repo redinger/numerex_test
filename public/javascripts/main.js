@@ -6,6 +6,7 @@ var iconALL;
 var devices = []; // JS devices model
 var readings = []; //JS readings model
 var zoom = 13;
+var fullScreenMap = false;
             
 function load() 
 {
@@ -429,4 +430,30 @@ function createMarker(id, point, icon, html) {
 		gmap.panTo(point);
 	});
 	return marker;
+}
+
+// Toggle between full map view or split table/map view
+function toggleMap() {
+	var left = document.getElementById("left_panel");
+	var right = document.getElementById("right_panel");
+	var img = document.getElementById("toggler");
+	
+	if(fullScreenMap) { // Collapse map and display table
+		left.style.visibility = 'visible';
+		left.style.display = 'block';
+		left.width = "100%";
+		right.width = "50%";
+		img.src = "/images/collapse.png";
+		img.parentNode.title = "Expand map view";
+		fullScreenMap = false;
+	} else { // Expand map
+		left.style.visibility = 'hidden';
+		left.style.display = 'none';
+		right.width = "100%";
+		img.src = "/images/expand.png";
+		img.parentNode.title = "Collapse map view";
+		fullScreenMap = true;
+	}
+	
+	gmap.checkResize();
 }

@@ -2,7 +2,7 @@
 
 <table width="100%">
 	<tr>
-		<td width=60%" valign="top">
+		<td width="50%" valign="top" id="left_panel">
 			<table class="panel_table">
 				<tr>
 					<th>Location</th>
@@ -31,7 +31,8 @@
 				<% end %>
 			</table>
 		</td>
-		<td width="40%" valign="top">
+		<td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
+		<td width="50%" valign="top" id="right_panel">
 			<div id="map" style="width: 100%; height: 600px;"></div>
 		</td>
 	</tr>

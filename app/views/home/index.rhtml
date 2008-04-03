@@ -1,6 +1,6 @@
 <table width="100%" border="0">
     <tr>
-        <td width="50%" valign="top">
+        <td width="50%" valign="top" id="left_panel">
         	<% if @devices.size == 0 %>
         	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
         		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
@@ -65,8 +65,8 @@
                 </ul>
             </div>
         </td>
-        <td>&nbsp;</td>
-        <td valign="top" width="50%">
+        <td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
+        <td valign="top" width="50%" id="right_panel">
             <table width="100%" class="panel_table">
                 <tr>
                 	<td class="header">
