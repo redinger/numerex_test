@@ -5,6 +5,9 @@ class SettingsController < ApplicationController
     if request.post?
       @account.update_attribute('company', params[:company])
       params[:notify] ? params[:notify] = 1 : params[:notify] = 0
+      if params[:time_zone] == ''
+        params[:time_zone] = NIL
+      end
       @user.update_attributes!(:time_zone => params[:time_zone], :enotify => params[:notify])
       
       session[:company] = params[:company]
