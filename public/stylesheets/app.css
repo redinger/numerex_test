@@ -287,5 +287,17 @@ hr {
 }
 
 div#side_tb_box{
-width:55%; float:left; margin-top:5px;
+	width:55%; float:left; margin-top:5px;
+}
+
+div#paging {
+	margin: 20px 0;
+	text-align: center;
+	font-size: 14px;
+}
+
+.current_page_link {
+	color: #FFFFFF;
+	background-color: #003366;
+	padding: 3px;
 }
