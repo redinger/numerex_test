@@ -45,4 +45,12 @@ class SettingsControllerTest < Test::Unit::TestCase
     assert_equal 'Eastern Time (US & Canada)', user.time_zone
     assert_equal true, user.enotify
   end
+  
+  # Test that when a user selects "No Time Zone" that the value is set to NULL in the database (this impacts the notifier daemon)
+  def test_no_time_zone
+     get :index, {}, {:account_id => 1, :user_id => 1}
+     post :index, {:company => 'New Co', :notify => 1, :time_zone => ''}, {:account_id => 1, :user_id => 1}
+     user = assigns(:user)
+     assert_equal nil, user.time_zone
+  end
 end
