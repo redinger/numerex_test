@@ -1,32 +1,8 @@
-<%
-	num_pages = (@record_count.to_f/@result_count.to_f).ceil
-	url = '/reports/' + params[:action] + '/' + params[:id]
-
-	# Page offset = number of pages to display before and after current page
-	page_offset = 10
-
-	# Determine the start page index
-	if(@page-page_offset < 1)
-		start_page = 1
-	else
-		start_page = @page-page_offset
-	end
-
-	if(@page+page_offset > num_pages)
-		end_page = num_pages
-	else
-		end_page = @page + page_offset
-	end
-
-	if params[:t]
-		url = url + '?t=' + params[:t].to_s
-	end
-%>
-<div style="margin: 10px 0; text-align: center;">
+<div id="paging">
 	<% if @record_count > @result_count %>
 		<strong>Page:</strong>
-		<% start_page.upto(end_page) do |i| %>
-			<% if @page == i %><%= i %><% else %><a href="<%= url %>&p=<%= i %>"><%= i %></a><% end %>&nbsp;&nbsp;
+		<% @start_page.upto(@end_page) do |i| %>
+			<% if @page == i %><span class="current_page_link"><%= i %></span><% else %><a href="<%= @url %>&p=<%= i %>"><%= i %></a><% end %>&nbsp;&nbsp;
 		<% end %>
 	<% end %>
 </div>

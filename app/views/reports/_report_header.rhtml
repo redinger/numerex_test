@@ -12,6 +12,29 @@
 	if end_num > @record_count
 		end_num = @record_count
 	end
+	
+	num_pages = (@record_count.to_f/@result_count.to_f).ceil
+	url = '/reports/' + params[:action] + '/' + params[:id]
+
+	# Page offset = number of pages to display before and after current page
+	page_offset = 10
+
+	# Determine the start page index
+	if(@page-page_offset < 1)
+		@start_page = 1
+	else
+		@start_page = @page-page_offset
+	end
+
+	if(@page+page_offset > num_pages)
+		@end_page = num_pages
+	else
+		@end_page = @page + page_offset
+	end
+
+	if params[:t]
+		@url = url + '?t=' + params[:t].to_s
+	end
 %>
 
 <div style="margin-bottom: 10px;">
@@ -27,7 +50,7 @@
 			</td>
 			<td align="center">
 				<% if @record_count > 0 %>
-					Viewing <strong><%= start_num %>-<%= end_num %></strong> of <strong><%= @record_count %></strong> total readings
+					<% if @page == 1 %><img src="/images/prev_dim.png" border="0" /><% else %><a href="<%= @url %>&p=<%=@page-1%>" style="margin-right: 3px;" title="Previous page"><img src="/images/prev.png" border="0" /></a><% end %> Viewing <strong><%= start_num %>-<%= end_num %></strong> of <strong><%= @record_count %></strong> total readings <% if @page == num_pages %><img src="/images/next_dim.png" border="0" /><% else %><a href="<%= @url %>&p=<%=@page+1%>" style="margin-left: 3px;" title="Next page"><img src="/images/next.png" border="0" /></a><% end %>
 				<% else %>
 					<span style="background-color: #FFFFCC; font-weight: bold; padding: 8px 20px; color: #666666;"> We're sorry, there's no data for this device within the specified timeframe.</span>
 				<% end %>
