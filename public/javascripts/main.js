@@ -437,11 +437,15 @@ function toggleMap() {
 	var left = document.getElementById("left_panel");
 	var right = document.getElementById("right_panel");
 	var img = document.getElementById("toggler");
+	var isIE = navigator.appName.indexOf("Microsoft Internet Explorer");
 	
 	if(fullScreenMap) { // Collapse map and display table
 		left.style.visibility = 'visible';
 		left.style.display = 'block';
-		left.width = "100%";
+		if(isIE > -1)
+			left.width = "50%";
+		else
+			left.width = "100%";
 		right.width = "50%";
 		img.src = "/images/collapse.png";
 		img.parentNode.title = "Expand map view";
