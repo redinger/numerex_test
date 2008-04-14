@@ -15,7 +15,10 @@ class Geofence < ActiveRecord::Base
     else 
       self.fence_num = num
     end
-    
+  end
+  
+  def bounds
+    latitude.to_s + "," + longitude.to_s + "," + radius.to_s
   end
     
 end
