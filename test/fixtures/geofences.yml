@@ -4,10 +4,14 @@ fenceOne:
   fence_num: 1
   device_id: 1
   name: home
-  bounds: 32.833785,-96.756807,0.25
+  latitude: 32.833785
+  longitude: -96.756807
+  radius: 0.25
 fenceTwo:
   id: 2
   fence_num: 3
   device_id: 1
   name: work
-  bounds: 32.940955,-96.822224,0.25
+  latitude: 32.940955
+  longitude: -96.822224
+  radius: 0.25
