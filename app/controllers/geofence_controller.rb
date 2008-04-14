@@ -14,9 +14,17 @@ class GeofenceController < ApplicationController
         return
       end
       begin
+        # Get the bounds parameters
+        fence = params[:bounds].split(",")
+        lat = fence[0]
+        lng = fence[1]
+        rad = fence[2]
+        rad_meters = fence[2].to_f * 1609.344 # 1 mile in meters
         geofence = Geofence.new
         geofence.name = params[:name]
-        geofence.bounds = params[:bounds]
+        geofence.latitude= lat
+        geofence.longitude = lng
+        geofence.radius = rad
         geofence.address = params[:address]
         geofence.device_id = device.id
         begin
@@ -27,19 +35,15 @@ class GeofenceController < ApplicationController
           return
         end
         
-        # Get the bounds parameters
-        fence = params[:bounds].split(",")
-        lat = fence[0]
-        lng = fence[1]
-        rad = fence[2].to_f * 1609.344 # 1 mile in meters
 
         # Call the middleware WS to set the geofence
-        Middleware_Gateway.send_AT_cmd('AT%24GEOFNC='+ geofence.fence_num.to_s + ',' + rad.round.to_s + ',' + lat + ',' + lng, device)
+        Middleware_Gateway.send_AT_cmd('AT%24GEOFNC='+ geofence.fence_num.to_s + ',' + rad_meters.round.to_s + ',' + lat + ',' + lng, device)
         Middleware_Gateway.send_AT_cmd('AT%26w', device)
         geofence.save!
         flash[:message] = 'Geofence created succesfully'
-      rescue
+      rescue StandardError => error
         flash[:message] = 'Error creating geofence'
+        logger.error(error)
       end
         redirect_to :controller => 'geofence', :action => 'view', :id => device.id
     else
