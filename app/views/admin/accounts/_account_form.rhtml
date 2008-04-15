@@ -1,0 +1,15 @@
+	<table>
+		<tr><td>* Subdomain:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="account[subdomain]" id="subdomain" value="<%= @account.subdomain %>" /></td></tr>
+		<tr><td>* Company:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="account[company]" value="<%= @account.company %>" /></td></tr>
+		<tr><td>Address:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="account[address]" value="<%= @account.address %>" /></td></tr>
+		<tr><td>City:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="account[city]" value="<%= @account.city %>" /></td></tr>
+		<tr><td>State:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="account[state]" value="<%= @account.state %>" /></td></tr>
+		<tr><td>* Zip:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="account[zip]" value="<%= @account.zip %>" /></td></tr>
+		<% if params[:action] == "edit" || params[:action] == "new" %>
+		<tr><td colspan="3"><input type="submit" value="Save" /> <a href="javascript: history.go(-1);">cancel</a></td></tr>
+		<% end %>
+	</table>
+	
+	<% if params[:id] %>
+	<input type="hidden" name="id" value="<%= params[:id] %>" />
+	<% end %>

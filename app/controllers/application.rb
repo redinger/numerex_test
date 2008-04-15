@@ -34,14 +34,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def authorize_admin
-    #puts "user req auth: " + session[:user].id.to_s + session[:user].to_s
-    unless (session[:user] && session[:user]==1)
-      flash[:message] = "You're not authorized to view this page"
-      raise "not authorized"
-    end
-  end
-  
   def authorize_http
       username, passwd = get_auth_data
       unless User.authenticate(request.subdomains.first, username, passwd) then access_denied end

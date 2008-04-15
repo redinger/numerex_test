@@ -1,0 +1,27 @@
+<table>
+	<tr><td>* Name:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="device[name]" id="name" value="<%= @device.name %>" /></td></tr>
+	<tr><td>* IMEI:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="device[imei]" value="<%= @device.imei %>" /></td></tr>
+	<tr><td>Account:</td><td>&nbsp;</td><td>
+		<select class="input" name="device[account_id]">
+			<option>None</option>
+			<% for account in @accounts %>
+				<option value="<%= account.id %>" <% if @device.account_id.to_s == account.id.to_s %>selected="selected"<% end %>><%= account.company %></option>
+			<% end %>
+		</select>
+	</td></tr>
+	<tr><td>Provision Status:</td><td>&nbsp;</td>
+		<td>
+			<select name="device[provision_status_id]" class="input">
+				<option value="1" <% if @device.provision_status_id == 1 %>selected="selected"<% end %>>Provisioned</option>
+				<option value="0" <% if @device.provision_status_id == 0 %>selected="selected"<% end %>>Not Provisioned</option>
+			</select>
+		</td>
+	</tr>
+	<% if params[:action] == "edit" || params[:action] == "new" %>
+	<tr><td colspan="3"><input type="submit" value="Save" /> <a href="javascript: history.go(-1);">cancel</a></td></tr>
+	<% end %>
+</table>
+
+<% if params[:id] %>
+<input type="hidden" name="id" value="<%= params[:id] %>" />
+<% end %>

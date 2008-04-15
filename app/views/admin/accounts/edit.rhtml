@@ -1,0 +1,15 @@
+<div>
+<a href="javascript:history.go(-1)">&laquo; Back</a> | <a href="/admin/accounts/new">New Account</a>
+</div>
+
+<h3>Editing Account</h3>
+
+<form method="post" class="form" action="/admin/accounts/update">
+	<%= render :partial => "account_form" %>
+</form>
+
+<script language="javascript" type="text/javascript">
+	window.onload = function() {
+		document.getElementById("subdomain").focus();
+	}
+</script>

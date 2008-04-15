@@ -1,0 +1,15 @@
+<div>
+<a href="javascript:history.go(-1)">&laquo; Back</a> | <a href="/admin/devices/new">New Device</a>
+</div>
+
+<h3>Editing Device</h3>
+
+<form method="post" class="form" action="/admin/devices/update">
+	<%= render :partial => "device_form" %>
+</form>
+
+<script language="javascript" type="text/javascript">
+	window.onload = function() {
+		document.getElementById("device").focus();
+	}
+</script>

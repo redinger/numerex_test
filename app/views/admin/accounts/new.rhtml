@@ -1,0 +1,16 @@
+<div>
+<a href="javascript:history.go(-1)">&laquo; Back</a>
+</div>
+
+<h3>Create New Account</h3>
+
+<form method="post" class="form" action="/admin/accounts/create">
+	<%= render :partial => "account_form" %>
+</form>
+
+<script language="javascript" type="text/javascript">
+	window.onload = function() {
+		document.getElementById("name").focus();
+	}
+</script>
+
