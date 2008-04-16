@@ -20,6 +20,13 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  # Super admin's globally administer accounts, users, and devices
+  def authorize_super_admin
+    unless session[:is_super_admin]
+      redirect_to :controller => "home"
+    end
+  end
+  
   def authorize_device
     device = Device.find(params[:id])
     unless device.account_id == session[:account_id]

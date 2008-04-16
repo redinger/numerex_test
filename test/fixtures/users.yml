@@ -11,9 +11,10 @@ dennis:
  created_at: <%= 1.day.ago.to_s :db %>
  is_master: 1
  is_admin: 1
+ is_super_admin: 1
  enotify: 1
  time_zone: Central Time (US & Canada)
-
+ 
 nick:
  id: 2
  first_name: nick

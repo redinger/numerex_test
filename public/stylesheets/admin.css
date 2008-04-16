@@ -58,8 +58,7 @@ h3 {
 	border: none;
 }
 
-.unprovisioned {
+.faded_red {
 	background-color: #B34141;
 	color: #FFFFFF;
-}
 }

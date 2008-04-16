@@ -40,6 +40,7 @@ class LoginController < ApplicationController
         session[:company] = self.current_user.account.company # Store the user's company name
         session[:first_name] = self.current_user.first_name # Store user's first name
         session[:email] = self.current_user.email # Store user's email
+        session[:is_super_admin] = self.current_user.is_super_admin
         redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
       # Send them back to the login page with appropriate error message
       else

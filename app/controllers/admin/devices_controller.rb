@@ -25,24 +25,31 @@ class Admin::DevicesController < ApplicationController
   end
 
   def create
-    device = Device.new(params[:device])
-    device.save
-    flash[:message] = "#{device.name} created successfully"
+    if request.post?
+      device = Device.new(params[:device])
+      device.save
+      flash[:message] = "#{device.name} created successfully"
+    end
     redirect_to :action => 'index'
   end
 
   def update
-    device = Device.find(params[:id])
-    device.update_attributes(params[:device])
-    flash[:message] = "#{device.name} updated successfully"
+    if request.post?
+      device = Device.find(params[:id])
+      device.update_attributes(params[:device])
+      flash[:message] = "#{device.name} updated successfully"
+    end
     redirect_to :action => 'index'
   end
 
   def destroy
-    device = Device.find(params[:id])
-    device.update_attribute(:provision_status_id, 0)
-    device.save!
+    if request.post?
+      device = Device.find(params[:id])
+      device.update_attribute(:provision_status_id, 2)
+      device.save!
+    end  
     redirect_to :action => 'index'
+    
   end
   
 end

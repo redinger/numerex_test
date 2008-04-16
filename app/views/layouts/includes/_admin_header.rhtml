@@ -2,7 +2,7 @@
 	<div id="company" style="float: left;"><%= session[:company] %></div>
 	
 	<div id="logo_small" style="float: right;" class="small_white">
-		Welcome, <%= session[:first_name] %> - <a href="/logout" class="small_white" title="Logout">Logout</a>&nbsp;&nbsp;
+		Welcome, <%= session[:first_name] %> | <a href="/home" class="small_white">Exit Admin</a> | <a href="/logout" class="small_white" title="Logout">Logout</a>&nbsp;&nbsp;
 		<a href="http://www.ublip.com" target="_blank"><img src="/images/ublip_logo_small.png" alt="Ublip logo" border ="0" style="vertical-align: middle;" /></a>
 	</div>
 
@@ -15,6 +15,7 @@
 		<ul>
 	   		<li<% if page_action == 'index' || page_action.nil? %> class="selected"<% end %>><a href="/admin">Overview</a></li>
 			<li<% if page_action == 'accounts' %> class="selected"<% end %>><a href="/admin/accounts">Accounts</a></li>
+			<li<% if page_action == 'users' %> class="selected"<% end %>><a href="/admin/users">Users</a></li>
 			<li<% if page_action == 'devices' %> class="selected"<% end %>><a href="/admin/devices">Devices</a></li>
 		</ul>
 	</div>
