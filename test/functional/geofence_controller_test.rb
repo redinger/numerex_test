@@ -19,7 +19,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
     post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "view" 
     assert_equal( "Geofence created succesfully", @response.flash[:message] )
-    assert_equal 1609.34, devices(:device1).geofences[0].radius
+    assert_equal 1, devices(:device1).geofences[0].radius
     assert_equal 1, devices(:device1).geofences[0].latitude
     assert_equal 1, devices(:device1).geofences[0].longitude
     
