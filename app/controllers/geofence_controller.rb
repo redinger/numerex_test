@@ -8,11 +8,7 @@ class GeofenceController < ApplicationController
   def add
     if request.post?
       device = Device.get_device(params[:id], session[:account_id])
-      if(!device.online?) 
-        flash[:message] = 'Device appears offline, please try again later'
-        redirect_to :controller => 'geofence', :action => 'view', :id => device.id
-        return
-      end
+      
       begin
         # Get the bounds parameters
         fence = params[:bounds].split(",")
@@ -35,10 +31,6 @@ class GeofenceController < ApplicationController
           return
         end
         
-
-        # Call the middleware WS to set the geofence
-        Middleware_Gateway.send_AT_cmd('AT%24GEOFNC='+ geofence.fence_num.to_s + ',' + rad_meters.round.to_s + ',' + lat + ',' + lng, device)
-        Middleware_Gateway.send_AT_cmd('AT%26w', device)
         geofence.save!
         flash[:message] = 'Geofence created succesfully'
       rescue StandardError => error
@@ -63,25 +55,19 @@ class GeofenceController < ApplicationController
   def edit
     if request.post?
       begin
-        geofence = Geofence.find(params[:geofence_id], :conditions => ["device_id = ?", params[:device_id]])
-        device = Device.get_device(params[:device_id], session[:account_id])
-        if(!device.online?) 
-          flash[:message] = 'Device appears offline, please try again later'
-          redirect_to :controller => 'geofence', :action => 'view', :id => device.id
-          return
-        end
-        geofence.name = params[:name]
-        geofence.bounds = params[:bounds]
-        geofence.address = params[:address]
         
         # Get the bounds parameters
         fence = params[:bounds].split(",")
         lat = fence[0]
         lng = fence[1]
         rad = fence[2].to_f * 1609.344 # 1 mile in meters
+        geofence = Geofence.find(params[:geofence_id], :conditions => ["device_id = ?", params[:device_id]])
+        geofence.name = params[:name]
+        geofence.latitude= lat
+        geofence.longitude = lng
+        geofence.radius = rad
+        geofence.address = params[:address]
         
-        Middleware_Gateway.send_AT_cmd('AT%24GEOFNC='+ geofence.fence_num.to_s + ',' + rad.round.to_s + ',' + lat + ',' + lng, device)
-        Middleware_Gateway.send_AT_cmd('AT%26w', device)
         geofence.save
         flash[:message] = 'Geofence updated successfully'
       rescue
