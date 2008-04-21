@@ -125,7 +125,7 @@ class ReadingsController < ApplicationController
         end
 
         @all_devices = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
-         @count_devices = Device.count(:all, :conditions => ["account_id = ?", session[:account_id]])
+        @count_devices = Device.count(:all, :conditions => ["account_id = ?", session[:account_id]])
         end 
    
   def recent
@@ -140,15 +140,10 @@ class ReadingsController < ApplicationController
                     count = count + 1
                end  
                 @devices=Device.find(:all , :conditions => [ ' id in (?) ', group_id ] )
-   
-              
          else
-             
-            ( @user_pre == "undefined" || @user_pre == "all"  )
+            (@user_pre == "undefined" || @user_pre == "all"  )
          
-               @devices = Device.find(:all , :conditions => ["account_id = ?", session[:account_id]])
-                 
- 
+               @devices = Device.get_devices(session[:account_id])
          end
     
         render :layout => false
