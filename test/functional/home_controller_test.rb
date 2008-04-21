@@ -30,6 +30,12 @@ class HomeControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
+  def test_not_logged_in
+    get :index
+    assert_redirected_to :controller => "login"
+    assert_equal flash[:message], "You're not currently logged in"
+  end
+  
   def test_map
     get :map, {}, {:user=>users(:dennis), :account_id => accounts(:dennis).id}
     assert_response :success
