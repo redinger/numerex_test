@@ -1,4 +1,5 @@
 class Admin::UsersController < ApplicationController
+  before_filter :authorize_super_admin
   layout 'admin'
   def index
      if params[:id]

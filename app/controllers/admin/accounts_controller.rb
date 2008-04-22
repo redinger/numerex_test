@@ -1,4 +1,5 @@
 class Admin::AccountsController < ApplicationController
+  before_filter :authorize_super_admin
   layout 'admin'
   def index
     @accounts = Account.find(:all, :order => "subdomain", :conditions => "is_deleted=0")
@@ -41,10 +42,21 @@ class Admin::AccountsController < ApplicationController
     if request.post?
       account = Account.find(params[:id])
       account.update_attributes(params[:account])
-      account.save
-      flash[:message] = "#{account.subdomain} updated successfully"
+      
+      if account.save
+        flash[:message] = "#{account.subdomain} updated successfully"
+        redirect_to :action => 'index' and return
+      else
+        error_msg = ''
+        
+        account.errors.each{ |field, msg|
+          error_msg += msg + '<br />'
+        }
+        
+        flash[:error] = error_msg
+        redirect_to :action => 'edit', :id => account.id and return
+      end
     end
-    redirect_to :action => 'index'
   end
 
   def destroy
