@@ -1,8 +1,10 @@
-<div>
-<a href="javascript:history.go(-1)">&laquo; Back</a>
-</div>
-
 <h3>Create New Account</h3>
+
+<% if flash[:error] %>
+	<div id="error_message">
+		<%= flash[:error] %>
+	</div>
+<% end %>
 
 <form method="post" class="form" action="/admin/accounts/create">
 	<%= render :partial => "account_form" %>

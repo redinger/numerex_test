@@ -1,7 +1,3 @@
-<div>
-<a href="/admin/accounts/new">New Account</a>
-</div>
-
 <h3>Accounts (<%= @accounts.size %> total)</h3>
 
 <% if flash[:message] %>
@@ -14,7 +10,7 @@
 	<tr>
 		<th></th><th>Company</th><th>Subdomain</th><th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Created</th><th></th></tr>
 		<% for account in @accounts %>
-		<tr class="<%= cycle("even", "odd") %>"><td><a href="/admin/accounts/edit/<%= account.id %>">edit</a></td><td><a href="/admin/accounts/show/<%= account.id %>"><%= account.company %></a></td><td><%= account.subdomain %></td><td><%= account.address %></td><td><%= account.city %></td><td><%= account.state %></td><td><%= account.zip %></td><td><%= account.created_at %></td><td><a href="/admin/accounts/destroy/<%= account.id %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a></td></tr>
+		<tr class="<%= cycle("even", "odd") %>"><td><a href="/admin/accounts/edit/<%= account.id %>">edit</a></td><td><a href="/admin/accounts/show/<%= account.id %>"><%= account.company %></a></td><td><a href="http://<%= account.subdomain %>.<%= request.domain %>" target="_blank" title="View this site"><%= account.subdomain %></a></td><td><%= account.address %></td><td><%= account.city %></td><td><%= account.state %></td><td><%= account.zip %></td><td><%= account.created_at %></td><td><a href="/admin/accounts/destroy/<%= account.id %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a></td></tr>
 		<% end %>
 	</tr>
 </table>

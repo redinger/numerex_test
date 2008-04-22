@@ -8,15 +8,32 @@
 
 	<div style="clear:both;"></div>
 
-	<% page_name = request.path_info.split("/")[1]  %>
-	<% page_action = request.path_info.split("/")[2]  %>
-	
+	<% controller = params[:controller]  %>
+	<% action = params[:action]  %>
 	<div id="nav_tabs">
 		<ul>
-	   		<li<% if page_action == 'index' || page_action.nil? %> class="selected"<% end %>><a href="/admin">Overview</a></li>
-			<li<% if page_action == 'accounts' %> class="selected"<% end %>><a href="/admin/accounts">Accounts</a></li>
-			<li<% if page_action == 'users' %> class="selected"<% end %>><a href="/admin/users">Users</a></li>
-			<li<% if page_action == 'devices' %> class="selected"<% end %>><a href="/admin/devices">Devices</a></li>
+	   		<li<% if controller == 'admin' %> class="selected"<% end %>><a href="/admin">Overview</a></li>
+			<li<% if controller == 'admin/accounts' %> class="selected_subnav"<% end %>><a href="/admin/accounts">Accounts</a></li>
+			<li<% if controller == 'admin/users' %> class="selected_subnav"<% end %>><a href="/admin/users">Users</a></li>
+			<li<% if controller == 'admin/devices' %> class="selected_subnav"<% end %>><a href="/admin/devices">Devices</a></li>
 		</ul>
 	</div>
 </div>
+<% if controller != 'admin' %>
+<div id="subnav">
+	<% link = controller.split('/')[1] %>
+
+	<% if action == 'edit' || action == 'new' || action == 'show' %>
+		<a href="javascript:history.go(-1);">&laquo; Back</a>
+	<% end %>
+	<% if action == 'edit' || action == 'show' %>
+		|
+	<% end %>
+	<% if action != 'new' %>
+		<a href="/admin/<%= link %>/new">New</a>
+	<% end %>
+	<% if action == 'show' %>
+		| <a href="/admin/<%= link %>/edit/<%= params[:id] %>">Edit</a>
+	<% end %>
+</div>
+<% end %>

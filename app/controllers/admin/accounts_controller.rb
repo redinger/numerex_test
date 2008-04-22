@@ -20,10 +20,21 @@ class Admin::AccountsController < ApplicationController
     if request.post?
       account = Account.new(params[:account])
       account.is_verified = 1
-      account.save
-      flash[:message] = "#{account.subdomain} created successfully"
+      
+      if account.save
+        flash[:message] = "#{account.subdomain} created successfully"
+        redirect_to :action => 'index' and return
+      else
+        error_msg = ''
+        
+        account.errors.each{ |field, msg|
+          error_msg += msg + '<br />'
+        }
+        
+        flash[:error] = error_msg
+        redirect_to :action => 'new' and return
+      end
     end
-    redirect_to :action => 'index'
   end
 
   def update
