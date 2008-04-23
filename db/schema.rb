@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 28) do
+ActiveRecord::Schema.define(:version => 32) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(:version => 28) do
     t.column "updated_at",  :datetime
     t.column "created_at",  :datetime
     t.column "is_verified", :boolean,                 :default => false
+    t.column "is_deleted",  :boolean,                 :default => false
   end
 
   create_table "devices", :force => true do |t|
@@ -37,13 +38,14 @@ ActiveRecord::Schema.define(:version => 28) do
 
   create_table "geofences", :force => true do |t|
     t.column "name",       :string,   :limit => 30
-    t.column "bounds",     :string
-    t.column "is_radial",  :boolean,                :default => true
     t.column "device_id",  :integer
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
     t.column "address",    :string
     t.column "fence_num",  :integer
+    t.column "latitude",   :float
+    t.column "longitude",  :float
+    t.column "radius",     :float
   end
 
   create_table "group_devices", :force => true do |t|
@@ -84,14 +86,14 @@ ActiveRecord::Schema.define(:version => 28) do
     t.column "updated_at", :datetime
     t.column "event_type", :string,   :limit => 25
     t.column "note",       :string
-    t.column "address",    :string,   :limit => 1024
-    t.column "notified",   :boolean,                  :default => false
+    t.column "address",    :text
+    t.column "notified",   :boolean,                :default => false
   end
 
+  add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
   add_index "readings", ["device_id"], :name => "readings_device_id"
   add_index "readings", ["created_at"], :name => "readings_created_at"
-  add_index "readings", ["address"], :name => "readings_address"
-  add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
+  add_index "readings", ["notified", "event_type"], :name => "readings_notified_event_type"
 
   create_table "sessions", :force => true do |t|
     t.column "session_id", :string
@@ -118,6 +120,7 @@ ActiveRecord::Schema.define(:version => 28) do
     t.column "last_login_dt",             :datetime
     t.column "enotify",                   :boolean,                :default => false
     t.column "time_zone",                 :string
+    t.column "is_super_admin",            :boolean,                :default => false
   end
 
 end
