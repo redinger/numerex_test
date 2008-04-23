@@ -40,13 +40,13 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
   end
   
   def test_create_account_without_subdomain
-    post :create, {:account => {:id => 4, :company => "New Co", :zip => 12345}}, get_user
+    post :create, {:account => {:company => "New Co", :zip => 12345}}, get_user
     assert_redirected_to :action => "new"
     assert_equal flash[:error], "Please specify a subdomain<br />"
   end
   
   def test_create_account_with_subdomain
-    post :create, {:account => {:id => 4, :subdomain => "monkey", :company => "New Co", :zip => 12345}}, get_user
+    post :create, {:account => {:subdomain => "monkey", :company => "New Co", :zip => 12345}}, get_user
     assert_redirected_to :action => "index"
     assert_equal flash[:message], "monkey created successfully"
   end

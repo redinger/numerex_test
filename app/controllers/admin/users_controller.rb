@@ -20,6 +20,7 @@ class Admin::UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    @accounts = Account.find(:all, :order => "company")
   end
 
   def create
@@ -53,6 +54,9 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
+    if request.post?
+      
+    end
   end
 
   def destroy

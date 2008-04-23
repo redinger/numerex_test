@@ -1,0 +1,11 @@
+<h3>Editing User</h3>
+
+<form method="post" class="form" action="/admin/users/update">
+	<%= render :partial => "user_form" %>
+</form>
+
+<script language="javascript" type="text/javascript">
+	window.onload = function() {
+		document.getElementById("first_name").focus();
+	}
+</script>
