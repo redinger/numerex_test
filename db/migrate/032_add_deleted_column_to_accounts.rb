@@ -4,6 +4,6 @@ class AddDeletedColumnToAccounts < ActiveRecord::Migration
   end
 
   def self.down
-    remove_colum :accounts, :is_deleted
+    remove_column :accounts, :is_deleted
   end
 end
