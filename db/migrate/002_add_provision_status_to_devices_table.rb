@@ -4,6 +4,6 @@ class AddProvisionStatusToDevicesTable < ActiveRecord::Migration
   end
 
   def self.down
-    remove_colum :devices, :provision_status_id
+    remove_column :devices, :provision_status_id
   end
 end
