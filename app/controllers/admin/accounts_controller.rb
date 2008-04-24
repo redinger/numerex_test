@@ -5,10 +5,6 @@ class Admin::AccountsController < ApplicationController
     @accounts = Account.find(:all, :order => "subdomain", :conditions => "is_deleted=0")
   end
 
-  def show
-    @account = Account.find(params[:id])
-  end
-
   def new
     @account = Account.new
   end

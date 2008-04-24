@@ -12,7 +12,7 @@ class Admin::DevicesController < ApplicationController
   end
 
   def show
-  
+    @device = Device.find(params[:id])
   end
 
   def new
@@ -28,10 +28,19 @@ class Admin::DevicesController < ApplicationController
   def create
     if request.post?
       device = Device.new(params[:device])
-      device.save
-      flash[:message] = "#{device.name} created successfully"
+      
+      if device.save
+        redirect_to :action => 'index' and return
+        flash[:message] = "#{device.name} created successfully"
+      else
+        error_msg = ''
+        device.errors.each_full do |error|
+          error_msg += error + "<br />"
+        end
+        flash[:error] = error_msg
+        redirect_to :action => "new" and return
+      end
     end
-    redirect_to :action => 'index'
   end
 
   def update
@@ -48,6 +57,7 @@ class Admin::DevicesController < ApplicationController
       device = Device.find(params[:id])
       device.update_attribute(:provision_status_id, 2)
       device.save!
+      flash[:message] = "#{device.name} deleted successfully"
     end  
     redirect_to :action => 'index'
     
