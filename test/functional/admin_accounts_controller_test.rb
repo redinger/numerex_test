@@ -68,6 +68,12 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
     assert_equal flash[:message], "newco updated successfully"
   end
   
+  def test_delete_account
+    post :destroy, {:id => 1}, get_user
+    assert_redirected_to :action => "index"
+    assert_equal flash[:message], "dennis deleted successfully"
+  end
+  
   def get_user
     {:user => users(:dennis).id, :account_id => accounts(:dennis).id, :is_super_admin => users(:dennis).is_super_admin}
   end

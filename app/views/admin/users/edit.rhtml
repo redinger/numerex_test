@@ -1,5 +1,11 @@
 <h3>Editing User</h3>
 
+<% if flash[:error] %>
+	<div id="error_message">
+		<%= flash[:error] %>
+	</div>
+<% end %>
+
 <form method="post" class="form" action="/admin/users/update">
 	<%= render :partial => "user_form" %>
 </form>

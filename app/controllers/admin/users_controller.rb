@@ -55,7 +55,20 @@ class Admin::UsersController < ApplicationController
 
   def update
     if request.post?
+      @user = User.find(params[:id])
+      @user.update_attributes(params[:user])
       
+      if @user.save
+        flash[:message] = "#{@user.email} updated successfully"
+        redirect_to :action => 'index' and return
+      else
+        error_msg = ''
+        @user.errors.each_full do |error|
+          error_msg += error + '<br />'
+        end
+        flash[:error] = error_msg
+        redirect_to :action => 'edit', :id => @user.id and return
+      end
     end
   end
 
@@ -63,6 +76,7 @@ class Admin::UsersController < ApplicationController
     if request.post?
       user = User.find(params[:id])
       user.destroy
+      flash[:message] = "#{user.email} deleted successfully"
     end
     redirect_to :action => "index"
   end

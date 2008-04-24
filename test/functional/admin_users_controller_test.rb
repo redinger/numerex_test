@@ -68,20 +68,18 @@ class Admin::UsersControllerTest < Test::Unit::TestCase
     assert_response :success
   end
   
-=begin
-  def test_update_account_without_zip
-    post :update, {:id => 4, :account => {:subdomain => "newco", :company => "New Co"}}, get_user
-    assert_redirected_to :action => "edit"
-    assert_equal flash[:error], "Please specify your zip code<br />"
+  def test_update_user
+    post :update, {:id => 1, :user =>{:first_name => "dennis_new", :last_name => "baldwin_new", :email => "dennis@ublip.com", :account_id => 1}}, get_user
+    assert_redirected_to :action => "index"
+    assert_equal flash[:message], "dennis@ublip.com updated successfully"
   end
   
-  def test_update_account_with_zip
-    post :update, {:id => 4, :account => {:subdomain => "newco", :company => "New Co", :zip => 12345}}, get_user
+  def test_delete_user
+    post :destroy, {:id => 1}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "newco updated successfully"
+    assert_equal flash[:message], "dennis@ublip.com deleted successfully"
   end
-=end
-
+  
   def get_user
     {:user => users(:dennis).id, :account_id => accounts(:dennis).id, :is_super_admin => users(:dennis).is_super_admin}
   end
