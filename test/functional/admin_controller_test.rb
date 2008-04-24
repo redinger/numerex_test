@@ -6,7 +6,7 @@ class AdminController; def rescue_action(e) raise e end; end
 
 class AdminControllerTest < Test::Unit::TestCase
   
-  fixtures :users, :accounts
+  fixtures :users, :accounts, :devices
   
   module RequestExtensions
     def server_name
