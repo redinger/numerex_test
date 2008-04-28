@@ -3,9 +3,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 class GeofenceTest < Test::Unit::TestCase
   fixtures :geofences, :devices
   
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_bounds
+    fence = Geofence.new
+    fence.latitude=1
+    fence.longitude=2
+    fence.radius=3
+    assert_equal("1.0,2.0,3.0", fence.bounds, "incorrect bounds, expected 1,2,3 but was " + fence.bounds )
   end
   
   
