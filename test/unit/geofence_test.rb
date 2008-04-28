@@ -47,7 +47,6 @@ class GeofenceTest < Test::Unit::TestCase
     assert_equal 4, fence2.fence_num
     fence2.save
     
-    fence3 = Geofence.new
     fence2.device_id = 1
     begin
       fence2.find_fence_num
