@@ -73,6 +73,29 @@ class UserTest < Test::Unit::TestCase
     user.password = 'testing123'
     user.save!
   end
+  
+  def test_generate_token
+    user = User.new
+    assert_equal("7981aa86aba493c6b4a2c4a2b6cd20b43cccaa9a", user.generate_security_token(1))
+  end
+  
+  def test_change_password
+    user = User.new
+    user.change_password("qwerty123", "qwerty123")
+    assert_equal(user.password, "qwerty123", "qwerty123")
+    assert_equal(user.password_confirmation, "qwerty123", "qwerty123")
+  end
+  
+  def test_remember_token
+    user = User.new
+    pretend_now_is(Time.at(1185490000)) do
+      user.remember_me
+      assert_equal true, user.remember_token?
+    end
+    pretend_now_is(Time.at(1185490000+172800)) do #two days later
+       assert_equal false, user.remember_token?
+    end
+  end
 
   protected
     def create_user(options = {})
