@@ -76,8 +76,8 @@ class ReportsControllerTest < Test::Unit::TestCase
       assert_equal 780, stops[3].duration
       assert_equal Time.local(2007, "Jul", 26, 14, 48, 39), stops[3].created_at
       
-      assert_equal 780, stops[4].duration
       assert_equal Time.local(2007, "Jul", 26, 14, 37, 39), stops[4].created_at
+      assert_equal 780, stops[4].duration
       
      
       
