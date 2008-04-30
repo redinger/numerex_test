@@ -2,11 +2,9 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  # Pick a unique cookie name to distinguish our session data from others'
-
   session :session_key => '_ublip_session_id'
-   
-  
+  before_filter :set_page_title
+    
   private
   def authorize
     unless session[:user]
@@ -67,5 +65,9 @@ class ApplicationController < ActionController::Base
       auth_key  = @@http_auth_headers.detect { |h| request.env.has_key?(h) }
       auth_data = request.env[auth_key].to_s.split unless auth_key.blank?
       return auth_data && auth_data[0] == 'Basic' ? Base64.decode64(auth_data[1]).split(':')[0..1] : [nil, nil] 
+    end
+    
+    def set_page_title
+      @page_title = "Ublip - Location Matters"
     end
 end
