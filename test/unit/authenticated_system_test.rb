@@ -4,16 +4,13 @@ class AuthenticatedSystemTest < Test::Unit::TestCase
   
 require 'authenticated_system'
   
-  
   # Replace this with your real tests.
-  def test_logged_in	
+  def test_current_user	
     self.extend AuthenticatedSystem
-    logged_in?
+    assert_equal true, authorized?
 	end
   
-  def session(*args)
-    {:user => User.new}
-  end
  
 
 end
+
