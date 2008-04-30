@@ -55,7 +55,7 @@ class ReadingsController < ApplicationController
              
             ( @user_pre == "undefined" || @user_pre == "all"  )
          
-               @devices = Device.find(:all , :conditions => ["account_id = ?", session[:account_id]])
+               @devices = Device.get_devices(session[:account_id])
                  
  
          end
