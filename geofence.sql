@@ -8,6 +8,7 @@ CREATE FUNCTION distance (
 	lat2 FLOAT,
 	lng2 FLOAT
 ) RETURNS FLOAT
+DETERMINISTIC
 COMMENT 'Calculate distance between two points in miles'
 BEGIN
 	RETURN (((acos(sin((lat1*pi()/180)) * sin((lat2*pi()/180)) + cos((lat1*pi()/180)) * cos((lat2*pi()/180)) 
