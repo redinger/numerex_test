@@ -15,6 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '', :controller => "login"
   #map.connect 'home', :controller => "devices" ,:action=>'show_group'
   map.connect 'logout', :controller => 'login', :action => 'logout'
+  map.connect 'admin/accounts/:action', :controller => 'admin/accounts'
+  map.connect 'admin/users/:action', :controller => 'admin/users'
+  map.connect 'admin/devices/:action', :controller => 'admin/devices'
 
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'
