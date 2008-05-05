@@ -2,7 +2,7 @@
 	<div id="company" style="float: left;"><%= session[:company] %></div>
 	
 	<div id="logo_small" style="float: right;" class="small_white">
-		Welcome, <%= session[:first_name] %> | <% if session[:is_super_admin].to_i == 1 %><a href="/admin" class="small_white">Admin</a> | <% end %> <a href="/logout" class="small_white" title="Logout">Logout</a>&nbsp;&nbsp;
+		Welcome, <%= session[:first_name] %> | <% if session[:is_super_admin] == true %><a href="/admin" class="small_white">Admin</a> | <% end %> <a href="/logout" class="small_white" title="Logout">Logout</a>&nbsp;&nbsp;
 		<a href="http://www.ublip.com" target="_blank"><img src="/images/ublip_logo_small.png" alt="Ublip logo" border ="0" style="vertical-align: middle;" /></a>
 	</div>
 
