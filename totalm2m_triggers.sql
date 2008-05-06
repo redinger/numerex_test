@@ -6,7 +6,7 @@ create TRIGGER `trig_device_insert_toublip` after insert on `DEVICE` for each ro
 BEGIN
  DECLARE tempid int(11);
  DECLARE onlinetime DATETIME;
- SET onlinetime = CONVERT_TZ(NEW.LAST_RECV,'UTC','US/Pacific');
+ SET onlinetime = CONVERT_TZ(NEW.LAST_RECV,'UTC', get_system_timezone() );
  SELECT id INTO tempid FROM `ublip_prod`.`devices` WHERE imei = NEW.ID LIMIT 1;
  IF tempid IS NULL AND New.ID IS NOT NULL THEN
      INSERT INTO `ublip_prod`.`devices` (imei,created_at,last_online_time)
@@ -19,7 +19,7 @@ create TRIGGER `trig_device_update_toublip` after update on `DEVICE` for each ro
 BEGIN
  DECLARE tempid int(11);
  DECLARE onlinetime DATETIME;
- SET onlinetime = CONVERT_TZ(NEW.LAST_RECV,'UTC','US/Pacific');
+ SET onlinetime = CONVERT_TZ(NEW.LAST_RECV,'UTC', get_system_timezone() );
  SELECT id INTO tempid FROM `ublip_prod`.`devices` WHERE imei = NEW.ID LIMIT 1;
  IF tempid IS NULL AND New.ID IS NOT NULL THEN
      INSERT INTO `ublip_prod`.`devices` (imei,created_at,last_online_time)

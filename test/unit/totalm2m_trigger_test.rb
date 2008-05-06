@@ -21,7 +21,7 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
     assert_equal 0, device.account_id
     assert_equal 0, device.provision_status_id
     assert_nil device.name
-    assert_equal 'Thu May 01 13:51:28 -0500 2008', device.last_online_time.to_s
+    assert_equal 'Thu May 01 15:51:28 -0500 2008', device.last_online_time.to_s
     
   end
   
