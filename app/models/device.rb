@@ -4,7 +4,7 @@ class Device < ActiveRecord::Base
   
   validates_uniqueness_of :imei
   has_many :readings, :order => "created_at desc", :limit => 1 # Gets the most recent reading
-  has_many :geofences, :order => "created_at desc", :limit => 25
+  has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
  
   
