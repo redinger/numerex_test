@@ -4,7 +4,7 @@ class Geofence < ActiveRecord::Base
   validates_presence_of :device_id, :fence_num
   
   def find_fence_num
-    for i in 1..4
+    for i in 1..25
       if(device.get_fence_by_num(i).nil?)
         num = i
         break
