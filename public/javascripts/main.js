@@ -5,7 +5,7 @@ var currSelectedDeviceId;
 var iconALL;
 var devices = []; // JS devices model
 var readings = []; //JS readings model
-var zoom = 13;
+var zoom = 3;
 var fullScreenMap = false;
             
 function load() 
@@ -14,7 +14,7 @@ function load()
   	gmap = new GMap2(document.getElementById("map"));
     gmap.addControl(new GLargeMapControl());
     gmap.addControl(new GMapTypeControl());
-    gmap.setCenter(new GLatLng(37.4419, -122.1419), zoom);
+    gmap.setCenter(new GLatLng(37.0625, -95.677068), zoom);
 	
 	iconALL = new GIcon();
 	

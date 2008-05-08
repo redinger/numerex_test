@@ -1,6 +1,6 @@
 var gmap;
 var map;
-var zoom = 9;
+var zoom = 3;
 var icon;
 var form;
 var geofences = [];
@@ -13,7 +13,7 @@ function load() {
 	    gmap = new GMap2(map);
 	    gmap.addControl(new GLargeMapControl());
 	    gmap.addControl(new GMapTypeControl());
-	    gmap.setCenter(new GLatLng(37.4419, -122.1419), zoom);
+	    gmap.setCenter(new GLatLng(37.0625, -95.677068), zoom);
 		
 		icon = new GIcon();
 		icon.image = "/icons/ublip_marker.png";
