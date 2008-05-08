@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 33) do
+ActiveRecord::Schema.define(:version => 34) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(:version => 33) do
     t.column "updated_at", :datetime
     t.column "address",    :string
     t.column "fence_num",  :integer
-    t.column "latitude",   :float
-    t.column "longitude",  :float
+    t.column "latitude",   :decimal,                :precision => 15, :scale => 10
+    t.column "longitude",  :decimal,                :precision => 15, :scale => 10
     t.column "radius",     :float
   end
 
