@@ -130,6 +130,9 @@ function getRecentReadings(redrawMap,id) {
 		
 		$("updating").style.visibility = 'hidden';
 		
+		// Don't continue if there's no data
+		if (ids.length == 0) return;
+		
 		if(redrawMap == undefined || redrawMap == true) {
 			// If there's only one device let's not zoom all the way in
 			var zl = (devices.length > 1) ? gmap.getBoundsZoomLevel(bounds) : 15;
