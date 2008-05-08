@@ -30,7 +30,8 @@
 	<input type="hidden" name="id" value="<%= @device.id %>" />
 	<input type="hidden" name="bounds" />
 </form>
-
+<% if !@device.readings[0].nil? %>
 <script>
 	var device = {name: '<%= escape_javascript(@device.name) %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>, address: '<%= @device.readings[0].shortAddress %>'};
 </script>
+<% end %>
