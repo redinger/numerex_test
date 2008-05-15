@@ -21,6 +21,12 @@ role :db, application
 
 set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
 
+namespace :deploy do
+  task :restart, :roles => :app do
+    run "cd /opt/ublip/rails/current; mongrel_rails cluster::restart;"
+  end
+end
+
 task :symlink_configs, :roles => :app, :except => {:no_symlink => true} do
    run <<-CMD
      cd #{release_path} &&
