@@ -12,6 +12,48 @@ class GeofenceControllerTest < Test::Unit::TestCase
     @controller = GeofenceController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
+    def @request.server_name
+      {}
+    end
+    
+    def @request.path_info
+      ""
+    end 
+  
+  end
+  
+  def test_index
+    get :index, {}, { :user => users(:dennis), :account_id => "1" }
+    assert_not_nil assigns("geofences")
+  end
+  
+  def test_add
+    post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+    assert_equal flash[:message] , 'Geofence created succesfully'
+    
+    get :add, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
+    assert_not_nil assigns("device")
+  end
+  
+  def test_detail
+    get :detail, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
+    assert_not_nil assigns("geofence")
+  end
+
+  def test_view
+    get :view, {:id => "account1"}, { :user => users(:dennis), :account_id => "1" }
+    assert_not_nil assigns("account")
+    
+    get :view, {:id => "device1"}, { :user => users(:dennis), :account_id => "1" }
+    assert_not_nil assigns("device")
+    
+    get :view, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
+    assert_not_nil assigns("device")
+  end
+  
+  def test_new
+    post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+    assert_equal flash[:message] , 'Geofence created succesfully'
   end
   
   def test_create
@@ -29,19 +71,23 @@ class GeofenceControllerTest < Test::Unit::TestCase
     post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "view" 
     
-     post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+    post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "view" 
     
-     post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+    post :add, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "view" 
   end
   
   def test_delete
-    post :delete, {:geofence_id => '1', :device_id => '1'}, { :user => users(:dennis), :account_id => "1" }
+    post :delete, {:id => '1', :device_id => '1'}, { :user => users(:dennis), :account_id => "1" }
+    assert_equal "Geofence deleted successfully", flash[:message]
+    assert_redirected_to :controller => "geofence", :action => "index"
   end
   
   def test_edit
-     post :edit, {:device_id => '1', :geofence_id => '1', :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+    post :edit, {:device_id => '1', :id => '1', :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+    assert_equal flash[:message] , 'Geofence updated succesfully'
+    assert_redirected_to :controller => "geofence", :action => "index"
   end
   
 end
