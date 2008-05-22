@@ -4,7 +4,22 @@
 class ApplicationController < ActionController::Base
   session :session_key => '_ublip_session_id'
   before_filter :set_page_title
-    
+
+  def paginate_collection(options = {}, &block)
+    if block_given?
+      options[:collection] = block.call
+    elsif !options.include?(:collection)
+      raise ArgumentError, 'You must pass a collection in the options or using a block'
+    end
+    default_options = {:per_page => 20 , :page => 1}
+    options = default_options.merge options
+    pages = Paginator.new self, options[:collection].size, options[:per_page], options[:page]
+    first = pages.current.offset
+    last = [first + options[:per_page], options[:collection].size].min
+    slice = options[:collection][first...last]
+    return [pages, slice]
+  end
+
   private
   def authorize
     unless session[:user]
