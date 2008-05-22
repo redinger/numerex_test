@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 34) do
+ActiveRecord::Schema.define(:version => 35) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(:version => 34) do
   end
 
   create_table "geofence_violations", :id => false, :force => true do |t|
-    t.column "device_id",   :integer, :default => 0, :null => false
-    t.column "geofence_id", :integer, :default => 0, :null => false
+    t.column "device_id",   :integer, :null => false
+    t.column "geofence_id", :integer, :null => false
   end
 
   create_table "geofences", :force => true do |t|
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 34) do
     t.column "latitude",   :decimal,                :precision => 15, :scale => 10
     t.column "longitude",  :decimal,                :precision => 15, :scale => 10
     t.column "radius",     :float
+    t.column "account_id", :integer
   end
 
   create_table "group_devices", :force => true do |t|
@@ -91,13 +92,14 @@ ActiveRecord::Schema.define(:version => 34) do
     t.column "updated_at", :datetime
     t.column "event_type", :string,   :limit => 25
     t.column "note",       :string
-    t.column "address",    :text
-    t.column "notified",   :boolean,                :default => false
+    t.column "address",    :string,   :limit => 1024
+    t.column "notified",   :boolean,                  :default => false
   end
 
   add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
   add_index "readings", ["device_id"], :name => "readings_device_id"
   add_index "readings", ["created_at"], :name => "readings_created_at"
+  add_index "readings", ["address"], :name => "readings_address"
   add_index "readings", ["notified", "event_type"], :name => "readings_notified_event_type"
 
   create_table "sessions", :force => true do |t|
