@@ -1,6 +1,6 @@
 class Notifier < ActionMailer::Base
 
-def forgot_password(user, url=nil)
+  def forgot_password(user, url=nil)
     setup_email(user)
 
     @subject = "Forgotten Password Notification"
@@ -48,7 +48,7 @@ def forgot_password(user, url=nil)
     @body["name"] = "#{user.first_name} #{user.last_name}"
   end
 
-   def setup_email(user)
+  def setup_email(user)
     @recipients = "#{user.email}"
     @from       = "support@ublip.com"
     @sent_on    = Time.now

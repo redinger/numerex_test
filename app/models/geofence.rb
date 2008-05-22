@@ -1,7 +1,8 @@
 class Geofence < ActiveRecord::Base
   belongs_to :device
-  validates_uniqueness_of :fence_num, :scope => :device_id 
-  validates_presence_of :device_id, :fence_num
+  belongs_to :account
+  #~ validates_uniqueness_of :fence_num, :scope => :device_id
+  #~ validates_presence_of   :fence_num #,:device_id 
   
   def find_fence_num
     for i in 1..300

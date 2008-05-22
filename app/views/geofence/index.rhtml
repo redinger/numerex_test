@@ -1,1 +1,43 @@
-<h3>Geofences</h3>
+
+<div class="container">
+	<div id="margin-t-b" style="height:20px;">
+		<div class="fl" style="width:460px;" id="link-grey">All Geofences</div> 
+		<div  class="fn" style="width:480px; text-align:right;background-color:#FFFFFF;">
+			<a href="/geofence/new" class="link-all" title="Create new geofence">Add New Geofence</a>
+		</div>
+	</div>
+	
+		<% if flash[:message] %>
+        	<div id="success_message"><%= flash[:message] %></div>
+		<% end %>
+
+  <div style=" background-color:#e5f1f4; font-weight:bold; width:955px; line-height:30px;height:30px"> 
+		<div  class="fl" id="width38t" style=" padding-left:5px;">Geofence</div>
+		<div  class="fn" id="width7t">For</div>
+		<div  class="fn" id="width38t2">Address</div>
+		<div  class="fn" id="width7t">Radius</div>
+		<div  class="fn" id="width7t">Action</div>
+				
+	</div>
+   <% @geofences.each do |geofence| %>
+	<div id="border-btm" style=""> 
+		<div  class="fl" id="width40-1"><a class="link-all"href="/geofence/detail/<%= geofence.id %>"><%= geofence.name %></a></div>
+		<div class="fn" id="width7">
+			<a class="link-all"href="/geofence/view<% if !geofence.device.nil? %>?id=device<%= geofence.device_id %>&gf=<%= geofence.id %><% else %>?id=account<%= geofence.account_id %>&gf=<%= geofence.id %><% end %>">
+				<% if !geofence.device.nil? %><%= geofence.device.name %><% else %><%= geofence.account.subdomain %><% end %>
+			</a>
+		</div>
+		<div class="fn" id="width40-2"><%= geofence.latitude.round(2) %>, <%= geofence.longitude.round(2) %></div>
+		<div class="fn"  id="width7"><%= geofence.radius.to_s + ' ' + 'miles' %></div>
+		<div class="fn" id="width7">
+		  <a class="link-all"href="/geofence/edit/<%= geofence.id %>">E</a>&nbsp;
+		  <a class="link-all" href="/geofence/delete/<%= geofence.id %>" onclick="return confirm('Are you sure you want to delete this geofence ?');">D</a>
+		</div>
+	</div>
+  <% end %>
+
+	<div id="margin-t-b" class="ublip-pagination">
+		<%= box_pagination_links(@geofences_pages, {:window_size =>5, :always_show_anchors => true, :link_to_current_page => false}) if @geofences_pages %>
+	</div>
+
+</div>

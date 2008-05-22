@@ -1,0 +1,21 @@
+<div id="width40-blue-bdr" class="fl">
+  <div id="width30-blue-in" class="fl"><%= geofence.name.capitalize %><br />
+    <%= geofence.latitude.round(2) %>,<%= geofence.longitude.round(2) %> <br />
+    Radius: <%= geofence.radius %> miles
+  </div>
+  <% if geofence.device %>
+  <div id="width30-grey-in" class="fl">Device Level: <br />
+    <%= geofence.device.name %>
+  </div>
+  <% else %>
+  <div id="width30-grey-in" class="fl">Account Level: <br />
+    <%= geofence.account.subdomain %>
+  </div>
+  <% end %>
+  <div id="width30-in" class="fl" style="padding-top:15px;">
+  	<a href="/geofence/edit/<%= geofence.id %>" class="btn-b" style=" text-decoration:none;">Edit</a> 
+	<a href="/geofence/delete/<%= geofence.id %>" onclick="return confirm('Are you sure you want to delete this geofence ?');" class="btn-s" style=" text-decoration:none;">Delete</a>
+  </div>
+</div>
+
+

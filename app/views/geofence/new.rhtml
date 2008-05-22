@@ -1,0 +1,54 @@
+<div class="container">
+
+  <div id="margin-t-b">
+    <div class="fl" style="width:480px"  id="link-grey">Add New Geofences </div>
+  </div>
+  <form method="post" style="margin-top: 10px; margin-bottom: 10px;" id="geofence_form1" onSubmit="return validate_form();">
+  <div id="margin-t-b">
+    <div  class="fl" id="margin-t-b"> <input type="radio" id="radio" name="radio" value="1" checked onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="enableDevice(this);" value="2"/> Device Level</div>
+    <div id="padding-t7" class="fl" >Choose the device:</div>
+    <div id="padding-t" class="fl" >
+		<select id="device" name="device" class="txt-box" disabled>
+		<% @devices.each do |device| %>
+			<option value="<%= device.id %>"><%= device.name %></option>
+		<% end %>	
+		</select>	  
+    </div>
+	
+    <div id="padding-t7" class="fl" >Geofence name:</div>
+    <div id="padding-t" class="fl">
+      <input  class="txt-box" name="name" type="text" />
+    </div>
+	
+    <div id="padding-t7" class="fl" >Geofence address:</div>
+    <div id="padding-t" class="fl" >
+      <input  class="txt-box" name="address" type="text" />
+    </div>
+	
+    <div id="padding-t7" class="fl" >Radius: </div>
+    <div id="padding-t" class="fl" >
+		<select id="radius" name="radius" class="txt-box-s">
+			<option value="0.1">0.1</option>
+			<option value="0.25">0.25</option>
+			<option value="0.5">0.5</option>
+			<option value="1">1</option>
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="25">25</option>
+		</select> (miles)
+    </div>
+  </div>
+  <input type="hidden" name="bounds"/>
+  <div id="padding-t7" class="fl" >
+    <input  class="btn-b" name="Create geofence" type="submit" value="Create Geofence" style="cursor:pointer;" />
+    <input class="btn-s" name="Cancel" type="button" onclick="javascript:history.go(-1);" value="Cancel" style="cursor:pointer;"/>
+  </div>
+  </form>
+</div>
+
+
+<% if !@devices[0].readings[0].nil? %>
+<script>
+	var device = {name: '<%= escape_javascript(@devices[0].name) %>', lat: <%= @devices[0].readings[0].latitude %>, lng: <%= @devices[0].readings[0].longitude %>, address: '<%= @devices[0].readings[0].shortAddress %>'};
+</script>
+<% end %>
