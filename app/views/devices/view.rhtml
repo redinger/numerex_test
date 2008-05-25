@@ -16,7 +16,7 @@
 		</td>
 		<td align="center">
 			<% if @device.geofences.size == 0 %>
-				You currently have 0 geofences set for this device.<br /><a href="/geofence/add/<%= @device.id %>">Click here</a> to add one.
+				You currently have 0 geofences set for this device.<br /><a href="/geofence/new/<%= @device.id %>">Click here</a> to add one.
 			<% else %>
 				You currently have <a href="/geofence/view/<%= @device.id %>" title="View geofences for this device"><%= @device.geofences.size %> geofences</a> set for this device.
 			<% end %>

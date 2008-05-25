@@ -9,10 +9,10 @@
         <%= javascript_include_tag "geofence" %>
 		<%= javascript_include_tag :defaults %>
 	</head>
-	<body onload="load();">
+	<body <% if params[:action] != "index" %>onload="load();"<% end %>>
     	  <%= render :partial => 'layouts/includes/header' %>
     	   <div id="subnav">
-   	   			<!--a href="/geofence/add/<%#= params[:id] %>" title="Create new geofence">New</a>&nbsp;--><a href="/devices" class="link-all">All Devices</a>
+   			<a href="/devices" class="link-all">All Devices</a>
 			&nbsp;<a href="/geofence" class="link-active">All Geofences</a>
     	   </div>
     	   <div id="content">

@@ -10,7 +10,19 @@ class GeofenceTest < Test::Unit::TestCase
     fence.radius=3
     assert_equal("1.0,2.0,3.0", fence.bounds, "incorrect bounds, expected 1,2,3 but was " + fence.bounds )
   end
-  
+
+  def test_get_lat_lng
+    fence = Geofence.new
+    fence.latitude=1
+    fence.longitude=2
+    fence.address= "something"
+    assert_equal("1.0, 2.0", fence.get_lat_lng)
+
+    fence = Geofence.new
+    fence.latitude=1
+    fence.longitude=2
+    assert_equal("-----", fence.get_lat_lng)
+  end
   
   def test_unique
     fence1 = Geofence.new 

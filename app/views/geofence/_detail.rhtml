@@ -12,9 +12,9 @@
     <%= geofence.account.subdomain %>
   </div>
   <% end %>
-  <div id="width30-in" class="fl" style="padding-top:15px;">
-  	<a href="/geofence/edit/<%= geofence.id %>" class="btn-b" style=" text-decoration:none;">Edit</a> 
-	<a href="/geofence/delete/<%= geofence.id %>" onclick="return confirm('Are you sure you want to delete this geofence ?');" class="btn-s" style=" text-decoration:none;">Delete</a>
+  <div id="width30-in" class="fl" style="padding-top:15px; padding-bottom:15px;">
+  	<a href="<%= edit_url(:id=>geofence.id) %>" class="btn-b" style=" text-decoration:none;">Edit</a> 
+	<a href="<%= delete_url(:id=>geofence.id) %>" onclick="return confirm('Are you sure you want to delete this geofence ?');" class="btn-s" style=" text-decoration:none;">Delete</a>
   </div>
 </div>
 

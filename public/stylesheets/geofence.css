@@ -1,4 +1,4 @@
-body{ font-family:verdana; font-size:9pt; margin:0px; background-image:url(../images/bg-geofences.jpg); background-repeat:repeat-x; }
+body{ font-family:verdana; font-size:9pt; margin:0px; background-repeat:repeat-x; } /*background-image:url(../images/bg-geofences.jpg);*/
 .link-all{ color:#1364B2; text-decoration:none;}
 .link-all:hover{ color:#1364B2; text-decoration:underline; font-weight:normal;}
 .link-all:active{ color:#1364B2; text-decoration:underlinee; font-weight:normal;}
@@ -8,8 +8,9 @@ body{ font-family:verdana; font-size:9pt; margin:0px; background-image:url(../im
 #border-btm{border-bottom:1px solid #cccccc; height:23px;}
 .border-btm{border-bottom:1px solid #cccccc; height:23px;}
 
-.txt-box{ border:1px solid #cccccc; padding:2px 5px 2px 5px; color:#666666; width:350px;}
-.txt-box-s{ border:1px solid #cccccc; padding:2px 5px 2px 5px; color:#666666; width:75px;}
+.txt-box{ border:1px solid #cccccc; padding:2px 2px 2px 2px; color:#666666; width:350px;}
+.txt-box-s2{ border:1px solid #cccccc; padding:2px; color:#666666; width:355px;}
+.txt-box-s{ border:1px solid #cccccc; padding:2px; color:#666666; width:75px;}
 .btn-b{  border:1px solid #ABD5FE; padding:6px 7px 5px 6px; color:#666666; background-color:#E5F1F4;}
 .btn-s{  border:1px solid #FFCC99; padding:6px 7px 5px 6px; color:#666666; background-color:#FFE5F2;}
 /*******************************8header************/

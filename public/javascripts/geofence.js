@@ -141,6 +141,12 @@ function validate_form() {
 		alert('Please specify a name for your geofence');
 		return false;	
 	}
+	
+	if(form.bounds.value == '') {
+		alert('Please check your entered address before saving');
+		return false;
+	}
+	
 	return true;
 }
 
@@ -180,7 +186,7 @@ function go(url) {
 function enableDevice(id) {
 	if(document.getElementById("radio").value == '1' && document.getElementById("radio").checked == true) {
 		document.getElementById("device").disabled = true;
-	} else {
+	} else {         
 		document.getElementById("device").disabled = false;
 	}
 }

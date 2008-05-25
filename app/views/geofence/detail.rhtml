@@ -1,7 +1,7 @@
 <div class="container" >
   <div id="margin-t-b" style="height:20px;">
     <div class="fl" style="width:480px;"  id="link-grey"><%= @geofence.name.capitalize %> Location Geofence</div>
-    <div  class="fn" style="width:480px; text-align:right;background-color:#FFFFFF;"><a href="/geofence/new" class="link-all" title="Create new geofence">Add New Geofence</a></div>
+    <div  class="fn" style="width:472px; text-align:right;background-color:#FFFFFF;"><a href="<%= new_url %>" class="link-all" title="Create new geofence">Add New Geofence</a></div>
   </div>
   <div style="width:960px; ">
     <div id="width30-all" class="fl">
@@ -18,8 +18,8 @@
 		  </div>
 	  <% end %>
       <div id="width30-all" class="fl" style="line-height:40px;">
-			<a href="/geofence/edit/<%= @geofence.id %>" class="btn-b" style=" text-decoration:none;">Edit</a>
-			<a href="/geofence/delete/<%= @geofence.id %>" onclick="return confirm('Are you sure you want to delete this geofence ?');" class="btn-s" style=" text-decoration:none;">Delete</a>
+			<a href="<%= edit_url(:id=>@geofence.id)%>" class="btn-b" style=" text-decoration:none;">Edit</a>
+			<a href="<%= delete_url(:id=>@geofence.id) %>" onclick="return confirm('Are you sure you want to delete this geofence ?');" class="btn-s" style=" text-decoration:none;">Delete</a>
 	  </div>
 		
     </div>
@@ -32,5 +32,10 @@
 <% if !@geofence.device.nil? && @geofence.device.readings[0] %>
 	var device = {name: '<%= escape_javascript @geofence.device.name %>', lat: <%= @geofence.device.readings[0].latitude %>, lng: <%= @geofence.device.readings[0].longitude %>};
 	geofences.push({id: <%= @geofence.id %>, name: '<%= escape_javascript(@geofence.name) %>', bounds: '<%= @geofence.bounds %>'});
+	var gf_index = 0;
+<% else %>
+	var device = {name: '<%= escape_javascript @geofence.name %>', lat: <%= @geofence.latitude %>, lng: <%= @geofence.longitude %>};
+	geofences.push({id: <%= @geofence.id %>, name: '<%= escape_javascript(@geofence.name) %>', bounds: '<%= @geofence.bounds %>'});
+	var gf_index = 0;
 <% end %>	
 </script>

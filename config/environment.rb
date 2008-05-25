@@ -58,3 +58,4 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
+RADIUS_ARRAY = [0.1,0.25,0.5,1,5,10,25]
