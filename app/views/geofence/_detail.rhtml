@@ -1,6 +1,6 @@
 <div id="width40-blue-bdr" class="fl">
   <div id="width30-blue-in" class="fl"><%= geofence.name.capitalize %><br />
-    <%= geofence.latitude.round(2) %>,<%= geofence.longitude.round(2) %> <br />
+    <%= geofence.get_lat_lng%> <br />
     Radius: <%= geofence.radius %> miles
   </div>
   <% if geofence.device %>

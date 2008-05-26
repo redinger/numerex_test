@@ -5,7 +5,7 @@
   </div>
   <form method="post" style="margin-top:10px; margin-bottom:10px;" id="geofence_form1" onSubmit="return validate_form();">
   <div id="margin-t-b">
-    <div  class="fl" id="margin-t-b"> <input type="radio" id="radio" name="radio" value="1" checked onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2"/> Device Level</div>
+    <div  class="fl" id="margin-t-b"> <input type="radio" id="radio" name="radio" value="1" <% if @geofence.account_id != 0 %>checked<%end%> onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2" <% if @geofence.device_id != 0 %>checked<%end%> /> Device Level</div>
     <div id="padding-t7" class="fl" >Choose the device: </div>
     <div id="padding-t" class="fl" >
 		<select id="device" name="device" class="txt-box-s2" <% if @geofence.account_id != 0 %>disabled<% end %>>
@@ -38,7 +38,8 @@
   <input type="hidden" name="bounds" />
   
   <div id="padding-t7" class="fl"  style="width:400px">
-    <input  class="btn-b" name="Create geofence" type="submit" value="Update Geofence" style="cursor:pointer;"/> <input class="btn-s" name="Cancel" type="button" onclick="javascript:history.go(-1);" value="Cancel" style="cursor:pointer;"/>
+    <input  class="btn-b" name="Create geofence" type="submit" value="Update Geofence" style="cursor:pointer;"/>     
+    <a href="<%= session[:referral_url] %>"  class="btn-s" style="text-decoration:none; height: 25px; padding:8px 7px 7px 6px;">Cancel</a>
   </div>
   </form>
 </div>
@@ -48,12 +49,12 @@
 </div>
 </div>
 
-<% if !@devices[0].nil? && !@devices[0].readings[0].nil? %>
-<script>
-	var device = {name: '<%= escape_javascript(@devices[0].name) %>', lat: <%= @devices[0].readings[0].latitude %>, lng: <%= @devices[0].readings[0].longitude %>, address: '<%= @devices[0].readings[0].shortAddress %>'};
-	var gf_index = 0;
-	<% if !@devices[0].geofences[0].nil? %>
-		geofences.push({id: <%= @devices[0].id %>, name: '<%= escape_javascript(@devices[0].geofences[0].name) %>', bounds: '<%= @devices[0].geofences[0].bounds %>'});
-	<% end %>
-</script>
+<% if !@geofence.nil? %>
+    <script>     
+         <% if !@geofence.device.nil? && !@geofence.device.readings.first.nil? %>
+              var device = {name: '<%= escape_javascript(@geofence.device.name ) %>', lat: <%= @geofence.device.readings.first.latitude %>, lng: <%= @geofence.device.readings.first.longitude %>, address: '<%= @geofence.device.readings.first.shortAddress %>'}; 
+         <%end%>     
+         var gf_index = 0;	
+         geofences.push({id: <%= @geofence.id%>, name: '<%= escape_javascript(@geofence.name) %>', bounds: '<%= @geofence.bounds %>'});	
+    </script>
 <% end %>

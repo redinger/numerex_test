@@ -15,13 +15,13 @@ class GeofenceTest < Test::Unit::TestCase
     fence = Geofence.new
     fence.latitude=1
     fence.longitude=2
-    fence.address= "something"
-    assert_equal("1.0, 2.0", fence.get_lat_lng)
+    fence.address= "123 N, Main Street, Chicago, IL"
+    assert_equal("123 N, Main Street, Chicago, IL", fence.get_lat_lng)
 
     fence = Geofence.new
     fence.latitude=1
     fence.longitude=2
-    assert_equal("-----", fence.get_lat_lng)
+    assert_equal("1.0, 2.0", fence.get_lat_lng)
   end
   
   def test_unique

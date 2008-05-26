@@ -23,7 +23,11 @@ class Geofence < ActiveRecord::Base
   end
 
   def get_lat_lng      
-     (self.address.nil? || self.address.empty?) ? "-----" : "#{self.latitude.round(2)}, #{self.longitude.round(2)}" 
+     if !(self.address =~ /[a-zA-Z]/)
+         return "#{self.latitude.round(2)}, #{self.longitude.round(2)}" 
+     else
+         return self.address
+     end    
   end
   
 end

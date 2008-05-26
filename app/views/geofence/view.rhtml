@@ -12,21 +12,27 @@
      <div style="width:960px; background-color:#ffffff;"> 
           <div id="width30-all" class="fl"> 
                <div  class="fl" id="width30t" style="background-color:#e5f1f4;font-weight:bold; line-height:30px;height:30px ">All Geofences</div>
-               <% (@geofences||[]).each_with_index do |geofence,i| %>
-			        <script type="text/javascript">
-						<% if @gf && @gf.id == geofence.id %>
-						  var gf_index = <%= i %>;
-						<% else %>
-						  var gf_index = 0;
-						<% end %>
-					</script>
-                    <div  class="fl" id="width30-bdr">
-						<a onclick="hide_div(); new Ajax.Request('/geofence/view_detail?id=<%= geofence.id %>',{asynchronous:true}); displayGeofence(<%= i %>);" class="link-all"><span style="cursor:pointer;"><%= geofence.name %></span></a>
-					</div>
-					<div id="detail_id<%= geofence.id %>" <% if @gf && @gf.id != geofence.id %>style="display:none;"<% end %>>
-						<%= render :partial => "detail",:locals => {:geofence => geofence} %>
-					</div>	
-               <% end %>
+                <%if !@geofences.empty?%>
+                   <% (@geofences||[]).each_with_index do |geofence,i| %>
+                        <script type="text/javascript">
+                            <% if @gf && @gf.id == geofence.id %>
+                              var gf_index = <%= i %>;
+                            <% else %>
+                              var gf_index = 0;
+                            <% end %>
+                        </script>
+                        <div  class="fl" id="width30-bdr">
+                            <a onclick="hide_div(); new Ajax.Request('/geofence/view_detail?id=<%= geofence.id %>',{asynchronous:true}); displayGeofence(<%= i %>);" class="link-all"><span style="cursor:pointer;"><%= geofence.name %></span></a>
+                        </div>
+                        <div id="detail_id<%= geofence.id %>" <% if @gf && @gf.id != geofence.id %>style="display:none;"<% end %>>
+                            <%= render :partial => "detail",:locals => {:geofence => geofence} %>
+                        </div>	
+                   <% end %>
+                <%else%><br/><br/>
+                <div  style=" width: 207px;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#E5F1F4;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;font-size:10pt;">
+                  <span>No geofences found.</span>
+                </div>            
+                <%end%>    
           </div>
           <div class="fn"  id="width10t" style="height:350px;">&nbsp;</div>
           <div id="geofence_map" class="fn" style="width: 700px; height: 350px; margin-left: 10px; float: left;"></div>

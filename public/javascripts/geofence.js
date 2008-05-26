@@ -134,33 +134,22 @@ function validate() {
 }
 
 function validate_form() {
-	
-	form = document.getElementById('geofence_form1');
-	
-	if(form.name.value == '') {
-		alert('Please specify a name for your geofence');
-		return false;	
-	}
-	
-	if(form.bounds.value == '') {
-		alert('Please check your entered address before saving');
-		return false;
-	}
-	
-	return true;
+
+form = document.getElementById('geofence_form1');
+
+if(form.name.value == '') {
+alert('Please specify a name for your geofence');
+return false;
 }
 
-function geocode1(address) {
-	var geocoder = new GClientGeocoder();
-	geocoder.getLatLng(
-    	address,
-		function(point) {
-      		if (!point) {
-        		alert("We're sorry, this address cannot be located");
-			}
-		}
-	);
+if(form.bounds.value == '') {
+alert('Please click Preview before saving');
+return false;
 }
+
+return true;
+}
+
 
 // Display a geofence when selected from the view list
 function displayGeofence(index) {

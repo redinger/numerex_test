@@ -4,7 +4,8 @@
 class ApplicationController < ActionController::Base
   session :session_key => '_ublip_session_id'
   before_filter :set_page_title
-
+  before_filter :create_referral_url     
+  
  # from pg. 464 of AWDWR, 1st Ed.
     def rescue_action_in_public(exception)
       if exception.is_a? ActiveRecord::RecordNotFound or exception.is_a? ::ActionController::UnknownAction
@@ -26,6 +27,14 @@ class ApplicationController < ActionController::Base
         super # call super implementation
       end
     end
+
+    def create_referral_url
+         unless request.env["HTTP_REFERER"].blank?
+             unless request.env["HTTP_REFERER"][/register|login|logout|authenticate/]
+                 session[:referral_url] = request.env["HTTP_REFERER"]
+             end
+         end
+     end  
 
   def paginate_collection(options = {}, &block)
     if block_given?

@@ -4,9 +4,9 @@ class GeofenceController < ApplicationController
   def index
     device_ids = Device.get_devices(session[:account_id]).map{|x| x.id}        
     if device_ids.empty?       
-      @geofences_pages,@geofences = paginate :geofences,:conditions => ["account_id = ?",session[:account_id]], :order => "name",:per_page => 3  
+      @geofences_pages,@geofences = paginate :geofences,:conditions => ["account_id = ?",session[:account_id]], :order => "id DESC", :per_page => 25  
     else
-      @geofences_pages,@geofences = paginate :geofences,:conditions => ["device_id in (#{device_ids.join(',')}) or account_id = ?",session[:account_id]], :order => "name",:per_page => 3  
+      @geofences_pages,@geofences = paginate :geofences,:conditions => ["device_id in (#{device_ids.join(',')}) or account_id = ?",session[:account_id]], :order => "id DESC", :per_page => 25  
     end    
   end
   
@@ -30,7 +30,7 @@ class GeofenceController < ApplicationController
   end  
   
   def edit 
-    @devices = Device.get_devices(session[:account_id])
+    @devices = Device.get_devices(session[:account_id])    
     @geofence = Geofence.find(params[:id])     
     if check_action_for_user
       if request.post?           
@@ -94,13 +94,12 @@ class GeofenceController < ApplicationController
 private
   
   def add_and_edit(geofence) 
-    add=params[:address].split(',')
-    geofence.latitude , geofence.longitude = add[0] , add[1]
-    geofence.name = params[:name]
-    geofence.radius = params[:radius]
-    geofence.address = params[:address]
-    geofence.account_id = params[:radio] == "1" ? session[:account_id] : 0
-    geofence.device_id = params[:radio] == "2" ? params[:device]  : 0
+     fence = params[:bounds].split(",")
+     geofence.latitude, geofence.longitude, geofence.radius = fence[0], fence[1], fence[2]       
+     geofence.name = params[:name]       
+     geofence.address = params[:address]
+     geofence.account_id = params[:radio] == "1" ? session[:account_id] : 0
+     geofence.device_id = params[:radio] == "2" ? params[:device]  : 0
   end  
   
 end

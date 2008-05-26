@@ -6,7 +6,7 @@
   <div style="width:960px; ">
     <div id="width30-all" class="fl">
       <div id="width30-blue"><strong><%= @geofence.name.capitalize %></strong><br />
-		<%= @geofence.latitude.round(2) %>, <%= @geofence.longitude.round(2) %><br />
+		<%= @geofence.get_lat_lng%><br />
         Radius: <%= @geofence.radius %> miles</div>
 	  <% if @geofence.device_id == 0 %>	
 		  <div id="width30-grey">Account Level: <br />
