@@ -12,7 +12,7 @@ module ApplicationHelper
     returning html = '' do
       
       if options[:always_show_anchors] and not window_pages[0].first?
-        html<< link_to("&laquo; Frist",  { options[:name] => first }.update(options[:params] ))
+        html<< link_to("&laquo; First",  { options[:name] => first }.update(options[:params] ))
         html << ' '
       end
       
