@@ -2,12 +2,16 @@ class GeofenceController < ApplicationController
   before_filter :authorize
 
   def index
-    device_ids = Device.get_devices(session[:account_id]).map{|x| x.id}        
+    device_ids = Device.get_devices(session[:account_id]).map{|x| x.id}
     if device_ids.empty?       
-      @geofences_pages,@geofences = paginate :geofences,:conditions => ["account_id = ?",session[:account_id]], :order => "id DESC", :per_page => 25  
+      @geofences_pages,@geofences = paginate :geofences,
+                                             :conditions => ["account_id = ?",session[:account_id]],
+                                             :order => "id DESC", :per_page => 25
     else
-      @geofences_pages,@geofences = paginate :geofences,:conditions => ["device_id in (#{device_ids.join(',')}) or account_id = ?",session[:account_id]], :order => "id DESC", :per_page => 25  
-    end    
+      @geofences_pages,@geofences = paginate :geofences,
+                                             :conditions => ["device_id in (#{device_ids.join(',')}) or account_id = ?",session[:account_id]], 
+                                             :order => "id DESC", :per_page => 25
+    end
   end
   
   def new 
@@ -48,26 +52,36 @@ class GeofenceController < ApplicationController
      end    
   end  
   
-  def view  
-    if (params[:id] =~ /account/)
-      id = params[:id].gsub(/account/, '')
+  def view
+    per_page = 15
+    session[:id] = params[:id] if params[:id]
+    if (session[:id] =~ /account/)
+      id = session[:id].gsub(/account/, '')
       @account = Account.find_by_id(id)
       if params[:gf]
+        goto_correct_page("account",id,per_page)
         @gf = Geofence.find(:first,:conditions => ["id = ?",params[:gf]])
       else
-        @gf = Geofence.find(:first,:conditions => ["account_id = ?",id])
+        @geofences_pages, @geofences = paginate :geofences, 
+                                                :conditions=> ["account_id=?", id],
+                                                :order => "name",:per_page => per_page
+        @gf = @geofences.first
       end
-      @geofences_pages, @geofences = paginate :geofences, :conditions=> ["account_id=?", id], :order => "name",:per_page => 15      
+
     else
-      id = params[:id].gsub(/device/, '')
       @account = Account.find_by_id(session[:account_id])
+      id = session[:id].gsub(/device/, '')
       @device = Device.find_by_id(id)
       if params[:gf]
+        goto_correct_page("device",id,per_page)
         @gf = Geofence.find(:first,:conditions => ["id = ?",params[:gf]])
       else
-        @gf = Geofence.find(:first,:conditions => ["device_id = ?",id])
-      end
-      @geofences_pages, @geofences = paginate :geofences, :conditions=> ["device_id=?", id], :order => "name",:per_page => 15
+        @geofences_pages, @geofences = paginate :geofences, 
+                                                :conditions=> ["device_id=?", id], 
+                                                :order => "name",:per_page => per_page
+        @gf = @geofences.first
+      end      
+
     end
     @gf_ids = @geofences.map{|x| x.id}
   end
@@ -92,6 +106,21 @@ class GeofenceController < ApplicationController
   end  
 
 private
+  
+  def goto_correct_page(a_or_d,id,per_page)
+    found = false
+    page = 1
+    while !found
+      params[:page] = page.to_s 
+      @geofences_pages, @geofences = paginate :geofences, 
+                                              :conditions=> ["#{a_or_d}_id=?", id], 
+                                              :order => "name",:per_page => per_page 
+      @geofences.each{|g| (found = true; break) if g.id == params[:gf].to_i }
+
+      page += 1 unless found
+    end
+    page
+  end
   
   def add_and_edit(geofence) 
      fence = params[:bounds].split(",")
