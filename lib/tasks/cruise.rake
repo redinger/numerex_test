@@ -7,6 +7,7 @@ task :cruise do
 
   Rake::Task["db:test:purge"]
   Rake::Task["db:test:prepare"]
+  Rake::Task["db:migrate"]
 
   ENV['SHOW_ONLY'] = 'models,lib,helpers'
   Rake::Task["test:units:rcov"].invoke
