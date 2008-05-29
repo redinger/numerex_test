@@ -104,6 +104,7 @@ div#subnav {
 	background-color: #EEEEEE;
 }
 
+
 #device_list ul {
 	padding: 0;
 	margin: 0;
@@ -301,3 +302,11 @@ div#paging {
 	background-color: #003366;
 	padding: 3px;
 }
+
+
+/* Pagination Class */
+
+.ublip-pagination {font-size:13px; font-family: Arial;  float:left;text-align:right;padding-top:10px} /*changed from 9*/
+.ublip-pagination A { PADDING-LEFT: 0.2em;  PADDING-BOTTOM: 0.1em; MARGIN-RIGHT: 0.1em; PADDING-TOP: 0.1em;  TEXT-DECORATION: none; color:#003399;}
+.ublip-pagination A:hover {color:#003399; text-decoration:underline;}
+.ublip-pagination SPAN.current { PADDING-RIGHT: 0.5em;   PADDING-LEFT: 0.5em;  PADDING-BOTTOM: 0.1em; MARGIN-RIGHT: 0.1em; PADDING-TOP: 0.1em;  FONT-WEIGHT: bold;  COLOR: #333;}*/

@@ -17,13 +17,7 @@ class ReportsController < ApplicationController
     @devices = Device.get_devices(session[:account_id])
   end
   
-   def all
-    unless params[:p]
-      params[:p] = 1
-    end 
-    @page = params[:p].to_i
-    @result_count = ResultCount
-    
+  def all
     unless params[:t]
       params[:t] = 1
     end
@@ -32,19 +26,18 @@ class ReportsController < ApplicationController
     end_time = Time.now.to_i # Current time in seconds
     start_time = end_time - (86400 * timespan) # Start time in seconds
     @device_names = Device.get_names(session[:account_id])
-    @readings = Reading.find(:all, :order => "created_at desc", 
+    @pages,@readings = paginate :readings, :order => "created_at desc", 
                 :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time], 
-                :limit => @result_count, 
-                :offset => ((@page-1)*@result_count))
-      @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
+                :per_page => ResultCount
+    @record_count = Reading.count('id', :conditions => ["device_id = ? and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])                
   end
-    
+
   def stop
-    unless params[:p]
-      params[:p] = 1
+    unless params[:page]
+      params[:page] = 1
     end 
-    @page = params[:p].to_i
-    @result_count = ResultCount
+    @page = params[:page].to_i
+    #@result_count = ResultCount
     @stop_threshold = StopThreshold
     
     unless params[:t]
@@ -84,17 +77,13 @@ class ReportsController < ApplicationController
                         }
     @record_count = @stops.size   
     @stops.sort! {|r1,r2| r2.created_at <=> r1.created_at}
-    @stops = @stops.slice!( (@page-1)*@result_count, @page*@result_count)
+    @stops = @stops.slice!( (@page-1)*ResultCount, @page*ResultCount)
+    @pages,@stops = paginate_collection(:collection => @stops,:page => params[:page],:per_page => @page)
   end
-  
+    
+    
   # Display geofence exceptions
   def geofence
-    unless params[:p]
-      params[:p] = 1
-    end 
-    @page = params[:p].to_i
-    @result_count = ResultCount
-    
     unless params[:t]
       params[:t] = 1
     end
@@ -105,19 +94,17 @@ class ReportsController < ApplicationController
     
     @geofences = Device.find(params[:id]).geofences # Geofences to display as overlays
     @device_names = Device.get_names(session[:account_id])
-    @readings = Reading.find(:all, :order => "created_at desc", 
-               :limit => ResultCount,
+    @pages,@readings = paginate :readings, :order => "created_at desc", 
                :conditions => ["device_id = ? and event_type like '%geofen%' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time],
-               :limit => @result_count,
-               :offset => ((@page-1)*@result_count))
+               :per_page => ResultCount
     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and unix_timestamp(created_at) between ? and ?", params[:id], start_time, end_time])
   end
   
   # Export report data to CSV - limiting to 100 readings
   def export
     
-    unless params[:p]
-      params[:p] = 1
+    unless params[:page]
+      params[:page] = 1
     end
     
     # Determine report type so we know what filter to apply
@@ -132,7 +119,7 @@ class ReportsController < ApplicationController
     # Get last 100 readings for given timeframe
     readings = Reading.find(:all, :order => "created_at desc",
                   :limit => 100,
-                  :offset => ((params[:p].to_i-1)*ResultCount),
+                  :offset => ((params[:page].to_i-1)*ResultCount),
                   :conditions => ["device_id = ? and event_type like ?", params[:id], event_type])
                 
     stream_csv do |csv|
@@ -144,7 +131,7 @@ class ReportsController < ApplicationController
   end
   
   def speed
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => 25, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
+    @readings = Reading.find(:all, :order => "created_at desc", :limit => ResultCount, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
   end
   
   #this method will delete any redundannt stops from readings

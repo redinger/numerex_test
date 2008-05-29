@@ -37,6 +37,10 @@ div#content {
 	font-weight: bold;
 	color: #006699;
 }
+
+.input { width:162px;
+ 
+}
 /***** End login form ******/
 
 /******** Login form styles ***********/

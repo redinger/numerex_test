@@ -1,54 +1,61 @@
 <div class="container">
-     <div id="margin-t-b" style="height:20px;">
-        <div class="fl" style="width:480px ;" id="link-grey">
-		  	<% if @device %><%= @device.name %><% else %><%= @account.subdomain %><% end %>
+     <div id="margin-t-b" style="height:30px; border-bottom:1px solid #cccccc;">
+        <div class="fl" style="width:50% ;" id="link-grey">
+		  	<a class="f3"><% if @device %><%= @device.name %><% else %><%= @account.subdomain %><% end %></a>
 		</div>
 		
-        <div  class="fn" style="width:472px; text-align:right;background-color:#FFFFFF;">
+        <div  class="fn" style="width:49.1%; text-align:right;background-color:#FFFFFF; margin-top:10px;">
 			<a href="<%= new_url%>" class="link-all" title="Create new geofence">Add New Geofence</a>
 		</div>
      </div>
 	 
-     <div style="width:960px; background-color:#ffffff;"> 
+     <div style="width:100%;"> 
           <div id="width30-all" class="fl"> 
-               <div  class="fl" id="width30t" style="background-color:#e5f1f4;font-weight:bold; line-height:30px;height:30px ">All Geofences</div>
+               <div  class="fl" id="width30t" style="background-color:#6699cc;font-weight:bold; line-height:30px;height:30px;">All Geofences</div>
                 <%if !@geofences.empty?%>
                    <% (@geofences||[]).each_with_index do |geofence,i| %>
                         <script type="text/javascript">
                             <% if @gf && @gf.id == geofence.id %>
                               var gf_index = <%= i %>;
                             <% else %>
-                              var gf_index = 0;
+                              var gf_index = <%= @geofences.index(@gf) %>; /// added
                             <% end %>
                         </script>
-                        <div  class="fl" id="width30-bdr">
+                        <div  id="width30-bdr">
                             <a onclick="hide_div(); new Ajax.Request('/geofence/view_detail?id=<%= geofence.id %>',{asynchronous:true}); displayGeofence(<%= i %>);" class="link-all"><span style="cursor:pointer;"><%= geofence.name %></span></a>
                         </div>
-                        <div id="detail_id<%= geofence.id %>" <% if @gf && @gf.id != geofence.id %>style="display:none;"<% end %>>
+                        <div class="width30-bdr" id="detail_id<%= geofence.id %>" <% if @gf && @gf.id != geofence.id %>style="display:none;"<% end %>>
                             <%= render :partial => "detail",:locals => {:geofence => geofence} %>
                         </div>	
                    <% end %>
                 <%else%><br/><br/>
-                <div  style=" width: 207px;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#E5F1F4;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;font-size:10pt;">
+                <div  style=" width: 21.562%<!--207px-->;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#6699cc;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:.25%;padding-right:.25%;font-size:10pt;">
                   <span>No geofences found.</span>
                 </div>            
                 <%end%>    
           </div>
-          <div class="fn"  id="width10t" style="height:350px;">&nbsp;</div>
-          <div id="geofence_map" class="fn" style="width: 700px; height: 350px; margin-left: 10px; float: left;"></div>
+          <div class="fn"  id="width10t" style="height:400px;">&nbsp;</div>
+          <div id="geofence_map" class="fn" style="width: 74.735%; height:400px; MARGIN-top:3px; float: left;"></div>
      </div>  
     <div id="margin-t-b" class="ublip-pagination"><%= box_pagination_links(@geofences_pages, {:window_size =>5, :always_show_anchors => true, :link_to_current_page => false}) if @geofences_pages %></div>
 </div>
 
 <script>
+  var device_flag
+  var remove_listener = 'true'
   <% if @device && @device.readings[0] %>
-	var device = {name: '<%= escape_javascript @device.name %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>};
+    var device = {name: '<%= escape_javascript @device.name %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>};
   <% elsif @account && @gf %> 	
     var device = {name: '<%= escape_javascript @account.subdomain %>', lat: <%= @gf.latitude %>, lng: <%= @gf.longitude %>}; 
   <% end %>
-	<% @geofences.each_with_index do |geofence,i| %>
-		geofences.push({id: <%= geofence.id %>, name: '<%= escape_javascript(geofence.name) %>', bounds: '<%= geofence.bounds %>'});
-	<% end %>
+    <% if !@geofences.empty? %>
+        device_flag = 1
+        <% @geofences.each_with_index do |geofence,i| %>
+            geofences.push({id: <%= geofence.id %>, name: '<%= escape_javascript(geofence.name) %>', bounds: '<%= geofence.bounds %>'});
+        <% end %>   
+    <% else %>   
+       device_flag = 0;
+    <%end%>
    var div_ids = <%= @gf_ids.inspect %>;
    function hide_div()
    { 

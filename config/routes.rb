@@ -19,11 +19,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/users/:action', :controller => 'admin/users'
   map.connect 'admin/devices/:action', :controller => 'admin/devices'
   map.geofence 'geofence', :controller=>'geofence', :action=>'index'
-  map.new 'new', :controller=>'geofence', :action=>'new'
-  map.edit 'edit/:id', :controller=>'geofence', :action=>'edit', :id=>/\d+/    
-  map.delete 'delete/:id', :controller=>'geofence', :action=>'delete', :id=>/\d+/    
-  map.detail 'detail/:id', :controller=>'geofence', :action=>'detail', :id=>/\d+/    
-  map.view 'view', :controller=>'geofence', :action=>'view'
+  map.new 'geofence/new', :controller=>'geofence', :action=>'new'
+  map.edit 'geofence/edit/:id', :controller=>'geofence', :action=>'edit', :id=>/\d+/    
+  map.delete 'geofence/delete/:id', :controller=>'geofence', :action=>'delete', :id=>/\d+/    
+  map.detail 'geofence/detail/:id', :controller=>'geofence', :action=>'detail', :id=>/\d+/
+  map.view 'geofence/view', :controller=>'geofence', :action=>'view'
     
   # Allow downloading Web Service WSDL as a file with an extension
   # instead of a file named 'wsdl'

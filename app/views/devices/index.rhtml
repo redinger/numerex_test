@@ -1,6 +1,8 @@
-	<h3 style="float: left; line-height: 40px;">Your Active Devices (<%= @devices.size %> total)</h3>
+	<h3 style="float: left; line-height: 40px;">Your Active Devices (<%= @devices.size %> total) </h3>
 	
-	<!--<div style="float: right; font-size: 18px;"><img border="0" style="vertical-align: middle;" alt="Ublip logo" src="/icons/new_group.png"/>&nbsp;<%= link_to 'Group your devices',:controller=>'devices',:action=>'edit_group'%></div>-->
+	 <div style="float: right; padding-top: 15px; padding-right: 5px;">
+        <a href="/devices/choose_MT" title="Add a new device" class="link-all">Add New Device</a>
+      </div>
 	
 	<div style="clear: both"></div>
 	

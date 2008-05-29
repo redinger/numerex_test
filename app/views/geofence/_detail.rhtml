@@ -13,8 +13,8 @@
   </div>
   <% end %>
   <div id="width30-in" class="fl" style="padding-top:15px; padding-bottom:15px;">
-  	<a href="<%= edit_url(:id=>geofence.id) %>" class="btn-b" style=" text-decoration:none;">Edit</a> 
-	<a href="<%= delete_url(:id=>geofence.id) %>" onclick="return confirm('Are you sure you want to delete this geofence ?');" class="btn-s" style=" text-decoration:none;">Delete</a>
+	<input type="button" onclick="document.location='<%= edit_url(:id=>geofence.id)%>';" value="edit" />
+	<input type="button" onclick="if(confirm('Are you sure you want to delete this geofence ?'))document.location='<%= delete_url(:id=>geofence.id) %>';" value="delete"/>
   </div>
 </div>
 

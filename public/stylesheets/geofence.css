@@ -1,4 +1,4 @@
-body{ font-family:verdana; font-size:9pt; margin:0px; background-repeat:repeat-x; } /*background-image:url(../images/bg-geofences.jpg);*/
+body{ font-size:12px; margin:0px; background-repeat:repeat-x; font-family:Arial;} /*background-image:url(../images/bg-geofences.jpg);*/
 .link-all{ color:#1364B2; text-decoration:none;}
 .link-all:hover{ color:#1364B2; text-decoration:underline; font-weight:normal;}
 .link-all:active{ color:#1364B2; text-decoration:underlinee; font-weight:normal;}
@@ -8,8 +8,10 @@ body{ font-family:verdana; font-size:9pt; margin:0px; background-repeat:repeat-x
 #border-btm{border-bottom:1px solid #cccccc; height:23px;}
 .border-btm{border-bottom:1px solid #cccccc; height:23px;}
 
-.txt-box{ border:1px solid #cccccc; padding:2px 2px 2px 2px; color:#666666; width:350px;}
-.txt-box-s2{ border:1px solid #cccccc; padding:2px; color:#666666; width:355px;}
+/*.txt-box{ border:1px solid #cccccc; padding:2px 2px 2px 2px; color:#666666; width:350px;}*/
+.txt-box{ width:350px;}
+.txt-box-s2{ width:355px;}
+/*.txt-box-s2{ border:1px solid #cccccc; padding:2px; color:#666666; width:355px;}*/
 .txt-box-s{ border:1px solid #cccccc; padding:2px; color:#666666; width:75px;}
 .btn-b{  border:1px solid #ABD5FE; padding:6px 7px 5px 6px; color:#666666; background-color:#E5F1F4;}
 .btn-s{  border:1px solid #FFCC99; padding:6px 7px 5px 6px; color:#666666; background-color:#FFE5F2;}
@@ -32,40 +34,52 @@ body{ font-family:verdana; font-size:9pt; margin:0px; background-repeat:repeat-x
 #width100-none a:hover{line-height:30px;height:32px;width:100px;text-align:center;font-weight:normal; color:#c2c7cb; text-decoration:none;}
 /************header ends***********/
 /******************container starts*******************************************************/
-.container{width:960px; clear:both;}
+.container{width:100%; clear:both;}
 /*.container div{ text-align:left; width:960px;}*/
 
 .container div ul li{ display:inline; background-color:#FFFFFF; }
-#width38t{width:290px; padding-left:5px;}
-#width30t{width:215px; padding-left:5px;}
-#width38t2{width:280px;padding-left:5px;}
-#width40t{width:290px; }
-#width7t{width:120px; }
-#width10t{width:20px; padding-left:0px;}
+#width38t{width:27.30%; padding-left:5px; text-align:center}
+#width30t{width:99%; padding-left:1%;}
+#width38t2{width:35.668%;padding-left:5px; text-align:center}
+#width40t{width:36.94%; }
+#width7t{width:15.286%;  text-align:center}
+#width10t{width:2.0833%; padding-left:0px;}
 #width695t{width:714px;padding-left:5px;background-color:#f5fae1; margin-top:4px;}
-#width10{width:20px; padding-bottom:4px;padding-top:4px; }
+#width10{width:width:2.0833%; padding-bottom:4px;padding-top:4px; }
 #width710{width:710px;padding-bottom:4px;padding-left:5px;padding-top:4px; }
 #width38{width:270px; padding-top:4px; padding-bottom:4px;padding-left:5px;}
-#width40-1{width:290px; padding-top:4px; padding-bottom:4px;padding-left:5px;}
-#width30-all{width:220px; padding-top:4px; padding-bottom:4px;}
+#width40-1{width:27.30%;padding-left:.25%;text-align:left }
+#width30-all{width:22.916%; padding-top:4px; padding-bottom:4px;}
 
-#width40-blue-bdr{width:218px; padding-top:0px; padding-bottom:0px;border:1px solid #1364b2;}
-#width30-blue-in{width:207px; padding:4px 5px 4px 6px;background-color:#e5f1f4; line-height:19px;}
-#width30-grey-in{width:207px;  padding:4px 5px 4px 6px; background-color:#f8f8f8; line-height:19px;}
-#width30-in{width:208px;padding:6px 5px 7px 6px;}
+#width40-blue-bdr{width:99.5%; padding-top:0px; padding-bottom:0px;border:1px solid #1364b2;}
+#width30-blue-in{width:99.0%; padding:4px .25% 4px .8%;background-color:#cccccc; line-height:19px;color:#003366;}
+#width30-grey-in{width:99.0%;  padding:4px .25% 4px .8%; background-color:#f8f8f8; line-height:19px;}
+#width30-in{width:99%;padding:6px .25% 7px .8%;}
 
-#width30-blue{width:209px; padding:4px 5px 4px 6px;background-color:#e5f1f4; line-height:19px;}
-#width30-grey{width:209px;  padding:4px 5px 4px 6px; background-color:#f8f8f8; line-height:19px;}
-#width30-bdr{width:209px; padding:6px 5px 4px 6px;border-bottom:1px solid #cccccc;}
-#width40-2{width:280px; padding-top:4px; padding-bottom:4px;padding-left:5px;}
-#width7{width:120px; padding-top:4px; padding-bottom:4px;}
-
+#width30-blue{width:100%px; padding:4px .25% 4px .3%;background-color:#cccccc; line-height:19px; color:#003366;}
+#width30-grey{width:100%;  padding:4px .25% 4px .3%; background-color:#f8f8f8; line-height:19px;}
+#width30-bdr{width:99.5%; padding:6px .25% 4px .30%;border-bottom:1px solid #cccccc;}
+#width40-2{width:35.668%;padding-left:.25%;text-align:left }
+#width7{width:15.286%;text-align:left }
+.width30-bdr{width:100%; padding:6px 0px 4px 0px;border-bottom:1px solid #cccccc;}
 .fl{float:left; clear:left;}
+.f2{float:left; clear:left; font-size: 18px; color: #003366;}
+.f3{ margin:15px 10px 10px;
+font-size:24px;
+margin-left:0px;
+color:#003366;}
 .fn{float:left; clear:none;}
 #padding-t7{padding-top:7px;}
 #padding-t{padding-top:4px;}
 #padding-b{padding-bottom:4px;}
 #margin-t-b{margin-top:10px; margin-bottom:5px;}
+.bdr{ padding-left:5px; border:1px solid #ffffff;}
+.width{width:955px; line-height:25px;height:25px}
+#row1{ background-color:#eeeeee;line-height:22px;}
+#row2{ background-color:#ffffff;line-height:22px;}
+#header-bg{ background-color:#003366;  color:#ffffff; font-weight:normal; font-size:16px;}
+#width7tl{width:24.286%;  text-align:center}
+#width7l{width:24.286%; text-align:left }
 /************container ends***********/
 /******************footer starts*******************************************************/
 .footer{width:960px; clear:both;}
@@ -74,7 +88,7 @@ body{ font-family:verdana; font-size:9pt; margin:0px; background-repeat:repeat-x
 
 /* Pagination Class */
 
-.ublip-pagination {font-size:13px; font-family: Verdana, Arial, Helvetica, sans-serif;  float:right;text-align:right;padding-top:10px} /*changed from 9*/
+.ublip-pagination {font-size:13px; font-family: Arial;  float:right;text-align:right;padding-top:10px} /*changed from 9*/
 .ublip-pagination A { PADDING-LEFT: 0.2em;  PADDING-BOTTOM: 0.1em; MARGIN-RIGHT: 0.1em; PADDING-TOP: 0.1em;  TEXT-DECORATION: none; color:#003399;}
 .ublip-pagination A:hover {color:#003399; text-decoration:underline;}
 .ublip-pagination SPAN.current { PADDING-RIGHT: 0.5em;   PADDING-LEFT: 0.5em;  PADDING-BOTTOM: 0.1em; MARGIN-RIGHT: 0.1em; PADDING-TOP: 0.1em;  FONT-WEIGHT: bold;  COLOR: #333;}*/
