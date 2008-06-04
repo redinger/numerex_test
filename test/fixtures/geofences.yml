@@ -15,3 +15,12 @@ fenceTwo:
   latitude: 32.940955
   longitude: -96.822224
   radius: 0.25
+fenceThree:
+  id: 3
+  fence_num: 4
+  account_id: 1
+  name: White House
+  latitude: 38.898748
+  longitude: -77.037684
+  radius: 0.5
+  
