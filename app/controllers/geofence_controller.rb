@@ -41,13 +41,13 @@ class GeofenceController < ApplicationController
        add_and_edit(@geofence)
        if @geofence.save
           flash[:message] = "#{@geofence.name} updated succesfully"
-         redirect_to geofence_url
+         redirect_to params[:ref_url]
        else
          flash[:message] = "#{@geofence.name} not updated"
        end
       end  
      else
-         redirect_to geofence_url
+         redirect_to params[:ref_url]
         flash[:message] = 'Invalid action.'
      end    
   end  

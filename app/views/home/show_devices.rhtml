@@ -1,0 +1,50 @@
+          <table width="100%" class="panel_table" style="overflow:auto;">                            
+            <tr>
+              <td colspan="4" class="header" width="100%"><span style=" float:left;clear:left;width:50%;">Device Summary  </span><span style=" text-align:right;float:left;clear:none;width:49%">
+                    <select id="type1" style="float:right; width:100px; margin-right:1px;" name="type" onchange="<%=remote_function(:update => "to_update", :url => { :controller => :home, :action => :show_devices}, :with=>"'type='+escape($F('type1'))")%>;javascript:getRecentReadings(true,document.getElementById('type1').value);"> <!--  -->
+                        <option id="" disabled="disabled">Actions</option>
+                        <option id="" disabled="disabled">View</option>
+                        <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
+                        <option value="all" <%if params[:type]== "all" %>selected style="background-color:#c5f794;"<%end%> >  All Assets  </option>
+                             <% for group in @all_groups %>
+                        <option value='<%= group.id%>' <%if params[:type].to_i == group.id.to_i %>selected style="background-color:#c5f794;"<%end%>><%= group.name%> </option>
+                              <% end %>
+                    </select>            
+              </td>
+            </tr>            
+            <tr>
+              <th style="width90;">Name</th>
+              <th style="width:20px;">&nbsp;</th>
+              <th style="width:210px;">Last Location</th>
+              <th style="width:90px;">Last Report</th>
+            </tr>           
+           <% if !@groups.nil? %> 
+                <% @groups.each do |group|%> 
+                     <tr>
+                          <td colspan="4" style="background-color:#d2eafc;" width="100%">
+                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                                    <%= group.name%>
+                               </span>
+                          </td>
+                     </tr>
+                     <% group.devices.each do |device|%>
+                          <%= show_device device%>
+                     <%end%>
+                     <tr> 
+                          <td colspan="4" style="height:8px;line-height:8px; font-size:2px;"></td>
+                     </tr>
+                <%end%>
+           <%end%>
+           <%if !@default_devices.empty?%>
+                <tr>
+                     <td colspan="4" style="background-color:#d2eafc;" width="100%">
+                          <span style=" background:url(/icons/blue_small.png) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                               Default
+                          </span>
+                     </td>
+                </tr>
+                <% @default_devices.each do |device|%>
+                    <%= show_device device%> 
+                <%end%>
+           <%end%>           
+            </table>            <br />

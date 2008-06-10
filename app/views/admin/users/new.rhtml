@@ -6,7 +6,7 @@
 	</div>
 <% end %>
 
-<form method="post" class="form" action="/admin/users/create">
+<form method="post" class="form" action="/admin/users/create" onsubmit="return ValidateForm();">
 	<%= render :partial => "user_form" %>
 </form>
 

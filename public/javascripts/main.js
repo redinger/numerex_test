@@ -7,7 +7,7 @@ var devices = []; // JS devices model
 var readings = []; //JS readings model
 var zoom = 3;
 var fullScreenMap = false;
-            
+var grp_id           
 function load() 
 {
   if (GBrowserIsCompatible()) {
@@ -57,7 +57,7 @@ function load()
 
 // Display all devices on overview page
 function getRecentReadings(redrawMap,id) {
-      
+     grp_id =  id ;
 	$("updating").style.visibility = 'visible';
     var bounds = new GLatLngBounds();
     var temp ;
@@ -73,9 +73,9 @@ function getRecentReadings(redrawMap,id) {
 		var dts = xml.documentElement.getElementsByTagName("dt");
 		var addresses = xml.documentElement.getElementsByTagName("address");
 		var notes = xml.documentElement.getElementsByTagName("note");
-		var icon_id = xml.documentElement.getElementsByTagName("icon_id");
-		
-		for(var i = 0; i < lats.length; i++) {
+		var icon_id = xml.documentElement.getElementsByTagName("icon_id");		
+        
+		for(var i = 0; i < lats.length; i++) { 
 			if(lats[i].firstChild) {
 				// Check for existence of address
 				var address = "N/A";

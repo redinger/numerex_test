@@ -6,6 +6,7 @@ device1:
  recent_reading_id: 1
  provision_status_id: 1
  account_id: 1 # Dennis Co
+ group_id: 1
  last_online_time: <%= Time.now.to_s :db %> 
  online_threshold: NULL
  
@@ -26,6 +27,7 @@ device3:
  recent_reading_id: 3
  provision_status_id: 1
  account_id: 1 # Nick Co
+ group_id: 2
  last_online_time: <%= (Time.now-120*60).to_s :db %> 
  
 device4:
@@ -35,6 +37,7 @@ device4:
  created_at: <%= Time.now.to_s :db %>
  provision_status_id: 1
  account_id: 1 # Dennis Co
+ group_id: 5
  last_online_time: <%= Time.now.to_s :db %> 
  
 device5:
@@ -54,6 +57,7 @@ device6:
  recent_reading_id: 6
  provision_status_id: 1
  account_id: 1 # Dennis Co
+ group_id: 1
  last_online_time: <%= Time.now.to_s :db %> 
  
 device7:

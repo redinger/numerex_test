@@ -1,34 +1,67 @@
-<table width="100%" border="0">
+ <table width="100%" border="0">
     <tr>
         <td width="50%" valign="top" id="left_panel">
-        	<% if @devices.size == 0 %>
+        	<% if @groups.size == 0 %>
         	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
         		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
 				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
 				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
         	</div>
 			<% end %>
-            <table width="100%" class="panel_table">
-                <tr><td colspan="4" class="header">Device Summary (<%= @devices.size %> total)</td></tr>
-                <tr><th>Name</th><th width="30"></th><th>Last Location</th><th>Last Report</th></tr>
-            <%if !@devices.empty?%>
-                <% for device in @devices %>
-                    <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
-                        <td>
-                        	<% if device.recent_reading_id != 0 %>
-								<a href="javascript:centerMap(<%= device.id %>);highlightRow(<%= device.id %>);" title="Center map on this device"><%= device.name %></a>
-							<% else %>
-								<%= device.name %>
-							<% end %>
-						</td>
-						<td style="font-size:11px;"><a href="/reports/all/<%= device.id %>" title="View device details">details</a></td>
-                        <td><% if device.recent_reading_id != 0 %><%= device.readings[0].shortAddress %><% else %>N/A<% end %></td>
-                        <td><% if device.recent_reading_id != 0 %><%= time_ago_in_words device.readings[0].created_at %> ago <% else %>N/A<% end %></td>
-                    </tr>
-                <% end %>
-            <%end%>    
-            </table>
-            <br />
+           <div id="to_update"> 
+           
+          <table width="100%" class="panel_table" style=" overflow:auto;">                            
+            <tr>
+              <td colspan="4" class="header" width="100%"><span style=" float:left;clear:left;width:50%; padding-top:3px">Device Summary  </span><span style=" text-align:right;float:left;clear:none;width:49%">
+                    <select id="type1" style="float:right; width:100px; margin-right:1px;" name="type" onchange="<%=remote_function(:update => "to_update", :url => { :controller => :home, :action => :show_devices}, :with=>"'type='+escape($F('type1'))")%>;javascript:getRecentReadings(true,document.getElementById('type1').value);"> <!--  -->
+                        <option id="" disabled="disabled">Actions</option>
+                        <option id="" disabled="disabled">View</option>
+                        <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
+                        <option value="all" selected style="background-color:#c5f794;">  All Assets  </option>
+                             <% for group in @all_groups %>
+                        <option value='<%= group.id%>'><%= group.name%> </option>
+                              <% end %>
+                    </select>            
+              </td>
+            </tr>            
+            <tr>
+              <th style="width90;">Name</th>
+              <th style="width:20px;">&nbsp;</th>
+              <th style="width:210px;">Last Location</th>
+              <th style="width:90px;">Last Report</th>
+            </tr>           
+           <% if !@groups.nil?%> 
+                <% @groups.each do |group|%> 
+                     <tr>
+                          <td colspan="4" style="background-color:#d2eafc;" width="100%">
+                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                                    <%= group.name%>
+                               </span>
+                          </td>
+                     </tr>
+                     <% group.devices.each do |device|%>
+                          <%= show_device device %>
+                     <%end%>
+                     <tr> 
+                          <td colspan="4" style="height:8px;line-height:8px; font-size:2px;"></td>
+                     </tr>
+                <%end%>
+           <%end%>
+           <%if !@default_devices.empty?%>
+                <tr>
+                     <td colspan="4" style="background-color:#d2eafc;" width="100%">
+                          <span style=" background:url(/icons/blue_small.png) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                               Default
+                          </span>
+                     </td>
+                </tr>
+                <% @default_devices.each do |device|%>
+                    <%= show_device device %> 
+                <%end%>
+           <%end%>           
+            </table>            <br />
+           </div > 
+          
 			<div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
 				<div class="dark_grey">
                    <div class="dark_blue_header" style="margin-bottom: 5px;">Traffic Overlay</div>
@@ -76,15 +109,18 @@
 						<div id="updating">Updating locations...</div>
 					</td>
 				</tr>
-                <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%"></div></td></tr>
+                <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%; height:535px;"></div></td></tr>
             </table>
         </td>
     </tr>
 </table>
+        <script>
+            window.setInterval("updateLocations();", 30000);
+            function updateLocations() {                                              
+               if (grp_id)
+                  { getRecentReadings(true,grp_id); }   
+               else
+                 {  getRecentReadings(false); }                
+            }
+        </script>
 
-<script>
-	window.setInterval("updateLocations();", 30000);
-	function updateLocations() {
-		getRecentReadings(false);
-	}
-</script>

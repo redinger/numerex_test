@@ -6,9 +6,10 @@ class LoginController < ApplicationController
   before_filter :login_from_cookie
   
   def login_small
-    index
-    if(!logged_in?)
+    if !logged_in?
       render :action => "login/small", :layout => "login_small"
+    else
+      index
     end
   end
   
@@ -68,7 +69,7 @@ class LoginController < ApplicationController
       if user
          key = user.generate_security_token
          url = url_for(:action => 'password')
-         url += "?user[id]=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
+         url += "?id=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
          Notifier.deliver_forgot_password(user, url)
          flash['message'] = "Plase check #{user.email} to change the password."
          redirect_to :action => 'index'
@@ -84,7 +85,7 @@ class LoginController < ApplicationController
     if request.post?
         @user = User.find(params['id'])  
         if @user
-          if(params['user']['password'] == params['user']['password_confirmation'])
+          if(params['user']['password'] == params['user']['password_confirmation'] && params['user']['password'].length > 5)
             @user.change_password(params['user']['password'], params['user']['password_confirmation'])
             if @user.save
               #Notifier.deliver_change_password(@user, params['user']['password'])
@@ -95,7 +96,7 @@ class LoginController < ApplicationController
                render :action => 'index'     
             end
           else
-            flash[:message] = "Passwords must match"
+            flash[:message] = "Either your password does not match or you have entered less than 6 characters."
             render :action => 'index'
           end
         else

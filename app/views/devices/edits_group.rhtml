@@ -3,15 +3,16 @@
     <%= flash[:message] %>
 </div>
 <% end %>
-<form action='update_group' >
+<form action='edits_group' method='post'>
 
-<%= hidden_field 'group_id', 'id', :value=>@group.id %>
-
+<%#= hidden_field 'group_id', 'id', :value=>@group.id %>
+   <input type="hidden" id="group_id" name="id" value="<%= @group.id %>">
   <!-- Content starts here -->
     <div class="grp_3">
-      <h2>Update Your  Group</h2>
-         <h3>Group Name</h3>
-       <%= text_field  'group' , 'name',"size"=>"15" ,"value"=> flash[:name] %>
+      <h2>Edit Group</h2>      
+     <h3>Group Name</h3>
+       <%#= text_field  'group' , 'name',"value"=> flash[:group_name] %>
+       <input type="text" id="group_name" name="name" value="<%= flash[:group_name]%>">
       <h3>Select Icon</h3>
       <div class="sel_icon">
         <ul>
@@ -43,45 +44,35 @@
       </div>
     </div>
     <br class="clear"/>
-    <div class="sel_dev" >
+    <div class="sel_dev1" >
       <h3>Select Devices</h3>
      <p style="border-bottom:1px solid #f1f1f1; padding-bottom:5px;">Some devices may already be associated with another group .In this case .the group name display red after the device name. You can easly reassign any  device to this group by clicking one or more checkboxs below.   </p>
-    <ul style="line-height:1.7em;" >
-        <li>
-               
-       
-        <%for device in @device%>
-         
-            <br />   
-        <input type='checkbox' multiple name='select_devices[]'<%if @group!=nil ||@group == 0%> <%for group_all_data in @group_all_data %><%if  device.id == group_all_data.device_id%> checked="checked"<%if group_all_data.group_id!= @group.id%>disabled="disabled" <%end%><%end%><%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>
-    
-    
-     
-    <%for group_all_data in @group_all_data %>
-       <%if device.id == group_all_data.device_id %>
-  
-     <span style="color:#f00; "> (<%= group_all_data.group.name%>)</span>
-     
+    <ul style="line-height:1.7em;" >               
+        <%for device in @devices%>
+         <li>            
+        <input type='checkbox' multiple name='select_devices[]'<%if @group!=nil ||@group == 0%> <%for group_device in @group_devices %><%if  device.id == group_device.id%> checked="checked"<%if group_device.group_id != @group.id%>disabled="disabled" <%end%><%end%><%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>        
+    <%for group_device in @group_devices %>
+       <%if device.id == group_device.id %>  
+          <span style="color:#cc0000;margin-left:3px; font-weight:normal; "> (<%= group_device.group.name%>)</span>     
         <%end %>
         <%end %>
-        <%end %></li>
+        </li>
+        <%end %>
         </ul>
   </div>
-  <!-- Content ends here -->
-
-   
-
-
-			
-  	        <%= submit_tag "Update Group" %>&nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a>
+  <!-- Content ends here -->    
+           <div style="margin-top: 10px">
+  	        <%= submit_tag "update group" %>&nbsp;&nbsp;<a href="javascript:history.go(-1);" class="link-all1">cancel</a>
+            </div>
   	        </form>
+            
   	        <br/>
   	        <br/>
   	<hr/>
   	        <form onsubmit="return confirm('Are you sure you want to delete this group?');" action='delete_group' method="post">
-	<%= hidden_field 'group_id', 'id', :value=>@group.id %>
-	<input type="submit" value="Delete"/>
-	
-                  </form>
+	           <%#= hidden_field 'group_id', 'id', :value=>@group.id %>      
+                <input type="hidden" id="group_id" name="id" value="<%= @group.id %>">
+                <input type="submit" value="delete"/>	
+             </form>
   	    
    

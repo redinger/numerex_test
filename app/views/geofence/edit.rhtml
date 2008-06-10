@@ -1,14 +1,15 @@
 <div class="container">
-<div style="width:32.000%; float:left ; clear:left;">
+<div style="width:32%; float:left;clear:left; color:#666666;">
   <div id="margin-t-b">
-    <div class="fl" style="width:56%"  id="link-grey"><a class="f3">Edit Geofence</a></div>
+    <div class="fl" style="width:100%"  id="link-grey"><a class="f3">Edit Geofence</a></div>
   </div>
   <form method="post" style="margin-top:10px; margin-bottom:10px;" id="geofence_form" onSubmit="return validate();">
   <div id="margin-t-b">
     <div  class="fl" id="margin-t-b"> <input type="radio" id="radio" name="radio" value="1" <% if @geofence.account_id != 0 %>checked<%end%> onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2" <% if @geofence.device_id != 0 %>checked<%end%> /> Device Level</div>
+    
     <div id="padding-t7" class="fl" >Choose the device: </div>
-    <div id="padding-t" class="fl" >
-		<select id="device" name="device" class="txt-box-s2" <% if @geofence.account_id != 0 %>disabled<% end %>>
+    <div id="padding-t" class="fl" style="width:100%">
+		<select id="device" name="device" style="width:80%" <% if @geofence.account_id != 0 %>disabled<% end %>>
 		<% @devices.each do |device| %>
 			<option value="<%= device.id %>" <%= "selected='selected'" if @geofence.device_id == device.id %>><%= device.name %></option>
 		<% end %>	
@@ -16,14 +17,20 @@
     </div>
 	
     <div id="padding-t7" class="fl" >Geofence name: </div>
-    <div id="padding-t" class="fl">
-      <input  class="txt-box" name="name" type="text" value="<%= @geofence.name %>" />
+    <div id="padding-t" class="fl" style="width:100%">
+      <input  class="txt-new" name="name" type="text" style="width:80%" value="<%= @geofence.name %>" />
     </div>
-	
+	<input type="hidden" name="ref_url" value="<%= session[:referral_url] %>">
+    
     <div id="padding-t7" class="fl">Geofence address: </div>
     <div id="padding-t" class="fl" style="width:100%">
-		<input  class="txt-box" id="address" name="address" value="<%= @geofence.address %>" type="text" />&nbsp;<input type="button" name="Preview" value="Preview" onclick="geocode(document.getElementById('address').value); return false;" />
+		<input  class="txt-new" id="address" name="address" style="width:80%" value="<%= @geofence.address %>" type="text" />
     </div>
+
+    <div id="padding-t" class="fl" style="width:100%">
+		<input type="button" name="Preview" value="preview" onclick="geocode(document.getElementById('address').value); return false;" />
+    </div>
+
 	
     <div id="padding-t7" class="fl" >Radius: </div>
     <div id="padding-t" class="fl" >
@@ -37,16 +44,15 @@
   
   <input type="hidden" name="bounds" />
   
-  <div id="padding-t7" class="fl"  style="width:400px">
-    <!--input  class="btn-b" name="Create geofence" type="submit" value="Update Geofence" style="cursor:pointer;"/-->
-    <input name="Create geofence" type="submit" value="Update Geofence" style="cursor:pointer;"/>	
-    <a href="<%= session[:referral_url] %>" class="link-all">Cancel</a>
+  <div id="padding-t7" class="fl"  style="width:230px">
+    <input name="Create geofence" type="submit" value="update geofence" style="cursor:pointer;"/>	
+    <a href="<%= session[:referral_url] %>" class="link-all1">cancel</a>
   </div>
   </form>
 </div>
 
-<div style="width:68%;float:left; clear:none;">
-  <div id="geofence_map" style="width:99%; height: 400px; margin-left: 1%; MARGIN-top:5px;"></div>
+<div style="width:67.5%;float:right;">
+  <div id="geofence_map" style="width:98%; height: 380px; margin-left: 1%; MARGIN-top:5px;border:3px solid #eeeeee;"></div>
 </div>
 </div>
 

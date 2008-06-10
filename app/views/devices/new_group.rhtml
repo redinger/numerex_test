@@ -1,4 +1,3 @@
-
 <% if flash[:message] %>
 <div id="error_message">
     <%= flash[:message] %>
@@ -7,7 +6,7 @@
 
 <%= error_messages_for 'group'%>
 
-<%= form_tag :action => 'save_group'%>
+<%= form_tag :action => 'new_group'%>
 
   <!-- Content starts here -->
     <div class="grp_3">
@@ -15,7 +14,8 @@
       <p>Creating a group is simple. Just enter a group name, select an icon color, and specify the devices you want to associate with this group.</p>
 
       <h3>Group Name</h3>
-       <%= text_field  'group', 'name', 'value'=>flash[:group_name] %>
+       <%#= text_field  'group', 'name', 'value'=>flash[:group_name] %>
+       <input type="text" id="group_name" name="name" value="<%= flash[:group_name]%>">
       <h3>Select Icon</h3>
       <div class="sel_icon">
         <ul>
@@ -47,31 +47,26 @@
       </div>
     </div>
     <br class="clear"/>
-    <div class="sel_dev" >
+    <div class="sel_dev1" >
       <h3>Select Devices</h3>
       <p>Some devices may already be associated with another group. In this case, the group name will display in red after the device name. You can easily reassign any device to this group by clicking one or more checkboxes below.</p>
-      <ul style="line-height:1.7em;" >
-        <li>
-              
-        <%for device in @device%>
-         
-        <br />   
-        <input type='checkbox' multiple name='select_devices[]' <%for group_all_data in @group_all_data %><%if  device.id == group_all_data.device_id%> disabled="disabled" <%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>
-    <%for group_all_data in @group_all_data %>
-       <%if device.id == group_all_data.device_id %>
-    
-     <span style="color:#f00; "> (<%= group_all_data.group.name%>)</span>
-     
-        <%end %>
-        <%end %>
-        <%end %></li>
-        </ul>
-        
+      <ul style="line-height:1.7em;" >                
+           <%for device in @devices%>
+                <li>
+                     <input type='checkbox' multiple name='select_devices[]' <%for group_device in @group_devices %><%if  device.id == group_device.id%> disabled="disabled" <%end%><%end%> value='<%= device.id%>'> <span style="color:#666666; margin-left:3px;"><%= device.name%></span></input>
+                     <%for group_device in @group_devices %>
+                          <%if device.id == group_device.id %>    
+                               <span style="color:#cc0000; margin-left:3px; font-weight:normal;"> (<%= group_device.group.name%>)</span>     
+                          <%end %>
+                     <%end %>
+                </li>
+           <%end %>
+        </ul>        
     </div>
   <!-- Content ends here -->
 
 <div style="margin-top: 10px">
-  <%= submit_tag "Create Group" %> &nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a>
+  <%= submit_tag "create group" %> &nbsp;&nbsp;<a href="javascript:history.go(-1);" class="link-all1">cancel</a>
 </div>
   
 <script type="text/javascript">

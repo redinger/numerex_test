@@ -6,7 +6,7 @@ class DeviceController; def rescue_action(e) raise e end; end
 
 class DeviceControllerTest < Test::Unit::TestCase 
 
-  fixtures :users,:devices,:accounts
+  fixtures :users,:devices,:accounts, :groups
   
   module RequestExtensions
     def server_name
@@ -27,7 +27,41 @@ class DeviceControllerTest < Test::Unit::TestCase
   def test_index
     get :index, {}, { :user => users(:dennis) } 
     assert_response :success
+ end
+
+  def test_new_group 
+     post :new_group, {:id => "7", :name=>"summer of code", :select_devices=>[4], :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
+     assert_equal "Group summer of code was successfully added",flash[:message]
+     group=Group.find_by_name("summer of code")
+     assert_equal group.name, "summer of code"
+     assert_redirected_to :controller => "devices", :action=>"groups"
   end
+  
+  def test_new_group_invalid
+      post :new_group, {:id => "7", :name=>"", :select_devices=>nil, :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
+      assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:message]
+      assert_redirected_to :controller => "devices", :action=>"new_group"
+  end   
+  
+  def test_edits_group
+     post :edits_group, {:id => "1", :name=>"summer of code", :select_devices=>[4], :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}           
+     assert_equal "Group summer of code was updated successfully ",flash[:message]
+     group=Group.find_by_name("summer of code")
+     assert_equal group.name, "summer of code"
+     assert_redirected_to :controller => "devices", :action=>"groups"
+  end
+
+  def test_edits_group_invalid
+      post :edits_group, {:id => "1", :name=>"", :select_devices=>nil, :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
+      assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:message]
+      assert_redirected_to :controller => "devices", :action=>"edits_group", :group_id=>1
+  end   
+
+  def test_delete_group
+      post :delete_group, {:id=>"1"}, { :user => users(:dennis), :account_id => "1" }
+      assert_equal "Group Dennis was deleted successfully ", flash[:message]
+      assert_redirected_to :controller => "devices", :action=>'groups'
+  end   
   
   def test_index_notauthorized
     get :index
@@ -94,6 +128,7 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_response :success
   end
 
+  
 # Removing until we need it again. For some reason it causes the build to choke even though devices.choose_phone should be redirecting properly
 # and the offending code (Text_Message_Webservice) was commented out a couple weeks ago
 =begin

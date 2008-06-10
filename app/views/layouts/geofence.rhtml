@@ -12,8 +12,7 @@
 	<body <% if params[:action] != "index" %>onload="load();"<% end %>>
     	  <%= render :partial => 'layouts/includes/header' %>
     	   <div id="subnav">
-   			<a href="/devices" class="link-all">Devices</a>&nbsp;|
-			&nbsp;<a href="/geofence" class="link-active">Geofences</a>
+   			<a href="/devices" class="link-all1">Devices</a>&nbsp;<font color="gray">|</font>&nbsp;<a href="/geofence" class="link-active">Geofences</a>&nbsp;<font color="gray">|</font>&nbsp;<a href="/devices/groups" class="link-all1">Groups</a>
     	   </div>
     	   <div id="content">
         	   <%= yield %>

@@ -32,32 +32,24 @@ class ReadingsController < ApplicationController
         else
            @devices_all =Device.find(:all ,:conditions => [ 'account_id = ? AND id not in (?) ',session[:account_id],group_id])
         end
-
         @all_devices = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
          @count_devices = Device.count(:all, :conditions => ["account_id = ?", session[:account_id]])
         end 
    
   def recent
-          @user_pre= params[:id]
-        
+          @user_pre= params[:id]        
           if   @group_for_data=Group.find(:first,:conditions => ["id=? ", @user_pre])
-                @devices_ids=GroupDevice.find(:all  , :conditions => ['group_id =?', @group_for_data.id])
-                group_id = []
-                count = 0
-                for group in @devices_ids
-                    group_id[count] = group.device_id
-                    count = count + 1
-               end  
-                @devices=Device.find(:all , :conditions => [ ' id in (?) ', group_id ] )
-   
-              
-         else
-             
-            ( @user_pre == "undefined" || @user_pre == "all"  )
-         
-               @devices = Device.get_devices(session[:account_id])
-                 
- 
+                #~ @devices_ids=GroupDevice.find(:all  , :conditions => ['group_id =?', @group_for_data.id])
+                #~ group_id = []
+                #~ count = 0
+                #~ for group in @devices_ids
+                    #~ group_id[count] = group.device_id
+                    #~ count = count + 1
+               #~ end  
+             @devices=Device.find(:all , :conditions => [ 'group_id=?', params[:id]] )                
+         else            
+            ( @user_pre == "undefined" || @user_pre == "all"  )         
+               @devices = Device.get_devices(session[:account_id])                
          end
     
         render :layout => false

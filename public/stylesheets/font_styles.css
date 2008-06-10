@@ -28,3 +28,20 @@ h4 {
 .dark_grey {
 	color: #666666;
 }
+.grp_3 h3{font-size: 14px;
+	color: #333333;
+	margin: 15px 0px 10px 0px;
+	font-weight:bold;}
+	
+.sel_dev1 h3{font-size: 14px;
+	color: #333333;
+	margin: 15px 0px 10px 0px;
+	font-weight:bold;
+	margin-bottom:2px;
+	line-height:18px;}
+	
+.group-link-red{ color:#ff0000;}
+
+.link-all2{ color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline;}
+.link-all2:hover{ color:#1364B2;text-decoration:none;}
+.link-all2:active{ color:#1364B2;text-decoration:none;}

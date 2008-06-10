@@ -1,7 +1,7 @@
 <table>
 	<tr><td>* First Name:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="user[first_name]" id="first_name" value="<%= @user.first_name %>" /></td></tr>
 	<tr><td>* Last Name:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="user[last_name]" value="<%= @user.last_name %>" /></td></tr>
-	<tr><td>* Email:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="user[email]" value="<%= @user.email %>" /></td></tr>
+	<tr><td>* Email:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="user[email]" title="Email" id="email" value="<%= @user.email %>" /></td></tr>
 	<% if params[:action] != 'edit' %>
 	<tr><td>* Password:</td><td>&nbsp;</td><td><input type="password" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="user[password]" value="<%= @user.password %>" /></td></tr>
 	<tr><td>* Confirm Password:</td><td>&nbsp;</td><td><input type="password" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="user[password_confirmation]" /></td></tr>
@@ -22,3 +22,27 @@
 <% if params[:id] %>
 <input type="hidden" name="id" value="<%= params[:id] %>" />
 <% end %>
+
+
+<script>
+function ValidateForm(){
+var emailID=document.getElementById('email');
+	return CheckEmail(emailID,"");
+ }
+
+
+function CheckEmail(FormField,notification_prompt){
+	var array = FormField.value.split(",");
+	if ((FormField.value=="" || FormField.value == notification_prompt))
+	{
+		return true; // TODO only disallow blank if FLAG not checked
+		alert(FormField.title + " cannot be blank"); FormField.focus();
+		return false
+	}
+	for(var i=0;i< array.length;i++)	{
+		if(array[i].match(/(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i)==null){alert(FormField.title + " is not a valid  format"); FormField.focus(); return false}
+		}	
+	//alert(FormField.name);
+	return true;
+	}
+</script>

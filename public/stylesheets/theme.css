@@ -65,6 +65,15 @@ margin:10px 0;
 padding:10px;
 }
 
+.crt_group1 {
+background:#eeeeee;
+font-weight:700;
+font-size:16px;
+margin:10px 0;
+padding:10px;
+}
+
+
 .grp_3 p {
 margin-bottom:10px;
 }
@@ -88,7 +97,7 @@ margin-right:25px;
 }
 
 span.rad_1 {
-background:url(/icons/blue_small.png) no-repeat top;
+background:url(/icons/blue_small.png) no-repeat top; 
 width:16px;
 height:24px;
 display:block;
@@ -224,3 +233,20 @@ color:#666;
 width:48%;
 padding:8px;
 }
+
+
+
+.sel_dev1 {
+clear:both;
+margin-top:10px;
+}
+
+.sel_dev1 li {
+background:#f1f1f1;
+color:#666;
+display:block;
+font-weight:700;
+margin-top:4px;
+padding:5px 10px 5px 10px;
+}
+

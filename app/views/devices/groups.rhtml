@@ -1,16 +1,22 @@
-<% if flash[:message] %>
+ <% if flash[:message] %>
     <div id="success_message"><%= flash[:message] %></div>
 <% end %>
 
  <!-- Content starts here -->
-    <div>
-      <h2>Your Groups</h2>
-      <p>Groups are a great way to keep your devices organized. <a href="/devices/new_group">Create a group</a> and add devices to it. On the overview screen your devices will display in groups with the icon you selected.</p>
+    <div >
+      <h2>Your Groups</h2> 
+      <p>Groups are a great way to keep your devices organized. <a href="/devices/new_group" class="link-all1">Create a group</a> and add devices to it. Assign a unique icon for each of your groups. On the <a href="/home" class="link-all1">overview screen</a> your devices will display in groups with the icons you selected.</p>
     </div>
    
-    <% for group in @group%>
-     <div class="crt_group"> 
-	  <%= link_to group.name ,:controller=>"devices", :action=>"edits_group",:group_id=> group.id%>    
-    </div>
-    <% end%>
+    <%if @groups.empty?%>
+         <div class="crt_group1"> 
+            <a href="/devices/new_group">Create your first group</a>
+         </div>
+    <%else%>
+        <% for group in @groups%>
+         <div class="crt_group1"> 
+            <%= link_to group.name ,{:controller=>"devices", :action=>"edits_group", :group_id=> group.id},:class => "grayboldtext"%>    
+        </div>
+        <% end%>
+    <%end%>
   <!-- Content ends here -->

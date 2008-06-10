@@ -121,8 +121,8 @@ class DevicesController < ApplicationController
         end
 
         @all_devices = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
-         @count_devices = Device.count(:all, :conditions => ["account_id = ?", session[:account_id]])
-        end 
+        @count_devices = Device.count(:all, :conditions => ["account_id = ?", session[:account_id]])
+    end 
    
     def map
         render :action => "devices/map", :layout => "map_only"
@@ -148,128 +148,26 @@ class DevicesController < ApplicationController
             end
         end
     end
-  # For creating the group
+
     def create_group
-     @groups = Group.find(:all,:conditions=>["account_id=?",session[:account_id]])
-     
-    end 
-    def group_list
       @groups = Group.find(:all,:conditions=>["account_id=?",session[:account_id]])
-    
-    end
-    def update_group
-    
-        @group=Group.find(params[:group_id][:id])
-        @image_value=params[:sel]
-        @device_id= params[:select_devices]
-        group_name=params[:group][:name]
-        @group.name =group_name
-        @group.image_value = @image_value
-        @group.account_id= session[:account_id]
-        if group_name=="" || @device_id== nil || @device_id.length == 0 
-           flash[:message] = "Please enter a group name and you must select at least one device"
-           flash[:name]=params[:group][:name]
-         
-           redirect_to :action=>"edits_group", :group_id=>params[:group_id][:id]
-       else
-           @group.update
-           @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
-   for device_id in @devices_all
-       devices = Device.find(device_id.device_id)
-       devices.icon_id ="1" 
- 
-            devices.update
-    end    
-          for device_id in @device_id
-       devices = Device.find(device_id)
-       devices.icon_id =@image_value
- 
-            devices.update
-    end    
-           @group_device= GroupDevice.find( :all , :conditions =>["group_id= ?" ,params[:group_id][:id]])
-           @group_device_id=@group_device
-           group_id = []
-           count = 0
-           for group in @group_device_id
-               group_id[count] = group.id
-               count = count + 1
-          end
-               for  group_id in group_id
-  	                @group_device_id=   GroupDevice.find(group_id).destroy
-  	           end
-                    if @device_id!= nil && @device_id.length != 0
-                        for i in 0...@device_id.length do
-                          #puts @device_id.inspect
-                         @group_device= GroupDevice.new
-                         @group_device.account_id=session[:account_id]
-                         @group_device.group_id=@group.id
-                         @group_device.device_id=@device_id[i]
-                         @group_device.save
-                         end
-                    end
-                      flash[:new]= group_name + " was updated successfully "
-           redirect_to :action=>"groups"
-                 
-   
-             
-   end
-   end
-   #fro deleate the group
-   
-   def delete_group
-        params[:group_id][:id]
-   @group=Group.find(params[:group_id][:id])
-      flash[:new]= @group.name +  "  was deleted successfully "
-    @group.destroy
-    @group_devices=GroupDevice.find(:all,:conditions=>["group_id= ?", params[:group_id][:id]])
-   @devices_all =GroupDevice.find(:all ,:conditions => [ 'group_id = ? ',params[:group_id][:id]])
-   for device_id in @devices_all
-       devices = Device.find(device_id.device_id)
-       devices.icon_id ="1" 
- 
-            devices.update
-    end  
-     for  group_devices in @group_devices
-    
-       group_devices.destroy
-     
-     end 
-     
-     
-    redirect_to :action=>"group_list"
-   
-   end 
-   #for edit group
-  def edits_group
-      account_id = session[:account_id]
-  	  id = params[:group_id]
-	  if id!=nil
-		 id = params[:group_id]
-		 @group = Group.find(id)
-      end
-      @device= Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
-      @group_all_data =GroupDevice.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
-  end
-  
-  #For creating a new group
-  def new_group
-      @device= Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
-      @group_all_data =GroupDevice.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
-  end 
-  def show_group_1
+    end 
+
+
+   def show_group_1
       @group_ids=params[:group_id]
       redirect_to :action=>'new_group',:group_id=>@group_ids
-  end 
-  #to show list of group
-  def groups
-      @group=Group.find(:all  ,:conditions => ["account_id=? ", session[:account_id] ])
-  end
-  def group_action 
+   end 
+
+   def groups
+      @groups=Group.find(:all  ,:conditions => ["account_id=? ", session[:account_id] ])
+   end
+
+   def group_action 
     @user_prefence= params[:type]
     @user_prefence.inspect
     if params[:type] == "all"
-       show_group_by_id()
-   
+       show_group_by_id()   
     elsif params[:type] == "edit"
     else
         @group_for_data=Group.find(:all,:conditions => ["id=? ", @user_prefence ])
@@ -284,59 +182,105 @@ class DevicesController < ApplicationController
       @all_devices = Device.find(:all, :conditions => ["account_id = ?", session[:account_id]])
          
      end 
-#     redirect_to :controller=>'reading',:action=>'recent'
-     render :update do |page|
-         	 
+     # redirect_to :controller=>'reading',:action=>'recent'
+     render :update do |page|         	 
 	 page.replace_html "show_group" , :partial => "show_group_by_id",:locals=>{ :all_devices=>@all_devices,:group_for_data=>@group_for_data ,:devices_ids=>@devices_ids,:devices=>@devices}
 	 page.visual_effect :highlight, "show_group"
 	 end
 	 
-    end 
-  #for save the group
-    def save_group
-        @image_value=params[:sel]
-      #puts @image_value
-        @device_id= params[:select_devices]
-        group_name=params[:group][:name]
-        if group_name=="" || @device_id== nil || @device_id.length == 0 
-           flash[:message] = "Please enter a group name and you must select at least one device"
-           flash[:group_name]= group_name
-           redirect_to :action=>"new_group"
-        else
-        for device_id in @device_id
-            devices = Device.find(device_id)
-              devices.icon_id =@image_value
- 
-              devices.update
-    end    
-       @group=Group.new()
-       @group.name =group_name
-       @group.image_value = @image_value
-       @group.account_id= session[:account_id]
-  	   if @group.save
-           if @device_id!= nil && @device_id.length != 0
-              for i in 0...@device_id.length do
-               #puts @device_id.inspect
-                @group_device= GroupDevice.new
-                @group_device.account_id=session[:account_id]
-                @group_device.group_id=@group.id
-                @group_device.device_id=@device_id[i]
-                @group_device.save
-              end
-          end
-          flash[:message]="Group " + group_name +" was successfully added"
-         redirect_to :action=>"groups"
-        else
-         
-       redirect_to :action=>"new_group"
-        end
-        end
-    end 
-   
+ end 
 
-  #show the current user group
-  def show_group
-     show_group_by_id()
-  end 
+ # new code starts  for groups
+     # delete the groups
+    def delete_group       
+       if request.post?         
+        @group=Group.find(params[:id])
+        flash[:message]= "Group " + @group.name +  " was deleted successfully "        
+        @group.destroy
+        @group_devices = Device.find(:all, :conditions=>['group_id=?',@group.id])
+        for device in @group_devices          
+          device.icon_id ="1" 
+          device.group_id = nil
+          device.update
+        end  
+      end
+      redirect_to :action=>"groups"
+    end 
+    
+    #edit the groups
+    def edits_group
+         if params[:group_id]
+             @group = Group.find_by_id(params[:group_id])                           
+             flash[:group_name] = @group.name
+         end
+        if request.post?
+            @group=Group.find(params[:id]) 
+            save_group
+             if !validate_device_ids
+                 if @group.save
+                     Device.find(:all, :conditions=>['group_id=?',@group.id]).each{|device| device.group_id =nil; device.save}
+                     update_devices
+                     flash[:message]= "Group " + @group.name + " was updated successfully "
+                     redirect_to :action=>"groups"                                
+                 end
+             else
+                 @group = Group.find(@group.id)
+                 flash[:group_name] = @group.name
+                 redirect_to :action=>"edits_group", :group_id=>@group.id
+             end            
+        end    
+        @devices = Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
+        @group_devices = Device.find(:all, :conditions=>['account_id=? and group_id is not NULL',session[:account_id]])
+    end
+    
+     #create new groups
+    def new_group
+         if request.post?
+             @group = Group.new()
+             save_group
+             if !validate_device_ids
+                 if @group.save 
+                     update_devices
+                     flash[:message]="Group " + @group.name + " was successfully added"
+                     redirect_to :action=>"groups"
+                 end    
+             else
+                 redirect_to :action=>"new_group"
+             end    
+         end    
+         @devices= Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
+         @group_devices =Device.find(:all, :conditions=>['account_id=? and group_id is not NULL',session[:account_id]])
+     end 
+     
+     # following are the common methods used in edit and save groups.
+     def save_group                  
+         @group.name = params[:name]
+         @group.image_value = params[:sel]        
+         @group.account_id= session[:account_id]                     
+     end
+     
+     def update_devices
+         for device_id in params[:select_devices]
+             device = Device.find(device_id)
+             device.icon_id = params[:sel]        
+             device.group_id = @group.id
+             device.update
+         end    
+     end    
+    
+     def validate_device_ids
+         if  params[:name]=="" || params[:select_devices]== nil || params[:select_devices].length == 0              
+             flash[:message] = ((@group.name == "") ? "Group name can't be blank <br/>" : "")
+             flash[:message] << "You must select at least one device "
+             flash[:group_name] = @group.name             
+             return true
+         end   
+     end    
+     
+
+    # show the current user group
+    def show_group
+      show_group_by_id()
+    end 
   
 end

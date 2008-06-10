@@ -1,14 +1,14 @@
-<div class="container">
-<div style="width:32.000%; float:left ; clear:left;">
+<div class="container" style="width:100%">
+<div style="width:32%; float:left ; clear:left; color:#666666;">
   <div id="margin-t-b">
-    <div class="fl" style="width:56%"  id="link-grey"><a class="f3">Add New Geofences</a> </div>
+    <div class="fl" style="width:100%"  id="link-grey"><a class="f3">Add New Geofences</a> </div>
   </div>
   <form method="post" style="margin-top: 10px; margin-bottom: 10px;" id="geofence_form" onsubmit="return validate();">
   <div id="margin-t-b" >
     <div  class="fl" id="margin-t-b"> <input type="radio" id="radio" name="radio" value="1" checked onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2"/> Device Level</div>
     <div id="padding-t7" class="fl" >Choose the device:</div>
-    <div id="padding-t" class="fl" >
-		<select id="device" name="device" class="txt-box-s2" disabled>
+    <div id="padding-t" class="fl" style="width:100%">
+		<select id="device" name="device"  style="width:80%" disabled>
 		<% @devices.each do |device| %>
 			<option value="<%= device.id %>"><%= device.name %></option>
 		<% end %>	
@@ -16,15 +16,19 @@
     </div>
 	
     <div id="padding-t7" class="fl" >Geofence name:</div>
-    <div id="padding-t" class="fl">
-      <input  class="txt-box" name="name" type="text" />
+    <div id="padding-t" class="fl" style="width:100%">
+      <input   name="name" type="text" style="width:80%" />
     </div>
 	
     <div id="padding-t7" class="fl" >Geofence address:</div>
     <div id="padding-t" class="fl" style="width:100%">
-	  <!--a onclick="geocode(document.getElementById('address').value); return false;" class="btn-b" style=" text-decoration:none; cursor:pointer;" /><span>Preview</span></a-->
-      <input  class="txt-box" id="address" name="address" type="text" />&nbsp;<input type="button" name="Preview" value="Preview" onclick="geocode(document.getElementById('address').value); return false;" />
+      <input  id="address" name="address" type="text" style="width:80%" />
     </div>
+
+    <div id="padding-t" class="fl" style="width:100%">
+      <input type="button" name="Preview" value="preview" onclick="geocode(document.getElementById('address').value); return false;" />
+    </div>
+
 	
     <div id="padding-t7" class="fl" >Radius: </div>
     <div id="padding-t" class="fl" >
@@ -36,17 +40,17 @@
     </div>
   </div>
   <input type="hidden" name="bounds"/>
-  <div id="padding-t7" class="fl" style="width:400px">
+  <div id="padding-t7" class="fl" style="width:230px">
     <!--input  class="btn-b" name="Create geofence" type="submit" value="Create Geofence" style="cursor:pointer;"/-->
-	<input name="Create geofence" type="submit" value="Create Geofence"/>	
+	<input name="Create geofence" type="submit" value="create geofence"/>	
      <!--a href="<%#= session[:referral_url] %>"  class="btn-s" style="text-decoration:none; height: 25px; padding:8px 7px 7px 6px;" >Cancel</a-->
-	 <a href="<%= session[:referral_url] %>" class="link-all">Cancel</a>
+	 <a href="<%= session[:referral_url] %>" class="link-all1">cancel</a>
   </div>
   </form>
   </div>
   
-<div style="width:68%;float:left; clear:none;">
-  <div id="geofence_map" style="width:99%; height: 400px; margin-left: 1%; MARGIN-top:5px; "></div>
+<div style="width:67.5%;float:left; clear:none;">
+  <div id="geofence_map" style="width:98%; height: 380px; margin-left: 1%; MARGIN-top:5px;border:3px solid #eeeeee; "></div>
 </div>
 </div>
 

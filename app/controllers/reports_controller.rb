@@ -37,7 +37,7 @@ class ReportsController < ApplicationController
       params[:page] = 1
     end 
     @page = params[:page].to_i
-    #@result_count = ResultCount
+    @result_count = ResultCount
     @stop_threshold = StopThreshold
     
     unless params[:t]
@@ -77,8 +77,7 @@ class ReportsController < ApplicationController
                         }
     @record_count = @stops.size   
     @stops.sort! {|r1,r2| r2.created_at <=> r1.created_at}
-    @stops = @stops.slice!( (@page-1)*ResultCount, @page*ResultCount)
-    @pages,@stops = paginate_collection(:collection => @stops,:page => params[:page],:per_page => @page)
+    @pages,@stops = paginate_collection(:collection => @stops,:page => params[:page],:per_page => 25)
   end
     
     

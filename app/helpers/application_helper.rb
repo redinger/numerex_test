@@ -45,4 +45,12 @@ module ApplicationHelper
     
   end
 
+     def get_flash_error
+         flash_string=""
+         self.errors.each_full do | err |
+             flash_string << err + "<br/>"
+         end
+         return flash_string
+     end       
+
 end

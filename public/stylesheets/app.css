@@ -303,6 +303,50 @@ div#paging {
 	padding: 3px;
 }
 
+.group_head_{
+    background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;
+	width:;}
+
+panel_table .group_head {
+	background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;
+}
+.group_head {
+width:98%;
+background-color:#cccccc;
+float:left;
+padding:0px;
+height:24px;
+line-height:24px;
+}
+
+.group_head div {
+float:left;
+margin-right:25px;
+width
+}
+
+span.group_1 {
+background:url(/icons/blue_small.png) no-repeat left;
+width:;
+height:24px;
+display:block;
+margin-bottom:0px;
+padding-left:30px;
+font-weight:bold;
+}
+
+.link-all1{ color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:underline;}
+.link-all1:hover{ color:#1364B2;text-decoration:none;}
+.link-all1:active{ color:#1364B2;text-decoration:none;}
+
 
 /* Pagination Class */
 
