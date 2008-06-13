@@ -67,11 +67,13 @@ class LoginController < ApplicationController
       account = Account.find_by_subdomain(request.subdomains.first)
       user = User.find(:first, :conditions => ["email =? AND account_id =?", @params['email'], account.id])  
       if user
-         key = user.generate_security_token
+         key = user.generate_security_token(80)
+         user.access_key = key
+         user.save
          url = url_for(:action => 'password')
          url += "?id=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
          Notifier.deliver_forgot_password(user, url)
-         flash['message'] = "Plase check #{user.email} to change the password."
+         flash['message'] = "Please check #{user.email} to change the password."
          redirect_to :action => 'index'
       else
         flash[:message] = 'Please specify a valid username.'
@@ -81,15 +83,21 @@ class LoginController < ApplicationController
   end
 
   def password
-    flash[:message] = nil
-    if request.post?
-        @user = User.find(params['id'])  
+     @user = User.find_by_id(params['id'])      
+     if !request.post?
+         if @user.nil? || params[:key].nil? || !(@user.access_key == params[:key])
+             flash[:message] = 'Invalid action.'
+             redirect_to :action=>'index'
+         end    
+     else           
         if @user
           if(params['user']['password'] == params['user']['password_confirmation'] && params['user']['password'].length > 5)
             @user.change_password(params['user']['password'], params['user']['password_confirmation'])
             if @user.save
               #Notifier.deliver_change_password(@user, params['user']['password'])
-              flash.now['notice'] = "New password is mailed to #{@user.email}"
+              @user.access_key = nil
+              @user.save
+              flash[:message] = "New password is mailed to #{@user.email}"
               redirect_to :action => 'index'     
             else  
                flash[:message] = 'Password change failed'
@@ -97,13 +105,13 @@ class LoginController < ApplicationController
             end
           else
             flash[:message] = "Either your password does not match or you have entered less than 6 characters."
-            render :action => 'index'
+            redirect_to  :action=>"password", :id=>@user.id, :subdomain => params[:subdomain], :key=>@user.access_key
           end
         else
             flash[:message] = 'Please specify a valid username.'
             render :action => 'index'     
         end
-    end
+     end    
   end
 
   def logout

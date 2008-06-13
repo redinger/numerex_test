@@ -27,9 +27,13 @@
                                </span>
                           </td>
                      </tr>
-                     <% group.devices.each do |device|%>
-                          <%= show_device device%>
-                     <%end%>
+                     <%if !group.devices.empty?%>                     
+                         <% group.devices.each do |device|%>
+                              <%= show_device device%>
+                         <%end%>
+                     <%else%>
+                          <tr><td>No devices in this group.</td></tr>
+                     <%end%>                    
                      <tr> 
                           <td colspan="4" style="height:8px;line-height:8px; font-size:2px;"></td>
                      </tr>

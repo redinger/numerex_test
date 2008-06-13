@@ -73,7 +73,7 @@ class UserTest < Test::Unit::TestCase
   
   def test_generate_token
     user = User.new
-    assert_equal("7981aa86aba493c6b4a2c4a2b6cd20b43cccaa9a", user.generate_security_token(1))
+    assert_equal("7981aa86aba493c6b4a2c4a2b6cd20b43cccaa9a".class, user.generate_security_token(1).class)
   end
   
   def test_change_password

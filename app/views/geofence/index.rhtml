@@ -13,11 +13,11 @@
 	
 	<table  style="border-collapse:collapse;margin:0pt;padding:0pt;width:100%;" > 
 		<tr id="header-bg"  class="width">
-			<td  class="bdr">Geofence</td>
-			<td  class="bdr">For</td>
-			<td class="bdr">Address</td>
-			<td class="bdr">Radius</td>
-			<td class="bdr">Action</td>
+			<th class="bdr">Geofence</th>
+			<th class="bdr">For</th>
+			<th class="bdr">Address</th>
+			<th class="bdr">Radius</th>
+			<th class="bdr">Action</th>
 		</tr>
 	
      <%if !(@geofences.nil? || @geofences.empty?)%>
@@ -31,7 +31,7 @@
 				</td>
 				<td class="bdr"><%= geofence.get_lat_lng %></td>
 				<td class="bdr"><%= geofence.radius.to_s + ' ' + 'miles' %></td>
-				<td class="bdr" style="text-align: center;">
+				<td class="bdr">
 					  <a class="link-all"href="<%= edit_url(:id=>geofence.id)%>">Edit</a> | 
 					  <a class="link-all" href="<%= delete_url(:id=>geofence.id)%>" onclick="return confirm('Are you sure you want to delete this geofence ?');">Delete</a>
 				</td>

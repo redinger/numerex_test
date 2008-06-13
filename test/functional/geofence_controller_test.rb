@@ -27,6 +27,11 @@ class GeofenceControllerTest < Test::Unit::TestCase
     assert_not_nil assigns("geofences")
   end
   
+  def test_index_with_empty_device_dis
+      get :index,{},{ :user => users(:ken), :account_id => "3" }
+      assert_response :success
+  end
+  
   def test_detail
     get :detail, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
     assert_not_nil assigns("geofence")
@@ -46,6 +51,11 @@ class GeofenceControllerTest < Test::Unit::TestCase
   def test_new
     post :new, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_equal flash[:message] , "qwerty created succesfully"
+  end
+  
+  def test_invalid_device
+     post :new, {:id => "1", :name =>"", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
+     assert_equal flash[:message], "Geofence not created"      
   end
   
   def test_create
@@ -80,6 +90,36 @@ class GeofenceControllerTest < Test::Unit::TestCase
     post :edit, {:device_id => '1', :id => '1', :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:dennis), :account_id => "1" }
     assert_equal flash[:message] , 'qwerty updated succesfully'
     assert_redirected_to :controller => "geofence", :action => "index"
+  end
+  
+  def test_edit_invalid_geofence
+      post :edit, {:device_id => '1', :id => '1', :name => "", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:dennis), :account_id => "1" }
+      assert flash[:message] 
+  end
+  
+  def test_edit_unautharized_geofence      
+      post :edit, {:device_id => '1', :id => '1', :name => "", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:ken), :account_id => "3" }
+      assert_equal "Invalid action.", flash[:message]      
+  end
+  
+  def test_view_gf_is_true_for_device
+     get :view, {:id=>"device 1", :gf=>'1'}, { :user => users(:dennis), :account_id => "1" }
+     assert_response :success        
+  end
+  
+  def test_view_gf_is_true_for_account
+      get :view, {:id=>"account1", :gf=>'2'}, { :user => users(:dennis), :account_id => "1" }
+      assert_response :success
+  end    
+  
+  def test_view_detail
+      get :view_detail, {:id=>"1"}, { :user => users(:dennis), :account_id => "1" }
+      assert_response :success
+  end
+  
+  def test_delete_unautharized      
+      post :delete, {:id => '2', :device_id => '1'}, { :user => users(:ken), :account_id => "3" }
+      assert_equal 'Invalid action.',flash[:message]
   end
   
 end

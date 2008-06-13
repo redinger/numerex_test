@@ -26,7 +26,7 @@ class DeviceTest < Test::Unit::TestCase
     fence = devices(:device1).get_fence_by_num(1)
     assert_equal geofences(:fenceOne), fence
     
-     fence = devices(:device1).get_fence_by_num(2)
+    fence = devices(:device1).get_fence_by_num(4)
     assert_nil fence
     
     fence = devices(:device2).get_fence_by_num(2)

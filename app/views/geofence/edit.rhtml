@@ -34,7 +34,7 @@
 	
     <div id="padding-t7" class="fl" >Radius: </div>
     <div id="padding-t" class="fl" >
-		<select id="radius" name="radius" class="txt-box-s">                
+		<select id="radius" name="radius" >                
                  <% RADIUS_ARRAY.each do |rad|%>
 			      <option value="<%=rad%>" <%= "selected='selected'" if @geofence.radius == rad %>><%= rad%></option>
                 <%end%>

@@ -26,12 +26,13 @@ class GeofenceTest < Test::Unit::TestCase
   
   def test_unique
     fence1 = Geofence.new 
-    fence1.device_id = 1
+    fence1.device_id = 1    
     fence1.fence_num = 1
     fence1.save
     
     fence2 = Geofence.new 
     fence2.device_id = 2
+    fence2.name="hometown"
     fence2.fence_num = 1
     fence2.save!
     
@@ -50,7 +51,7 @@ class GeofenceTest < Test::Unit::TestCase
     fence = Geofence.new
     fence.device_id = 1
     fence.find_fence_num
-    assert_equal 2, fence.fence_num
+    assert_equal 4, fence.fence_num
     fence.save
     
     fence2 = Geofence.new

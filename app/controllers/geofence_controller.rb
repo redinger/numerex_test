@@ -35,7 +35,7 @@ class GeofenceController < ApplicationController
   
   def edit 
     @devices = Device.get_devices(session[:account_id])    
-    @geofence = Geofence.find(params[:id])     
+    @geofence = Geofence.find_by_id(params[:id])     
     if check_action_for_user
       if request.post?           
        add_and_edit(@geofence)
@@ -47,8 +47,8 @@ class GeofenceController < ApplicationController
        end
       end  
      else
-         redirect_to params[:ref_url]
         flash[:message] = 'Invalid action.'
+        redirect_to params[:ref_url]       
      end    
   end  
   

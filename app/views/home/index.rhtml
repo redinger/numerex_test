@@ -1,7 +1,7 @@
  <table width="100%" border="0">
     <tr>
         <td width="50%" valign="top" id="left_panel">
-        	<% if @groups.size == 0 %>
+        	<% if @devices.size == 0 %>
         	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
         		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
 				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
@@ -39,8 +39,12 @@
                                </span>
                           </td>
                      </tr>
-                     <% group.devices.each do |device|%>
-                          <%= show_device device %>
+                     <%if !group.devices.empty?%>                     
+                         <% group.devices.each do |device|%>
+                              <%= show_device device %>
+                         <%end%>
+                     <%else%>
+                          <tr><td>No devices in this group.</td></tr>
                      <%end%>
                      <tr> 
                           <td colspan="4" style="height:8px;line-height:8px; font-size:2px;"></td>
@@ -48,13 +52,15 @@
                 <%end%>
            <%end%>
            <%if !@default_devices.empty?%>
-                <tr>
-                     <td colspan="4" style="background-color:#d2eafc;" width="100%">
-                          <span style=" background:url(/icons/blue_small.png) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
-                               Default
-                          </span>
-                     </td>
-                </tr>
+                <%if !@groups.empty? %>
+                    <tr>
+                         <td colspan="4" style="background-color:#d2eafc;" width="100%">
+                              <span style=" background:url(/icons/blue_small.png) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                                   Default
+                              </span>
+                         </td>
+                    </tr>
+                <%end%>
                 <% @default_devices.each do |device|%>
                     <%= show_device device %> 
                 <%end%>

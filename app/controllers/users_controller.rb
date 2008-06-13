@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   
   def edit
     if request.post?
-      user = User.find(:first, :conditions => ["id = ? and account_id = ?", params[:id], session[:account_id]])
+      user = User.find(:first, :conditions => ["id = ? and account_id = ?", params[:id], session[:account_id]])            
       user.update_attributes(params[:user])
       params[:is_admin] ? user.is_admin = 1 : user.is_admin = 0
       

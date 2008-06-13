@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_length_of :password, :within => 6..30, :if => :password_required?
   before_save :encrypt_password
-
+ 
+  
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
   #def self.authenticate(email, password)
   def self.authenticate(subdomain, email, password)
@@ -39,8 +40,10 @@ class User < ActiveRecord::Base
     crypted_password == encrypt(password)
   end
   
-  def generate_security_token(hours = nil)
-     self.encrypt(self.created_at.to_i) 
+  def generate_security_token(size=25)          
+         s = ""
+         size.times { s << (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }
+         s     
   end
 
   def remember_token?

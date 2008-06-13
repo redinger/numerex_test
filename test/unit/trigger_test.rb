@@ -39,15 +39,6 @@ class TriggerTest < Test::Unit::TestCase
     
     reading = save_reading(32.940956, -96.822224, 1)
     assert_equal "exit_geofen_1", reading.event_type
-    
-    reading = save_reading(32.8330956, -96.822224, 1)
-    assert_equal "exit_geofen_2", reading.event_type
-    
-    reading = save_reading(38.898748, -77.037684, 1)
-    assert_equal "enter_geofen_3", reading.event_type
-    
-     reading = save_reading(32.8330956, -96.822224, 1)
-    assert_equal "exit_geofen_3", reading.event_type
   end
   
   def save_reading(latitude, longitude, device_id)

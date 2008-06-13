@@ -219,6 +219,7 @@ class DevicesController < ApplicationController
              if !validate_device_ids
                  if @group.save
                      Device.find(:all, :conditions=>['group_id=?',@group.id]).each{|device| device.group_id =nil; device.save}
+                     first_set_icons_default
                      update_devices
                      flash[:message]= "Group " + @group.name + " was updated successfully "
                      redirect_to :action=>"groups"                                
@@ -239,7 +240,7 @@ class DevicesController < ApplicationController
              @group = Group.new()
              save_group
              if !validate_device_ids
-                 if @group.save 
+                 if @group.save                      
                      update_devices
                      flash[:message]="Group " + @group.name + " was successfully added"
                      redirect_to :action=>"groups"
@@ -253,6 +254,15 @@ class DevicesController < ApplicationController
      end 
      
      # following are the common methods used in edit and save groups.
+     def first_set_icons_default
+         @all_devices =Device.find(:all, :conditions => [ 'group_id = ? ',@group.id])
+         for device in @all_devices
+             device.icon_id = "1"
+             device.update
+         end
+         Device.find(:all,:conditions => ["account_id=? and group_id is NULL", session[:account_id] ]).each{|device| device.icon_id="1"; device.update}         
+     end
+     
      def save_group                  
          @group.name = params[:name]
          @group.image_value = params[:sel]        

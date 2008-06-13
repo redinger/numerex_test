@@ -24,11 +24,16 @@ class DeviceControllerTest < Test::Unit::TestCase
     @request.extend(RequestExtensions)
   end
   
-  def test_index
-    get :index, {}, { :user => users(:dennis) } 
-    assert_response :success
+  def test_index   
+    get :index, {}, { :user => users(:dennis)} 
+    assert_response :success    
  end
-
+  
+   def test_view
+     get :view, {:id=>"1"},{:user => users(:dennis), :account_id => "1"} 
+     assert_response :success     
+   end
+   
   def test_new_group 
      post :new_group, {:id => "7", :name=>"summer of code", :select_devices=>[4], :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
      assert_equal "Group summer of code was successfully added",flash[:message]
@@ -51,6 +56,11 @@ class DeviceControllerTest < Test::Unit::TestCase
      assert_redirected_to :controller => "devices", :action=>"groups"
   end
 
+  def test_group_edits_for_group_id
+      get :edits_group, {:group_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
+      assert_equal 'Dennis', flash[:group_name]
+  end
+  
   def test_edits_group_invalid
       post :edits_group, {:id => "1", :name=>"", :select_devices=>nil, :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
       assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:message]
@@ -62,6 +72,11 @@ class DeviceControllerTest < Test::Unit::TestCase
       assert_equal "Group Dennis was deleted successfully ", flash[:message]
       assert_redirected_to :controller => "devices", :action=>'groups'
   end   
+  
+  def test_groups
+      get :groups, {}, { :user => users(:dennis), :account_id => "1" }
+      assert_response :success
+  end
   
   def test_index_notauthorized
     get :index

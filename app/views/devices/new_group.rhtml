@@ -53,7 +53,7 @@
       <ul style="line-height:1.7em;" >                
            <%for device in @devices%>
                 <li>
-                     <input type='checkbox' multiple name='select_devices[]' <%for group_device in @group_devices %><%if  device.id == group_device.id%> disabled="disabled" <%end%><%end%> value='<%= device.id%>'> <span style="color:#666666; margin-left:3px;"><%= device.name%></span></input>
+                     <input type='checkbox' multiple name='select_devices[]' <%for group_device in @group_devices %><%end%> value='<%= device.id%>'> <span style="color:#666666; margin-left:3px;"><%= device.name%></span></input> <!-- <%#if  device.id == group_device.id%> disabled="disabled" <%#end%> -->
                      <%for group_device in @group_devices %>
                           <%if device.id == group_device.id %>    
                                <span style="color:#cc0000; margin-left:3px; font-weight:normal;"> (<%= group_device.group.name%>)</span>     

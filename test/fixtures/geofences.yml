@@ -7,20 +7,26 @@ fenceOne:
   latitude: 32.833785
   longitude: -96.756807
   radius: 0.25
+  account_id: 1
+  
 fenceTwo:
   id: 2
-  fence_num: 3
+  fence_num: 2
   device_id: 1
   name: work
   latitude: 32.940955
   longitude: -96.822224
   radius: 0.25
+  account_id: 1
+ 
 fenceThree:
   id: 3
-  fence_num: 4
+  fence_num: 3
+  device_id: 1
+  name: work
+  latitude: 32.944955
+  longitude: -96.823224
+  radius: 0.25
   account_id: 1
-  name: White House
-  latitude: 38.898748
-  longitude: -77.037684
-  radius: 0.5
-  
+ 
+ 
