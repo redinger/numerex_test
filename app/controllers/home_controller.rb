@@ -5,7 +5,7 @@ class HomeController < ApplicationController
         @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
         @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]])
         @groups = @all_groups
-        @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL',session[:account_id]])            
+        @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]])            
         session[:gmap_value] = "all"
   end
   
@@ -13,7 +13,7 @@ class HomeController < ApplicationController
     @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]])
     if params[:type] == "all"
          @groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]])
-         @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL',session[:account_id]])    
+         @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]])    
      else
          @groups=Group.find(:all, :conditions=>['id=?',params[:type]])
          session[:gmap_value] = params[:type]
