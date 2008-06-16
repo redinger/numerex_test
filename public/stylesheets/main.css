@@ -64,6 +64,15 @@ div#error_message {
 	margin: 10px;
 	padding: 5px;
 }
+div#success_message {
+	border: 2px solid #006600;
+	background-color: #5ABD5A;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding: 5px;
+	margin: 10px 5px;
+}
 /*********** End error message div *******/
 
 div#side_tb_box{

@@ -6,6 +6,11 @@
             <%= flash[:message] %>
         </div>
     <% end %>
+	<% if flash[:success] %>
+		<div id="success_message">
+			<%= flash[:success] %>
+		</div>
+	<% end %>
     <%if session[:user_id] %>
         <%user = User.find(session[:user_id])%>
     <%end%>
