@@ -38,10 +38,10 @@ class DeviceControllerTest < Test::Unit::TestCase
      post :new_group, {:id => "7", :name=>"summer of code", :select_devices=>[4], :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
      assert_equal "Group summer of code was successfully added",flash[:message]
      group=Group.find_by_name("summer of code")
-     assert_equal group.name, "summer of code"
+     assert_equal group.name, "summer of code"            
      assert_redirected_to :controller => "devices", :action=>"groups"
   end
-  
+    
   def test_new_group_invalid
       post :new_group, {:id => "7", :name=>"", :select_devices=>nil, :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
       assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:message]

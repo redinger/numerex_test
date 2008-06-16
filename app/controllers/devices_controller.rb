@@ -230,8 +230,8 @@ class DevicesController < ApplicationController
                  redirect_to :action=>"edits_group", :group_id=>@group.id
              end            
         end    
-        @devices = Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
-        @group_devices = Device.find(:all, :conditions=>['account_id=? and group_id is not NULL',session[:account_id]])
+        @devices = Device.find(:all,:conditions => ["account_id=? and provision_status_id=1", session[:account_id] ])
+        @group_devices = Device.find(:all, :conditions=>['account_id=? and group_id is not NULL and provision_status_id=1',session[:account_id]])
     end
     
      #create new groups
@@ -249,8 +249,8 @@ class DevicesController < ApplicationController
                  redirect_to :action=>"new_group"
              end    
          end    
-         @devices= Device.find(:all,:conditions => ["account_id=? ", session[:account_id] ])
-         @group_devices =Device.find(:all, :conditions=>['account_id=? and group_id is not NULL',session[:account_id]])
+         @devices= Device.find(:all,:conditions => ["account_id=? and provision_status_id=1", session[:account_id] ])
+         @group_devices =Device.find(:all, :conditions=>['account_id=? and group_id is not NULL and provision_status_id=1',session[:account_id]])
      end 
      
      # following are the common methods used in edit and save groups.
