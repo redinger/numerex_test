@@ -1,0 +1,38 @@
+
+		<div id="devices">
+			
+		<!--	<p class="title">What do you want to do?</p>
+			
+			<ul>
+				<li><a href="javascript:document.getElementById('reading_div').style.visibility='visible';void(0);">Insert location reading</a></li>
+				<li><a href="">Test geofence notifications</a></li>
+				<li><a href="">Test motion notifications</a></li>
+			</ul>-->
+			
+			<div id="reading_div">
+				Select a device and then select geofence for that device. Then click on the map to insert a location reading.
+				<br /><br />
+				<p style="font-weight: bold">Device:</p>
+				<select onchange="device_id=this.options[selectedIndex].value;" id="device_list">
+					<option>Select a device</option>
+					<% for device in @devices %>
+						<option value="<%= device.id %>"><%= device.name %></option>
+					<% end %>
+				</select>
+				
+				<%= observe_field "device_list", :update => "geofences", :with => "device_id", :url => { :controller => "simulator", :action => "get_geofences_for_device" } %>
+				
+				<p style="font-weight: bold">Geofence:</p>
+
+				<select onchange="displayGeofence(this);" id="geofences">
+					<option>Select a geofence</option>
+					<% for geofence in @geofences %>
+						<option value="<%= geofence.id %>,<%= geofence.latitude %>,<%= geofence.longitude %>,<%= geofence.radius %>"><%= geofence.name %></option>
+					<% end %>
+				</select>
+			</div>
+
+		</div>
+		<div id="sim_map">
+			
+		</div>

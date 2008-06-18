@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title><%= @page_title %></title>
+        <%= stylesheet_link_tag "app", "font_styles" %>
+		<%= javascript_include_tag "geofence" %>
+		<%= javascript_include_tag :defaults %>
+        <%= render :partial => 'layouts/includes/map_key' %>
+		<script>
+			var device_id;
+			var lat;
+			var lng;
+			var map;
+			var gmap;
+			var base_url = '/simulator/insert_reading?device_id=';
+			
+			function load() {
+				if (GBrowserIsCompatible()) {	
+					gmap = new GMap2(document.getElementById("sim_map"));
+					gmap.addControl(new GLargeMapControl());
+					gmap.setCenter(new GLatLng(33.4419, -96.1419), 3);
+					
+					GEvent.addListener(gmap, "click", function(marker,point) {
+						gmap.addOverlay(new GMarker(point));
+						lat = point.y;
+						lng = point.x;
+						insertData();
+					});
+				}
+			}
+			
+			function insertData() {
+				var url = base_url + device_id + '&lat=' + lat + '&lng=' + lng;
+				
+				GDownloadUrl(url, function(data, responseCode) {
+					//alert('done');
+				});
+			}
+			
+			function displayGeofence(e) {
+				var arr = e.options[e.selectedIndex].value.split(",");
+				var id = arr[0];
+				var lat = parseFloat(arr[1]);
+				var lng = parseFloat(arr[2]);
+				var radius = parseFloat(arr[3]);
+				var p = new GLatLng(lat,lng);
+				drawGeofence(p, radius);
+				gmap.setCenter(p, 13);
+			}
+			
+			window.onload = load;
+			window.onunload = GUnload;
+		</script>
+		<style>
+			#devices {
+				float: left;
+				margin-right: 10px;
+				width: 200px;
+			}
+			
+			#devices ul {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
+			
+			#devices ul li {
+				background-color: #EEEEEE;
+				padding: 5px;
+				margin-bottom: 5px;
+			}
+			
+			#reading_div {
+				background-color: #FFFF99;
+				padding: 10px;
+				font-size: 14px;
+				color: #333333;
+			}
+			
+			#sim_map {
+				float: left;
+				width: 600px;
+				height: 400px;
+			}
+			
+			.title {
+				font-size: 14px;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+   		<%= render :partial => 'layouts/includes/header' %>
+    	<div id="content">
+        	<%= yield %>
+        </div>
+		<%= render :partial => 'layouts/includes/footer' %>
+	</body>
+</html>

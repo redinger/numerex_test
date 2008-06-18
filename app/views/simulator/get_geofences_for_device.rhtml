@@ -1,0 +1,8 @@
+<% if @geofences.size > 0 %>
+		<option>Select a geofence</option>
+	<% for geofence in @geofences %>
+		<option value="<%= geofence.id %>,<%= geofence.latitude %>,<%= geofence.longitude %>,<%= geofence.radius %>"><%= geofence.name %></option>
+	<% end %>
+<% else %>
+	<option>No geofences for device</option>
+<% end %>
