@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title><%= @page_title %></title>
         <%= stylesheet_link_tag "app", "font_styles" %>
+        <%#= stylesheet_link_tag "common" %>
         <%= render :partial => 'layouts/includes/map_key' %>
         <%= javascript_include_tag "main", "layers", "utils" %>
          <%= javascript_include_tag :defaults%>

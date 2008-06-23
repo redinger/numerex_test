@@ -19,21 +19,24 @@
 					<% end %>
 				</select>
 			</td>
+                <td>
+                      <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get">                     
+                     
+                     from  <%= date_select(:start_time1, :order=>[:month, :day,:year])%>  to  
+                              <%= date_select(:end_time1, :order=>[:month,:day,:year])%>                                 
+                     <input name="commit" type="submit" value="Go" />
+                     </form>
+                </td>
+            
 			<td align="center">
 				<% if @record_count < 0 %>
 					<span style="background-color: #FFFFCC; font-weight: bold; padding: 8px 20px; color: #666666;"> We're sorry, there's no data for this device within the specified timeframe.</span>
 				<% end %>
 			</td>
 			<td align="right">
-				Timeframe: 
-				<select onchange="document.location.href='/reports/<%= params[:action] %>/<%= params[:id] %>?t=' + this.options[this.selectedIndex].value;">
-					<option value="1" <% if params[:t] == '1' %>selected="selected"<% end %>>Last 24 Hours</option>
-					<option value="7" <% if params[:t] == '7' %>selected="selected"<% end %>>Last 7 Days</option>
-					<option value="30" <% if params[:t] == '30' %>selected="selected"<% end %>>Last 30 Days</option>
-				</select>
 				&nbsp;&nbsp;
 				<% if @record_count > 0 %>
-					<a href="/reports/export/<%= params[:id] %>?type=<%= params[:action] %>&page=<%= @page %>&t=<%= params[:t] %>" target="_blank" title="Export up to 100 readings for selected timeframe in CSV format">Export</a>
+					<a href="<%= url_for(:controller=>"reports",:action=>"export", :id=>params[:id], :page=>@page, :start_time=>@start_time, :end_time=>@end_time, :type=>params[:action] )%>" target="_blank" title="Export  <%= @record_count%> readings for selected timeframe in CSV format">Export</a>
 					<% if params[:action] == 'all' %>
 					| <a href="/readings/last/<%= params[:id] %>" target="_blank"><img src="/images/georss.png" border="0" title="Export this device's most recent location into your favorite RSS or GeoRSS reader" style="vertical-align: text-bottom;" /></a>
 					<% end %>

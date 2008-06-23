@@ -8,6 +8,7 @@ var readings = []; //JS readings model
 var zoom = 3;
 var fullScreenMap = false;
 var grp_id;
+var zoom_val = get_cookie("zvalue");
 
 function load() 
 {
@@ -39,9 +40,11 @@ function load()
 	    	highlightRow(marker.id);
 	  	}
 	});
-	
+	var page = document.location.href.split("/")[3];
 	GEvent.addListener(gmap, "zoomend", function(oldZoom, newZoom) {
-		zoom = newZoom;
+		zoom = newZoom; 
+        if(page == 'reports')        
+          set_cookie("zvalue",zoom);
 	});
 	
 	// Only load this on home page
@@ -55,6 +58,35 @@ function load()
 	
   }
 }
+
+
+
+function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
+{
+  var cookie_string = name + "=" + escape ( value );
+
+  if ( exp_y )
+  {
+    var expires = new Date ( exp_y, exp_m, exp_d );
+    cookie_string += "; expires=" + expires.toGMTString();
+  }
+  cookie_string += "; path=/" ;
+  document.cookie = cookie_string;
+}
+
+function get_cookie ( cookie_name )
+{
+  var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );  
+  if ( results )
+    return ( unescape ( results[2] ) );
+  else
+    return null;
+}
+
+if (parseInt(zoom_val) > 0)
+{var zoom= parseInt(zoom_val);}
+else
+{var zoom= 15;}
 
 // Display all devices on overview page
 function getRecentReadings(redrawMap,id) {     
@@ -253,7 +285,7 @@ function getReportBreadcrumbs() {
 		gmap.addOverlay(createMarker(id, point, getMarkerType(i, readings[i]), createReadingHtml(id)));
 		
 		if(i == 0) {
-			gmap.setCenter(point, 15);
+			gmap.setCenter(point, zoom);
 			gmap.openInfoWindowHtml(point, createReadingHtml(id));
 			highlightRow(id);
 		}
@@ -327,7 +359,7 @@ function getBreadcrumbs(id) {
 				
 				if(i == 0) {
 					gmap.addOverlay(createMarker(reading.id, point, recenticon, createReadingHtml(reading.id)));
-					gmap.setCenter(point, 15);
+					gmap.setCenter(point, zoom);
 					gmap.openInfoWindowHtml(point, createReadingHtml(reading.id));
 					highlightRow(reading.id);
 				} else {

@@ -46,14 +46,14 @@
     <br class="clear"/>
     <div class="sel_dev1" >
       <h3>Select Devices</h3>
-     <p style="border-bottom:1px solid #f1f1f1; padding-bottom:5px;">Click a checkbox for each device you want to associate with this group. Devices currently associated with another group (shown in red) will automatically be assigned to this one. Deselect a checkbox to remove a device from this group.</p>
+     <p style="border-bottom:1px solid #f1f1f1; padding-bottom:5px;">Some devices may already be associated with another group. In this case the group name displays red after the device name. You can easily reassign any device to this group by clicking one or more checkboxes below. </p>
     <ul style="line-height:1.7em;" >               
         <%for device in @devices%>
             <li>            
-              <input type='checkbox' multiple name='select_devices[]'<%if @group!=nil ||@group == 0%> <%for group_device in @group_devices %><%if device.group_id == @group.id%> checked="checked"<%end%><%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>       <!-- <%#if group_device.group_id != @group.id%>disabled="disabled" <%#end%> -->
+              <input type='checkbox' multiple name='select_devices[]'<%if @group!=nil ||@group == 0%> <%for group_device in @group_devices %><%if  device.group_id == @group.id%> checked="checked"<%end%><%end%><%end%> value='<%= device.id%>'> <%= device.name%></input>       <!-- <%#if group_device.group_id != @group.id%>disabled="disabled" <%#end%> -->
                 <%for group_device in @group_devices %>
                      <%if device.id == group_device.id %>  
-                         <% if device.group_id != @group.id %><span style="color:#cc0000;margin-left:3px; font-weight:normal; "> (<%= group_device.group.name%>)</span><% end %>
+                         <span style="color:#cc0000;margin-left:3px; font-weight:normal; "> (<%= group_device.group.name%>)</span>     
                      <%end %>
                 <%end %>
             </li>

@@ -27,6 +27,11 @@ div#company {
 	font-size: 24px;
 }
 
+#ub-login{ float:right; font-size:10px; color:#FFFFFF; margin-right:20px}
+#ub-login a:link {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
+#ub-login a:visited {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
+#ub-login a:hover {color:#fff;text-decoration:none;}
+
 div#logo {
 	text-align: right;
 }
@@ -344,6 +349,7 @@ font-weight:bold;
 }
 
 .link-all1{ color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:underline;}
+.link-active{ color:#1364B2; text-decoration:none;font-weight:bold;}
 .link-all1:hover{ color:#1364B2;text-decoration:none;}
 .link-all1:active{ color:#1364B2;text-decoration:none;}
 

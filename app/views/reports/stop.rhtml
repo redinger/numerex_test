@@ -11,7 +11,7 @@
 				</tr>
 				<% for reading in @stops %>
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
-						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)"><%= reading.shortAddress %></a></td>
+						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" class="link-all1"><%= reading.shortAddress %></a></td>
 						<% length=nil%>
 						<% if(!reading.duration.nil? && reading.duration>0) then length=time_ago_in_words Time.now+reading.duration end%>
 						<% if(!reading.duration.nil? && reading.duration<0) then length="in progress: " + (time_ago_in_words reading.created_at+@stop_threshold) + " so far" end%>
