@@ -15,16 +15,18 @@
 						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location" class="link-all1"><%= reading.shortAddress %></a></td>
 						<td><%= reading.speed %></td>
 						<td>
-							<% if reading.event_type.index('enter') %>
-								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" class="link-all1">Enter geofence</a>
-							<% elsif reading.event_type.index('exit') %>
-								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" class="link-all1" >Exit geofence</a>
-							<% elsif reading.event_type =='startstop_et41' && reading.speed==0 %>
-								<a href="/reports/stop/<%= params[:id] %>" title="View stop report" class="link-all1">Stop</a>
-							<% elsif reading.event_type =='startstop_et41' && reading.speed>0 %>
-								<a href="/reports/stop/<%= params[:id] %>" title="View stop report" class="link-all1">Start</a>
-							<% else %>
-								-
+							<% if !reading.event_type.nil? %>
+								<% if reading.event_type.index('enter') %>
+									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" class="link-all1">Enter geofence</a>
+								<% elsif reading.event_type.index('exit') %>
+									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" class="link-all1" >Exit geofence</a>
+								<% elsif reading.event_type =='startstop_et41' && reading.speed==0 %>
+									<a href="/reports/stop/<%= params[:id] %>" title="View stop report" class="link-all1">Stop</a>
+								<% elsif reading.event_type =='startstop_et41' && reading.speed>0 %>
+									<a href="/reports/stop/<%= params[:id] %>" title="View stop report" class="link-all1">Start</a>
+								<% else %>
+									-
+								<% end %>
 							<% end %>
 						</td>
 						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script></td>
