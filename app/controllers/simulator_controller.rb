@@ -11,7 +11,6 @@ class SimulatorController < ApplicationController
     reading.device_id = params[:device_id]
     reading.latitude = params[:lat]
     reading.longitude = params[:lng]
-    reading.event_type = 'normal_et2' # Default type for now
     reading.save
     render_text "ok"
   end
