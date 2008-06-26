@@ -16,7 +16,7 @@ class Reading < ActiveRecord::Base
       return nil
     else
        fenceNumber = self.event_type[self.event_type.length-1].chr
-       fence = Geofence.find(:first, :conditions => ["fence_num = ? and device_id=?",fenceNumber, device_id])
+       fence = Geofence.find(fenceNumber)
        return fence.nil? ? nil : fence.name
     end
   end
