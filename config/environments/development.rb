@@ -22,3 +22,11 @@ config.action_mailer.raise_delivery_errors = false
 
 # For console logging during development
 ActiveRecord::Base.logger = Logger.new(STDOUT)
+
+# For Slicehost dev accounts
+ActionMailer::Base.delivery_method = :sendmail
+
+ActionMailer::Base.sendmail_settings = {
+  :location => "/usr/sbin/sendmail",
+  :arguments => "-t"
+}
