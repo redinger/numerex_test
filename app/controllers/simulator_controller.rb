@@ -11,6 +11,7 @@ class SimulatorController < ApplicationController
     reading.device_id = params[:device_id]
     reading.latitude = params[:lat]
     reading.longitude = params[:lng]
+    reading.speed = 0
     reading.save
     render_text "ok"
   end
