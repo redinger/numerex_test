@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Ublip</title>
+<meta name="viewport" content="width=240; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<link href="/stylesheets/mobile.css" rel="stylesheet" type="text/css" />
+
+
+<!--
+<script type="application/x-javascript" src="http://10.0.1.2:1840/ibug.js"></script>
+-->
+</head>
+
+<body id="body">
+    <ul>
+        <li>
+           <h1>
+           <%= @device.name %>             
+               <%if @device.recent_reading_id != 0 %>                
+                   (<%= time_ago_in_words @device.readings[0].created_at %> ago)
+              <%else%> 
+                  N/A
+              <%end%>
+         </h1>
+          <%if @device.recent_reading_id != 0 %>                
+               <%= @device.readings[0].shortAddress %> 
+          <%else%> 
+              N/A
+          <%end%>
+		</li>
+          <li>                        
+            <img src="http://maps.google.com/staticmap?center=<%= @device.readings[0].latitude %>,<%= @device.readings[0].longitude %>&zoom=14&size=240x320&maptype=mobile&markers=<%= @device.readings[0].latitude %>,<%= @device.readings[0].longitude %>,<%= MAP_MARKER_COLOR[ @device.icon_id-1]%>&key=<%= API_KEY %>" />                           
+		</li>
+          <li>
+             <a href="#" onclick="window.location.reload(true);">Refresh</a>
+          </li>
+		<li>
+		   <a href="/mobile/devices">Back</a>
+		</li>
+		<li>
+		  <a href="/login/logout?f_mb=frm_mob">Sign out</a>
+          </li>
+           <li class="2008_ublip">
+              &copy; 2008 <img src="/images/small-logo.png" alt=""  align="absmiddle"/>
+           </li>
+    </ul>
+</body>
+</html>

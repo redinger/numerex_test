@@ -44,8 +44,17 @@ class User < ActiveRecord::Base
          s = ""
          size.times { s << (i = Kernel.rand(62); i += ((i < 10) ? 48 : ((i < 36) ? 55 : 61 ))).chr }
          s     
+   end
+     
+  def group_devices_ids
+      devices_ids=[]
+      selected_groups = GroupNotification.find(:all, :conditions=>['user_id = ?',self.id])
+      for group in selected_groups
+         devices = Device.find(:all, :conditions=>["group_id = ?",group.group_id]).each{|dev| devices_ids << dev.id}
+      end
+      return devices_ids
   end
-
+  
   def remember_token?
     remember_token_expires_at && Time.now.utc < remember_token_expires_at 
   end

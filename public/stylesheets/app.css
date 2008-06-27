@@ -288,8 +288,34 @@ hr {
 .settings_box {
 	padding: 10px;
 	color: #666666;
-	width: 700px;
+	width: 98%;
 	border-bottom: 1px solid #CCCCCC;
+}
+
+.settings_notification {
+	padding-top: 10px;
+	color: #666666;
+	width: 98%;
+	
+}
+
+.settings_notification div {
+	padding-top:6px;
+	
+}
+
+.settings_box h2{font-size: 14px; font-weight: bold; padding:0px; margin:0px}
+.gray_box {
+	padding: 10px;
+	background-color: #eeeeee;
+	width: 97%;
+	margin-left:25px;
+	margin-top:10px;
+	
+}
+.gray_box div {
+	padding-top:3px;
+	
 }
 
 div#side_tb_box{
@@ -352,7 +378,7 @@ font-weight:bold;
 .link-active{ color:#1364B2; text-decoration:none;font-weight:bold;}
 .link-all1:hover{ color:#1364B2;text-decoration:none;}
 .link-all1:active{ color:#1364B2;text-decoration:none;}
-
+.alert{width:98%;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#E5F1F4;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;font-size:10pt;}
 
 /* Pagination Class */
 

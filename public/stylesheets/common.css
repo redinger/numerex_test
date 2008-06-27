@@ -1,0 +1,284 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	min-width:700px;
+}
+
+
+div#header {
+	padding: 0;
+	margin: 0;
+	height: 80px;
+	background-color: #0066FF;
+	position: relative;
+}
+
+
+div#company {
+	padding: 10px;
+	color: #FFFFFF;
+	font-size: 24px;
+	float:left
+}
+
+#ub-login{ float:right; font-size:10px; color:#FFFFFF; margin-right:20px}
+#ub-login a:link {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
+#ub-login a:visited {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
+#ub-login a:hover {color:#fff;text-decoration:none;}
+
+.small_white {
+	font-size: 10px;
+	color: #FFFFFF;
+}
+
+.small_font {
+	font-size: 10px;
+	color: #1364B2;
+}
+
+/*tabs CSS */
+
+#nav_tabs {
+	background-color: #0066FF;
+	padding: 0 15px;
+	position: absolute;
+	bottom: 0px;
+}
+
+#nav_tabs ul {
+	padding: 0;
+	margin: 0;
+}
+
+#nav_tabs li {
+	list-style-type: none;
+	display: inline;
+	background-color: #003366;
+	padding: 4px 0; /* 1px less padding for IE */
+	margin: 0 1px;
+}
+
+#nav_tabs a {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: 5px 10px;
+}
+
+#nav_tabs a:hover {
+	background-color: #FFFFFF;
+    color: #003366;
+    padding: 5px 10px;
+}
+
+#nav_tabs .selected a {
+	font-weight: bold;
+	color: #0066CC;
+	background-color: #FFFFFF;
+	padding: 5px 10px;
+}
+
+#nav_tabs .selected a:hover {
+	font-weight: bold;
+	color: #0066CC;
+}
+
+#nav_tabs .selected_subnav a {
+	font-weight: bold;
+	color: #0066CC;
+	background-color: #EEEEEE;
+	padding: 5px 10px;
+}
+
+#nav_tabs .selected_subnav a:hover {
+	color: #0066CC;
+	background-color: #EEEEEE;
+}
+
+/*tabs CSS end*/
+
+#submenu{color:#999999; background-color:#eaeaea; padding:7px 2%}
+#submenu .current{color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:bold;text-decoration:none;}
+
+/*link CSS */
+a:link {color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:underline; }
+a:visited {color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:underline;}
+a:hover {color:#1364B2;text-decoration:none;}
+
+/*tabs CSS end*/
+
+/*content CSS */
+div#content {
+	margin: 10px;
+	padding:0 10px 0 10px;
+	min-height: 400px;
+}
+
+.container{width:100%; clear:both;}
+
+/*content CSS end*/
+
+/*header CSS */
+
+h3 {
+	font-size: 18px;
+	color: #003366;
+	
+}
+
+.dark_blue_header {
+	font-size: 16px;
+	font-weight: bold;
+	color: #003366;
+}
+
+
+.header_{
+    background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;
+	width:55%;}
+/*header CSS end*/
+
+/*table width CSS */
+.ub_dev_list{float:left;clear:left;width:50%; padding-top:3px}
+
+/*table width CSS end*/
+/*table CSS */
+.panel_table {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border-collapse: collapse;
+}
+
+.panel_table th {
+	background-color: #CCCCCC;
+	color: #003366;
+	padding: 5px;
+	border: 1px solid #FFFFFF;
+}
+
+.panel_table td {
+	padding: 5px;
+	border: 1px solid #FFFFFF;
+}
+
+.panel_table .header {
+	background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;
+}
+.panel_table .bluebar1{ background: url(../images/red_small.png) no-repeat left; line-height:24px;padding-left:25px;font-weight:bold;width:99%;background-color:#d2eafc;}
+.panel_table .bluebar{ background: url(../images/purple_small.png) no-repeat left;line-height:24px; padding-left:25px;font-weight:bold;width:100%;background-color:#d2eafc;}
+.panel_table .darkgray_row{background-color: #EEEEEE;}
+
+#ub-table{border-collapse:collapse;margin:0pt;padding:0pt;width:100%;}
+#ub-table th {
+	background-color:#6699CC;
+	color: #FFFFFF;
+	border: 1px solid #FFFFFF;
+	padding: 5px;
+}
+#ub-table tr.header{ background-color:#6699cc;  color:#ffffff; font-weight:normal; font-size:12px; font-family:Verdana, Arial, Helvetica, sans-serif}
+
+#ub-table tr.gray_row{background-color:#eeeeee;}
+
+#ub-table td {
+	border: 1px solid #FFFFFF;
+	padding: 5px;
+}
+#ub-table a:link {color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:none; }
+#ub-table a:visited {color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:none;}
+#ub-table a:hover {color:#1364B2;text-decoration: underline;}
+
+/*table CSS end*/
+
+.googlemap{width: 99%;margin:0.50%;height:380px }
+.main_map{width: 73.735%; float:right;background-color:#eeeeee;margin-bottom:15px }
+
+/*row CSS */
+
+/*row CSS end*/
+
+/*form CSS */
+div#login_form_container {
+	padding: 10px;
+	border: 6px solid #336699;
+	background-color: #DEE8F3;
+}
+
+div#login_form_container {
+	line-height: 30px;
+}
+
+.form_table th {
+	font-size: 13px;
+	text-align: right;
+	color:#666666
+}
+
+.form_table td {
+	padding: 5px;
+}
+
+.form_table input {
+	font-weight: bold;
+	color: #006699;
+}
+
+.input { width:162px;
+ 
+}
+
+/*form CSS end*/
+
+/*error CSS */
+
+div#error_message {
+	border: 1px solid #990000;
+	color: #FFFFFF;
+	background-color: #FF6262;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 10px;
+	padding: 5px;
+}
+
+/*form CSS end*/
+
+
+/*success CSS */
+div#success_message {
+	border: 1px solid #006600;
+	background-color: #5ABD5A;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding: 5px;
+	margin-top: 10px;
+}
+
+/*success CSS end*/
+/*ganrel CSS */
+#ub_account_tbl{width:23%; padding:0px; padding-bottom:0px;margin-bottom:10px;float:left; clear:left; margin-right:2%}
+#ub_account_tbl div {padding-bottom:10px;}
+#ub_account_tbl h3 {font-size: 18px;color: #003366; padding-top:5px;margin-bottom:5px; padding-bottom:0px; width:90%; }
+#dark_topbar{width:99.0%; padding:4px 1% 4px 1%;background-color:#cccccc; line-height:19px;color:#003366;}
+#light-greybar{width:99.0%;  padding:4px 1% 4px 1%; background-color:#f8f8f8; line-height:19px;}
+.ub-ajax{ color:#1364B2; cursor:pointer}
+#ub-ajax_butt{width:99%;padding:6px .25% 7px .8%;}
+#float_rt{ float:right}
+#tab_lt{ float:left}
+#tab_rt{ float:right}
+#top_head{width:100%; overflow:hidden; padding-top:5px; margin-bottom:10px;}
+#top_head h3 {font-size: 18px;color: #003366; padding:0px; margin:0px; width:90%; float:left}
+.alert{width:942px;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#E5F1F4;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;font-size:10pt;}
+/*ganrel CSS end*/

@@ -13,8 +13,7 @@ class LoginController < ApplicationController
     end
   end
   
-  def index
-
+  def index     
     #Check if user is logged in and redirect to home controller if they are
     if logged_in? 
       user = self.current_user
@@ -25,8 +24,8 @@ class LoginController < ApplicationController
          self.current_user.forget_me
          reset_session     
       end    
-    end
-    
+  end
+  
     # Handles the login form post
     if request.post?
       # Authenticate based on un/pw as well as subdomain
@@ -42,12 +41,20 @@ class LoginController < ApplicationController
         session[:first_name] = self.current_user.first_name # Store user's first name
         session[:email] = self.current_user.email # Store user's email
         session[:is_super_admin] = self.current_user.is_super_admin
-        redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
+        if params[:frm_m] == 'mobile'            
+            redirect_to(:controller=>'/mobile', :action=>'devices')  
+        else    
+           redirect_back_or_default(:controller => '/home', :action => 'index') # Login success
+        end
       # Send them back to the login page with appropriate error message
       else
           flash[:message] = 'Please specify a valid username and password.'
           flash[:username] = params[:email]
-          redirect_back_or_default '/login'
+          if params[:frm_m] == 'mobile'            
+             redirect_to(:controller=>'/mobile',:action=>'index')  
+          else    
+             redirect_back_or_default '/login'
+          end
       end
     # Display the appropriate login form based on subdomain
     else
@@ -119,7 +126,11 @@ class LoginController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_back_or_default(:controller => '/login', :action => 'index')
+    if params[:f_mb] == 'frm_mob'
+       redirect_to(:controller=>'mobile',:action=>'index')  
+    else    
+      redirect_back_or_default(:controller => '/login', :action => 'index')
+    end
   end
   
 

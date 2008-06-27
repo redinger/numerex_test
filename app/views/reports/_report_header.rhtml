@@ -22,8 +22,10 @@
                 <td>
                       <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get">                     
                      
-                     from  <%= date_select(:start_time1, :order=>[:month, :day,:year])%>  to  
-                              <%= date_select(:end_time1, :order=>[:month,:day,:year])%>                                 
+                     from  &nbsp;<%#= date_select(:start_time1,"", :order => [:month,:day,:year] ) %>  
+                              <%#= date_select(:end_time1, "", :order => [:month,:day,:year] ) %>&nbsp;                                 
+                              <%= select_date(@start_time,:order=>[:month,:day,:year], :prefix=>"start_time1")%>&nbsp;to&nbsp;  
+                              <%= select_date(@end_time,:order=>[:month,:day,:year],:prefix=>"end_time1")%>
                      <input name="commit" type="submit" value="Go" />
                      </form>
                 </td>
@@ -45,3 +47,4 @@
 		</tr>
 	</table>
 </div>
+<%flag=false%>
