@@ -25,15 +25,14 @@
                  <%end%>
                  <%if device.recent_reading_id != 0 %>                
                        (<%= time_ago_in_words device.readings[0].created_at %> ago)
-                 <%else%> 
-                      N/A
                  <%end%><br />
                  <%if device.recent_reading_id != 0 %>                
                        <%= device.readings[0].shortAddress %> 
                   <%else%> 
-                      N/A
+                      No readings yet
                   <%end%>
 	   	   </li>
+		  <li><hr /></li>
          <%end%>
         <li><a href="#">View all on map</a></li>
 		<li>
