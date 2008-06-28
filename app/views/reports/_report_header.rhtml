@@ -9,7 +9,7 @@
 %>
 
 <div style="margin-bottom: 10px;">
-	<table width="100%">
+	<table width="100%" border="0">
 		<tr>
 			<td align="left">
 				<span class="dark_blue_header"><%= title %> for: </span>
@@ -18,23 +18,14 @@
 						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
 					<% end %>
 				</select>
-			</td>
-                <td>
-                      <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get">                     
+                    <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" style="display:inline;">                     
                      
-                     from  &nbsp;<%#= date_select(:start_time1,"", :order => [:month,:day,:year] ) %>  
-                              <%#= date_select(:end_time1, "", :order => [:month,:day,:year] ) %>&nbsp;                                 
-                              <%= select_date(@start_time,:order=>[:month,:day,:year], :prefix=>"start_time1")%>&nbsp;to&nbsp;  
+                     <span class="dark_blue_header">from: </span>                 
+                              <%= select_date(@start_time,:order=>[:month,:day,:year], :prefix=>"start_time1")%> <span class="dark_blue_header">to:</span>   
                               <%= select_date(@end_time,:order=>[:month,:day,:year],:prefix=>"end_time1")%>
                      <input name="commit" type="submit" value="Go" />
                      </form>
                 </td>
-            
-			<td align="center">
-				<% if @record_count < 0 %>
-					<span style="background-color: #FFFFCC; font-weight: bold; padding: 8px 20px; color: #666666;"> We're sorry, there's no data for this device within the specified timeframe.</span>
-				<% end %>
-			</td>
 			<td align="right">
 				&nbsp;&nbsp;
 				<% if @record_count > 0 %>
