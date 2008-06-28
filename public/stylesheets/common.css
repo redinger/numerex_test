@@ -25,8 +25,8 @@ div#company {
 }
 
 #ub-login{ float:right; font-size:10px; color:#FFFFFF; margin-right:20px}
-#ub-login a:link {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
-#ub-login a:visited {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
+#ub-login a:link {color:#fff; font-family:Arial, Helvetica, sans-serif; font-weight:normal;text-decoration:underline; }
+#ub-login a:visited {color:#fff; font-family:Arial, Helvetica, sans-serif; font-weight:normal;text-decoration:underline; }
 #ub-login a:hover {color:#fff;text-decoration:none;}
 
 .small_white {
@@ -270,7 +270,7 @@ div#success_message {
 /*ganrel CSS */
 #ub_account_tbl{width:23%; padding:0px; padding-bottom:0px;margin-bottom:10px;float:left; clear:left; margin-right:2%}
 #ub_account_tbl div {padding-bottom:10px;}
-#ub_account_tbl h3 {font-size: 18px;color: #003366; padding-top:5px;margin-bottom:5px; padding-bottom:0px; width:90%; }
+#ub_account_tbl h3 {font-size: 18px;color: #003366; padding-top:5px;margin-bottom:5px; padding-bottom:0px;}
 #dark_topbar{width:99.0%; padding:4px 1% 4px 1%;background-color:#cccccc; line-height:19px;color:#003366;}
 #light-greybar{width:99.0%;  padding:4px 1% 4px 1%; background-color:#f8f8f8; line-height:19px;}
 .ub-ajax{ color:#1364B2; cursor:pointer}
@@ -281,4 +281,5 @@ div#success_message {
 #top_head{width:100%; overflow:hidden; padding-top:5px; margin-bottom:10px;}
 #top_head h3 {font-size: 18px;color: #003366; padding:0px; margin:0px; width:90%; float:left}
 .alert{width:942px;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#E5F1F4;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;font-size:10pt;}
+#helper { padding: 0 0 10px; }
 /*ganrel CSS end*/

@@ -2,11 +2,17 @@
     <div id="success_message"><%= flash[:message] %></div>
 <% end %>
 
- <!-- Content starts here -->
-    <div >
-      <h2>Your Groups</h2> 
-      <p>Groups are a great way to keep your devices organized. <a href="/devices/new_group" >Create a group</a> and add devices to it. Assign a unique icon for each of your groups. On the <a href="/home" class="link-all1">overview screen</a> your devices will display in groups with the icons you selected.</p>
-    </div>
+<div class="container">
+	<div id="top_head">
+		<h3>Your Groups</h3>
+		<div id="tab_rt"><a href="/devices/new_group" title="Create new group">Add New Group</a>
+	</div>
+</div>
+
+<div id="helper">
+	Groups are a great way to keep your devices organized. Creating a group is easy and allows you to quickly see which devices are associated with your group on the <a href="/home" class="link-all1">overview screen</a>. Click the "Add New Group" link above to create a group.
+</div>
+
    
     <%if @groups.empty?%>
          <div class="crt_group1"> 
