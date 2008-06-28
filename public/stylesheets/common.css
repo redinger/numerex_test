@@ -113,7 +113,6 @@ a:hover {color:#1364B2;text-decoration:none;}
 /*content CSS */
 div#content {
 	margin: 10px;
-	padding:0 10px 0 10px;
 	min-height: 400px;
 }
 
