@@ -18,14 +18,15 @@
 						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
 					<% end %>
 				</select>
-                    <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" style="display:inline;">                     
+                    <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" style="display:inline">                     
                      
                      <span class="dark_blue_header">from: </span>                 
-                              <%= select_date(@start_time,:order=>[:month,:day,:year], :prefix=>"start_time1")%> <span class="dark_blue_header">to:</span>   
-                              <%= select_date(@end_time,:order=>[:month,:day,:year],:prefix=>"end_time1")%>
+                              <%= select_date(@start_time, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"start_time1")%> <span class="dark_blue_header">to:</span>   
+                              <%= select_date(@end_time, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"end_time1")%>
                      <input name="commit" type="submit" value="Go" />
                      </form>
                 </td>
+				<td><div id="result_count">1-25 of 1,000 readings</div></td>
 			<td align="right">
 				&nbsp;&nbsp;
 				<% if @record_count > 0 %>
