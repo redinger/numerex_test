@@ -10,6 +10,7 @@ body {
 div#content {
 	margin: 10px;
 	min-height: 400px;
+	padding: 0 10px;
 }
 
 div#header {

@@ -114,6 +114,7 @@ a:hover {color:#1364B2;text-decoration:none;}
 div#content {
 	margin: 10px;
 	min-height: 400px;
+	padding: 0 10px;
 }
 
 .container{width:100%; clear:both;}
