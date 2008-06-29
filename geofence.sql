@@ -43,7 +43,7 @@ CREATE TRIGGER trig_readings_insert BEFORE INSERT ON readings FOR EACH ROW BEGIN
 		#alter reading and do not continue to exit checking if there are any new violations
 		IF new_violation_count>0 THEN
 		  SELECT fence_id into first_fence_id from temp_violated_fences order by fence_id limit 1;
-		  SET NEW.event_type = CONCAT('enter_geofen_', first_fence_id);
+		  SET NEW.event_type = CONCAT('entergeofen_', first_fence_id);
 		  SET proceed = false; 
 		END IF; 
 		
@@ -62,7 +62,7 @@ CREATE TRIGGER trig_readings_insert BEFORE INSERT ON readings FOR EACH ROW BEGIN
 			#if there are any exits, process first one
 			IF geofence_exit_count > 0 THEN
 		  		SELECT fence_id INTO first_fence_id FROM temp_exited_fences ORDER BY fence_id LIMIT 1;
-		  		SET NEW.event_type = CONCAT('exit_geofen_', first_fence_id);
+		  		SET NEW.event_type = CONCAT('exitgeofen_', first_fence_id);
 		  		DELETE FROM geofence_violations WHERE device_id=NEW.device_id 
 		    		AND geofence_id=(SELECT fence_id from temp_exited_fences WHERE fence_id=first_fence_id);
 			END IF;
