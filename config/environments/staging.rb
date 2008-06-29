@@ -1,5 +1,4 @@
 # Settings specified here will take precedence over those in config/environment.rb
-ENV['RAILS_ENV'] ||= 'staging'
 
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests
