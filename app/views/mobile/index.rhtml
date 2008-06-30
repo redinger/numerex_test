@@ -13,12 +13,12 @@
 </head>
 
 <body id="body">
-<div class="toolbar"><img src="/images/logo.png" alt="" /></div>       
+<div class="toolbar"><img src="/images/logo.png" alt="" /></div>
+<form action="/login" method="post" id="logform">     
     <ul> 
  <%if  flash[:message]%>     
      <div id="error_message"><%= flash[:message]%></div>     
      <%end%>    
-            <form action="/login" method="post" id="logform">
             <li>Username: <br/>                  
             <input type="text" id="username" name="email" class="input" value="<%= flash[:username] %>"/>
             </li>
@@ -28,10 +28,10 @@
             </li>
             <li><input type="checkbox" id="remember_me" name="remember_me"/> Remember me</li>
             <li>
-              <input type="submit" value="Sign in" />
-           </form>    
+              <input type="submit" value="Sign in" />    
             </li>       		
 		<li>&copy; 2008 Ublip</li>        
-    </ul>    
+    </ul>
+</form>
 </body>
 </html>
