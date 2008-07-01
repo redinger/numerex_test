@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 39) do
+ActiveRecord::Schema.define(:version => 40) do
 
   create_table "accounts", :force => true do |t|
     t.column "company",     :string,   :limit => 75
@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(:version => 39) do
     t.column "updated_at", :datetime
     t.column "address",    :string
     t.column "fence_num",  :integer
-    t.column "latitude",   :decimal,                :precision => 15, :scale => 10
-    t.column "longitude",  :decimal,                :precision => 15, :scale => 10
+    t.column "latitude",   :float
+    t.column "longitude",  :float
     t.column "radius",     :float
     t.column "account_id", :integer
   end
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 39) do
     t.column "note",       :string
     t.column "address",    :string,   :limit => 1024
     t.column "notified",   :boolean,                  :default => false
+    t.column "creat",      :datetime
   end
 
   add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
@@ -118,6 +119,14 @@ ActiveRecord::Schema.define(:version => 39) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "stop_events", :force => true do |t|
+    t.column "latitude",   :float
+    t.column "longitude",  :float
+    t.column "duration",   :integer
+    t.column "device_id",  :integer
+    t.column "created_at", :datetime
+  end
 
   create_table "users", :force => true do |t|
     t.column "first_name",                :string,   :limit => 30
@@ -137,6 +146,16 @@ ActiveRecord::Schema.define(:version => 39) do
     t.column "time_zone",                 :string
     t.column "is_super_admin",            :boolean,                :default => false
     t.column "access_key",                :string
+  end
+
+  create_table "xyz", :force => true do |t|
+    t.column "name",       :string,   :limit => 30
+    t.column "bounds",     :string
+    t.column "device_id",  :integer
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
+    t.column "address",    :string
+    t.column "fence_num",  :integer
   end
 
 end
