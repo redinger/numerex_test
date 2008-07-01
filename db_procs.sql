@@ -1,6 +1,20 @@
 DELIMITER ;;
 USE ublip_prod;;
 
+DROP FUNCTION IF EXISTS distance;;
+CREATE FUNCTION distance (	
+	lat1 FLOAT,
+	lng1 FLOAT,
+	lat2 FLOAT,
+	lng2 FLOAT
+) RETURNS FLOAT
+DETERMINISTIC
+COMMENT 'Calculate distance between two points in miles'
+BEGIN
+	RETURN (((acos(sin((lat1*pi()/180)) * sin((lat2*pi()/180)) + cos((lat1*pi()/180)) * cos((lat2*pi()/180)) 
+   * cos(((lng1 - lng2)*pi()/180))))*180/pi())*60*1.1515);
+END;;
+
 DROP PROCEDURE IF EXISTS insert_stop_event;;
 CREATE PROCEDURE insert_stop_event(
 	_latitude FLOAT,
