@@ -40,5 +40,30 @@ END;;
 DROP PROCEDURE IF EXISTS process_stop_events;;
 CREATE PROCEDURE process_stop_events()
 BEGIN
-
+	DECLARE num_events_to_check INT;
+	CREATE TEMPORARY TABLE open_stop_events(stop_event_id INT(11), checked BOOLEAN);
+	INSERT INTO open_stop_events SELECT id, FALSE FROM stop_events where duration IS NULL;
+	SELECT COUNT(*) INTO num_events_to_check FROM open_stop_events WHERE checked=FALSE;
+	WHILE num_events_to_check>0 DO BEGIN
+		DECLARE eventID INT;
+		DECLARE first_move_after_stop_id INT;
+		DECLARE stopDuration INT;
+		DECLARE deviceID INT;
+		DECLARE stopTime DATETIME;
+		
+		SELECT stop_event_id INTO eventID FROM open_stop_events WHERE checked=FALSE limit 1;
+		SELECT device_id, created_at into deviceID, stopTime FROM stop_events where id=eventID;
+		UPDATE open_stop_events SET checked=TRUE WHERE stop_event_id=eventId;
+		
+		SELECT id INTO first_move_after_stop_id FROM readings  
+		  WHERE device_id=deviceID AND speed>1 AND created_at>stopTime ORDER BY created_at ASC LIMIT 1;
+		  
+		IF first_move_after_stop_id IS NOT NULL THEN
+			SELECT TIMESTAMPDIFF(MINUTE, stopTime, created_at) INTO stopDuration FROM readings where id=first_move_after_stop_id;
+			UPDATE stop_events SET duration = stopDuration where id=eventID;
+		END IF;
+		
+		SELECT COUNT(*) INTO num_events_to_check FROM open_stop_events WHERE checked=FALSE;
+	END;
+	END WHILE;
 END;;
