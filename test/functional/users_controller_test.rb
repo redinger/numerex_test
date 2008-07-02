@@ -78,5 +78,14 @@ class UsersControllerTest < Test::Unit::TestCase
     assert_equal flash[:message], "Email has already been taken<br />"
   end
   
+  def test_delete
+      #delete invalid record
+      post :delete,{:id=>1}, {:user => users(:dennis), :user_id => users(:dennis).id, :account_id => users(:dennis).account_id}
+      assert 302
+      
+      #delete valid record
+      post :delete,{:id=>5}, {:user => users(:dennis), :user_id => users(:dennis).id, :account_id => users(:dennis).account_id}
+      assert_redirected_to :controller => "users"
+  end    
   
 end

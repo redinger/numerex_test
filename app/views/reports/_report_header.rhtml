@@ -26,7 +26,9 @@
                      <input name="commit" type="submit" value="Go" />
                      </form>
                 </td>
-				<td><div id="result_count">Displaying 1-25 of 1,000</div></td>
+                    <%if !(@record_count <= 0) %>
+				    <td><div id="result_count"><b><%= display_result_count(params[:page].to_i,@actual_record_count,ResultCount)%></b></div></td>
+                    <%end%>
 			<td align="right">
 				&nbsp;&nbsp;
 				<% if @record_count > 0 %>

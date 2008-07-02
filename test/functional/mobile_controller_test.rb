@@ -28,4 +28,9 @@ class MobileControllerTest < Test::Unit::TestCase
        assert_response :success
    end
    
+   def test_view_all
+      get :view_all, {},{:user => users(:dennis), :account_id => "1"}   
+      assert_response :success
+   end
+   
 end

@@ -49,6 +49,10 @@ class ApplicationController < ActionController::Base
     last = [first + options[:per_page], options[:collection].size].min
     slice = options[:collection][first...last]
     return [pages, slice]
+ end
+
+  def date_helpers
+    Helper.instance
   end
 
    def check_action_for_user
@@ -124,4 +128,9 @@ class ApplicationController < ActionController::Base
     def set_page_title
       @page_title = "Ublip - Location Matters"
     end
+end
+
+class Helper
+    include Singleton
+    include ActionView::Helpers::DateHelper
 end

@@ -53,4 +53,21 @@ module ApplicationHelper
          return flash_string
      end       
 
+     def display_result_count(page,total_count,per_page)
+         page = 1 if page.to_i == 0
+         if (total_count<=per_page)
+             return "Displaying 1 - #{total_count} of #{total_count}"
+         else
+             approximate_number=per_page*page
+             if (approximate_number>=total_count )
+                 end_limit = total_count
+                 start_limit = total_count - ( total_count%per_page)
+                 return "Displaying #{start_limit+1} - #{end_limit} of #{total_count}" 
+             else
+                 start_limit = approximate_number - per_page
+                 return "Displaying #{start_limit+1} - #{approximate_number} of #{total_count}"
+             end    
+         end    
+     end   
+     
 end

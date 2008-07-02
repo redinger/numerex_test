@@ -1,32 +1,20 @@
-// Place your application-specific JavaScript functions and classes here
-// This file is automatically included by javascript_include_tag :defaults
-//<script>
-function ValidateForm(){
-var emailID=document.getElementById('email').value.replace(/^\s/,"");
-	if ((emailID.length <= 0))
-	{
-		//return true; // TODO only disallow blank if FLAG not checked
-		alert("Email can't be blank."); 
-        document.getElementById('email').focus();
-		return false
-	}
-    var emailID=document.getElementById('email')
-	return CheckEmail(emailID,"");
- }
-
-
-function CheckEmail(FormField,notification_prompt){    
-	var array = FormField.value.split(",");                
-	for(var i=0;i< array.length;i++)	{
-		if(array[i].match(/[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/)==null){alert(FormField.title + " is not a valid  format"); FormField.focus(); return false}
-		}	
-	//alert(FormField.name);
-	return true;
-	}
-
-//</script>
-
-
-
-
+function select_action()
+{  
+  var Index = document.getElementById("type1").selectedIndex;
+  var selected_text = document.getElementById("type1").options[Index].text;      
+    if (selected_text == "New group")
+    {
+         szNewURL = "http://"+document.location.hostname+"/devices/new_group"         
+        window.location.href=szNewURL;            
+    }
+    else if (selected_text == "Edit groups")
+    {
+         szNewURL = "http://"+document.location.hostname+"/devices/groups" 
+        window.location.href=szNewURL;                
+    }
+    else
+    { 
+       new Ajax.Updater('to_update', '/home/show_devices', {asynchronous:true, evalScripts:true, parameters:'type='+escape($F('type1'))});javascript:getRecentReadings(true,document.getElementById('type1').value);
+    }
+}
 

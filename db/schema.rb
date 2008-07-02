@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "updated_at", :datetime
     t.column "address",    :string
     t.column "fence_num",  :integer
-    t.column "latitude",   :float
-    t.column "longitude",  :float
+    t.column "latitude",   :decimal,                :precision => 15, :scale => 10
+    t.column "longitude",  :decimal,                :precision => 15, :scale => 10
     t.column "radius",     :float
     t.column "account_id", :integer
   end
@@ -102,7 +102,6 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "note",       :string
     t.column "address",    :string,   :limit => 1024
     t.column "notified",   :boolean,                  :default => false
-    t.column "creat",      :datetime
   end
 
   add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
@@ -146,16 +145,6 @@ ActiveRecord::Schema.define(:version => 40) do
     t.column "time_zone",                 :string
     t.column "is_super_admin",            :boolean,                :default => false
     t.column "access_key",                :string
-  end
-
-  create_table "xyz", :force => true do |t|
-    t.column "name",       :string,   :limit => 30
-    t.column "bounds",     :string
-    t.column "device_id",  :integer
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-    t.column "address",    :string
-    t.column "fence_num",  :integer
   end
 
 end

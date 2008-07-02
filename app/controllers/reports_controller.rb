@@ -1,13 +1,12 @@
  require 'fastercsv'
-
+ ResultCount = 25 # Number of results per page
+ 
 class ReportsController < ApplicationController
   before_filter :authorize
   before_filter :authorize_device, :except => ['index']
-  
-  StopThreshold = 180 #stop event is triggered at 3min idle time
-  ResultCount = 25 # Number of results per page
+  StopThreshold = 180 #stop event is triggered at 3min idle time  
   DayInSeconds = 86400
-  NUMBER_OF_DAYS = 60
+  NUMBER_OF_DAYS = 7
   MAX_LIMIT=999 #max no. of results
   
   module StopEvent
@@ -22,9 +21,11 @@ class ReportsController < ApplicationController
   def all      
      get_start_and_end_time# common method for setting start time and end time  Line no. 82       
      @device_names = Device.get_names(session[:account_id])
-     @readings =Reading.find(:all, :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_time, @end_time],:order => "created_at desc", :limit=>MAX_LIMIT)                               
+     @readings = Reading.find(:all, :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_time, @end_time],:order => "created_at desc")                               
      @pages,@readings = paginate_collection(:collection => @readings,:page => params[:page],:per_page => ResultCount)   
-     @record_count = Reading.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_time, @end_time], :limit=>MAX_LIMIT)
+     @record_count = Reading.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_time, @end_time])
+     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
+     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT     
   end
 
    
@@ -40,14 +41,15 @@ class ReportsController < ApplicationController
     stopevent_readings = Reading.find(:all, {:order => "created_at asc", :conditions => ["device_id = ? and event_type=\'startstop_et41\' and created_at between ? and ?", params[:id], @start_time, @end_time]})        
     filter_stops(stopevent_readings)
     @stops=get_stops(stopevent_readings)
-    @record_count = @stops.size   
+    @record_count = @stops.size
+    @actual_record_count = @record_count
     @stops.sort! {|r1,r2| r2.created_at <=> r1.created_at}
     @pages,@stops = paginate_collection(:collection => @stops,:page => params[:page],:per_page => ResultCount)
   end
     
    def get_stops(stopevent_readings)
      @stops = Array.new  
-     stop_count=0
+     #stop_count=0
      stopevent_readings.each_index { |index|
                             currentReading = stopevent_readings[index]
                             if stopevent_readings[index].speed==0
@@ -68,8 +70,8 @@ class ReportsController < ApplicationController
                                 end
                               end
                               @stops.push stopEvent
-                              stop_count = stop_count + 1                              
-                              break if stop_count == MAX_LIMIT                               
+                              #stop_count = stop_count + 1                              
+                              #break if stop_count == MAX_LIMIT                               
                             end
                         }    
              return @stops
@@ -80,9 +82,11 @@ class ReportsController < ApplicationController
     get_start_and_end_time # common method for setting start time and end time Line no. 82 
     @geofences = Device.find(params[:id]).geofences # Geofences to display as overlays
     @device_names = Device.get_names(session[:account_id])
-     @readings = Reading.find(:all, :conditions => ["device_id = ? and event_type like '%geofen%' and created_at between ? and ?", params[:id], @start_time, @end_time], :order => "created_at desc", :limit=>MAX_LIMIT) 
+     @readings = Reading.find(:all, :conditions => ["device_id = ? and event_type like '%geofen%' and created_at between ? and ?", params[:id], @start_time, @end_time], :order => "created_at desc") 
      @pages,@readings = paginate_collection(:collection => @readings,:page => params[:page],:per_page => ResultCount)   
-     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and created_at between ? and ?", params[:id], @start_time, @end_time], :limit=>MAX_LIMIT)
+     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and created_at between ? and ?", params[:id], @start_time, @end_time])
+     @actual_record_count = @record_count
+     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT     
   end
 
   def get_start_and_end_time
@@ -136,11 +140,29 @@ class ReportsController < ApplicationController
          readings = get_stops(readings)
      end    
     stream_csv do |csv|
-      csv << ["latitude", "longitude", "address", "speed", "direction", "altitude", "event_type", "note", "when"]
-      readings.each do |reading|
-        csv << [reading.latitude, reading.longitude, reading.shortAddress, reading.speed, reading.direction, reading.altitude, reading.event_type, reading.note, reading.created_at]
-      end
+     if params[:type] == 'stop'
+        csv << ["Location","Stop Duration (s)", "when","Latitude", "Longitude", "Event type"]  
+     else    
+        csv << ["Location","Speed (mph)", "When","Latitude", "Longitude","Event type"]
+    end 
+     if params[:type] == 'stop'
+        readings.each do |reading|                    
+            stop_duration = get_duration(reading) ||  "unknown"            
+            csv << [reading.shortAddress,stop_duration,reading.created_at, reading.latitude, reading.longitude, reading.event_type]            
+        end
+     else
+        readings.each do |reading|        
+            csv << [reading.shortAddress,reading.speed,reading.created_at,reading.latitude, reading.longitude,reading.event_type ]
+        end        
+     end    
     end
+  end
+  
+  def get_duration(reading)      
+     length = nil
+     if(!reading.duration.nil? && reading.duration>0) then length=date_helpers.time_ago_in_words Time.now+reading.duration end      
+     if(!reading.duration.nil? && reading.duration<0) then length="in progress: " + (date_helpers.time_ago_in_words reading.created_at+StopThreshold) + " so far" end
+     return length
   end
   
   def speed

@@ -80,10 +80,10 @@ class LoginController < ApplicationController
          url = url_for(:action => 'password')
          url += "?id=#{user.id}&subdomain=#{user.account_id}&key=#{key}"
          Notifier.deliver_forgot_password(user, url)
-         flash[:success] = "A change password request was sent to #{user.email}."
+         flash['message'] = "Please check #{user.email} to change the password."
          redirect_to :action => 'index'
       else
-        flash[:message] = 'Please specify a valid email address.'
+        flash[:message] = 'Please specify a valid username.'
         render :action => 'forgot_password'
       end  
     end
@@ -104,7 +104,7 @@ class LoginController < ApplicationController
               #Notifier.deliver_change_password(@user, params['user']['password'])
               @user.access_key = nil
               @user.save
-              flash[:success] = "Password changed successfully."
+              flash[:message] = "New password is mailed to #{@user.email}"
               redirect_to :action => 'index'     
             else  
                flash[:message] = 'Password change failed'

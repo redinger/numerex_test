@@ -512,3 +512,6 @@ function toggleMap() {
 	
 	gmap.checkResize();
 }
+
+
+

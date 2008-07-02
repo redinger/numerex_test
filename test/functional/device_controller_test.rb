@@ -25,8 +25,8 @@ class DeviceControllerTest < Test::Unit::TestCase
   end
   
   def test_index   
-    get :index, {}, { :user => users(:dennis)} 
-    assert_response :success    
+    get :index, {}, { :user => users(:dennis), :account_id => 1}     
+    assert_response :success        
  end
   
    def test_view
@@ -143,6 +143,10 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_response :success
   end
 
+  def test_search_devices
+     get :search_devices, {:device_search=>'device'} , { :user => users(:dennis), :account_id => "1" }
+     assert_response :success
+  end
   
 # Removing until we need it again. For some reason it causes the build to choke even though devices.choose_phone should be redirecting properly
 # and the offending code (Text_Message_Webservice) was commented out a couple weeks ago

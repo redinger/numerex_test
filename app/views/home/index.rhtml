@@ -1,4 +1,4 @@
- <table width="100%" border="0">
+<table width="100%" border="0">
     <tr>
         <td width="50%" valign="top" id="left_panel">
         	<% if @devices.size == 0 %>
@@ -13,13 +13,13 @@
           <table width="100%" class="panel_table" style=" overflow:auto;">                            
             <tr>
               <td colspan="4" class="header" width="100%"><span style=" float:left;clear:left;width:50%; padding-top:3px">Device Summary  </span><span style=" text-align:right;float:left;clear:none;width:49%">
-                    <select id="type1" style="float:right;" name="type" onchange="<%=remote_function(:update => "to_update", :url => { :controller => :home, :action => :show_devices}, :with=>"'type='+escape($F('type1'))")%>;javascript:getRecentReadings(true,document.getElementById('type1').value);"> <!--  -->
-                        <option id="" disabled="disabled">Actions</option>
-                        <option id="" disabled="disabled">View</option>
-                        <option id="" disabled="disabled">----------</option>
-                        <option value="all" selected="selected">All Assets </option>
+                    <select id="type1" style="float:right; width:100px; margin-right:1px;" name="type" onchange="select_action(this);"> <!--  -->
+                        <option id=""  value="new">New group</option>
+                        <option id=""  value="edit">Edit groups</option>
+                        <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
+                        <option value="all"  selected style="background-color:#c5f794;">  All Devices  </option>
                              <% for group in @all_groups %>
-                        <option value='<%= group.id%>'><%= group.name%> </option>
+                        <option <%if session[:gmap_value].to_i == group.id%> selected <%end%> value='<%= group.id%>'><%= group.name%> </option>
                               <% end %>
                     </select>            
               </td>
@@ -46,6 +46,9 @@
                      <%else%>
                           <tr><td>No devices in this group.</td></tr>
                      <%end%>
+                     <!-- tr> 
+                          <td colspan="4" style="height:8px;line-height:8px; font-size:2px;"></td>
+                     </tr -->
                 <%end%>
            <%end%>
            <%if !@default_devices.empty?%>
@@ -62,8 +65,46 @@
                     <%= show_device device %> 
                 <%end%>
            <%end%>           
-            </table>
+            </table>           
            </div > 
+          
+			<!--div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
+				<div class="dark_grey">
+                   <div class="dark_blue_header" style="margin-bottom: 5px;">Traffic Overlay</div>
+					Click the checkbox below to view a traffic overlay on the map.  The traffic overlay is a series of stop light icons that you can click and zoom for more
+					detailed information.  If you've already zoomed in to an appropriate level, and if data is available for your region, you will see color coded lines. These lines
+					represent how fast traffic is moving:
+					<ul>
+						<li>Green: more than 50 mph</li>
+						<li>Yellow: 25-50 mph</li>
+						<li>Red: less than 25 mph</li>
+						<li>Gray: no data available</li>
+					</ul>
+					<p><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Show traffic overlay</p>
+                </div>
+				<<ul>					
+					<li><input type="checkbox"> Geofences</li>
+					<li><input type="checkbox"> Crime areas</li>
+					<li><input type="checkbox"> Service stations</li>
+					<li><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Traffic</li>
+					<li><input type="checkbox" onclick="getLocal(this, 'gas stations');"> Gas stations</li>
+					<li><input type="checkbox"> Pizza parlors</li>
+					<li><input type="text" size="15" /> <input type="submit" value="search" /></li>
+					<a href="">Add your own layer</a>
+				</ul>
+			</div>
+			<br />
+            <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
+                <span style="font-size: 16px; color: #666666;">
+                    What would you like to do?
+                </span>
+                <ul>
+                    <li><a href="javascript:go('/geofence/view');">View geofence</a></li>
+                    <li><a href="javascript:go('/geofence/new');">Create geofence</a></li>
+                    <li><a href="#">Subscribe to GeoRSS</a></li>
+                    <li><a href="#">Export to KML</a></li>
+                </ul>
+            </div-->
         </td>
         <td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
         <td valign="top" width="50%" id="right_panel">

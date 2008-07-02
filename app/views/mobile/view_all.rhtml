@@ -1,9 +1,9 @@
     <ul>
         <li><h1>My Devices</h1></li>
-         <%for device in @devices%> 
+         <%for device in @all_devices_with_map%> 
             <li>
                  <% if device.recent_reading_id != 0%>
-                    <a href="/mobile/show_device/<%= device.id%>" title="Center map on this device"><%= device.name%></a>
+                    <strong><%= @range[@all_devices_with_map.index(device)] %>: </strong><a href="/mobile/show_device/<%= device.id%>" title="Center map on this device"><%= device.name%></a>
                  <%else%>
                      <%= device.name%>         
                  <%end%>
@@ -18,8 +18,15 @@
                       N/A
                   <%end%>
 	   	   </li>
-         <%end%>
-        <li><a href="/mobile/view_all">View all on map</a></li>
+             <%if !device.readings[0].nil?%>   
+               <li>                        
+                  <img src="http://maps.google.com/staticmap?center=<%= device.readings[0].latitude %>,<%= device.readings[0].longitude %>&zoom=14&size=240x320&maptype=mobile&markers=<%= device.readings[0].latitude %>,<%= device.readings[0].longitude %>,<%= MAP_MARKER_COLOR[ device.icon_id-1]%>&key=<%= API_KEY %>" />                           
+               </li>
+            <%end%>
+       <%end%>  
+		<li>
+		   <a href="<%= session[:referral_url] %>">Back</a>
+		</li>        
 		<li>
 		  <a href="#" onclick="window.location.reload(true);">Refresh</a>
 		</li>

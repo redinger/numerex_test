@@ -55,7 +55,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   def test_invalid_device
      post :new, {:id => "1", :name =>"", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
-     assert_equal flash[:message], "Geofence not created"      
+     assert_equal flash[:error], "Geofence not created"      
   end
   
   def test_create
@@ -94,12 +94,12 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   def test_edit_invalid_geofence
       post :edit, {:device_id => '1', :id => '1', :name => "", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:dennis), :account_id => "1" }
-      assert flash[:message] 
+      assert flash[:error] 
   end
   
   def test_edit_unautharized_geofence      
       post :edit, {:device_id => '1', :id => '1', :name => "", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:ken), :account_id => "3" }
-      assert_equal "Invalid action.", flash[:message]      
+      assert_equal "Invalid action.", flash[:error]      
   end
   
   def test_view_gf_is_true_for_device
@@ -119,7 +119,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   def test_delete_unautharized      
       post :delete, {:id => '2', :device_id => '1'}, { :user => users(:ken), :account_id => "3" }
-      assert_equal 'Invalid action.',flash[:message]
+      assert_equal 'Invalid action.',flash[:error]
   end
   
 end

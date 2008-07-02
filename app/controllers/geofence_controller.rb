@@ -23,7 +23,7 @@ class GeofenceController < ApplicationController
         flash[:message] = "#{geofence.name} created succesfully"
         redirect_to geofence_url
       else
-        flash[:message] = 'Geofence not created'
+        flash[:error] = 'Geofence not created'
       end
     end
   end
@@ -43,11 +43,11 @@ class GeofenceController < ApplicationController
           flash[:message] = "#{@geofence.name} updated succesfully"
          redirect_to params[:ref_url]
        else
-         flash[:message] = "#{@geofence.name} not updated"
+         flash[:error] = "#{@geofence.name} not updated"
        end
       end  
      else
-        flash[:message] = 'Invalid action.'
+        flash[:error] = 'Invalid action.'
         redirect_to params[:ref_url]       
      end    
   end  
@@ -100,7 +100,7 @@ class GeofenceController < ApplicationController
         Geofence.delete(params[:id])
         flash[:message] = "#{@geofence.name} deleted successfully"
      else
-        flash[:message] = 'Invalid action.'   
+        flash[:error] = 'Invalid action.'   
      end    
      redirect_to geofence_url
   end  

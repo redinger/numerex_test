@@ -61,6 +61,7 @@ demo:
  salt: <%= @SALT %>
  crypted_password: <%= User.encrypt('testing', @SALT) %>
  account_id: 1
+ is_master: 0
  created_at: <%= 1.day.ago.to_s :db %>
  
 dennis2:
