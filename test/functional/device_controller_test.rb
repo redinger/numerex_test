@@ -36,7 +36,7 @@ class DeviceControllerTest < Test::Unit::TestCase
    
   def test_new_group 
      post :new_group, {:id => "7", :name=>"summer of code", :select_devices=>[4], :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
-     assert_equal "Group summer of code was successfully added",flash[:message]
+     assert_equal "Group summer of code was successfully added",flash[:success]
      group=Group.find_by_name("summer of code")
      assert_equal group.name, "summer of code"            
      assert_redirected_to :controller => "devices", :action=>"groups"
@@ -44,13 +44,13 @@ class DeviceControllerTest < Test::Unit::TestCase
     
   def test_new_group_invalid
       post :new_group, {:id => "7", :name=>"", :select_devices=>nil, :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
-      assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:message]
+      assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:error]
       assert_redirected_to :controller => "devices", :action=>"new_group"
   end   
   
   def test_edits_group
      post :edits_group, {:id => "1", :name=>"summer of code", :select_devices=>[4], :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}           
-     assert_equal "Group summer of code was updated successfully ",flash[:message]
+     assert_equal "Group summer of code was updated successfully ",flash[:success]
      group=Group.find_by_name("summer of code")
      assert_equal group.name, "summer of code"
      assert_redirected_to :controller => "devices", :action=>"groups"
@@ -63,13 +63,13 @@ class DeviceControllerTest < Test::Unit::TestCase
   
   def test_edits_group_invalid
       post :edits_group, {:id => "1", :name=>"", :select_devices=>nil, :image_value=>"4", :account_id=>"1"}, {:user => users(:dennis), :account_id => "1"}          
-      assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:message]
+      assert_equal "Group name can't be blank <br/>You must select at least one device ",flash[:error]
       assert_redirected_to :controller => "devices", :action=>"edits_group", :group_id=>1
   end   
 
   def test_delete_group
       post :delete_group, {:id=>"1"}, { :user => users(:dennis), :account_id => "1" }
-      assert_equal "Group Dennis was deleted successfully ", flash[:message]
+      assert_equal "Group Dennis was deleted successfully ", flash[:success]
       assert_redirected_to :controller => "devices", :action=>'groups'
   end   
   

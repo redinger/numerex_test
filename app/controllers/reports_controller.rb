@@ -118,33 +118,36 @@ class ReportsController < ApplicationController
 
   # Export report data to CSV 
   def export    
-    unless params[:page]
-      params[:page] = 1
-    end    
-    # Determine report type so we know what filter to apply
-    if params[:type] == 'all'
-      event_type = '%'
-    elsif params[:type] == 'stop'
-      event_type = '%stop%'
-    elsif params[:type] == 'geofence'
-      event_type = '%geofen%'
-  end        
-    start_time = params[:start_time].to_time
-    end_time = params[:end_time].to_time    
-    readings = Reading.find(:all, :order => "created_at desc",                  
-                  :offset => ((params[:page].to_i-1)*ResultCount),
-                  :limit=>MAX_LIMIT,
-                  :conditions => ["device_id = ? and event_type like ? and created_at between ? and ?", params[:id], event_type,start_time,end_time])
-     if params[:type]=='stop'
-         filter_stops(readings)
-         readings = get_stops(readings)
+     unless params[:page]
+        params[:page] = 1
      end    
-    stream_csv do |csv|
-     if params[:type] == 'stop'
-        csv << ["Location","Stop Duration (s)", "when","Latitude", "Longitude", "Event type"]  
+    # Determine report type so we know what filter to apply
+     if params[:type] == 'all'
+       event_type = '%'
+     elsif params[:type] == 'stop'
+       event_type = '%stop%'
+     elsif params[:type] == 'geofence'
+      event_type = '%geofen%'
+     end        
+     get_start_and_end_time # set the start and time
+     if params[:type]=='stop'
+         stopevent_readings = Reading.find(:all, {:order => "created_at asc", :conditions => ["device_id = ? and event_type=\'startstop_et41\' and created_at between ? and ?", params[:id], @start_time, @end_time]})        
      else    
-        csv << ["Location","Speed (mph)", "When","Latitude", "Longitude","Event type"]
-    end 
+         readings = Reading.find(:all, :order => "created_at desc",                  
+                      :offset => ((params[:page].to_i-1)*ResultCount),
+                      :limit=>MAX_LIMIT,
+                      :conditions => ["device_id = ? and event_type like ? and created_at between ? and ?", params[:id], event_type,@start_time,@end_time])                                
+     end                 
+     if params[:type]=='stop'
+         filter_stops(stopevent_readings)
+         readings = get_stops(stopevent_readings)
+     end         
+    stream_csv do |csv|
+         if params[:type] == 'stop'
+            csv << ["Location","Stop Duration (s)", "When","Latitude", "Longitude", "Event type"]  
+         else    
+            csv << ["Location","Speed (mph)", "When","Latitude", "Longitude","Event type"]
+        end 
      if params[:type] == 'stop'
         readings.each do |reading|                    
             stop_duration = get_duration(reading) ||  "unknown"            

@@ -1,8 +1,14 @@
-<% if flash[:message] %>
-<div id="error_message">
-    <%= flash[:message] %>
+<% if flash[:success] %>
+<div id="success_message">
+    <%= flash[:success] %>
 </div>
 <% end %>
+<% if flash[:error] %>
+<div id="error_message">
+    <%= flash[:error] %>
+</div>
+<% end %>
+
 <form action='edits_group' method='post'>
 
 <%#= hidden_field 'group_id', 'id', :value=>@group.id %>

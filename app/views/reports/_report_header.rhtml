@@ -32,7 +32,7 @@
 			<td align="right">
 				&nbsp;&nbsp;
 				<% if @record_count > 0 %>
-					<a href="<%= url_for(:controller=>"reports",:action=>"export", :id=>params[:id], :page=>@page, :start_time=>@start_time, :end_time=>@end_time, :type=>params[:action] )%>" target="_blank" title="Export  <%= @record_count%> readings for selected timeframe in CSV format">Export</a>
+					<a href="<%= url_for(:controller=>"reports",:action=>"export", :id=>params[:id], :page=>@page, :start_time1=>@start_time, :end_time1=>@end_time, :type=>params[:action] )%>" target="_blank" title="Export  <%= @record_count%> readings for selected timeframe in CSV format">Export</a>
 					<% if params[:action] == 'all' %>
 					| <a href="/readings/last/<%= params[:id] %>" target="_blank"><img src="/images/georss.png" border="0" title="Export this device's most recent location into your favorite RSS or GeoRSS reader" style="vertical-align: text-bottom;" /></a>
 					<% end %>

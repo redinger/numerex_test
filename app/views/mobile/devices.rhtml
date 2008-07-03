@@ -1,23 +1,7 @@
     <ul>
         <li><h1>My Devices</h1></li>
          <%for device in @devices%> 
-            <li>
-                 <% if device.recent_reading_id != 0%>
-                    <a href="/mobile/show_device/<%= device.id%>" title="Center map on this device"><%= device.name%></a>
-                 <%else%>
-                     <%= device.name%>         
-                 <%end%>
-                 <%if device.recent_reading_id != 0 %>                
-                       (<%= time_ago_in_words device.readings[0].created_at %> ago)
-                 <%else%> 
-                      N/A
-                 <%end%><br />
-                 <%if device.recent_reading_id != 0 %>                
-                       <%= device.readings[0].shortAddress %> 
-                  <%else%> 
-                      N/A
-                  <%end%>
-	   	   </li>
+             <%= show_device device,true%>
          <%end%>
         <li><a href="/mobile/view_all">View all on map</a></li>
 		<li>

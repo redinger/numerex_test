@@ -195,7 +195,7 @@ class DevicesController < ApplicationController
     def delete_group       
        if request.post?         
         @group=Group.find(params[:id])
-        flash[:message]= "Group " + @group.name +  " was deleted successfully "        
+        flash[:success]= "Group " + @group.name +  " was deleted successfully "        
         @group.destroy
         @group_devices = Device.find(:all, :conditions=>['group_id=?',@group.id])
         for device in @group_devices          
@@ -221,7 +221,7 @@ class DevicesController < ApplicationController
                      Device.find(:all, :conditions=>['group_id=?',@group.id]).each{|device| device.group_id =nil; device.save}
                      first_set_icons_default
                      update_devices
-                     flash[:message]= "Group " + @group.name + " was updated successfully "
+                     flash[:success]= "Group " + @group.name + " was updated successfully "
                      redirect_to :action=>"groups"                                
                  end
              else
@@ -242,7 +242,7 @@ class DevicesController < ApplicationController
              if !validate_device_ids
                  if @group.save                      
                      update_devices
-                     flash[:message]="Group " + @group.name + " was successfully added"
+                     flash[:success]="Group " + @group.name + " was successfully added"
                      redirect_to :action=>"groups"
                  end    
              else
@@ -280,8 +280,8 @@ class DevicesController < ApplicationController
     
      def validate_device_ids
          if  params[:name]=="" || params[:select_devices]== nil || params[:select_devices].length == 0              
-             flash[:message] = ((@group.name == "") ? "Group name can't be blank <br/>" : "")
-             flash[:message] << "You must select at least one device "
+             flash[:error] = ((@group.name == "") ? "Group name can't be blank <br/>" : "")
+             flash[:error] << "You must select at least one device "
              flash[:group_name] = @group.name             
              return true
          end   

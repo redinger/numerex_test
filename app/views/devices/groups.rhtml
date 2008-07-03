@@ -1,10 +1,10 @@
- <% if flash[:message] %>
-    <div id="success_message"><%= flash[:message] %></div>
+ <% if flash[:success] %>
+    <div id="success_message"><%= flash[:success] %></div>
 <% end %>
 
 <div class="container">
 	<div id="top_head">
-		<h3>Your Groups</h3>
+		<h3>Your Groups (<%= @groups.size%> total)</h3>
 		<div id="tab_rt"><a href="/devices/new_group" title="Create new group">Add New Group</a>
 	</div>
 </div>

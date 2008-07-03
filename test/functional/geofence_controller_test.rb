@@ -50,7 +50,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   def test_new
     post :new, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
-    assert_equal flash[:message] , "qwerty created succesfully"
+    assert_equal flash[:success] , "qwerty created succesfully"
   end
   
   def test_invalid_device
@@ -62,7 +62,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
     #apparent bug in rail makes flash go away after first post in this test
     post :new, {:id => "1", :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
     assert_redirected_to :controller => "geofence", :action => "index" 
-    assert_equal( "qwerty created succesfully", @response.flash[:message] )
+    assert_equal( "qwerty created succesfully", @response.flash[:success] )
     #assert_equal 1, devices(:device1).geofences[0].radius
     #assert_equal 1, devices(:device1).geofences[0].latitude
     #assert_equal 1, devices(:device1).geofences[0].longitude
@@ -82,13 +82,13 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   def test_delete
     post :delete, {:id => '1', :device_id => '1'}, { :user => users(:dennis), :account_id => "1" }
-    assert_equal "home deleted successfully", flash[:message]
+    assert_equal "home deleted successfully", flash[:success]
     assert_redirected_to :controller => "geofence", :action => "index"
   end
   
   def test_edit
     post :edit, {:device_id => '1', :id => '1', :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:dennis), :account_id => "1" }
-    assert_equal flash[:message] , 'qwerty updated succesfully'
+    assert_equal flash[:success] , 'qwerty updated succesfully'
     assert_redirected_to :controller => "geofence", :action => "index"
   end
   

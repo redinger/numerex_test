@@ -28,7 +28,7 @@ var emailID=document.getElementById('email').value.replace(/^\s/,"");
 function CheckEmail(FormField,notification_prompt){    
 	var array = FormField.value.split(",");                
 	for(var i=0;i< array.length;i++)	{
-		if(array[i].match(/[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,3}$/)==null){alert(FormField.title + " is not a valid  format"); FormField.focus(); return false}
+		if(array[i].match(/[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,3}$/)==null){alert(FormField.title + " is not in a valid  format"); FormField.focus(); return false}
 		}	
 	//alert(FormField.name);
 	return true;
