@@ -8,6 +8,7 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
   def setup
     setup_totalm2m_db()
     ActiveRecord::Base.establish_connection()
+    setup_db_procs()
     Reading.delete_all
     Device.delete_all
   end
@@ -38,6 +39,11 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
   def test_insert_event42
     insert_device
     test_reading_insert(42, 'startstop_et41')
+    stops = Device.find(:first, :conditions => "imei='010657000847181'").stop_events
+    assert_equal 1, stops.size
+    assert_equal 32.9393, stops[0].latitude
+    assert_equal -96.823, stops[0].longitude
+    assert_equal 'Thu Oct 11 12:57:28 -0500 2007', stops[0].created_at.to_s
   end
   
   def test_insert_event41
@@ -132,6 +138,20 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
  
  def insert_device
    ActiveRecord::Base.connection.execute("INSERT INTO ublip_totalm2m.DEVICE VALUES ('010657000847181', NULL, NULL, NULL, '010657000847181', '10.6.0.1', 1720, '0.0.0.0', 1720, '2008-03-18 16:13:27', '2008-05-01 20:51:28', '2008-05-01 20:51:28', '2008-05-01 20:51:28', '2008-03-18 16:13:32', 0 )")
+ end
+ 
+ def setup_db_procs
+   file = File.new("db_procs.sql")
+    file.readline
+    file.readline  #skip 1st two lines of file
+    sql = file.read
+    sql.strip!
+    statements = sql.split(';;')
+    
+    statements.each  {|stmt| 
+          puts stmt
+          ActiveRecord::Base.connection.execute(stmt)
+    }
  end
 
 
