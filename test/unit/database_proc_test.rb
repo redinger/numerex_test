@@ -29,6 +29,10 @@ class DatabaseProcTest < Test::Unit::TestCase
     stops = StopEvent.find(:all)
     assert_equal(1, stops.size, "should have ignored duplicate stop")
     
+    insert_stop(1.2, 2.3, now, devices(:device1).imei)
+    stops = StopEvent.find(:all)
+    assert_equal(1, stops.size, "should have ignored duplicate stop w/same timestamp")
+    
     insert_stop(2.2, 2.3, now+70, devices(:device1).imei)
     stops = StopEvent.find(:all)
     assert_equal(2, stops.size, "should have allowed far away duplicate stop")
