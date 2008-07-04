@@ -6,6 +6,7 @@ class Device < ActiveRecord::Base
   has_many :readings, :order => "created_at desc", :limit => 1 # Gets the most recent reading
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
+  has_many :stop_events, :order => "created_at desc"
  
   
   # For now the provision_status_id is represented by
