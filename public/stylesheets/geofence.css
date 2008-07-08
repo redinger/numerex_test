@@ -61,7 +61,7 @@ body{ font-size:12px; margin:0px; background-repeat:repeat-x; font-family:Arial;
 #width40-1{width:27.30%;padding-left:.40%;text-align:left }
 #width30-all{width:22.916%; padding-top:4px; padding-bottom:4px;}
 
-#width40-blue-bdr{width:99.5%; padding-top:0px; padding-bottom:0px;border:1px solid #1364b2;}
+#border{padding:5px;border:1px solid #1364b2;}
 #width30-blue-in{width:99.0%; padding:4px .25% 4px .8%;background-color:#cccccc; line-height:19px;color:#003366;}
 #width30-grey-in{width:99.0%;  padding:4px .25% 4px .8%; background-color:#f8f8f8; line-height:19px;}
 #width30-in{width:99%;padding:6px .25% 7px .8%;}

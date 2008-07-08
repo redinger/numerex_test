@@ -21,11 +21,11 @@ div#header {
 	position: relative;
 }
 
-div#company {
+/*div#company {
 	padding: 10px;
 	color: #FFFFFF;
 	font-size: 24px;
-}
+}*/
 
 #ub-login{ float:right; font-size:10px; color:#FFFFFF; margin-right:20px}
 #ub-login a:link {color:#fff; font-family:Arial, Helvetica, sans-serif; font-size:10px;font-weight:normal;text-decoration:underline; }
@@ -63,14 +63,14 @@ div#subnav {
 	margin: 0;
 }
 
-#nav_tabs li {
+/*#nav_tabs li {
 	float: left;
 	list-style-type: none;
 	display: inline;
 	background-color: #003366;
 	padding: 4px 0; /* 1px less padding for IE */
 	margin: 0 1px;
-}
+}*/
 
 #nav_tabs a {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
@@ -213,10 +213,10 @@ div#updating {
 	padding: 5px;
 }
 
-.form_table th {
+/*.form_table th {
 	color: #666666;
 	text-align: right;
-}
+}*/
 
 .form_table td {
 	padding: 5px;
@@ -374,10 +374,10 @@ padding-left:30px;
 font-weight:bold;
 }
 
-.link-all1{ color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:underline;}
+/*.link-all1{ color:#1364B2; font-family:Arial, Helvetica, sans-serif; font-size:12px;font-weight:normal;text-decoration:underline;}
 .link-active{ color:#1364B2; text-decoration:none;font-weight:bold;}
 .link-all1:hover{ color:#1364B2;text-decoration:none;}
-.link-all1:active{ color:#1364B2;text-decoration:none;}
+.link-all1:active{ color:#1364B2;text-decoration:none;}*/
 .alert{width:98%;color:#336633;border:1px #99cc99 solid; text-align:center; background-color:#E5F1F4;margin-top:10px;padding-top:5px;padding-bottom:5px;padding-left:5px;padding-right:5px;font-size:10pt;}
 
 /* Pagination Class */

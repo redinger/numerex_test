@@ -1,9 +1,10 @@
-h3 {
+/*h3 {
 	font-size: 24px;
 	border-bottom: 1px solid #EEEEEE;
 	margin-left: 0px;
 	margin-bottom: 10px;
-}
+}*/
+
 .list {
 	list-style: none;
 	padding: 0;
@@ -48,10 +49,11 @@ h3 {
 	height: 40px;
 	text-align: right;
 }
-.input {
+
+/*.input {
 	font-size: 16px;
 	width: 200px;
-}
+}*/
 
 .disabled {
 	font-size: 16px;

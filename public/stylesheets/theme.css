@@ -43,19 +43,19 @@ clear:both;
 vertical-align:middle;
 }
 
-#header {
+/*#header {
 height:100px;
 background:#00F;
-}
+}*/
 
 #links {
 background:#f1f1f1;
 height:30px;
 }
 
-#content {
+/*#content {
 padding:15px;
-}
+}*/
 
 .crt_group {
 background:#FFC;
@@ -78,11 +78,11 @@ padding:10px;
 margin-bottom:10px;
 }
 
-.grp_3 h3 {
+/*.grp_3 h3 {
 border-bottom:1px solid #f1f1f1;
 margin-top:25px;
 margin-bottom:10px;
-}
+}*/
 
 .sel_icon {
 width:98%;

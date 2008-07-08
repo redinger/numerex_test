@@ -1,4 +1,4 @@
-body {
+/*body {
 	margin: 0;
 	padding: 0;
 	font-family: Arial, Helvetica, sans-serif;
@@ -8,16 +8,17 @@ body {
 	background-image: url(/images/header_bg.png);
 	background-repeat: repeat-x;
 }
-
+*/
 div {
 	margin: 0 auto;
 }
 
-div#header {
+/*div#header {
 	width: 850px;
 	margin-top: 30px;
 	vertical-align: middle;
 }
+*/
 
 div#header #logo {
 	float: left;
@@ -34,9 +35,9 @@ div#sub_banner {
 	color: #333333;
 }
 
-div#content {
+/*div#content {
 	width: 850px;
-}
+}*/
 
 .processing_message {
 	text-align: right;
@@ -69,10 +70,10 @@ input[type="text"], input[type="password"], select {
 	width: 200px;
 }
 
-h4 {
+/*h4 {
 	border-bottom: 1px solid #CCCCCC;
 	margin: 20px 0 10px 0px;
-}
+}*/
 
 .helper {
 	font-size: 11px;
@@ -116,12 +117,12 @@ h4 {
 	margin-top: 10px
 }
 
-a {
+/*a {
 	color: #0066CC;
-}
+}*/
 
-hr {
+/*hr {
 	height: 1px;
 	border: none;
 	border-bottom: 1px solid #EEEEEE;
-}
+}*/
