@@ -1,4 +1,4 @@
-task :setup_db_scripts do
+task :setup_db_procs do
   sudo "mkdir -p /var/run/ublip_db"
   sudo "chown ublip:ublip /var/run/ublip_db"
   run "cd #{current_path} && rake setup_db_scripts"
