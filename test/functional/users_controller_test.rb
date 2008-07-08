@@ -60,7 +60,7 @@ class UsersControllerTest < Test::Unit::TestCase
     params = {:first_name => "qwerty", :last_name => "asdf", :email =>"asdf"}
     post :edit, {:id => 1, :user => params, :password_checkbox => "checked", :existing_password => "test"}, {:user => users(:dennis), :account_id => 1}
     assert_redirected_to :controller => "users", :action => "edit", :id => 1
-    assert_equal flash[:message], "Your existing password must match what's currently stored in our system"
+    assert_equal flash[:error], "Your existing password must match what's currently stored in our system"
   end
   
   def test_new_user
@@ -75,7 +75,7 @@ class UsersControllerTest < Test::Unit::TestCase
     params = {:first_name => "dennis", :last_name => "baldwin", :email => "dennis@ublip.com", :password => "testing123", :password_confirmation => "testing123"}
     post :new, {:user => params}, {:user => users(:dennis), :account_id => 1, :user_id => users(:dennis).id}
     assert_response :success
-    assert_equal flash[:message], "Email has already been taken<br />"
+    assert_equal flash[:error], "Email has already been taken<br />"
   end
   
   def test_delete

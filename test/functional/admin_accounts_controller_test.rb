@@ -31,7 +31,7 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
   
   def test_accounts_table
     get :index, {}, get_user
-    assert_select "table.table tr", 7
+    assert_select "table tr", 7
   end
   
   def test_new_account

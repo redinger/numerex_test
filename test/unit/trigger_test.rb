@@ -15,8 +15,8 @@ class TriggerTest < Test::Unit::TestCase
     statements = sql.split(';;')
     
     statements.each  {|stmt| 
-          #puts stmt
-          ActiveRecord::Base.connection.execute(stmt)
+          query = stmt.strip
+          ActiveRecord::Base.connection.execute(query) if query.size > 0
     }
     Reading.delete_all
   end
