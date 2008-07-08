@@ -1,5 +1,5 @@
 <div id="header">
-	<div id="company" style="float:left;" ><%= session[:company] %></div>
+	<div id="company" ><%= session[:company] %></div>
 	
 	<div id="ub-login">
 		Welcome, <%= session[:first_name] %> | <% if session[:is_super_admin] == true %><a href="/admin" >Admin</a> | <% end %> <a href="/logout" title="Logout">Logout</a>&nbsp;&nbsp;
@@ -12,12 +12,12 @@
 	<% page_action = request.path_info.split("/")[2]  %>
 	
 	<div id="nav_tabs">
-		<ul style="width:100%;">
+		<ul >
 	   		<li <% if page_name== 'home'%> class="selected"<% end %>><a href="/home">Overview</a></li>
 			<li <% if page_name == 'reports' %> class="selected_subnav"<% end %>><a href="/reports">Reports</a></li>
-			<li <% if page_name == 'contact' %> class="selected"<% end %> style="float: right;"><a href="/contact">Contact</a></li>
-			<li <% if page_name == 'settings' %> class="selected"<% end %> style="float: right;"><a href="/settings">Settings</a></li>
-			<li <% if page_name == 'users' %> class="selected_subnav"<% end %> style="float: right;"><a href="/users">Users</a></li>
+			<li <% if page_name == 'contact' %> class="selected"<% end %> style="float:right;"><a href="/contact">Contact</a></li>
+			<li <% if page_name == 'settings' %> class="selected"<% end %> style="float:right;"><a href="/settings">Settings</a></li>
+			<li <% if page_name == 'users' %> class="selected_subnav"<% end %> style="float:right;"><a href="/users">Users</a></li>
 			<li <% if page_name == 'devices' || page_name == 'geofence' %> class="selected_subnav"<% end %>><a href="/devices">Devices</a></li>
 		</ul>
     </div>

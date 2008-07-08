@@ -3,8 +3,8 @@
 <table>
     <tr><th>Name</th><td><input type="text" name="name" value="<%= h @device.name %>" /></td></tr>
     <tr><th>IMEI</th><td><input type="text" name="imei" value="<%= @device.imei %>" /></td></tr>
-	<tr><td></td><td><span style="font-size: 11px; color: #666666">(Please note that an invalid IMEI may cause<br />a temporary loss of data)</span></td></tr>
-    <tr><td colspan="2" align="right"><input type="submit" value="update" />&nbsp;&nbsp;<a href="javascript:history.go(-1)" class="link-all1">cancel </a></td></tr>
+	<tr><td></td><td><span class="gray_small">(Please note that an invalid IMEI may cause<br />a temporary loss of data)</span></td></tr>
+    <tr><td colspan="2" align="right"><input type="submit" value="update" />&nbsp;&nbsp;<a href="javascript:history.go(-1)">cancel </a></td></tr>
 </table>
     <input type="hidden" name="id" value="<%= @device.id %>" />
 </form>

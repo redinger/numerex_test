@@ -2,17 +2,18 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <%= stylesheet_link_tag "main" %>
+        
+        <%= stylesheet_link_tag "common" %>
 		<title><%= @page_title %></title>
 	</head>
 	<body>
-    	   <div id="header">
+    	   <div id="header_login">
     	       <div id="logo">
     	           <a href="/"><img src="/images/ublip_logo.png" alt="Ublip - Location Matters" title="Ublip - Location Matters" border="0" /></a>
     	       </div>
     	   </div>
     	   
-    	   <div id="content">
+    	   <div id="content_login">
         	   <%= yield %>
            </div>
 	</body>

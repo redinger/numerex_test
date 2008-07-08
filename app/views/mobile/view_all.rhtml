@@ -7,8 +7,8 @@
          <% @center = "37.0625, -95.677068" if @center == ""%>           
          <% @marker_string =="" ? @marker_string="40.702147,-74.015794" : [1..3].each{|n| @marker_string = @marker_string.chop}%>
          
-           <li>                        
-              <img src="http://maps.google.com/staticmap?center=<%= @center %>&zoom=5&size=240x320&maptype=mobile&markers=<%= @marker_string %>&key=<%= API_KEY %>" />                           
+           <li>
+              <img src="http://maps.google.com/staticmap?center=<%= @center %>&zoom=4&size=240x320&maptype=mobile&markers=<%= @marker_string %>&key=<%= API_KEY %>" />                           
            </li>            
            
 		<li>

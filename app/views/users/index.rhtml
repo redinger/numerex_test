@@ -1,14 +1,16 @@
 <h3>Current Users (<%= @users.size %> total)</h3>
-<% if flash[:message] %>
-	<div id="success_message"><%= flash[:message] %></div>
+<% if flash[:success] %>
+	<div id="success_message"><%= flash[:success] %></div>
 <% end %>
-<div id="device_list">
-	<ul>
+<% if flash[:error] %>
+	<div id="error_message"><%= flash[:error] %></div>
+<% end %>
+
+	<ul class="list">
 	    <% for user in @users%>
-	        <li style="padding: 5px;">
+	        <li>
 				<strong><%= user.first_name %> <%= user.last_name %></strong> (<%= user.email %>) - <a href="/users/edit/<%= user.id %>">edit</a><br />
 				<% if user.last_login_dt.nil? %>never logged in<% else %>logged in <%= time_ago_in_words user.last_login_dt %> ago<% end %>
 			</li>
 	    <% end %>
 	</ul>
-</div>

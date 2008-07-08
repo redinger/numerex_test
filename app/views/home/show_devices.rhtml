@@ -1,54 +1,53 @@
-<table width="100%" class="panel_table" style="overflow:auto;">                            
+          <table class="panel_table" >                            
             <tr>
-              <td colspan="4" class="header" width="100%"><span style=" float:left;clear:left;width:50%;">Device Summary  </span><span style=" text-align:right;float:left;clear:none;width:49%">
-                    <select id="type1" style="float:right; width:100px; margin-right:1px;" name="type" onchange="select_action(this);"> <!--  -->
-                        <option id="" value="new">New group</option>
-                        <option id="" value="edit">Edit groups</option>
+              <td colspan="4" class="header"><span class="device_summery">Device Summary  </span>
+                    <select id="type1" class="device_summery_select" name="type" onchange="select_action(this);"> 
+                        <option id=""  value="new">New group</option>
+                        <option id=""  value="edit">Edit groups</option>
                         <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-                        <option value="all" <%if params[:type]== "all" %>selected style="background-color:#c5f794;"<%end%> >  All Devices  </option>
+                        <option value="all"  selected style="background-color:#c5f794;">  All Devices  </option>
                              <% for group in @all_groups %>
-                        <option value='<%= group.id%>' <%if params[:type].to_i == group.id.to_i %>selected style="background-color:#c5f794;"<%end%>><%= group.name%> </option>
+                        <option <%if session[:gmap_value].to_i == group.id%> selected <%end%> value='<%= group.id%>'><%= group.name%> </option>
                               <% end %>
                     </select>            
               </td>
             </tr>            
             <tr>
-              <th style="width90;">Name</th>
-              <th style="width:20px;">&nbsp;</th>
-              <th style="width:210px;">Last Location</th>
-              <th style="width:90px;">Last Report</th>
+              <th>Name</th>
+              <th>&nbsp;</th>
+              <th>Last Location</th>
+              <th>Last Report</th>
             </tr>           
-           <% if !@groups.nil? %> 
+           <% if !@groups.nil?%> 
                 <% @groups.each do |group|%> 
                      <tr>
-                          <td colspan="4" style="background-color:#d2eafc;" width="100%">
-                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                          <td colspan="4" class="bg_overview">
+                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;" class="group_name">
                                     <%= group.name%>
                                </span>
                           </td>
                      </tr>
                      <%if !group.devices.empty?%>                     
                          <% group.devices.each do |device|%>
-                              <%= show_device device%>
+                              <%= show_device device %>
                          <%end%>
                      <%else%>
                           <tr><td>No devices in this group.</td></tr>
-                     <%end%>                    
-                     <!-- tr> 
-                          <td colspan="4" style="height:8px;line-height:8px; font-size:2px;"></td>
-                     </tr -->
+                     <%end%>
                 <%end%>
            <%end%>
            <%if !@default_devices.empty?%>
-                <tr>
-                     <td colspan="4" style="background-color:#d2eafc;" width="100%">
-                          <span style=" background:url(/icons/blue_small.png) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
-                               Default
-                          </span>
-                     </td>
-                </tr>
+                <%if !@groups.empty? %>
+                    <tr>
+                         <td colspan="4" class="bg_overview">
+                              <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
+                                   Default
+                              </span>
+                         </td>
+                    </tr>
+                <%end%>
                 <% @default_devices.each do |device|%>
-                    <%= show_device device%> 
+                    <%= show_device device %> 
                 <%end%>
            <%end%>           
-            </table>            <br />
+            </table>           

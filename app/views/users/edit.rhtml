@@ -1,7 +1,13 @@
 <h3>Edit User</h3>
-<% if flash[:message]%>
+<% if flash[:error]%>
 <div id="error_message">
-	<%= flash[:message] %>
+	<%= flash[:error] %>
+</div>
+<%end%>
+
+<% if flash[:success]%>
+<div id="success_message">
+	<%= flash[:success] %>
 </div>
 <script>
 window.onload = function() {
@@ -23,7 +29,7 @@ window.onload = function() {
 		<tr><th>New Password</th><td><input type="password" name="new_password" disabled="true" id="new_password" /></td></tr>
 		<tr><th>Confirm New Password</th><td><input type="password" name="confirm_new_password" disabled="true" id="confirm_new_password" /></td></tr>
 		<tr><td></td><td align="right">
-			<input type="submit" value="update" />&nbsp;&nbsp;&nbsp;<a href="/users" class="link-all1">cancel</a>
+			<input type="submit" value="update" />&nbsp;&nbsp;&nbsp;<a href="/users">cancel</a>
     		<input type="hidden" name="id" value="<%= @user.id %>" />
 		</td></tr>
 	</table>

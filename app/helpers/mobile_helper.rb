@@ -11,6 +11,7 @@ module MobileHelper
             @center= "37.0625, -95.677068" if @center == "" if !flag
             @marker_string = @marker_string + "#{device.readings[0].latitude},#{device.readings[0].longitude},#{MAP_MARKER_COLOR[ device.icon_id-1]}#{@range[@all_devices_with_map.index(device)].downcase}%7C" if !flag           
         else
+            content << %(<strong>#{@range[@all_devices_with_map.index(device)] }: </strong>) if !flag
             content << %(#{device.name})
             content << %( &nbsp;N/A<br/>)
             content << %(N/A)

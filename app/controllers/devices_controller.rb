@@ -42,7 +42,7 @@ class DevicesController < ApplicationController
       device.name = params[:name]
       device.imei = params[:imei]
       device.save
-      flash[:message] = params[:name] + ' was updated successfully'
+      flash[:success] = params[:name] + ' was updated successfully'
       redirect_to :controller => 'devices'
     else
       @device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])  
@@ -54,7 +54,7 @@ class DevicesController < ApplicationController
     if request.post?
       device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
       device.update_attribute(:provision_status_id, 2) # Let's flag it for now instead of deleting it
-      flash[:message] = device.name + ' was deleted successfully'
+      flash[:success] = device.name + ' was deleted successfully'
       redirect_to :controller => "devices"
     end
   end
@@ -127,6 +127,7 @@ class DevicesController < ApplicationController
     def map
         render :action => "devices/map", :layout => "map_only"
     end
+    
     def index
         @devices = Device.get_devices(session[:account_id])
     end

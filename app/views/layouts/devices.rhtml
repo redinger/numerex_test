@@ -3,7 +3,6 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 		<title><%= @page_title %></title>
-        <%= stylesheet_link_tag "app", "font_styles", "theme"%>
 		<%= stylesheet_link_tag "common" %>
          <%= render :partial => 'layouts/includes/map_key' %>
          <%= javascript_include_tag "main", "layers", "utils" %>
@@ -11,17 +10,21 @@
 	</head>
 	<body>          
    		<%= render :partial => 'layouts/includes/header' %>
+        
 		<div id="submenu">
                <% if ['groups','edits_group','new_group','create_group'].include?(controller.action_name)%>
 			<a href="/devices" >Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" class="current">Groups</a>            
                <%else%>
 			<a href="/devices" class="current">Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups">Groups</a>
                <%end%>
-			<!-- |                                        
+               
+			<!-- |                                     
 			<a href="/devices/new_group" title="Add a new group">New Group</a>-->
+           
                 <%if controller.action_name == 'index' || controller.action_name == 'search_devices'%>
-                    <span class="paddin-l">&nbsp;</span><a href="/devices/choose_MT" title="Add a new device">Add New Device</a>
+                    <span style="margin-left:71%">&nbsp;</span><a href="/devices/choose_MT" title="Add a new device">Add New Device</a>
                 <%end%>
+              
 		</div>
     	<div id="content">
         	<%= yield %>

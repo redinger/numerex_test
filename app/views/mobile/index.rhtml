@@ -1,7 +1,7 @@
 <div class="toolbar"><img src="/images/logo.png" alt="" /></div>       
     <ul> 
- <%if  flash[:message]%>     
-     <div id="error_message"><%= flash[:message]%></div>     
+ <%if  flash[:error]%>     
+     <div id="error_message"><%= flash[:error]%></div>     
      <%end%>    
             <form action="/login" method="post" id="logform">
             <li>Username: <br/>                  

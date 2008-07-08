@@ -24,23 +24,23 @@ class UsersController < ApplicationController
             if params[:new_password].length > 5
              
               user.save
-              flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully'
+              flash[:success] = user.first_name + ' ' + user.last_name + ' was updated successfully'
               redirect_to :controller => 'users'
             else # Password can't be saved
-              flash[:message] = 'Passwords must be between 6 and 30 characters'
+              flash[:error] = 'Passwords must be between 6 and 30 characters'
               redirect_to :controller => 'users', :action => 'edit', :id => user
             end
           else
-            flash[:message] = 'Your new password and confirmation must match'
+            flash[:error] = 'Your new password and confirmation must match'
             redirect_to :controller => 'users', :action => 'edit', :id => user
           end
         else # The existing password doesn't match what's in the system
-          flash[:message] = 'Your existing password must match what\'s currently stored in our system'
+          flash[:error] = 'Your existing password must match what\'s currently stored in our system'
           redirect_to :controller => 'users', :action => 'edit', :id => user
         end
       else # Update when the password checkbox is not checked
         if user.save
-          flash[:message] = user.first_name + ' ' + user.last_name + ' was updated successfully'
+          flash[:success] = user.first_name + ' ' + user.last_name + ' was updated successfully'
           redirect_to :controller => 'users'
         end
       end
@@ -105,20 +105,20 @@ class UsersController < ApplicationController
 	      # Check that passwords match
 	      if params[:user][:password] == params[:user][:password_confirmation]
           if @user.save
-            flash[:message] = @user.email + ' was created successfully'
+            flash[:success] = @user.email + ' was created successfully'
             redirect_to :controller => 'users'
           else # Display errors from model validation
             error_msg = ''
             @user.errors.each_full do |error|
               error_msg += error + '<br />'
             end
-            flash[:message] = error_msg
+            flash[:error] = error_msg
           end
         else
-          flash[:message] = 'Your new password and confirmation must match'
+          flash[:error] = 'Your new password and confirmation must match'
         end
       else
-        flash[:message] = "There are already 5 users in this account"
+        flash[:error] = "There are already 5 users in this account"
       end  
     end
   end
@@ -128,10 +128,10 @@ class UsersController < ApplicationController
      user = User.find(params[:id])
      if user.is_master == false   
         user.destroy
-        flash[:message] = user.email + ' was deleted successfully'
+        flash[:success] = user.email + ' was deleted successfully'
         redirect_to :controller => "users"
       else  
-        flash[:message] = 'Master user cannot be deleted'
+        flash[:error] = 'Master user cannot be deleted'
         redirect_to :controller => "users"
       end  
     end

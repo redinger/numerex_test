@@ -14,7 +14,7 @@ class SettingsController < ApplicationController
              update_group_notifications           
        end    
       session[:company] = params[:company]
-      flash[:message] = 'Settings saved successfully'
+      flash[:success] = 'Settings saved successfully'
       redirect_to :action => 'index'
     end
   end

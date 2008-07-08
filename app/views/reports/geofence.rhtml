@@ -1,6 +1,6 @@
 <%= render :partial => 'report_header' %>
 
-<table width="100%">
+<table class="text_width">
 	<tr>
 		<td width="50%" valign="top" id="left_panel">
 			<table class="panel_table">
@@ -13,7 +13,7 @@
                 <%if  !@readings.empty?%> 
 				<% for reading in @readings %>
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
-						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location" class="link-all1"><%= reading.shortAddress %></a></td>
+						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location" ><%= reading.shortAddress %></a></td>
 						<td><%= reading.speed %></td>
 						<td>
 							<% if !reading.event_type.nil? && reading.event_type.index('enter') %>
@@ -21,7 +21,7 @@
 							<% elsif !reading.event_type.nil? && reading.event_type.index('exit') %>
 								Exit geofence
 							<% elsif reading.event_type =='startstop_et41' %>
-								<a href="/reports/stop/<%= params[:id] %>" title="View stop report" class="link-all1">Stop</a>
+								<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
 							<% else %>
 								-
 							<% end %>
@@ -42,7 +42,7 @@
 		</td>
 		<td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
 		<td width="50%" valign="top" id="right_panel">
-			<div id="map" style="width: 100%; height: 600px;"></div>
+			<div id="map" class="reports_map"></div>
 		</td>
 	</tr>
 </table>

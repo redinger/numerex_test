@@ -1,11 +1,18 @@
 <h1><%= @account.company  %> Login</h1>
 
 <div id="login_form_container">
-    <% if flash[:message] %>
+    <% if flash[:error] %>
         <div id="error_message">
-            <%= flash[:message] %>
+            <%= flash[:error] %>
         </div>
     <% end %>
+
+    <% if flash[:success] %>
+        <div id="success_message">
+            <%= flash[:success] %>
+        </div>
+    <% end %>
+
     <%if session[:user_id] %>
         <%user = User.find(session[:user_id])%>
     <%end%>
@@ -16,7 +23,7 @@
                 <table class="form_table">
                     <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%=user.email%>" style="width: 162px;"/></td></tr>
                     <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input" onfocus="settext(this.id);"/> <a href="/login/forgot_password">Forgot password?</a></td></tr>
-                    <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
+                    <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="gray_text">Remember me on this computer</span></td></tr>
                     <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
                 </table>
             </form>                    
@@ -25,7 +32,7 @@
             <table class="form_table">
                 <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%= flash[:username] %>"/></td></tr>
                 <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input"/> <a href="/login/forgot_password">Forgot password?</a></td></tr>
-                <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
+                <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="gray_text">Remember me on this computer</span></td></tr>
                 <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
             </table>	
         </form>    

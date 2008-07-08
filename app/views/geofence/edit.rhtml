@@ -6,7 +6,7 @@
     <div> <input type="radio" id="radio" name="radio" value="1" <% if @geofence.account_id != 0 %>checked<%end%> onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2" <% if @geofence.device_id != 0 %>checked<%end%> /> Device Level</div>
     
     <div class="ub_editform">Choose the device: <br/>
-		<select id="device" name="device" style="width:100%" <% if @geofence.account_id != 0 %>disabled<% end %>>
+		<select id="device" name="device" class="text_width" <% if @geofence.account_id != 0 %>disabled<% end %>>
 		<% @devices.each do |device| %>
 			<option value="<%= device.id %>" <%= "selected='selected'" if @geofence.device_id == device.id %>><%= device.name %></option>
 		<% end %>	
@@ -14,12 +14,12 @@
     </div>
 	
     <div>Geofence name: <br/>
-      <input  class="txt-new" name="name" type="text" style="width:100%" value="<%= @geofence.name %>" />
+      <input   name="name" type="text" class="text_width" value="<%= @geofence.name %>" />
     </div>
 	<input type="hidden" name="ref_url" value="<%= session[:referral_url] %>">
     
     <div>Geofence address: <br/>
-		<input  class="txt-new" id="address" name="address" style="width:100%" value="<%= @geofence.address %>" type="text" />
+		<input  id="address" name="address" class="text_width" value="<%= @geofence.address %>" type="text" />
     </div>
 
     <div>

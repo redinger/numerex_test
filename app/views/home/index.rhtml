@@ -1,19 +1,18 @@
-<table width="100%" border="0">
+<table>
     <tr>
         <td width="50%" valign="top" id="left_panel">
         	<% if @devices.size == 0 %>
-        	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
+        	<div id="new">
         		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
 				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
 				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
         	</div>
 			<% end %>
-           <div id="to_update"> 
-           
-          <table width="100%" class="panel_table" style=" overflow:auto;">                            
+           <div id="to_update">            
+          <table class="panel_table" >                            
             <tr>
-              <td colspan="4" class="header" width="100%"><span style=" float:left;clear:left;width:50%; padding-top:3px">Device Summary  </span><span style=" text-align:right;float:left;clear:none;width:49%">
-                    <select id="type1" style="float:right; width:100px; margin-right:1px;" name="type" onchange="select_action(this);"> <!--  -->
+              <td colspan="4" class="header"><span class="device_summery">Device Summary  </span>
+                    <select id="type1" class="device_summery_select" name="type" onchange="select_action(this);"> 
                         <option id=""  value="new">New group</option>
                         <option id=""  value="edit">Edit groups</option>
                         <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
@@ -25,16 +24,16 @@
               </td>
             </tr>            
             <tr>
-              <th style="width90;">Name</th>
-              <th style="width:20px;">&nbsp;</th>
-              <th style="width:210px;">Last Location</th>
-              <th style="width:90px;">Last Report</th>
+              <th>Name</th>
+              <th>&nbsp;</th>
+              <th>Last Location</th>
+              <th>Last Report</th>
             </tr>           
            <% if !@groups.nil?%> 
                 <% @groups.each do |group|%> 
                      <tr>
-                          <td colspan="4" style="background-color:#d2eafc;" width="100%">
-                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                          <td colspan="4" class="bg_overview">
+                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;" class="group_name">
                                     <%= group.name%>
                                </span>
                           </td>
@@ -51,8 +50,8 @@
            <%if !@default_devices.empty?%>
                 <%if !@groups.empty? %>
                     <tr>
-                         <td colspan="4" style="background-color:#d2eafc;" width="100%">
-                              <span style=" background:url(/icons/blue_small.png) no-repeat left;width:;height:24px;line-height:24px;display:block;margin-bottom:0px;padding-left:30px;font-weight:bold;float:left;clear:left;width:99%;">
+                         <td colspan="4" class="bg_overview">
+                              <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
                                    Default
                               </span>
                          </td>
@@ -68,14 +67,14 @@
         </td>
         <td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
         <td valign="top" width="50%" id="right_panel">
-            <table width="100%" class="panel_table">
+            <table class="panel_table">
                 <tr>
                 	<td class="header">
                 		<div style="float: left">Locations for All Devices</div>
 						<div id="updating">Updating locations...</div>
 					</td>
 				</tr>
-                <tr class="dark_row"><td valign="top"><div id="map" style="width: 100%; height:535px;"></div></td></tr>
+                <tr class="dark_row"><td valign="top"><div id="map" ></div></td></tr>
             </table>
         </td>
     </tr>

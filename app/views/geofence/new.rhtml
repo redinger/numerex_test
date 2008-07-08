@@ -1,11 +1,11 @@
-<div class="container" style="width:100%">
+<div class="container" >
 <div id="ub_account_tbl">
       <div><h3>Add New Geofences</h3> </div>
   <form method="post" id="geofence_form" onsubmit="return validate();">
   <div>
     <div> <input type="radio" id="radio" name="radio" value="1" checked onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2"/> Device Level</div>
     <div>Choose the device:<br/>
-		<select id="device" name="device"  style="width:80%" disabled>
+		<select id="device" name="device"  class="text_width" disabled>
 		<% @devices.each do |device| %>
 			<option value="<%= device.id %>"><%= device.name %></option>
 		<% end %>	
@@ -13,11 +13,11 @@
     </div>
 	
     <div>Geofence name:<br/>
-      <input   name="name" type="text" style="width:80%" />
+      <input   name="name" type="text" class="text_width" />
     </div>
 	
     <div>Geofence address:<br/>
-      <input  id="address" name="address" type="text" style="width:80%" />
+      <input  id="address" name="address" type="text" class="text_width" />
     </div>
 
     <div>
@@ -26,7 +26,7 @@
 
 	
     <div>Radius: <br/>
-		<select id="radius" name="radius" >	<!-- class="txt-box-s" -->		
+		<select id="radius" name="radius" >	
                  <% RADIUS_ARRAY.each do |rad|%>
 			      <option value="<%=rad%>"><%= rad%></option>
                 <%end%>
@@ -34,10 +34,8 @@
     </div>
   </div>
   <input type="hidden" name="bounds"/>
-  <div>
-    <!--input  class="btn-b" name="Create geofence" type="submit" value="Create Geofence" style="cursor:pointer;"/-->
-	<input name="Create geofence" type="submit" value="create geofence"/>	
-     <!--a href="<%#= session[:referral_url] %>"  class="btn-s" style="text-decoration:none; height: 25px; padding:8px 7px 7px 6px;" >Cancel</a-->
+  <div>    
+	<input name="Create geofence" type="submit" value="create geofence"/>	    
 	 <a href="<%= session[:referral_url] %>" >cancel</a>
   </div>
   </form>

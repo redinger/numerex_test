@@ -149,13 +149,15 @@ class ReportsController < ApplicationController
             csv << ["Location","Speed (mph)", "When","Latitude", "Longitude","Event type"]
         end 
      if params[:type] == 'stop'
-        readings.each do |reading|                    
+        readings.reverse.each do |reading|                    
             stop_duration = get_duration(reading) ||  "unknown"            
-            csv << [reading.shortAddress,stop_duration,reading.created_at, reading.latitude, reading.longitude, reading.event_type]            
+            local_time = Time.local(reading.created_at.year,reading.created_at.month,reading.created_at.day,reading.created_at.hour,reading.created_at.min,reading.created_at.sec)
+            csv << [reading.shortAddress,stop_duration,local_time, reading.latitude, reading.longitude, reading.event_type]            
         end
      else
         readings.each do |reading|        
-            csv << [reading.shortAddress,reading.speed,reading.created_at,reading.latitude, reading.longitude,reading.event_type ]
+            local_time = Time.local(reading.created_at.year,reading.created_at.month,reading.created_at.day,reading.created_at.hour,reading.created_at.min,reading.created_at.sec)
+            csv << [reading.shortAddress,reading.speed,local_time,reading.latitude, reading.longitude,reading.event_type ]
         end        
      end    
     end
