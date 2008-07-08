@@ -1,5 +1,5 @@
 desc 'Setup databse procs in cron'
-task :setup_db_procs => :environment do 
+task :setup_db_scripts => :environment do 
   db_config = ActiveRecord::Base.configurations[RAILS_ENV]
   scriptFile = File.new("stopreport.sh")
   contents = scriptFile.read
