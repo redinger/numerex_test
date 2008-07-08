@@ -12,19 +12,18 @@
    		<%= render :partial => 'layouts/includes/header' %>
         
 		<div id="submenu">
+			<div style="float: left">
                <% if ['groups','edits_group','new_group','create_group'].include?(controller.action_name)%>
 			<a href="/devices" >Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" class="current">Groups</a>            
                <%else%>
 			<a href="/devices" class="current">Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups">Groups</a>
                <%end%>
-               
-			<!-- |                                     
-			<a href="/devices/new_group" title="Add a new group">New Group</a>-->
+			</div>
            
                 <%if controller.action_name == 'index' || controller.action_name == 'search_devices'%>
-                    <span style="margin-left:71%">&nbsp;</span><a href="/devices/choose_MT" title="Add a new device">Add New Device</a>
+                    <div style="float: right"><a href="/devices/choose_MT" title="Add a new device">Add New Device</a></div>
                 <%end%>
-              
+           	 <div style="clear:both"></div>
 		</div>
     	<div id="content">
         	<%= yield %>

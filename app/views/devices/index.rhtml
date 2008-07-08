@@ -25,7 +25,7 @@
       <%if !@devices.empty?%>
         <% for device in @devices %>
 			<tr  class="<%= cycle('gray_row','') %>">
-				<td><%= device.name %></td> 
+				<td><a href="/reports/all/<%= device.id %>"><%= device.name %></a></td> 
 				<td>
                           <%if device.recent_reading_id != 0 && !device.readings[0].nil?%>                
                                <%= device.readings[0].shortAddress %> 
@@ -42,8 +42,7 @@
                     </td>				
 				<td >
 					  <a href="/devices/edit/<%= device.id %>" title="Edit properties for this device">Edit</a> | 
-					  <a href="/devices/delete/<%= device.id %>" onclick="return confirm('Are you sure you want to delete this device ?');">Delete</a> | 
-                           <a href="<%= view_url(:id=>device.id) %>" title="Create and edit geofences for this device">Geofences</a>
+					  <a href="<%= view_url(:id=>device.id) %>" title="Create and edit geofences for this device">Geofences</a>
 				</td>
 			</tr>
         <% end %>        
