@@ -106,7 +106,7 @@ class DeviceControllerTest < Test::Unit::TestCase
   
   def test_edit_get_unauthorized
     get :edit, {:id => "1"}, { :user => users(:nick), :account_id => "2" }
-    assert_response 500
+    assert_response 302
   end
   
   def test_delete
@@ -117,7 +117,7 @@ class DeviceControllerTest < Test::Unit::TestCase
   
   def test_delete_unauthorized
     post :delete, {:id => "1"}, { :user => users(:nick), :account_id => "2" }
-    assert_response 500
+    assert_response 302
     assert_not_equal devices(:device1).provision_status_id, 2
   end
   
@@ -139,7 +139,7 @@ class DeviceControllerTest < Test::Unit::TestCase
 
   def test_choose_already_provisioned
     post :choose_MT, {:imei => "1234"}, { :user => users(:dennis), :account_id => "1" }
-    assert_equal flash[:message] , 'This device has already been added'
+    assert_equal flash[:error] , 'This device has already been added'
     assert_response :success
   end
 

@@ -48,7 +48,7 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
   def test_create_account_with_subdomain
     post :create, {:account => {:subdomain => "monkey", :company => "New Co", :zip => 12345}}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "monkey created successfully"
+    assert_equal flash[:success], "monkey created successfully"
   end
   
   def test_edit_account
@@ -65,13 +65,13 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
   def test_update_account_with_zip
     post :update, {:id => 4, :account => {:subdomain => "newco", :company => "New Co", :zip => 12345}}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "newco updated successfully"
+    assert_equal flash[:success], "newco updated successfully"
   end
   
   def test_delete_account
     post :destroy, {:id => 1}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "dennis deleted successfully"
+    assert_equal flash[:success], "dennis deleted successfully"
   end
   
   def get_user

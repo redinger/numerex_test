@@ -60,7 +60,7 @@ class Admin::UsersControllerTest < Test::Unit::TestCase
   def test_create_user
     post :create, {:user => {:first_name => "dennis", :last_name => "baldwin", :email => "dennisb@ublip.com", :password => "helloworld", :password_confirmation => "helloworld", :account_id => 1}}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "dennisb@ublip.com was created successfully"
+    assert_equal flash[:success], "dennisb@ublip.com was created successfully"
   end
 
   def test_edit_account
@@ -71,13 +71,13 @@ class Admin::UsersControllerTest < Test::Unit::TestCase
   def test_update_user
     post :update, {:id => 1, :user =>{:first_name => "dennis_new", :last_name => "baldwin_new", :email => "dennis@ublip.com", :account_id => 1}}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "dennis@ublip.com updated successfully"
+    assert_equal flash[:success], "dennis@ublip.com updated successfully"
   end
   
   def test_delete_user
     post :destroy, {:id => 1}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "dennis@ublip.com deleted successfully"
+    assert_equal flash[:success], "dennis@ublip.com deleted successfully"
   end
   
   def get_user

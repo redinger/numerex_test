@@ -48,13 +48,13 @@ class Admin::DevicesControllerTest < Test::Unit::TestCase
   def test_update_device
     post :update, {:id => 1, :device => {:name => "my device", :imei => "1234", :provision_status_id => 1, :account_id => 1}}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "my device updated successfully"
+    assert_equal flash[:success], "my device updated successfully"
   end
   
   def test_delete_device
     post :destroy, {:id => 1}, get_user
     assert_redirected_to :action => "index"
-    assert_equal flash[:message], "device 1 deleted successfully"
+    assert_equal flash[:success], "device 1 deleted successfully"
   end
 
   def get_user
