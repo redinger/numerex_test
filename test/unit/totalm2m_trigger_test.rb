@@ -43,6 +43,7 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
     assert_equal 1, stops.size
     assert_equal 32.9393, stops[0].latitude
     assert_equal -96.823, stops[0].longitude
+    puts stops[0].reading_id
     assert_equal 'Thu Oct 11 12:57:28 -0500 2007', stops[0].created_at.to_s
   end
   

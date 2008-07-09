@@ -131,7 +131,7 @@ drop trigger IF EXISTS trig_event_42_insert_toublip;;
 CREATE TRIGGER trig_event_42_insert_toublip AFTER INSERT ON EVENT_42 FOR EACH ROW BEGIN
  CALL insert_readings(NEW.latitude, NEW.longitude, NEW.altitude, NEW.speed, NEW.heading, NEW.modem, 
 	  concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)), 'startstop_et41');
- CALL ublip_prod.insert_stop_event(NEW.latitude, NEW.longitude, NEW.modem, CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() ));
+ CALL ublip_prod.insert_stop_event(NEW.latitude, NEW.longitude, NEW.modem, CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() ), LAST_INSERT_ID() );
 END;;
 
 drop trigger IF EXISTS trig_event_61_insert_toublip;;

@@ -20,7 +20,8 @@ CREATE PROCEDURE insert_stop_event(
 	_latitude FLOAT,
 	_longitude FLOAT,
 	_modem VARCHAR(22),
-	_created DATETIME
+	_created DATETIME,
+	_reading_id INT(11)
 )
 BEGIN
 	DECLARE deviceID INT(11);
@@ -31,8 +32,8 @@ BEGIN
 	IF deviceID IS NOT NULL THEN
 		SELECT id INTO latestStopID FROM stop_events WHERE device_id=deviceID AND created_at <= _created ORDER BY created_at desc limit 1;
 		IF (SELECT id FROM stop_events WHERE id=latestStopID AND duration IS NULL and distance(_latitude, _longitude, latitude, longitude) < 0.1) IS NULL THEN
-			INSERT INTO stop_events (latitude, longitude, created_at, device_id)
-		   		VALUES (_latitude, _longitude, _created, deviceID);
+			INSERT INTO stop_events (latitude, longitude, created_at, device_id, reading_id)
+		   		VALUES (_latitude, _longitude, _created, deviceID, _reading_id);
 		END IF;
 	END IF;
 END;;

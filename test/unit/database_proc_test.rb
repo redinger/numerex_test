@@ -69,7 +69,7 @@ class DatabaseProcTest < Test::Unit::TestCase
   end
   
   def insert_stop(lat, lng, created, imei)
-    ActiveRecord::Base.connection.execute("CALL insert_stop_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}')")
+    ActiveRecord::Base.connection.execute("CALL insert_stop_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
   end
   
   end
