@@ -36,7 +36,7 @@ class Admin::UsersController < ApplicationController
       # Check that passwords match
       if params[:user][:password] == params[:user][:password_confirmation]
         if @user.save
-          flash[:message] = @user.email + ' was created successfully'
+          flash[:success] = @user.email + ' was created successfully'
           redirect_to :action => "index" and return
         else # Display errors from model validation
           error_msg = ''
@@ -59,7 +59,7 @@ class Admin::UsersController < ApplicationController
       @user.update_attributes(params[:user])
       
       if @user.save
-        flash[:message] = "#{@user.email} updated successfully"
+        flash[:success] = "#{@user.email} updated successfully"
         redirect_to :action => 'index' and return
       else
         error_msg = ''
@@ -76,7 +76,7 @@ class Admin::UsersController < ApplicationController
     if request.post?
       user = User.find(params[:id])
       user.destroy
-      flash[:message] = "#{user.email} deleted successfully"
+      flash[:success] = "#{user.email} deleted successfully"
     end
     redirect_to :action => "index"
   end

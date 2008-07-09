@@ -1,8 +1,4 @@
-<% if flash[:message] %>
-<div id="success_message">
-    <%= flash[:message] %>
-</div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
 
 <h3>Device Information</h3>
 <h4>Please assign a name to your device and enter the IMEI below.</h4>

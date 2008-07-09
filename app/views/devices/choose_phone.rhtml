@@ -1,8 +1,5 @@
-<% if flash[:message] %>
-<div id="success_message">
-    <%= flash[:message] %>
-</div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
+
 <h3>Device Information</h3>
 <h4>Currently, we only support Blackberry 8800 series of devices.</h4>
 <h4>Please assign a name to your device and enter the IMEI and phone number below and a test message will be sent to install the app.</h4>

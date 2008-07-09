@@ -1,10 +1,6 @@
 <h3>Users (<%= @users.size %> total)</h3>
 
-<% if flash[:message] %>
-	<div id="success_message">
-		<%= flash[:message] %>
-	</div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
 
 <ul class="list">
     <li>

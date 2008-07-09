@@ -1,14 +1,4 @@
-<% if flash[:error] %>
-<div id="error_message">
-    <%= flash[:error] %>
-</div>
-<% end %>
-
-<% if flash[:success] %>
-<div id="success_message">
-    <%= flash[:success] %>
-</div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
 
 <h3>Add a New User</h3>
 <form method="post" class="form_table" onsubmit="return ValidateForm();">

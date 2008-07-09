@@ -45,18 +45,24 @@ class DevicesController < ApplicationController
       flash[:success] = params[:name] + ' was updated successfully'
       redirect_to :controller => 'devices'
     else
-      @device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])  
+      @device = Device.find_by_id(params[:id], :conditions => ["account_id = ?", session[:account_id]])
+      if @device.nil?
+         flash[:error] = 'Invalid action.' 
+         redirect_to :controller => 'devices' 
+      end   
     end
   end
   
   # User can delete their device
-  def delete
-    if request.post?
-      device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
-      device.update_attribute(:provision_status_id, 2) # Let's flag it for now instead of deleting it
-      flash[:success] = device.name + ' was deleted successfully'
-      redirect_to :controller => "devices"
-    end
+  def delete    
+      device = Device.find_by_id(params[:id], :conditions => ["account_id = ?", session[:account_id]])
+     if !device.nil? 
+          device.update_attribute(:provision_status_id, 2) # Let's flag it for now instead of deleting it
+          flash[:success] = device.name + ' was deleted successfully'
+     else
+          flash[:error] = 'Invalid action.'
+     end    
+     redirect_to :controller => "devices"    
   end
   
   def provision_device(imei, extras=nil)
@@ -70,9 +76,9 @@ class DevicesController < ApplicationController
         device.name = params[:name]
         device.provision_status_id = 1
         device.save
-        flash[:message] = params[:name] + ' was provisioned successfully'
+        flash[:success] = params[:name] + ' was provisioned successfully'
       else
-        flash[:message] = 'This device has already been added'
+        flash[:error] = 'This device has already been added'
         return nil
       end
       # No device with this IMEI exists so let's add it
@@ -86,7 +92,7 @@ class DevicesController < ApplicationController
       device.provision_status_id = 1
       device.account_id = session[:account_id]
       device.save
-      flash[:message] = params[:name] + ' was created successfully'
+      flash[:success] = params[:name] + ' was created successfully'
     end
     return device
   end

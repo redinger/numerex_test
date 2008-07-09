@@ -1,15 +1,6 @@
 <h3>Editing User</h3>
 
-<% if flash[:error] %>
-	<div id="error_message">
-		<%= flash[:error] %>
-	</div>
-<% end %>
-
-<script>
-</script>
-
-
+<%= render :partial=>"/layouts/flash_message" %>    
 
 <form method="post" class="form" action="/admin/users/update" onsubmit="return ValidateForm(<%= @user.id %>);" >
 	<%= render :partial => "user_form" %>

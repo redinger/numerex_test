@@ -1,8 +1,4 @@
- <% if flash[:new] %>
-<div id="success_message">
-    <%= flash[:new] %>
-</div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
 
  <div style="float:left; width:55%;"> 
  <p style="background:#6699CC; height:23px; margin-top:2px; margin-left:3px;">

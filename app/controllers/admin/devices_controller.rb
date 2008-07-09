@@ -31,7 +31,7 @@ class Admin::DevicesController < ApplicationController
       
       if device.save
         redirect_to :action => 'index' and return
-        flash[:message] = "#{device.name} created successfully"
+        flash[:success] = "#{device.name} created successfully"
       else
         error_msg = ''
         device.errors.each_full do |error|
@@ -47,7 +47,7 @@ class Admin::DevicesController < ApplicationController
     if request.post?
       device = Device.find(params[:id])
       device.update_attributes(params[:device])
-      flash[:message] = "#{device.name} updated successfully"
+      flash[:success] = "#{device.name} updated successfully"
     end
     redirect_to :action => 'index'
   end
@@ -57,7 +57,7 @@ class Admin::DevicesController < ApplicationController
       device = Device.find(params[:id])
       device.update_attribute(:provision_status_id, 2)
       device.save!
-      flash[:message] = "#{device.name} deleted successfully"
+      flash[:success] = "#{device.name} deleted successfully"
     end  
     redirect_to :action => 'index'
     

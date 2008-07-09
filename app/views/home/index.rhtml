@@ -16,7 +16,7 @@
                         <option id=""  value="new">New group</option>
                         <option id=""  value="edit">Edit groups</option>
                         <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-                        <option value="all"  selected style="background-color:#c5f794;">  All Devices  </option>
+                        <option value="all"  selected class="bgcolor">  All Devices  </option>
                              <% for group in @all_groups %>
                         <option <%if session[:gmap_value].to_i == group.id%> selected <%end%> value='<%= group.id%>'><%= group.name%> </option>
                               <% end %>

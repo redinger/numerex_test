@@ -1,23 +1,11 @@
-<% if flash[:success] %>
-<div id="success_message">
-    <%= flash[:success] %>
-</div>
-<% end %>
-<% if flash[:error] %>
-<div id="error_message">
-    <%= flash[:error] %>
-</div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
 
 <form action='edits_group' method='post'>
-
-<%#= hidden_field 'group_id', 'id', :value=>@group.id %>
    <input type="hidden" id="group_id" name="id" value="<%= @group.id %>">
   <!-- Content starts here -->
     <div class="grp_3">
       <h2>Edit Group</h2>      
-     <h3>Group Name</h3>
-       <%#= text_field  'group' , 'name',"value"=> flash[:group_name] %>
+     <h3>Group Name</h3>       
        <input type="text" id="group_name" name="name" value="<%= flash[:group_name]%>">
       <h3>Select Icon</h3>
       <div class="sel_icon">
@@ -75,8 +63,7 @@
   	        <br/>
   	        <br/>
   	<hr/>
-  	        <form onsubmit="return confirm('Are you sure you want to delete this group?');" action='delete_group' method="post">
-	           <%#= hidden_field 'group_id', 'id', :value=>@group.id %>      
+  	        <form onsubmit="return confirm('Are you sure you want to delete this group?');" action='delete_group' method="post">	           
                 <input type="hidden" id="group_id" name="id" value="<%= @group.id %>">
                 <input type="submit" value="delete"/>	
              </form>

@@ -12,8 +12,7 @@ class MobileController < ApplicationController
     end
 
     def view_all
-         @marker_string = ""
-         @center = ""    
+        @marker_string = ""
         @range=('A'..'Z').to_a
         @all_devices_with_map = Device.get_devices(session[:account_id])      
     end

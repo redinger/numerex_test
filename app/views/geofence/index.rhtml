@@ -4,15 +4,7 @@
 		<div id="tab_rt" ><a href="<%= new_url%>" title="Create new geofence">Add New Geofence</a></div>
 	<br>
 </div>
-	
-		<% if flash[:success] %>
-        	     <div id="success_message"><%= flash[:success] %></div>
-		<% end %>	
-        
-		<% if flash[:error] %>
-        	    <div id="error_message"><%= flash[:error] %></div>
-		<% end %>	
-		
+	 <%= render :partial=>"/layouts/flash_message"%>    
 	<div>
 	
 	<table id="ub-table"> 

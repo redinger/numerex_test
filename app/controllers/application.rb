@@ -84,8 +84,8 @@ class ApplicationController < ActionController::Base
   end
   
   def authorize_device
-    device = Device.find(params[:id])
-    unless device.account_id == session[:account_id]
+    device = Device.find_by_id(params[:id])
+    unless device && device.account_id == session[:account_id]
       redirect_back_or_default "/index"
     end
   end

@@ -1,6 +1,4 @@
- <% if flash[:success] %>
-    <div id="success_message"><%= flash[:success] %></div>
-<% end %>
+<%= render :partial=>"/layouts/flash_message" %>    
 
 <div class="container">
 	<div id="top_head">

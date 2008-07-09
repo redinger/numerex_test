@@ -15,7 +15,7 @@
           <%end%>
 		</li>
           <li>                        
-            <img src="http://maps.google.com/staticmap?center=<%= @device.readings[0].latitude %>,<%= @device.readings[0].longitude %>&zoom=14&size=240x320&maptype=mobile&markers=<%= @device.readings[0].latitude %>,<%= @device.readings[0].longitude %>,<%= MAP_MARKER_COLOR[ @device.icon_id-1]%>&key=<%= API_KEY %>" />                           
+            <img src="http://maps.google.com/staticmap?center=<%= @device.readings[0].latitude %>,<%= @device.readings[0].longitude %>&zoom=14&size=240x320&maptype=mobile&markers=<%= @device.readings[0].latitude %>,<%= @device.readings[0].longitude %>,<%= MAP_MARKER_COLOR[ @device.icon_id-1]%>&key=<%= Google_Maps_Api_Key %>" />                           
 		</li>
           <li>
              <a href="#" onclick="window.location.reload(true);">Refresh</a>
