@@ -15,7 +15,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     end
   end
   
-  fixtures :users, :readings
+  fixtures :users, :readings, :stop_events
   
   def setup
     @controller = ReportsController.new
@@ -69,11 +69,10 @@ class ReportsControllerTest < Test::Unit::TestCase
 
   # Test stop report
   def test_stop
-=begin
-    get :stop, {:id => 1, :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2008"}, :end_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :stop, {:id => 1, :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_equal 5, assigns(:record_count)
     assert_response :success
-
+=begin
     pretend_now_is(Time.at(1185490000)) do
       puts "now is:" + Time.now.to_s
       get :stop, {:id=>"1", :t=>"1", :start_time1=>"Thu May 24 21:24:10 +0530 2004",:end_time1=>"Thu Jun 25 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id } 
@@ -115,6 +114,7 @@ class ReportsControllerTest < Test::Unit::TestCase
       assert_equal Time.local(2007, "Jul", 26, 15, 00, 00), stops[2].created_at
       
     end
+
 =end
   end
   
