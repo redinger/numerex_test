@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @stop_events = StopEvent.find(:all, :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_time, @end_time], :order => "created_at desc")
     @pages,@readings = paginate_collection(:collection => @stop_events,:page => params[:page],:per_page => ResultCount)   
-    @record_count = StopEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_time, @end_time])
+    @record_count = StopEvent.count('id', :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_time, @end_time])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
