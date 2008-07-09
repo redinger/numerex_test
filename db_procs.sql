@@ -61,7 +61,7 @@ BEGIN
 		  
 		IF first_move_after_stop_id IS NOT NULL THEN
 			SELECT TIMESTAMPDIFF(MINUTE, stopTime, created_at) INTO stopDuration FROM readings where id=first_move_after_stop_id;
-			UPDATE stop_events SET duration = stopDuration where id=eventID;
+			UPDATE stop_events SET duration = stopDuration+3 where id=eventID;
 		END IF;
 		
 		SELECT COUNT(*) INTO num_events_to_check FROM open_stop_events WHERE checked=FALSE;
