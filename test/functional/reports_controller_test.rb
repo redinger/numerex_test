@@ -70,52 +70,17 @@ class ReportsControllerTest < Test::Unit::TestCase
   # Test stop report
   def test_stop
     get :stop, {:id => 1, :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
-    assert_equal 5, assigns(:record_count)
     assert_response :success
-=begin
-    pretend_now_is(Time.at(1185490000)) do
-      puts "now is:" + Time.now.to_s
-      get :stop, {:id=>"1", :t=>"1", :start_time1=>"Thu May 24 21:24:10 +0530 2004",:end_time1=>"Thu Jun 25 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id } 
-      stops = assigns(:stops)
-      assert_equal 8, assigns(:record_count)
-      assert_response :success
-      assert_template "stop"
-
-      assert_equal 5, stops.size
-      
-      assert_equal -1, stops[0].duration
-      assert_equal Time.local(2007, "Jul", 26, 16, 55, 0), stops[0].created_at
-      
-      assert_nil stops[1].duration
-      assert_equal Time.local(2007, "Jul", 26, 16, 00, 0), stops[1].created_at
-      
-      assert_equal 3480, stops[2].duration
-      assert_equal Time.local(2007, "Jul", 26, 15, 0, 0), stops[2].created_at
-      
-      assert_equal 780, stops[3].duration
-      assert_equal Time.local(2007, "Jul", 26, 14, 48, 39), stops[3].created_at
-      
-      assert_equal Time.local(2007, "Jul", 26, 14, 37, 39), stops[4].created_at
-      assert_equal -1720.0, stops[4].duration
-      
-     
-      
-      get :stop, {:id=>"3", :t=>"1", :p => "2", :start_time1=>"Thu May 24 21:24:10 +0530 2004",:end_time1=>"Thu Jun 25 21:24:10 +0530 2008"}, { :user => users(:dennis), :account_id => users(:dennis).account_id }
-      stops = assigns(:stops)
-      
-      assert_equal 5, stops.size
-      
-      assert_equal -1, stops[0].duration
-      assert_equal Time.local(2007, "Jul", 26, 16, 55, 00), stops[0].created_at
-      assert_equal nil, stops[1].duration
-      assert_equal Time.local(2007, "Jul", 26, 16, 00, 00), stops[1].created_at
-      
-      assert_equal 3480.0, stops[2].duration
-      assert_equal Time.local(2007, "Jul", 26, 15, 00, 00), stops[2].created_at
-      
-    end
-
-=end
+    assert_equal 5, assigns(:record_count)
+    stop_events = assigns(:stop_events)
+    assert_equal stop_events[0].duration, nil
+    assert_equal stop_events[1].duration, 676
+    assert_equal stop_events[2].duration, 73
+    
+    get :stop, {:id => 2, :start_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}, :end_time1=>{"month"=>"7", "day"=>"9", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    assert_response :success
+    assert_equal 1, assigns(:record_count)
+    assert_equal stop_events[0].duration, nil
   end
   
   # Test geofence report
