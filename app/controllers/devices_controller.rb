@@ -45,7 +45,7 @@ class DevicesController < ApplicationController
       flash[:success] = params[:name] + ' was updated successfully'
       redirect_to :controller => 'devices'
     else
-      @device = Device.find_by_id(params[:id], :conditions => ["account_id = ?", session[:account_id]])
+      @device = Device.find_by_id(params[:id], :conditions => ["account_id = ? and provision_status_id=1", session[:account_id]])
       if @device.nil?
          flash[:error] = 'Invalid action.' 
          redirect_to :controller => 'devices' 
@@ -201,14 +201,18 @@ class DevicesController < ApplicationController
      # delete the groups
     def delete_group       
        if request.post?         
-        @group=Group.find(params[:id])
-        flash[:success]= "Group " + @group.name +  " was deleted successfully "        
-        @group.destroy
-        @group_devices = Device.find(:all, :conditions=>['group_id=?',@group.id])
-        for device in @group_devices          
-          device.icon_id ="1" 
-          device.group_id = nil
-          device.update
+        @group=Group.find_by_id(params[:id], :conditions=>['account_id = ?',session[:account_id]])
+        if @group.nil?
+            flash[:error] = "Invalid action."
+        else    
+            flash[:success]= "Group " + @group.name +  " was deleted successfully "        
+            @group.destroy
+            @group_devices = Device.find(:all, :conditions=>['group_id=?',@group.id])
+            for device in @group_devices          
+              device.icon_id ="1" 
+              device.group_id = nil
+              device.update
+          end  
         end  
       end
       redirect_to :action=>"groups"
@@ -217,8 +221,13 @@ class DevicesController < ApplicationController
     #edit the groups
     def edits_group
          if params[:group_id]
-             @group = Group.find_by_id(params[:group_id])                           
+             @group = Group.find_by_id(params[:group_id], :conditions=>['account_id = ?',session[:account_id]])                                        
+             if @group.nil?
+                 flash[:error] ="Invalid action."
+                 redirect_to :action=>'groups'
+             else    
              flash[:group_name] = @group.name
+             end
          end
         if request.post?
             @group=Group.find(params[:id]) 

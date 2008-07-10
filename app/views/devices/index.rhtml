@@ -9,10 +9,8 @@
 	<br>
 </div>
 	
-    <% if flash[:success] %>
-        <div id="success_message"><%= flash[:success] %></div>
-    <% end %>	
-	    
+<%= render :partial=>"/layouts/flash_message" %>    
+
 	<div>	
 	<table id="ub-table"> 
 		<tr class="header">

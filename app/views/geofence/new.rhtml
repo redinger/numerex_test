@@ -56,6 +56,8 @@
 	var gf_index = 0;
 	<% if !@devices[0].geofences[0].nil? %>
 		geofences.push({id: <%= @devices[0].id %>, name: '<%= escape_javascript(@devices[0].geofences[0].name) %>', bounds: '<%= @devices[0].geofences[0].bounds %>'});
+    <%else%>
+		geofences.push({id: 0, name: '', bounds: '37.0625, -95.677068,0.1'});    
 	<% end %>
 </script>
 <% end %>

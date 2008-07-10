@@ -30,12 +30,21 @@ class GeofenceController < ApplicationController
 
   def detail
     @account = Account.find_by_id(session[:account_id])
-    @geofence = Geofence.find(:first,:conditions => ["id = ?",params[:id]])
+    @geofence = Geofence.find_by_id(params[:id],:conditions => ["account_id = ?",session[:account_id]])
+    if @geofence.nil?
+        flash[:error] = "Invalid action."
+        redirect_to geofence_url
+    end    
   end  
   
   def edit 
     @devices = Device.get_devices(session[:account_id])    
-    @geofence = Geofence.find_by_id(params[:id])     
+    @geofence = Geofence.find_by_id(params[:id], :conditions=>["account_id = ?",session[:account_id]])     
+    if @geofence.nil?
+       flash[:error] = "Invalid action." 
+       redirect_to geofence_url 
+       return
+    end
     if check_action_for_user
       if request.post?           
        add_and_edit(@geofence)
@@ -95,7 +104,7 @@ class GeofenceController < ApplicationController
   end  
   
   def delete 
-     @geofence=Geofence.find_by_id(params[:id]) 
+     @geofence=Geofence.find_by_id(params[:id], :conditions=>['account_id = ?',session[:account_id]]) 
      if check_action_for_user 
         Geofence.delete(params[:id])
         flash[:success] = "#{@geofence.name} deleted successfully"

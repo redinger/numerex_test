@@ -51,7 +51,7 @@ function load() {
 			});}
 			//displayGeofence(0);
             if (device_flag == 1){
-                displayGeofence(gf_index);
+                displayGeofence(gf_index);                
                 currSelectedGeofenceId = geofences[0].id;
                 var point = new GLatLng(device.lat, device.lng);
                 gmap.addOverlay(createMarker(point));
@@ -139,9 +139,9 @@ function validate() {
 
 
 // Display a geofence when selected from the view list
-function displayGeofence(index) {
-	var bounds = geofences[index].bounds.split(",");
-	var point = new GLatLng(parseFloat(bounds[0]), parseFloat(bounds[1]));
+function displayGeofence(index) {  
+	var bounds = geofences[index].bounds.split(",");    
+	var point = new GLatLng(parseFloat(bounds[0]), parseFloat(bounds[1]));    
 	var radius = parseFloat(bounds[2]);
 	gmap.clearOverlays();
 	drawGeofence(point, radius);
