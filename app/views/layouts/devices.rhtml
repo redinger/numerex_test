@@ -22,6 +22,8 @@
            
                 <%if controller.action_name == 'index' || controller.action_name == 'search_devices'%>
                     <div style="float: right"><a href="/devices/choose_MT" title="Add a new device">Add New Device</a></div>
+				<% elsif controller.action_name == 'groups'%>
+					<div style="float: right"><a href="/devices/new_group" title="Create new group">Add New Group</a></div>
                 <%end%>
            	 <div style="clear:both"></div>
 		</div>

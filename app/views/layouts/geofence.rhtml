@@ -11,7 +11,9 @@
 	<body <% if params[:action] != "index" %>onload="load();"<% end %>>
     	  <%= render :partial => 'layouts/includes/header' %>
     	   <div id="submenu">
-   			<a href="/devices" >Devices</a>&nbsp; | &nbsp;<a href="/geofence" class="current">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" >Groups</a>
+   			<div style="float: left"><a href="/devices" >Devices</a>&nbsp; | &nbsp;<a href="/geofence" class="current">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" >Groups</a></div>
+			<div style="float: right"><a href="<%= new_url%>" title="Create new geofence">Add New Geofence</a></div>
+			<div style="clear: right"></div>
     	   </div>
     	   <div id="content">
         	   <%= yield %>

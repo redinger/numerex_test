@@ -155,6 +155,11 @@ div#login_form_container {
 .form_table input {
 	font-weight: bold;
 	color: #006699;}
+	
+.bold_button {
+	font-weight: bold;
+	color: #006699;
+}
 
 .form_table td > input[type="text"], input[type="password"] {
 	width: 200px;
