@@ -114,8 +114,8 @@ class ReportsController < ApplicationController
      if params[:type] == 'stop'
        stop_events.each do |stop_event|                              
             local_time = Time.local(stop_event.created_at.year,stop_event.created_at.month,stop_event.created_at.day,stop_event.created_at.hour,stop_event.created_at.min,stop_event.created_at.sec)
-            address = stop_event.reading.nil? ? "N/A" : stop_event.reading.shortAddress
-            csv << [address, stop_event.duration, local_time, stop_event.latitude, stop_event.longitude]
+            address = stop_event.reading.nil? ? "#{stop_event.latitude},#{stop_event.longitude}" : stop_event.reading.shortAddress
+            csv << [address, ((stop_event.duration.to_s.strip.size > 0) ? stop_event.duration : 'Unknown'), local_time, stop_event.latitude, stop_event.longitude]
         end
      else
         readings.each do |reading|        
