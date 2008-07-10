@@ -38,8 +38,14 @@ class ReadingTest < Test::Unit::TestCase
    
   def test_fence_name
     assert_nil readings(:reading1).get_fence_name
-    assert_equal "home", readings(:readings_224).get_fence_name
+    assert_equal "work", readings(:readings_224).get_fence_name
+    
+    reading = readings(:reading1)
+    reading.event_type="entergeofen_1234" #bad geofence ID
+    assert_nil reading.get_fence_name()
   end
+  
+  
   
 
   end
