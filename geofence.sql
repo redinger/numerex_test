@@ -16,7 +16,8 @@ BEGIN
 END;;
 
 DROP TRIGGER IF EXISTS trig_readings_insert;;
-CREATE TRIGGER trig_readings_insert BEFORE INSERT ON readings FOR EACH ROW BEGIN
+DROP TRIGGER IF EXISTS trig_readings_before_insert;;
+CREATE TRIGGER trig_readings_before_insert BEFORE INSERT ON readings FOR EACH ROW BEGIN
 	
 	DECLARE new_violation_count int;
 	DECLARE first_fence_id int;
@@ -55,7 +56,7 @@ CREATE TRIGGER trig_readings_insert BEFORE INSERT ON readings FOR EACH ROW BEGIN
 			#insert new exit events into temp_exited_fences
 			INSERT INTO temp_exited_fences SELECT g.id, g.fence_num FROM geofence_violations v, geofences g 
 		  		WHERE g.id=v.geofence_id AND distance(NEW.latitude, NEW.longitude, g.latitude, g.longitude) > g.radius
-		    	AND (g.device_id=NEW.device_id OR account_id=accountID);
+		    	AND v.device_id=NEW.device_id;
 		
 			SELECT count(*) FROM temp_exited_fences INTO geofence_exit_count;
 		
