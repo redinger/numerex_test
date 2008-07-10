@@ -16,8 +16,8 @@ class Reading < ActiveRecord::Base
     if(!self.event_type.include?("geofen"))
       return nil
     else
-       fenceNumber = self.event_type[self.event_type.length-1].chr
-       fence = Geofence.find(fenceNumber)
+       fence_id = self.event_type[self.event_type.length-1].chr
+       fence = Geofence.find(fence_id)
        return fence.nil? ? nil : fence.name
     end
   end
