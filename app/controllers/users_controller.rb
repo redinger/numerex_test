@@ -101,8 +101,7 @@ class UsersController < ApplicationController
       end
       @users = User.find(:all, :conditions => ['account_id =?', @user.account_id])
 	  
-	   if @users.size < 5
-	      # Check that passwords match
+	     # Check that passwords match
 	      if params[:user][:password] == params[:user][:password_confirmation]
           if @user.save
             flash[:success] = @user.email + ' was created successfully'
@@ -116,10 +115,7 @@ class UsersController < ApplicationController
           end
         else
           flash[:error] = 'Your new password and confirmation must match'
-        end
-      else
-        flash[:error] = "There are already 5 users in this account"
-      end  
+        end 
     end
   end
   
