@@ -75,7 +75,8 @@ BEGIN
 	DECLARE unprocessed_count INT;
 	DROP TEMPORARY TABLE IF EXISTS stops;
 	CREATE TEMPORARY TABLE stops(latitude FLOAT, longitude FLOAT, modem VARCHAR(22), created DATETIME, reading_id INT(11), processed BOOLEAN );
-	INSERT INTO stops SELECT r.latitude, r.longitude, d.imei, r.created_at, r.id, false FROM readings r, devices d WHERE d.id=r.device_id AND r.speed=0 AND r.event_type like '%stop%'; 
+	INSERT INTO stops SELECT r.latitude, r.longitude, d.imei, r.created_at, r.id, false FROM readings r, devices d WHERE d.id=r.device_id AND r.speed=0 AND r.event_type like '%stop%';
+	CREATE INDEX idx_created ON stops (created); 
     SELECT COUNT(*) INTO unprocessed_count FROM stops where processed=FALSE;
 	WHILE unprocessed_count > 0 DO BEGIN
 		DECLARE lat FLOAT;
