@@ -25,4 +25,4 @@ ActionMailer::Base.smtp_settings = {
   :port               => 25
 }
 
-Google_Maps_Api_Key = 'ABQIAAAAwBz7W3z4sedOzgKp8bfXIhQgkZGlVagNg2XBcspSTJffxa0_-xR_JUvw1p9eI5WUVX_JcKXKNjZHoQ'
+Google_Maps_Api_Key = 'ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBQdy8buJCn4UCOrVn-gOC82x0BwgBQmZoveMS-zQ1aZv3RjGKOBbmDg9Q'
