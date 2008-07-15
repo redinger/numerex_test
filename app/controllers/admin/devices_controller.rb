@@ -29,6 +29,8 @@ class Admin::DevicesController < ApplicationController
     if request.post?
       device = Device.new(params[:device])
       
+      params[:device][:is_public] == '1' ? device.is_public = true : device.is_public = false
+  
       if device.save
         redirect_to :action => 'index' and return
         flash[:success] = "#{device.name} created successfully"
@@ -46,6 +48,7 @@ class Admin::DevicesController < ApplicationController
   def update
     if request.post?
       device = Device.find(params[:id])
+      params[:device][:is_public].nil? ? device.is_public = false : device.is_public = true
       device.update_attributes(params[:device])
       flash[:success] = "#{device.name} updated successfully"
     end

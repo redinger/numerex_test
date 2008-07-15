@@ -6,7 +6,7 @@ class ReadingsController; def rescue_action(e) raise e end; end
 
 class ReadingsControllerTest < Test::Unit::TestCase
   
-  fixtures :users,:accounts
+  fixtures :users,:accounts,:readings,:devices
   
   def setup
     @controller = ReadingsController.new
@@ -34,7 +34,7 @@ class ReadingsControllerTest < Test::Unit::TestCase
      @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
      get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
      # Simple test to validate there are 5 items in the georss response
-     assert_select "channel item", 5
+     assert_select "channel item", 4
   end
   
   def test_last_not_auth
@@ -65,6 +65,13 @@ class ReadingsControllerTest < Test::Unit::TestCase
     @request.host="dennis.ublip.com"
     get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
     assert_equal @response.body, "Couldn't authenticate you"
+  end
+  
+  # Test public feed
+  def test_public_feed
+    @request.host = "dennis.ublip.com"
+    get :public
+    assert_select "channel item", 1
   end
   
 end

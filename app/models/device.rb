@@ -13,8 +13,8 @@ class Device < ActiveRecord::Base
   # 0 = unprovisioned
   # 1 = provisioned
   # 2 = device deleted by user
-  def self.get_devices(account_id)
-    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id], :order => 'name')
+  def self.get_devices(account_id, is_public=false)
+    find(:all, :conditions => ['provision_status_id = 1 and account_id = ? and is_public = ?', account_id, is_public], :order => 'name')
   end
   
   def self.get_device(device_id, account_id)

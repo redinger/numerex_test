@@ -9,6 +9,7 @@ device1:
  group_id: 1
  last_online_time: <%= Time.now.to_s :db %> 
  online_threshold: NULL
+ is_public: true
  icon_id: 4
  
 device2:

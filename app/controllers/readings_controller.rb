@@ -1,8 +1,6 @@
 class ReadingsController < ApplicationController
- 
-  
   before_filter :authorize_http, :only => ['last', 'all']
-  before_filter :authorize, :except => ['last', 'all']
+  before_filter :authorize, :except => ['last', 'all', 'public'] # Public readings don't require any auth
   
  def show_group_by_id
         @group_for_data=Group.find(:all ,:conditions=>["account_id =?" ,session[:account_id]] )
@@ -72,6 +70,13 @@ class ReadingsController < ApplicationController
   def all
     account_id = Account.find_by_subdomain(request.host.split('.')[0]).id
     @devices = Device.get_devices(account_id)
+    render :layout => false
+  end
+  
+  # New action to allow public feeds for devices
+  def public
+    account_id = Account.find_by_subdomain(request.host.split('.')[0]).id
+    @devices = Device.get_devices(account_id, true) # Get all public devices
     render :layout => false
   end
   
