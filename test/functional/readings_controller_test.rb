@@ -40,7 +40,7 @@ class ReadingsControllerTest < Test::Unit::TestCase
   def test_last_not_auth
     @request.host="dennis.ublip.com"
     @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
-    get :last, { :id => "7"}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    get :last, { :id => 7}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
     puts @response.body
     
     assert_select "channel" do |element|
@@ -51,6 +51,20 @@ class ReadingsControllerTest < Test::Unit::TestCase
     end
       
     end
+  end
+  
+  # Make sure that we're requiring HTTP auth
+  def test_require_http_auth_for_last
+    @request.host="dennis.ublip.com"
+    get :last, {:id => 1}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    assert_equal @response.body, "Couldn't authenticate you"
+  end  
+  
+  # Make sure that we're requiring HTTP auth
+  def test_require_http_auth_for_all
+    @request.host="dennis.ublip.com"
+    get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    assert_equal @response.body, "Couldn't authenticate you"
   end
   
 end

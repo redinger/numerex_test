@@ -1,8 +1,8 @@
 class ReadingsController < ApplicationController
  
   
-  before_filter :authorize_http, :only => ['last']
-  before_filter :authorize, :except => ['last']
+  before_filter :authorize_http, :only => ['last', 'all']
+  before_filter :authorize, :except => ['last', 'all']
   
  def show_group_by_id
         @group_for_data=Group.find(:all ,:conditions=>["account_id =?" ,session[:account_id]] )
