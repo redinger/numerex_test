@@ -76,7 +76,7 @@ class ReadingsController < ApplicationController
   # New action to allow public feeds for devices
   def public
     account_id = Account.find_by_subdomain(request.host.split('.')[0]).id
-    @devices = Device.get_devices(account_id, true) # Get all public devices
+    @devices = Device.get_public_devices(account_id)
     render :layout => false
   end
   

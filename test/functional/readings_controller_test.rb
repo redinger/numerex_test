@@ -34,7 +34,7 @@ class ReadingsControllerTest < Test::Unit::TestCase
      @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
      get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
      # Simple test to validate there are 5 items in the georss response
-     assert_select "channel item", 4
+     assert_select "channel item", 5
   end
   
   def test_last_not_auth
