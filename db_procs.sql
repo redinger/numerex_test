@@ -38,6 +38,25 @@ BEGIN
 	END IF;
 END;;
 
+DROP PROCEDURE IF EXISTS insert_reading;;
+CREATE PROCEDURE insert_reading(
+	_latitude FLOAT,
+	_longitude FLOAT,
+	_altitude  FLOAT,
+	_speed FLOAT,
+	_heading float,
+	_modem VARCHAR(22),
+	_created DATETIME,
+	_event_type VARCHAR(25)
+)
+BEGIN
+	DECLARE deviceID INT(11);
+	
+	SELECT id INTO deviceID FROM devices WHERE imei=_modem;
+	INSERT INTO readings (device_id, latitude, longitude, altitude, speed, direction, event_type, created_at)
+		VALUES (deviceID, _latitude, _longitude, _altitude, _speed, _heading, _event_type, _created);
+END;;
+
 DROP PROCEDURE IF EXISTS process_stop_events;;
 CREATE PROCEDURE process_stop_events()
 BEGIN

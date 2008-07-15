@@ -13,8 +13,8 @@ class DatabaseProcTest < Test::Unit::TestCase
     statements = sql.split(';;')
     
     statements.each  {|stmt| 
-          puts stmt
-          ActiveRecord::Base.connection.execute(stmt)
+      puts stmt
+      ActiveRecord::Base.connection.execute(stmt)
     }
   end
   
@@ -44,6 +44,22 @@ class DatabaseProcTest < Test::Unit::TestCase
     insert_stop(2.2,2.3, now-200, devices(:device1).imei)
     stops = StopEvent.find(:all)
     assert_equal(4, stops.size, "should allowed stop in the past")
+  end
+  
+  def test_reading_insert
+    Reading.delete_all
+    now = Time.now
+    #latitude, longitude, altitude, speed, heading, event_type, created_at
+    ActiveRecord::Base.connection.execute("CALL insert_reading(1,2,3,4,5,#{devices(:device1).imei},'#{now.strftime("%Y-%m-%d %H:%M:%S")}', '' )")
+    readings = Reading.find(:all)
+    assert_equal 1, readings.size, "there should be only one reading"
+    assert_equal 1, readings[0].latitude
+    assert_equal 2, readings[0].longitude
+    assert_equal 3, readings[0].altitude
+    assert_equal 4, readings[0].speed
+    assert_equal 5, readings[0].direction
+    assert_equal now.to_s, readings[0].created_at.to_s
+    assert_equal devices(:device1).id, readings[0].device_id
   end
   
   def test_process_stops
