@@ -25,7 +25,6 @@
                               <%= select_date(@end_time, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"end_time1")%>
                      <input name="commit" type="submit" value="Go" />
                      </form>
-					<% if !@readings.nil? && params[:action] == 'all' %><strong><%= total_miles(@readings) %> miles</strong><% end %>
                 </td>
                     <%if !(@record_count <= 0) %>
 				    <td><div id="result_count"><b><%= display_result_count(params[:page].to_i,@actual_record_count,ResultCount)%></b></div></td>
