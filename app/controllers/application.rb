@@ -4,7 +4,13 @@
 class ApplicationController < ActionController::Base
   session :session_key => '_ublip_session_id'
   before_filter :set_page_title
-  before_filter :create_referral_url     
+  before_filter :create_referral_url
+  
+  helper_method :current_account
+  
+  def current_account
+    @current_account ||= Account.find(session[:account_id])
+  end
   
  # from pg. 464 of AWDWR, 1st Ed.
     def rescue_action_in_public(exception)
