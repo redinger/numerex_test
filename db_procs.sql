@@ -61,6 +61,28 @@ BEGIN
 	END IF;
 END;;
 
+DROP PROCEDURE IF EXISTS insert_engine_off_event;;
+CREATE PROCEDURE insert_engine_off_event(
+	_latitude FLOAT,
+	_longitude FLOAT,
+	_modem VARCHAR(22),
+	_created DATETIME,
+	_reading_id INT(11)
+)
+BEGIN
+	DECLARE latestIdleID INT(11);
+	DECLARE deviceID INT(11);
+	DECLARE latestDuration INT(11);
+	DECLARE idleTimestamp DATETIME;
+	
+	SELECT id INTO deviceID FROM devices WHERE imei=_modem;
+	SELECT id,duration,created_at INTO latestIdleID,latestDuration,idleTimestamp FROM idle_events WHERE device_id=deviceID AND created_at <= _created ORDER BY created_at desc limit 1;
+	IF latestDuration IS NULL THEN
+		UPDATE idle_events SET duration=TIMESTAMPDIFF(MINUTE, idleTimestamp, _created) WHERE id=latestIdleID;
+	END IF;
+	
+END;;
+
 
 DROP PROCEDURE IF EXISTS insert_reading;;
 CREATE PROCEDURE insert_reading(
