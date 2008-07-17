@@ -1,0 +1,13 @@
+<table class="panel_table" >
+	<%= render :partial => 'device_summary_header',:locals => {:column_span => "7",:sub_heading => "(Last 7 days)"} %>
+	<tr>
+	  <th>Name</th>
+	  <th>&nbsp;</th>
+	  <th>Stops</th>
+	  <th>Idle (hours)</th>
+	  <th>%</th>
+	  <th>Runtime (hours)</th>
+	  <th>%</th>
+	</tr>           
+	<%= render :partial => "group_rows",:locals => {:callback => "show_statistics",:column_span => "7"} %>
+</table>

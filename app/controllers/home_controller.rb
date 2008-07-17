@@ -14,6 +14,14 @@ class HomeController < ApplicationController
      end            
   end
   
+  def statistics
+    index # TODO add proper query
+  end
+  
+  def maintenance
+    index # TODO add proper query
+  end
+  
   def show_devices         
     @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]])
     if params[:type] == "all"

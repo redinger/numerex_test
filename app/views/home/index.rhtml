@@ -1,91 +1,10 @@
-<table>
-    <tr>
-        <td width="50%" valign="top" id="left_panel">
-        	<% if @devices.size == 0 %>
-        	<div id="new">
-        		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
-				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
-				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
-        	</div>
-			<% end %>
-           <div id="to_update">            
-          <table class="panel_table" >                            
-            <tr>
-              <td colspan="4" class="header"><span class="device_summery">Device Summary  </span>
-                    <select id="type1" class="device_summery_select" name="type" onchange="select_action(this);"> 
-                        <option id=""  value="new">New group</option>
-                        <option id=""  value="edit">Edit groups</option>
-                        <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-                        <option value="all"  selected class="bgcolor">  All Devices  </option>
-                             <% for group in @all_groups %>
-                        <option <%if session[:gmap_value].to_i == group.id%> selected <%end%> value='<%= group.id%>'><%= group.name%> </option>
-                              <% end %>
-                    </select>            
-              </td>
-            </tr>            
-            <tr>
-              <th>Name</th>
-              <th>&nbsp;</th>
-              <th>Last Location</th>
-              <th>Last Report</th>
-            </tr>           
-           <% if !@groups.nil?%> 
-                <% @groups.each do |group|%> 
-                     <tr>
-                          <td colspan="4" class="bg_overview">
-                               <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;" class="group_name">
-                                    <%= group.name%>
-                               </span>
-                          </td>
-                     </tr>
-                     <%if !group.devices.empty?%>                     
-                         <% group.devices.each do |device|%>
-                              <%= show_device device %>
-                         <%end%>
-                     <%else%>
-                          <tr><td>No devices in this group.</td></tr>
-                     <%end%>
-                <%end%>
-           <%end%>
-           <%if !@default_devices.empty?%>
-                <%if !@groups.empty? %>
-                    <tr>
-                         <td colspan="4" class="bg_overview">
-                              <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
-                                   Default
-                              </span>
-                         </td>
-                    </tr>
-                <%end%>
-                <% @default_devices.each do |device|%>
-                    <%= show_device device %> 
-                <%end%>
-           <%end%>           
-            </table>           
-           </div > 
-          
-        </td>
-        <td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
-        <td valign="top" width="50%" id="right_panel">
-            <table class="panel_table">
-                <tr>
-                	<td class="header">
-                		<div style="float: left">Locations for All Devices</div>
-						<div id="updating">Updating locations...</div>
-					</td>
-				</tr>
-                <tr class="dark_row"><td valign="top"><div id="map" ></div></td></tr>
-            </table>
-        </td>
-    </tr>
+<table class="panel_table" >
+	<%= render :partial => 'device_summary_header' %>
+	<tr>
+	  <th>Name</th>
+	  <th>&nbsp;</th>
+	  <th>Last Location</th>
+	  <th>Last Report</th>
+	</tr>
+	<%= render :partial => "group_rows",:locals => {:callback => "show_device"} %>
 </table>
-        <script>
-            window.setInterval("updateLocations();", 30000);
-            function updateLocations() {                                              
-               if (grp_id)
-                  { getRecentReadings(true,grp_id); }   
-               else
-                 {  getRecentReadings(false); }                
-            }
-        </script>
-

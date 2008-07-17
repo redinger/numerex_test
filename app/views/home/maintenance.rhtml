@@ -1,0 +1,11 @@
+<table class="panel_table" >
+	<%= render :partial => 'device_summary_header',:locals => {:column_span => "5"} %>
+	<tr>
+	  <th>Name</th>
+	  <th>&nbsp;</th>
+	  <th>Last Maintenance Occurred</th>
+	  <th>Next Maintenance Required</th>
+	  <th>Status</th>
+	</tr>           
+	<%= render :partial => "group_rows",:locals => {:callback => "show_maintenance",:column_span => "5"} %>
+</table>
