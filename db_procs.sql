@@ -38,6 +38,30 @@ BEGIN
 	END IF;
 END;;
 
+DROP PROCEDURE IF EXISTS insert_idle_event;;
+CREATE PROCEDURE insert_idle_event(
+	_latitude FLOAT,
+	_longitude FLOAT,
+	_modem VARCHAR(22),
+	_created DATETIME,
+	_reading_id INT(11)
+)
+BEGIN
+	DECLARE deviceID INT(11);
+	DECLARE latestIdleID INT(11);
+	
+	SELECT id INTO deviceID FROM devices WHERE imei=_modem;
+	
+	IF deviceID IS NOT NULL THEN
+		SELECT id INTO latestIdleID FROM idle_events WHERE device_id=deviceID AND created_at <= _created ORDER BY created_at desc limit 1;
+		IF (SELECT id FROM idle_events WHERE id=latestIdleID AND duration IS NULL and distance(_latitude, _longitude, latitude, longitude) < 0.1) IS NULL THEN
+			INSERT INTO idle_events (latitude, longitude, created_at, device_id, reading_id)
+		   		VALUES (_latitude, _longitude, _created, deviceID, _reading_id);
+		END IF;
+	END IF;
+END;;
+
+
 DROP PROCEDURE IF EXISTS insert_reading;;
 CREATE PROCEDURE insert_reading(
 	_latitude FLOAT,

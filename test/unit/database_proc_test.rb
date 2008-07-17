@@ -46,6 +46,34 @@ class DatabaseProcTest < Test::Unit::TestCase
     assert_equal(4, stops.size, "should allowed stop in the past")
   end
   
+  def test_idle_insert
+    IdleEvent.delete_all
+    now = Time.now
+    insert_idle(1.2,2.3, now, devices(:device1).imei)
+    idle_events = IdleEvent.find :all
+    assert_equal(1, idle_events.size, "should have been one stop")
+    
+    insert_idle(1.2, 2.3, now+60, devices(:device1).imei)
+    idle_events = IdleEvent.find :all
+    assert_equal(1, idle_events.size, "should have ignored duplicate idle event")
+    
+    insert_idle(1.2, 2.3, now, devices(:device1).imei)
+    idle_events = IdleEvent.find :all
+    assert_equal(1, idle_events.size, "should have ignored duplicate idle event w/same timestamp")
+    
+    insert_idle(2.2, 2.3, now+70, devices(:device1).imei)
+    idle_events = IdleEvent.find :all
+    assert_equal(2, idle_events.size, "should have allowed far away duplicate idle event")
+    
+    insert_idle(2.2, 2.3, now+80, devices(:device2).imei)
+    idle_events = IdleEvent.find :all
+    assert_equal(3, idle_events.size, "should have allowed idle event on different device")
+    
+    insert_idle(2.2,2.3, now-200, devices(:device1).imei)
+    idle_events = IdleEvent.find :all
+    assert_equal(4, idle_events.size, "should allowed idle event in the past")
+  end
+  
   def test_reading_insert
     Reading.delete_all
     now = Time.now
@@ -86,6 +114,10 @@ class DatabaseProcTest < Test::Unit::TestCase
   
   def insert_stop(lat, lng, created, imei)
     ActiveRecord::Base.connection.execute("CALL insert_stop_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
+  end
+  
+  def insert_idle(lat, lng, created, imei)
+    ActiveRecord::Base.connection.execute("CALL insert_idle_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
   end
   
   end
