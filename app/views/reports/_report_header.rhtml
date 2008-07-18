@@ -17,7 +17,7 @@
 		<tr>
 			<td align="left">
 				<span class="dark_blue_header"><%= title %> for: </span>
-				<select onchange="changeDevice(this.options[this.selectedIndex].value, '<%= params[:action] %>', '<%= @start_time%>', '<%= @end_time%>');">
+				<select onchange="changeDevice(this.options[this.selectedIndex].value, '<%= params[:action] %>', '<%= @start_time.utc %>', '<%= @end_time.utc%>');">
 					<% for device in @device_names %>
 						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
 					<% end %>

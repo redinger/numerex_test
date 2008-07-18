@@ -2,19 +2,23 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 42) do
+ActiveRecord::Schema.define(:version => 45) do
 
   create_table "accounts", :force => true do |t|
-    t.column "company",     :string,   :limit => 75
-    t.column "address",     :string,   :limit => 50
-    t.column "city",        :string,   :limit => 50
-    t.column "state",       :string,   :limit => 25
-    t.column "zip",         :string,   :limit => 15
-    t.column "subdomain",   :string,   :limit => 100
-    t.column "updated_at",  :datetime
-    t.column "created_at",  :datetime
-    t.column "is_verified", :boolean,                 :default => false
-    t.column "is_deleted",  :boolean,                 :default => false
+    t.column "company",          :string,   :limit => 75
+    t.column "address",          :string,   :limit => 50
+    t.column "city",             :string,   :limit => 50
+    t.column "state",            :string,   :limit => 25
+    t.column "zip",              :string,   :limit => 15
+    t.column "subdomain",        :string,   :limit => 100
+    t.column "updated_at",       :datetime
+    t.column "created_at",       :datetime
+    t.column "is_verified",      :boolean,                 :default => false
+    t.column "is_deleted",       :boolean,                 :default => false
+    t.column "show_idle",        :boolean,                 :default => false
+    t.column "show_runtime",     :boolean,                 :default => false
+    t.column "show_statistics",  :boolean,                 :default => false
+    t.column "show_maintenance", :boolean,                 :default => false
   end
 
   create_table "devices", :force => true do |t|
@@ -77,6 +81,15 @@ ActiveRecord::Schema.define(:version => 42) do
     t.column "created_at",  :datetime
   end
 
+  create_table "idle_events", :force => true do |t|
+    t.column "latitude",   :float
+    t.column "longitude",  :float
+    t.column "duration",   :integer
+    t.column "device_id",  :integer
+    t.column "reading_id", :integer
+    t.column "created_at", :datetime
+  end
+
   create_table "notifications", :force => true do |t|
     t.column "user_id",           :integer
     t.column "device_id",         :integer
@@ -110,6 +123,15 @@ ActiveRecord::Schema.define(:version => 42) do
   add_index "readings", ["created_at"], :name => "readings_created_at"
   add_index "readings", ["address"], :name => "readings_address"
   add_index "readings", ["notified", "event_type"], :name => "readings_notified_event_type"
+
+  create_table "runtime_events", :force => true do |t|
+    t.column "latitude",   :float
+    t.column "longitude",  :float
+    t.column "duration",   :integer
+    t.column "device_id",  :integer
+    t.column "reading_id", :integer
+    t.column "created_at", :datetime
+  end
 
   create_table "sessions", :force => true do |t|
     t.column "session_id", :string

@@ -40,7 +40,7 @@
 			                <tr>
 			                	<td class="header">
 			                		<div style="float: left">Locations for All Devices</div>
-									<div id="updating"><% if update_readings_automatically? %>Updating locations...<% end %></div>
+									<% if update_readings_automatically? %><div id="updating">Updating locations...</div><% end %>
 								</td>
 							</tr>
 			                <tr class="dark_row"><td valign="top"><div id="map" ></div></td></tr>

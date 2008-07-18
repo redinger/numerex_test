@@ -38,12 +38,12 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
   
   def test_all_for_start_and_end_time
-      get :all, {:id => 1, :start_time1=>"Thu May 24 21:24:10 +0530 2004",:end_time1=>"Thu Jun 25 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => 1}
+      get :all, {:id => 1, :start_time1=>"month7day18year2008",:end_time1=>"month7day18year2004"}, {:user => users(:dennis), :account_id => 1}
       assert_response :success
   end
   
   def test_all_for_start_and_end_time_page_number
-      get :all, {:id => 1, :start_time1=>"Thu May 24 21:24:10 +0530 2004",:end_time1=>"Thu Jun 25 21:24:10 +0530 2008", :page=>3}, {:user => users(:dennis), :account_id => 1}
+      get :all, {:id => 1, :start_time1=>"month7day18year2008",:end_time1=>"month7day18year2004", :page=>3}, {:user => users(:dennis), :account_id => 1}
       assert_response :success
   end
   

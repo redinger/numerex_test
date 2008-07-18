@@ -1,7 +1,3 @@
 <div  class="ublip-pagination">
-    <%if @from_normal %>
-	<%= box_pagination_links(@pages, {:params => {:t => params[:t]},:window_size =>5, :always_show_anchors => true, :link_to_current_page => false}) if @pages %>
-    <%else%>
-        <%= box_pagination_links(@pages, {:params => {:t => params[:t], :start_time1=>@s,:end_time1=>@e},:window_size =>5, :always_show_anchors => true, :link_to_current_page => false}) if @pages %>
-    <%end%>
+    <%= will_paginate @readings%>
 </div>
