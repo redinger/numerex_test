@@ -76,7 +76,7 @@ class Admin::AccountsController < ApplicationController
   
 private
   def apply_options_to_account(params,account)
-    options = params[:options]
+    options = (params[:options] or {})
     account.show_idle = options[:show_idle] == "on"
     account.show_runtime = options[:show_runtime] == "on"
     account.show_statistics = options[:show_statistics] == "on"
