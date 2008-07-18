@@ -1,5 +1,5 @@
 <table class="panel_table" >
-	<%= render :partial => 'device_summary_header',:locals => {:column_span => "5"} %>
+	<%= render :partial => 'device_summary_header',:locals => {:column_span => 5,:sub_heading => nil} %>
 	<tr>
 	  <th>Name</th>
 	  <th>&nbsp;</th>
@@ -7,5 +7,5 @@
 	  <th>Next Maintenance Required</th>
 	  <th>Status</th>
 	</tr>           
-	<%= render :partial => "group_rows",:locals => {:callback => "show_maintenance",:column_span => "5"} %>
+	<%= render :partial => "group_rows",:locals => {:column_span => 5,:callback => "show_maintenance"} %>
 </table>
