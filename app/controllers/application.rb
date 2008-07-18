@@ -12,6 +12,19 @@ class ApplicationController < ActionController::Base
     @current_account ||= Account.find(session[:account_id])
   end
   
+  # NOTE this might be a nice mixin to be applied to ActiveRecord to complement #update_attribute
+  def update_attribute_by_checkbox(model,attribute_name,checkbox_values)
+    model.update_attribute(attribute_name,checkbox_values[attribute_name] == "on")
+  end
+  
+  # NOTE this might be a nice mixin to be applied to ActiveRecord to complement #update_attributes
+  def update_attributes_with_checkboxes(model,attribute_names,checkbox_values)
+    checkbox_values ||= {}
+    attribute_names.each do | single_attribute_name |
+      update_attribute_by_checkbox(model,single_attribute_name,checkbox_values)
+    end
+  end
+  
  # from pg. 464 of AWDWR, 1st Ed.
     def rescue_action_in_public(exception)
       if exception.is_a? ActiveRecord::RecordNotFound or exception.is_a? ::ActionController::UnknownAction

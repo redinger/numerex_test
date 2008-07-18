@@ -76,10 +76,6 @@ class Admin::AccountsController < ApplicationController
   
 private
   def apply_options_to_account(params,account)
-    options = (params[:options] or {})
-    account.show_idle = options[:show_idle] == "on"
-    account.show_runtime = options[:show_runtime] == "on"
-    account.show_statistics = options[:show_statistics] == "on"
-    account.show_maintenance = options[:show_maintenance] == "on"
+    update_attributes_with_checkboxes(account,[:show_idle,:show_runtime,:show_statistics,:show_maintenance],params[:options])
   end
 end
