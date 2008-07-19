@@ -13,7 +13,6 @@ class DatabaseProcTest < Test::Unit::TestCase
     statements = sql.split(';;')
     
     statements.each  {|stmt| 
-      puts stmt
       ActiveRecord::Base.connection.execute(stmt)
     }
   end
