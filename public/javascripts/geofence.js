@@ -82,11 +82,12 @@ function geocode(address) {
 				gmap.panTo(point, zoom);
 				
 				// Populate the bounds field
-				form.bounds.value = point.lat() + ',' + point.lng() + ',' + r;
-				
-				// Display the last location for the device
-				var device_location = new GLatLng(device.lat, device.lng);
-				gmap.addOverlay(createMarker(device_location));
+				form.bounds.value = point.lat() + ',' + point.lng() + ',' + r;            
+				// Display the last location for the device                
+                if (device !='false' ){
+				   var device_location = new GLatLng(device.lat, device.lng);
+				   gmap.addOverlay(createMarker(device_location));                
+                }
       		}
     	}
   	);

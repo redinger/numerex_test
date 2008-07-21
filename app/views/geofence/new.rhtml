@@ -48,16 +48,12 @@
 
 
 
-<% if !@devices[0].nil? && !@devices[0].readings[0].nil? %>
+
 <script>
-  var device_flag = 1
-  var remove_listener = 'false'
-	var device = {name: '<%= escape_javascript(@devices[0].name) %>', lat: <%= @devices[0].readings[0].latitude %>, lng: <%= @devices[0].readings[0].longitude %>, address: '<%= @devices[0].readings[0].shortAddress %>'};
-	var gf_index = 0;
-	<% if !@devices[0].geofences[0].nil? %>
-		geofences.push({id: <%= @devices[0].id %>, name: '<%= escape_javascript(@devices[0].geofences[0].name) %>', bounds: '<%= @devices[0].geofences[0].bounds %>'});
-    <%else%>
-		geofences.push({id: 0, name: '', bounds: '37.0625, -95.677068,0.1'});    
-	<% end %>
+    var device_flag = 0
+    var remove_listener = 'false'
+    var device = 'false';
+    var gf_index = 0;
+     geofences.push({id: 0, name: '', bounds: '37.0625, -95.677068,0.1'});    
 </script>
-<% end %>
+

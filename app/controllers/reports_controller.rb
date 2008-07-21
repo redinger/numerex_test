@@ -125,9 +125,9 @@ class ReportsController < ApplicationController
               
     stream_csv do |csv|
          if params[:type] == 'stop'
-            csv << ["Location","Stop Duration (m)", "When","Latitude", "Longitude"]  
+            csv << ["Location","Stop Duration (m)", "Started","Latitude", "Longitude"]  
          else    
-            csv << ["Location","Speed (mph)", "When","Latitude", "Longitude","Event Type"]
+            csv << ["Location","Speed (mph)", "Started","Latitude", "Longitude","Event Type"]
         end 
      if params[:type] == 'stop'
        stop_events.each do |stop_event|                              
