@@ -12,18 +12,21 @@ two:
   longitude: 5.6
   device_id: 1
   created_at: 2008-07-01 15:00:00
+  reading_id: 2
 three:
   id: 3
   latitude: 8.5
   longitude: 5.6
   device_id: 1
   created_at: 2008-07-01 16:00:00
+  reading_id: 3
 four:
   id: 4
   latitude: 4.5
   longitude: 5.6
   device_id: 2
   created_at: 2008-07-01 16:00:00
+  reading_id: 4
 five:
   id: 5
   latitude: 4.5
@@ -31,6 +34,7 @@ five:
   device_id: 1
   created_at: 2008-07-01 16:00:00
   duration: 676
+  reading_id: 5
 six:
   id: 6
   latitude: 4.5
@@ -38,3 +42,4 @@ six:
   device_id: 1
   created_at: 2008-07-01 16:00:00
   duration: 73
+  reading_id: 6
