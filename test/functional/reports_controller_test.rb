@@ -120,7 +120,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   
   # Test geofence report
   def test_geofence
-    get :geofence, {:id => 1, :t => 30}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :geofence, {:id => '1'}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
     assert_equal "Yates Dr, Hurst, Texas", readings[1].shortAddress

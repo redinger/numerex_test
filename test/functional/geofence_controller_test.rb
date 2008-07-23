@@ -136,7 +136,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   
   def test_view_gf_is_true_for_device
-     get :view, {:id=>"device 1", :gf=>'1'}, { :user => users(:dennis), :account_id => "1" }
+     get :view, {:id=>"device1", :gf=>'1'}, { :user => users(:dennis), :account_id => "1" }
      assert_response :success        
   end
   
