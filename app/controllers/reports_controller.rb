@@ -1,19 +1,18 @@
  require 'fastercsv'
  ResultCount = 25 # Number of results per page
  
-
-class ReportsController < ApplicationController  
+class ReportsController < ApplicationController
   before_filter :authorize
   before_filter :authorize_device, :except => ['index']
   DayInSeconds = 86400
   NUMBER_OF_DAYS = 7
   MAX_LIMIT=999 #max no. of results
-  require 'tzinfo'
+
   def index
     @devices = Device.get_devices(session[:account_id])
   end
   
-  def all               
+  def all      
      get_start_and_end_time
      @device_names = Device.get_names(session[:account_id]) 
      @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
@@ -22,7 +21,7 @@ class ReportsController < ApplicationController
      @record_count = Reading.count('id', 
                                    :conditions => ["device_id = ? and created_at between ? and ?", params[:id],@start_time, @end_time])
      @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
-     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT         
+     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT    
   end
   
   def stop
@@ -123,8 +122,7 @@ class ReportsController < ApplicationController
                       :limit=>MAX_LIMIT,
                       :conditions => ["device_id = ? and event_type like ? and created_at between ? and ?", params[:id],event_type,@start_time,@end_time])                                
      end   
-     @user = User.find_by_account_id(session[:account_id]) 
-     @tz = TZInfo::Timezone.get(@user.get_time_zone)  if !@user.time_zone.nil?                     
+              
     stream_csv do |csv|
          if params[:type] == 'stop'
             csv << ["Location","Stop Duration (m)", "Started","Latitude", "Longitude"]  
@@ -133,21 +131,13 @@ class ReportsController < ApplicationController
         end 
      if params[:type] == 'stop'
        stop_events.each do |stop_event|                              
-           if @tz.nil?
-             local_time = Time.local(stop_event.created_at.year,stop_event.created_at.month,stop_event.created_at.day,stop_event.created_at.hour,stop_event.created_at.min,stop_event.created_at.sec)
-           else 
-             local_time = @tz.utc_to_local(stop_event.created_at.utc)         
-           end 
+            local_time = Time.local(stop_event.created_at.year,stop_event.created_at.month,stop_event.created_at.day,stop_event.created_at.hour,stop_event.created_at.min,stop_event.created_at.sec)
             address = stop_event.reading.nil? ? "#{stop_event.latitude};#{stop_event.longitude}" : stop_event.reading.shortAddress
             csv << [address, ((stop_event.duration.to_s.strip.size > 0) ? stop_event.duration : 'Unknown'), local_time, stop_event.latitude, stop_event.longitude]
         end
      else
         readings.each do |reading|        
-            if @tz.nil?                
-               local_time = Time.local(reading.created_at.year,reading.created_at.month,reading.created_at.day,reading.created_at.hour,reading.created_at.min,reading.created_at.sec)
-            else               
-               local_time = @tz.utc_to_local(reading.created_at.utc)         
-            end
+            local_time = Time.local(reading.created_at.year,reading.created_at.month,reading.created_at.day,reading.created_at.hour,reading.created_at.min,reading.created_at.sec)
             csv << [reading.shortAddress,reading.speed,local_time,reading.latitude, reading.longitude,reading.event_type ]
         end        
      end    
