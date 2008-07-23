@@ -81,8 +81,26 @@ class GeofenceControllerTest < Test::Unit::TestCase
   end
   
   def test_delete
-    post :delete, {:id => '1', :device_id => '1'}, { :user => users(:dennis), :account_id => "1" }
+    get :delete, {:id => '1', :device_id => '1'}, { :user => users(:dennis), :account_id => "1" }
     assert_equal "home deleted successfully", flash[:success]
+    assert_redirected_to :controller => "geofence", :action => "index"
+  end
+  
+  def test_delete_geofence_by_invalid_user
+    get :delete, {:id => '1'}, { :user => users(:ken), :account_id => "3" }
+    assert_equal "Invalid action.", flash[:error]
+    assert_redirected_to :controller => "geofence", :action => "index"    
+  end
+  
+  def delete_unknown_geofence
+    get :delete, {:id => '17521'}, { :user => users(:dennis), :account_id => "1" }
+    assert_equal "Invalid action.", flash[:error]
+    assert_redirected_to :controller => "geofence", :action => "index"        
+  end
+  
+  def test_for_device_id_for_delete
+    get :delete, {:id => '3'}, { :user => users(:dennis), :account_id => "1" }
+    assert_equal "work deleted successfully", flash[:success]
     assert_redirected_to :controller => "geofence", :action => "index"
   end
   
@@ -101,6 +119,21 @@ class GeofenceControllerTest < Test::Unit::TestCase
       post :edit, {:device_id => '1', :id => '1', :name => "", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:ken), :account_id => "3" }
       assert_equal "Invalid action.", flash[:error]      
   end
+  
+  #check for nil in device_id column if device_id and account_id both in the db as true value while editing for old geofences
+  def test_check_for_nil_in_device_id_column
+     get :edit, {:id => '1'},  { :user => users(:dennis), :account_id => "1" }          
+     geofence = assigns("geofence")
+     assert_equal geofence.device_id, 1
+     assert_equal geofence.account_id, 1
+  end
+
+  def  test_after_edit_check_nil_for_device_id
+      post :edit, {:id=>'1', :device=>'1', :radio=>'2',:account_id=>'1', :name => "qwerty", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:dennis), :account_id => "1" }      
+      assert_equal 1,Geofence.find(1).device_id
+      assert_equal 0,Geofence.find(1).account_id
+  end
+  
   
   def test_view_gf_is_true_for_device
      get :view, {:id=>"device 1", :gf=>'1'}, { :user => users(:dennis), :account_id => "1" }
@@ -121,5 +154,5 @@ class GeofenceControllerTest < Test::Unit::TestCase
       post :delete, {:id => '2', :device_id => '1'}, { :user => users(:ken), :account_id => "3" }
       assert_equal 'Invalid action.',flash[:error]
   end
-  
+    
 end

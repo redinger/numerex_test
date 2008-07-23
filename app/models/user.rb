@@ -7,7 +7,17 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_length_of :password, :within => 6..30, :if => :password_required?
   before_save :encrypt_password
- 
+  
+  TimeZoneMapping = {
+        "Pacific Time (US & Canada)"   => "America/Los_Angeles",
+        "Hawaii"                       => "Pacific/Honolulu",
+        "Alaska"                       => "America/Juneau",
+        "Arizona"                      => "America/Phoenix",
+        "Mountain Time (US & Canada)"  => "America/Denver",
+        "Central Time (US & Canada)"   => "America/Chicago",
+        "Eastern Time (US & Canada)"   => "America/New_York",
+        "Indiana (East)"               => "America/Indiana/Indianapolis"        
+     } 
   
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
   #def self.authenticate(email, password)
@@ -78,6 +88,10 @@ class User < ActiveRecord::Base
     self.password = pass
     self.password_confirmation = confirm
     @new_password = true
+  end
+  
+  def get_time_zone
+       TimeZoneMapping["#{self.time_zone}"]
   end
   
   protected
