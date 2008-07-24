@@ -37,6 +37,12 @@ class GeofenceControllerTest < Test::Unit::TestCase
     assert_not_nil assigns("geofence")
   end
 
+   def test_detail_for_invalid_geofence_id
+    get :detail, {:id => "5"}, { :user => users(:dennis), :account_id => "1" }
+    assert_response 302
+    assert_equal flash[:error], "Invalid action."
+   end
+   
   def test_view
     get :view, {:id => "account1"}, { :user => users(:dennis), :account_id => "1" }
     assert_not_nil assigns("account")
@@ -115,6 +121,12 @@ class GeofenceControllerTest < Test::Unit::TestCase
       assert flash[:error] 
   end
   
+  def test_edit_for_invalid_geofence
+      get :edit, {:id=>'5'}, { :user => users(:dennis), :account_id => "1" }
+      assert_response 302
+      assert_equal flash[:error], "Invalid action."
+  end
+  
   def test_edit_unautharized_geofence      
       post :edit, {:device_id => '1', :id => '1', :name => "", :bounds=>"1,1,1", :address=>"1600 Penn Ave", :ref_url=>"/geofence/index"}, { :user => users(:ken), :account_id => "3" }
       assert_equal "Invalid action.", flash[:error]      
@@ -140,6 +152,23 @@ class GeofenceControllerTest < Test::Unit::TestCase
      assert_response :success        
   end
   
+  def test_view_for_only_device_id
+     get :view, {:id=>'1'}, { :user => users(:dennis), :account_id => "1" }
+     assert_response :success            
+  end
+  
+  def test_view_for_invalid_device_id
+     get :view, {:id=>'456'}, { :user => users(:dennis), :account_id => "1" }     
+     assert_response 302                
+     assert_equal flash[:error], "Invalid action."
+  end
+  
+  def test_view_for_invalid_gf_for_device_level
+     get :view, {:id=>"device8", :gf=>'5'}, { :user => users(:dennis), :account_id => "1" }
+     assert_response 302
+     assert_equal flash[:error], "Invalid action"
+  end
+    
   def test_view_gf_is_true_for_account
       get :view, {:id=>"account1", :gf=>'20'}, { :user => users(:dennis), :account_id => "1" }
       assert_response :success
