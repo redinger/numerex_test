@@ -52,7 +52,8 @@ class Admin::DevicesController < ApplicationController
       device.update_attributes(params[:device])
       flash[:success] = "#{device.name} updated successfully"
     end
-    redirect_to :action => 'index'
+    
+    redirect_to :action => 'index', :id => params[:device][:account_id]
   end
 
   def destroy
