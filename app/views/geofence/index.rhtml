@@ -42,7 +42,7 @@
 	</div>
 	
 	 <div  class="ublip-pagination">
-		 <%= box_pagination_links(@geofences_pages, {:window_size =>5, :always_show_anchors => true, :link_to_current_page => false}) if @geofences_pages %>
+		 <%= will_paginate @geofences%>
 	 </div>
 	
 </div>

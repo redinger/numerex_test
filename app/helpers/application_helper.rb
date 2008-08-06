@@ -68,6 +68,12 @@ module ApplicationHelper
                  return "Displaying #{start_limit+1} - #{approximate_number} of #{total_count}"
              end    
          end    
-     end   
+     end  
+
+    def get_local_time(reading_time)
+       time_in_array = reading_time.split(' ')
+       return "#{time_in_array[0]} #{time_in_array[1]} #{time_in_array[2]} #{time_in_array[5]} #{time_in_array[3]}"
+    end
+ 
      
 end

@@ -28,9 +28,9 @@
 								<%= minutes_to_hours(stop_event.duration) %>
 							<% end %>
 						</td>
-						<td><script>document.write(displayLocalDT(<%= stop_event.created_at.to_i*1000 %>));</script></td>
+						<td><%= stop_event.created_at%></td>
 					</tr>
-					<script>readings.push({id: <%= stop_event.id %>, lat: <%= stop_event.latitude %>, lng: <%= stop_event.longitude%>, address: '<%= stop_event.reading.shortAddress %>', dt: displayLocalDT(<%= stop_event.created_at.to_i*1000 %>), event: 'stop', note: ''});</script>
+					<script>readings.push({id: <%= stop_event.id %>, lat: <%= stop_event.latitude %>, lng: <%= stop_event.longitude%>, address: '<%= stop_event.reading.shortAddress if !stop_event.reading.nil?%>', dt: displayLocalDT(<%= stop_event.created_at.to_i*1000 %>), event: 'stop', note: ''});</script>
 					<% count = count + 1%>
 				<% end %>
                  <%else%>

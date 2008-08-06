@@ -26,13 +26,22 @@ class DevicesController < ApplicationController
   end
   
   # A device can provisioned
-  def choose_MT
-    if (request.post? && params[:imei] != '')
+  def choose_MT      
+    if (request.post? && params[:imei] != '' && params[:name] !='')
       device = provision_device(params[:imei])
       if(!device.nil?)
         redirect_to :controller => 'devices', :action => 'index'
       end
-    end
+     else
+         flash[:imei] = params[:imei]; flash[:name] = params[:name]
+         if (params[:imei] =="" && params[:name] == "")
+             flash[:error] = "Name and IMEI can not be blank."
+         elsif params[:imei] ==""
+             flash[:error] = "IMEI can not be blank."
+         elsif params[:name] == ""
+             flash[:error] = "Name can not be blank."                      
+         end    
+     end
   end
   
   # User can edit their device
@@ -211,7 +220,7 @@ class DevicesController < ApplicationController
             for device in @group_devices          
               device.icon_id ="1" 
               device.group_id = nil
-              device.update
+              device.save
           end  
         end  
       end
@@ -274,9 +283,9 @@ class DevicesController < ApplicationController
          @all_devices =Device.find(:all, :conditions => [ 'group_id = ? ',@group.id])
          for device in @all_devices
              device.icon_id = "1"
-             device.update
+             device.save
          end
-         Device.find(:all,:conditions => ["account_id=? and group_id is NULL", session[:account_id] ]).each{|device| device.icon_id="1"; device.update}         
+         Device.find(:all,:conditions => ["account_id=? and group_id is NULL", session[:account_id] ]).each{|device| device.icon_id="1"; device.save}         
      end
      
      def save_group                  
@@ -290,7 +299,7 @@ class DevicesController < ApplicationController
              device = Device.find(device_id)
              device.icon_id = params[:sel]        
              device.group_id = @group.id
-             device.update
+             device.save
          end    
      end    
     

@@ -4,21 +4,21 @@ class UserTest < Test::Unit::TestCase
   fixtures :users,:accounts
 
   def test_should_create_user
-    assert_difference User, :count do
+    assert_difference 'User.count' do
       user = create_user
       assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
     end
   end
 
   def test_should_require_password
-    assert_no_difference User, :count do
+    assert_no_difference 'User.count' do
       u = create_user(:password => nil)
       assert u.errors.on(:password)
     end
   end
 
   def test_should_require_email
-    assert_no_difference User, :count do
+    assert_no_difference 'User.count' do
       u = create_user(:email => nil)
       assert u.errors.on(:email)
     end

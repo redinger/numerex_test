@@ -1,7 +1,8 @@
  require 'fastercsv'
  ResultCount = 25 # Number of results per page
  
-class ReportsController < ApplicationController
+
+class ReportsController < ApplicationController  
   before_filter :authorize
   before_filter :authorize_device, :except => ['index']
   DayInSeconds = 86400
@@ -12,7 +13,7 @@ class ReportsController < ApplicationController
     @devices = Device.get_devices(session[:account_id])
   end
   
-  def all      
+  def all               
      get_start_and_end_time
      @device_names = Device.get_names(session[:account_id]) 
      @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
@@ -21,7 +22,7 @@ class ReportsController < ApplicationController
      @record_count = Reading.count('id', 
                                    :conditions => ["device_id = ? and created_at between ? and ?", params[:id],@start_time, @end_time])
      @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
-     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT    
+     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT         
   end
   
   def stop
@@ -122,54 +123,58 @@ class ReportsController < ApplicationController
                       :limit=>MAX_LIMIT,
                       :conditions => ["device_id = ? and event_type like ? and created_at between ? and ?", params[:id],event_type,@start_time,@end_time])                                
      end   
-              
-    stream_csv do |csv|
+
+     # Name of the csv file
+     @filename = params[:type] + "_" + params[:id] + ".csv"  
+     
+     csv_string = FasterCSV.generate do |csv|
          if params[:type] == 'stop'
-            csv << ["Location","Stop Duration (m)", "Started","Latitude", "Longitude"]  
+            csv << ["Location","Stop Duration (m)","Started","Latitude","Longitude"]
          else    
-            csv << ["Location","Speed (mph)", "Started","Latitude", "Longitude","Event Type"]
+            csv << ["Location","Speed (mph)","Started","Latitude","Longitude","Event Type"]
         end 
-     if params[:type] == 'stop'
-       stop_events.each do |stop_event|                              
-            local_time = Time.local(stop_event.created_at.year,stop_event.created_at.month,stop_event.created_at.day,stop_event.created_at.hour,stop_event.created_at.min,stop_event.created_at.sec)
-            address = stop_event.reading.nil? ? "#{stop_event.latitude};#{stop_event.longitude}" : stop_event.reading.shortAddress
-            csv << [address, ((stop_event.duration.to_s.strip.size > 0) ? stop_event.duration : 'Unknown'), local_time, stop_event.latitude, stop_event.longitude]
-        end
-     else
-        readings.each do |reading|        
-            local_time = Time.local(reading.created_at.year,reading.created_at.month,reading.created_at.day,reading.created_at.hour,reading.created_at.min,reading.created_at.sec)
-            csv << [reading.shortAddress,reading.speed,local_time,reading.latitude, reading.longitude,reading.event_type ]
-        end        
-     end    
-    end
+         if params[:type] == 'stop'
+           stop_events.each do |stop_event|                                              
+               local_time = stop_event.get_local_time(stop_event.created_at.inspect.to_s)
+               address = stop_event.reading.nil? ? "#{stop_event.latitude};#{stop_event.longitude}" : stop_event.reading.shortAddress
+               csv << [address,((stop_event.duration.to_s.strip.size > 0) ? stop_event.duration : 'Unknown'),local_time, stop_event.latitude,stop_event.longitude]
+            end
+         else
+            readings.each do |reading|        
+               local_time = reading.get_local_time(reading.created_at.inspect.to_s)
+                csv << [reading.shortAddress,reading.speed,local_time,reading.latitude,reading.longitude,reading.event_type]
+            end        
+         end    
+     end
+     
+     send_data csv_string,
+         :type => 'text/csv; charset=iso-8859-1; header=present',
+         :disposition => "attachment; filename=#{@filename}"
   end
  
   def speed
     @readings = Reading.find(:all, :order => "created_at desc", :limit => ResultCount, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
   end
-   
-  private
-    # Stream CSV content to the browser
-    def stream_csv
-       filename = params[:type] + "_" + params[:id] + ".csv"    
- 
-       # IE compat       
-       if request.env['HTTP_USER_AGENT'] =~ /msie/i
-         headers['Pragma'] = 'public'
-         headers["Content-type"] = "text/plain" 
-         headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
-         headers['Content-Disposition'] = "attachment; filename=\"#{filename}\"" 
-         headers['Expires'] = "0" 
-       else
-         headers["Content-Type"] ||= 'text/csv'
-         headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
-       end
+   # Stream CSV content to the browser
+  private    
+    #~ def stream_csv
+       #~ # IE compat       
+       #~ if request.env['HTTP_USER_AGENT'] =~ /msie/i
+         #~ headers['Pragma'] = 'public'
+         #~ headers["Content-type"] = "text/plain" 
+         #~ headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+         #~ headers['Content-Disposition'] = "attachment; filename=\"#{@filename}\"" 
+         #~ headers['Expires'] = "0" 
+       #~ else
+         #~ headers["Content-Type"] ||= 'text/csv'
+         #~ headers["Content-Disposition"] = "attachment; filename=\"#{@filename}\"" 
+       #~ end
 
-      render :text => Proc.new { |response, output|
-        csv = FasterCSV.new(output, :row_sep => "\r\n") 
-        yield csv
-      }
-    end
+      #~ render :text => Proc.new { |response, output|
+        #~ csv = FasterCSV.new(output, :row_sep => "\r\n") 
+        #~ yield csv
+      #~ }      
+    #~ end
 
     def get_UTC_format_time
       if params[:end_time1].include?("UTC")

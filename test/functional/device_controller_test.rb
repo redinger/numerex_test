@@ -92,7 +92,7 @@ class DeviceControllerTest < Test::Unit::TestCase
   
   def test_edit_post_unautorized
     post :edit, {:id => "1", :name => "qwerty", :imei=>"000000"}, { :user => users(:nick), :account_id => "2" }
-    assert_response 500
+    assert_response 404
     assert_not_equal devices(:device1).name, "qwerty"
     assert_not_equal devices(:device1).imei, "000000"
   end

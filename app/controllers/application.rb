@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   session :session_key => '_ublip_session_id'
   before_filter :set_page_title
   before_filter :create_referral_url
+  before_filter :set_time_zone
   
   helper_method :current_account
   
@@ -45,6 +46,16 @@ class ApplicationController < ActionController::Base
       else
         super # call super implementation
       end
+    end
+
+ 
+    def set_time_zone
+      user = User.find_by_account_id(session[:account_id])
+      if !user.nil? && user.time_zone
+          Time.zone = user.time_zone 
+       else
+          Time.zone = 'Central Time (US & Canada)'  
+       end    
     end
 
     def create_referral_url

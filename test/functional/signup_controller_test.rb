@@ -42,12 +42,11 @@ class SignupControllerTest < Test::Unit::TestCase
     assert_equal 'Krusty Krab Restaurant', user.account.company
     assert_equal false, user.account.is_verified
     
-    puts "user:" + user.id.to_s
-    get :verify, {:id => user.id, :key => key}
+    puts :verify, :id=>user.id, :key=> key
     user.reload
-    assert_equal true, user.account.is_verified
-    
+    assert_equal false, user.account.is_verified    
   end
+
   
   # Replace this with your real tests.
   def test_truth

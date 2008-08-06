@@ -68,11 +68,11 @@ class LoginController < ApplicationController
     end
   end
   
- def forgot_password
+ def forgot_password    
     flash[:message] = nil
     if request.post?
       account = Account.find_by_subdomain(request.subdomains.first)
-      user = User.find(:first, :conditions => ["email =? AND account_id =?", @params['email'], account.id])  
+      user = User.find(:first, :conditions => ["email =? AND account_id =?", params[:email], account.id])        
       if user
          key = user.generate_security_token(80)
          user.access_key = key
@@ -135,7 +135,7 @@ class LoginController < ApplicationController
   
 
    def login_from_cookie
-      return unless cookies['auth_token'] && @session[:user].nil?
+      return unless cookies['auth_token'] && session[:user].nil?
       user = User.find_by_remember_token(*cookies['auth_token'].split(","))     
       if user && !user.remember_token_expires_at.nil? && Time.now < user.remember_token_expires_at 
          session[:user] = user

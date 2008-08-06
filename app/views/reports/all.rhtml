@@ -28,7 +28,9 @@
 								-
 							<% end %>
 						</td>                                                            
-						<td><script> document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script> </td>                               
+						<td><!--script> document.write(displayLocalDT(<%#= reading.created_at.to_i*1000 %>));</script-->
+                                          <%= reading.get_local_time(reading.created_at.inspect.to_s) %>  
+                                         <%#= Time.zone.local(reading.created_at.year,reading.created_at.month,reading.created_at.day,reading.created_at.hour,reading.created_at.min,reading.created_at.sec)%></td>                               
 					</tr>                                                              
 					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= escape_javascript reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= escape_javascript reading.note %>', event: '<%= reading.event_type %>'});</script>
 				<% end %>

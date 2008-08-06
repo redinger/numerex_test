@@ -1,7 +1,7 @@
 function select_action()
-{  
+{     
   var Index = document.getElementById("type1").selectedIndex;
-  var selected_text = document.getElementById("type1").options[Index].text;      
+  var selected_text = document.getElementById("type1").options[Index].text;        
     if (selected_text == "New group")
     {
          szNewURL = "http://"+document.location.hostname+"/devices/new_group"         

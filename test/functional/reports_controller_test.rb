@@ -120,7 +120,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   
   # Test geofence report
   def test_geofence
-    get :geofence, {:id => '1'}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :geofence, {:id => '1', :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
     assert_equal "Yates Dr, Hurst, Texas", readings[1].shortAddress
@@ -143,9 +143,9 @@ class ReportsControllerTest < Test::Unit::TestCase
   def test_export
     get :export, {:id => 6, :type => 'all', :start_time=>"Thu May 24 21:24:10 +0530 2008", :end_time=>"Thu Jun 26 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
-    assert_kind_of Proc, @response.body
+    assert_kind_of String, @response.body
     output = StringIO.new
-    assert_nothing_raised { @response.body.call(@response, output) }
+    #assert_nothing_raised { @response.body.call(@response, output) }
     #assert_equal csv_data, output.string
     # for stop events
     get :export, {:id => 6, :type => 'stop', :start_time=>"Thu May 24 21:24:10 +0530 2008", :end_time=>"Thu Jun 25 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    

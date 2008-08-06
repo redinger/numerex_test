@@ -11,8 +11,7 @@ class AdminStatusControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  def test_up_check
-    puts @request
+  def test_up_check    
     get :up_check, {}, {}
     assert_response(:success)
     assert_match %r{Schema #: [0-9]+}, @response.body

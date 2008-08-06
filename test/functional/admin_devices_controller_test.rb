@@ -42,7 +42,7 @@ class Admin::DevicesControllerTest < Test::Unit::TestCase
   def test_create_device_with_duplicate_imei
     post :create, {:id => 1, :device => {:imei => "1234", :account_id => 1}}, get_user
     assert_redirected_to :action => "new"
-    assert_equal flash[:error], "Imei has already been taken<br />"
+    assert_equal flash[:error], "Name can't be blank<br />Imei has already been taken<br />"
   end
   
   def test_update_device

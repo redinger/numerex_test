@@ -7,8 +7,6 @@
 	Select a filter:
 	<select onchange="document.location.href = '/admin/devices/index/' + this.options[this.selectedIndex].value;">
 		<option value="">All</option>
-		<option value="0" <% if params[:id] == '0' %>selected="selected"<% end %>>Unprovisioned</option>
-		<option>--------------</option>
 		<% for account in @accounts %>
 			<option value="<%= account.id %>" <% if params[:id] == account.id.to_s %>selected="selected"<% end %>><%= account.company %></option>
 		<% end %>		
