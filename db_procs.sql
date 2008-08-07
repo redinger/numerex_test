@@ -134,6 +134,37 @@ BEGIN
 	END WHILE;
 END;;
 
+DROP PROCEDURE IF EXISTS process_idle_events;;
+CREATE PROCEDURE process_idle_events()
+BEGIN
+	DECLARE num_events_to_check INT;
+	CREATE TEMPORARY TABLE open_idle_events(idle_event_id INT(11), checked BOOLEAN);
+	INSERT INTO open_idle_events SELECT id, FALSE FROM idle_events where duration IS NULL;
+	SELECT COUNT(*) INTO num_events_to_check FROM open_idle_events WHERE checked=FALSE;
+	WHILE num_events_to_check>0 DO BEGIN
+		DECLARE eventID INT;
+		DECLARE first_move_after_idle_id INT;
+		DECLARE idleDuration INT;
+		DECLARE deviceID INT;
+		DECLARE idleTime DATETIME;
+		
+		SELECT idle_event_id INTO eventID FROM open_idle_events WHERE checked=FALSE limit 1;
+		SELECT device_id, created_at into deviceID, idleTime FROM idle_events where id=eventID;
+		UPDATE open_idle_events SET checked=TRUE WHERE idle_event_id=eventId;
+		
+		SELECT id INTO first_move_after_idle_id FROM readings  
+		  WHERE device_id=deviceID AND speed>1 AND created_at>idleTime ORDER BY created_at ASC LIMIT 1;
+		  
+		IF first_move_after_idle_id IS NOT NULL THEN
+			SELECT TIMESTAMPDIFF(MINUTE, idleTime, created_at) INTO idleDuration FROM readings where id=first_move_after_idle_id;
+			UPDATE idle_events SET duration = idleDuration+1 where id=eventID;
+		END IF;
+		
+		SELECT COUNT(*) INTO num_events_to_check FROM open_idle_events WHERE checked=FALSE;
+	END;
+	END WHILE;
+END;;
+
 DROP PROCEDURE IF EXISTS migrate_stop_data;;
 CREATE PROCEDURE migrate_stop_data()
 BEGIN

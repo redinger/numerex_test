@@ -2,9 +2,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class DatabaseProcTest < Test::Unit::TestCase
   
-  fixtures :devices, :stop_events
+  fixtures :devices, :stop_events, :idle_events
   
   def setup
+    load_fixtures
     file = File.new("db_procs.sql")
     file.readline
     file.readline  #skip 1st two lines of file
@@ -14,6 +15,7 @@ class DatabaseProcTest < Test::Unit::TestCase
     
     statements.each  {|stmt| 
       ActiveRecord::Base.connection.execute(stmt)
+      puts stmt
     }
   end
   
@@ -122,6 +124,27 @@ class DatabaseProcTest < Test::Unit::TestCase
         assert_equal 23, stop_events(:two).duration
         assert_equal 28, stop_events(:three).duration
         assert_nil stop_events(:four).duration
+  end
+  
+  def test_process_idles
+        Reading.delete_all
+        assert_equal 20, idle_events(:one).duration
+        assert_nil idle_events(:two).duration
+        assert_nil idle_events(:three).duration
+        assert_nil idle_events(:four).duration
+          
+        Reading.new(:latitude => "4.5", :longitude => "5.6", :device_id => devices(:device1).id, :created_at => "2008-07-01 15:20:00", :speed => 10).save
+        Reading.new(:latitude => "8.5", :longitude => "5.614", :device_id => devices(:device1).id, :created_at => "2008-07-01 16:25:00", :speed => 10).save
+        ActiveRecord::Base.connection.execute("call process_idle_events()")
+        
+        idle_events(:two).reload
+        idle_events(:three).reload
+        idle_events(:four).reload
+        
+        assert_equal 20, idle_events(:one).duration
+        assert_equal 21, idle_events(:two).duration
+        assert_equal 26, idle_events(:three).duration
+        assert_nil idle_events(:four).duration
   end
   
   def insert_stop(lat, lng, created, imei)
