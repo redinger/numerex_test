@@ -1,7 +1,12 @@
 desc 'Setup databse procs in cron'
 task :setup_db_scripts => :environment do 
   db_config = ActiveRecord::Base.configurations[RAILS_ENV]
-  scriptFile = File.new("stopreport.sh")
+  process_script_file("stopreport.sh", db_config)
+  process_script_file("idlereport.sh", db_config)
+end
+
+def process_script_file(filename, db_config)
+  scriptFile = File.new(filename)
   contents = scriptFile.read
   contents.gsub!('$USERNAME', db_config['username'])
   contents.gsub!('$PASSWORD', db_config['password'])
@@ -14,6 +19,6 @@ task :setup_db_scripts => :environment do
   end
   
   scriptFile.close
-  scriptFile = File.new("stopreport.sh", "w")
+  scriptFile = File.new(filename, "w")
   scriptFile.write(contents)
 end
