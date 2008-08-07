@@ -1,5 +1,6 @@
 task :setup_db_procs do
   sudo "chmod a+x #{current_path}/stopreport.sh"
+  sudo "chmod a+x #{current_path}/idlereport.sh"
   sudo "mkdir -p /var/run/ublip_db"
   sudo "chown ublip:ublip /var/run/ublip_db"
   run "cd #{current_path} && rake setup_db_scripts RAILS_ENV=#{rails_env}"
