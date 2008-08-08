@@ -4,6 +4,7 @@ dennis:
  subdomain: dennis
  created_at: <%= 1.day.ago.to_s :db %>
  is_verified: 1
+ show_idle: 1
 
 nick:
  id: 2
