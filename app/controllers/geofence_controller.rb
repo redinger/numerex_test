@@ -1,5 +1,5 @@
  ResultCount =25# Number of results per page
- Per_page = 2
+ Per_page = 15
 class GeofenceController < ApplicationController
 
   before_filter :authorize
@@ -77,7 +77,7 @@ class GeofenceController < ApplicationController
         @geofence = Geofence.find(:first, :conditions=>["id=?",params[:gf]])
         if !@geofence.nil? && session[:account_id].to_i == id.to_i    
               if params[:gf]
-                goto_correct_page("account",id,Per_page)
+                goto_correct_page("account",id)
                 @gf = @geofences.first #Geofence.find(:first,:conditions => ["id = ?",params[:gf]])
               else
                 @geofences = Geofence.paginate(:per_page=>Per_page, :page=>params[:page],
@@ -107,7 +107,7 @@ class GeofenceController < ApplicationController
              @geofence = Geofence.find(:first, :conditions=>["id=? and device_id=?",params[:gf], id])      
               if !@geofence.nil? && session[:account_id].to_i == @geofence.device.account_id.to_i 
                   if params[:gf]
-                    goto_correct_page("device",id.to_i,Per_page)
+                    goto_correct_page("device",id.to_i)
                     @gf = @geofences.first  #= Geofence.find(:first,:conditions => ["id = ?",params[:gf]])              
                   end      
               else            
@@ -155,17 +155,13 @@ private
     redirect_to geofence_url
   end
 
-  def goto_correct_page(a_or_d,id,per_page)
+  def goto_correct_page(a_or_d,id)
     found = false
     page = 1     if !params[:page]
-    #while !found
       page=params[:page] #= page.to_s 
      @geofences = Geofence.paginate(:per_page=>Per_page, :page=>params[:page],
                                     :conditions=> ["#{a_or_d}_id=?", id], 
                                     :order => "name")                                                                                                                                
-      #@geofences.each{|g| (found = true; break) if g.id.to_i == params[:gf].to_i }      
-      #page += 1 unless found
-    #end     
     page
   end
   

@@ -2,6 +2,7 @@
 class DevicesController < ApplicationController
 
   before_filter :authorize
+  
   def index
     @devices = Device.get_devices(session[:account_id])
   end
@@ -50,9 +51,16 @@ class DevicesController < ApplicationController
       device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
       device.name = params[:name]
       device.imei = params[:imei]
-      device.save
-      flash[:success] = params[:name] + ' was updated successfully'
-      redirect_to :controller => 'devices'
+      if device.save
+         flash[:success] = params[:name] + ' was updated successfully'
+         redirect_to :controller => 'devices'
+      else 
+         flash[:error] ="" 
+         @device = Device.find_by_id(device.id, :conditions => ["account_id = ? and provision_status_id=1", session[:account_id]])
+         device.errors.each_full do | err |
+             flash[:error] << err + "<br/>"
+         end
+      end    
     else
       @device = Device.find_by_id(params[:id], :conditions => ["account_id = ? and provision_status_id=1", session[:account_id]])
       if @device.nil?
