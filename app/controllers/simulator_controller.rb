@@ -13,7 +13,7 @@ class SimulatorController < ApplicationController
     reading.longitude = params[:lng]
     reading.speed = 0
     reading.save
-    render_text "ok"
+    render :text => "ok"
   end
   
   def get_geofences_for_device
