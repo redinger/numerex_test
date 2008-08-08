@@ -30,7 +30,7 @@
 						</td>
 						<td><script>document.write(displayLocalDT(<%= runtime_event.created_at.to_i*1000 %>));</script></td>
 					</tr>
-					<script>readings.push({id: <%= runtime_event.id %>, lat: <%= runtime_event.latitude %>, lng: <%= runtime_event.longitude%>, address: '<%= runtime_event.reading.shortAddress %>', dt: displayLocalDT(<%= runtime_event.created_at.to_i*1000 %>), event: 'runtime', note: ''});</script>
+					<script>readings.push({id: <%= runtime_event.id %>, lat: <%= runtime_event.latitude %>, lng: <%= runtime_event.longitude%>, address: '<%= escape_javascript(runtime_event.reading.shortAddress) %>', dt: displayLocalDT(<%= runtime_event.created_at.to_i*1000 %>), event: 'runtime', note: ''});</script>
 					<% count = count + 1%>
 				<% end %>
                  <%else%>
