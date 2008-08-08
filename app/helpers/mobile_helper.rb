@@ -3,7 +3,7 @@ module MobileHelper
    def show_device(device,flag)
         content = ""
         content << %(<li>)
-        if device.recent_reading_id != 0
+        if !device.readings.empty?
             content << %(<strong>#{@range[@all_devices_with_map.index(device)] }: </strong>) if !flag
             content << %(<a href="/mobile/show_device/#{device.id}" title="Center map on this device">#{device.name}</a>)
             content << %(&nbsp;&nbsp;(#{time_ago_in_words device.readings[0].created_at} ago)<br/>)

@@ -25,14 +25,14 @@
 			<tr  class="<%= cycle('gray_row','') %>">
 				<td><a href="/reports/all/<%= device.id %>"><%= device.name %></a></td> 
 				<td>
-                          <%if device.recent_reading_id != 0 && !device.readings[0].nil?%>                
+                          <%if !device.readings.empty? && !device.readings[0].nil?%>                
                                <%= device.readings[0].shortAddress %> 
                           <%else%> 
                                N/A
                           <%end%>
 				</td>
 				<td >
-                         <%if device.recent_reading_id != 0 && !device.readings[0].nil?%>                
+                         <%if !device.readings.empty? && !device.readings[0].nil?%>                
                                <%= time_ago_in_words device.readings[0].created_at %> ago
                          <%else%> 
                               N/A

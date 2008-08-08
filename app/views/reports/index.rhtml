@@ -5,7 +5,7 @@
 		<% for device in @devices %>
 	    	<li>
 	    		<a href="/reports/all/<%= device.id %>"><%= device.name %></a> - 
-				<% if device.recent_reading_id != 0 %>reported <%= time_ago_in_words device.readings[0].created_at %> ago<% else %>no report yet<% end %>
+				<% if !device.readings.empty? %>reported <%= time_ago_in_words device.readings[0].created_at %> ago<% else %>no report yet<% end %>
 			</li>
 	    <% end %>
 	</ul>
