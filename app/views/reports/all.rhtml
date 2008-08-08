@@ -24,11 +24,15 @@
 								<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
 							<% elsif reading.event_type =='startstop_et41' && reading.speed>0 %>
 								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Start</a>
+							<% elsif reading.event_type == 'idle' %>
+								<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
+							<% elsif reading.event_type.index('engine') %>
+								<%= reading.event_type %>
 							<% else %>
 								-
 							<% end %>
 						</td>                                                            
-						<td><script> document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script>
+						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script>
 					</tr>                                                              
 					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= escape_javascript reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= escape_javascript reading.note %>', event: '<%= reading.event_type %>'});</script>
 				<% end %>
