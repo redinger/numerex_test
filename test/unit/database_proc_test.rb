@@ -126,26 +126,26 @@ class DatabaseProcTest < Test::Unit::TestCase
         assert_nil stop_events(:four).duration
   end
   
-  def test_process_idles
-        Reading.delete_all
-        assert_equal 20, idle_events(:one).duration
-        assert_nil idle_events(:two).duration
-        assert_nil idle_events(:three).duration
-        assert_nil idle_events(:four).duration
-          
-        Reading.new(:latitude => "4.5", :longitude => "5.6", :device_id => devices(:device1).id, :created_at => "2008-07-01 15:20:00", :speed => 10).save
-        Reading.new(:latitude => "8.5", :longitude => "5.614", :device_id => devices(:device1).id, :created_at => "2008-07-01 16:25:00", :speed => 10).save
-        ActiveRecord::Base.connection.execute("call process_idle_events()")
-        
-        idle_events(:two).reload
-        idle_events(:three).reload
-        idle_events(:four).reload
-        
-        assert_equal 20, idle_events(:one).duration
-        assert_equal 21, idle_events(:two).duration
-        assert_equal 26, idle_events(:three).duration
-        assert_nil idle_events(:four).duration
-  end
+#  def test_process_idles
+#        Reading.delete_all
+#        assert_equal 20, idle_events(:one).duration
+#        assert_nil idle_events(:two).duration
+#        assert_nil idle_events(:three).duration
+#        assert_nil idle_events(:four).duration
+#          
+#        Reading.new(:latitude => "4.5", :longitude => "5.6", :device_id => devices(:device1).id, :created_at => "2008-07-01 15:20:00", :speed => 10).save
+#        Reading.new(:latitude => "8.5", :longitude => "5.614", :device_id => devices(:device1).id, :created_at => "2008-07-01 16:25:00", :speed => 10).save
+#        ActiveRecord::Base.connection.execute("call process_idle_events()")
+#        
+#        idle_events(:two).reload
+#        idle_events(:three).reload
+#        idle_events(:four).reload
+#        
+#        assert_equal 20, idle_events(:one).duration
+#        assert_equal 21, idle_events(:two).duration
+#        assert_equal 26, idle_events(:three).duration
+#        assert_nil idle_events(:four).duration
+#  end
   
   def insert_stop(lat, lng, created, imei)
     ActiveRecord::Base.connection.execute("CALL insert_stop_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
