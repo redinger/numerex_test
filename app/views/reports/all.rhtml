@@ -16,20 +16,24 @@
 						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location" ><%= reading.shortAddress %></a></td>
 						<td><%= reading.speed %></td>
 						<td>
-							<% if !reading.event_type.nil? && reading.event_type.index('enter') %>
-								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
-							<% elsif !reading.event_type.nil? && reading.event_type.index('exit') %>
-								<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" >Exit geofence</a>
-							<% elsif reading.event_type =='startstop_et41' && reading.speed==0 %>
-								<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
-							<% elsif reading.event_type =='startstop_et41' && reading.speed>0 %>
-								<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Start</a>
-							<% elsif reading.event_type == 'idle' %>
-								<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
-							<% elsif reading.event_type.index('engine') %>
-								<%= reading.event_type %>
-							<% else %>
+							<% if reading.event_type.nil? %>
 								-
+							<% else %>
+								<% if reading.event_type.index('enter') %>
+									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
+								<% elsif reading.event_type.index('exit') %>
+									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" >Exit geofence</a>
+								<% elsif reading.event_type =='startstop_et41' && reading.speed==0 %>
+									<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
+								<% elsif reading.event_type =='startstop_et41' && reading.speed>0 %>
+									<a href="/reports/stop/<%= params[:id] %>" title="View stop report">Start</a>
+								<% elsif reading.event_type == 'idle' %>
+									<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
+								<% elsif reading.event_type.index('engine') %>
+									<%= reading.event_type %>
+								<% else %>
+									-
+								<% end %>
 							<% end %>
 						</td>                                                            
 						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script>
