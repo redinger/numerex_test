@@ -72,7 +72,7 @@ module ApplicationHelper
 
     def get_local_time(reading_time)
        time_in_array = reading_time.split(' ')
-       return "#{time_in_array[0]} #{time_in_array[1]} #{time_in_array[2]} #{time_in_array[5]} #{time_in_array[3]}"
+       return "#{time_in_array[0]} #{time_in_array[2]} #{time_in_array[1]} #{time_in_array[3]} #{time_in_array[4]}"
     end
  
      
