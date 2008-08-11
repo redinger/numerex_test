@@ -137,6 +137,8 @@ class ReportsController < ApplicationController
      csv_string = FasterCSV.generate do |csv|
          if params[:type] == 'stop'
             csv << ["Location","Stop Duration (m)","Started","Latitude","Longitude"]
+         elsif params[:type] == 'idle'
+            csv << ["Location","Idle Duration (m)","Started","Latitude","Longitude"]
          else    
             csv << ["Location","Speed (mph)","Started","Latitude","Longitude","Event Type"]
         end 
