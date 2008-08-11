@@ -17,4 +17,5 @@ module ReportsHelper
     end
     total
   end
+
 end

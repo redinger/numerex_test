@@ -74,6 +74,5 @@ module ApplicationHelper
        time_in_array = reading_time.split(' ')
        return "#{time_in_array[0]} #{time_in_array[2]} #{time_in_array[1]} #{time_in_array[3]} #{time_in_array[4]}"
     end
- 
      
 end

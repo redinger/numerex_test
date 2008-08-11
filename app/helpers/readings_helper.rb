@@ -1,2 +1,2 @@
-module ReadingsHelper
+module ReadingsHelper   
 end
