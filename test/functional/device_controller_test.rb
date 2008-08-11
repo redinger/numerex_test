@@ -30,7 +30,7 @@ class DeviceControllerTest < Test::Unit::TestCase
  end
   
    def test_view
-     get :view, {:id=>"1"},{:user => users(:dennis), :account_id => "1"} 
+     get :view, {:id=>"2"},{:user => users(:dennis), :account_id => "1"} 
      assert_response :success     
    end
    
