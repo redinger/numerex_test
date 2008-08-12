@@ -42,8 +42,8 @@ Rails::Initializer.run do |config|
   # config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
-  config.gem 'mislav-will_paginate', :version => '~> 2.3.2', :lib => 'will_paginate', 
-    :source => 'http://gems.github.com'
+  # Commenting below until we can make it work with notifier.rb
+  # config.gem 'mislav-will_paginate', :version => '~> 2.3.2', :lib => 'will_paginate', :source => 'http://gems.github.com'
 end
 
 # Add new inflection rules using the following format 
