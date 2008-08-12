@@ -12,12 +12,13 @@ while($running) do
   logger = ActiveRecord::Base.logger
   logger.info("This notification daemon is still running at #{Time.now}.\n")
 
-  readings_to_notify = Reading.find(:all, :conditions => "notified='0' and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%')")
+  # NOTE: eliminate legacy geofences 'entergeofence_et11' and 'exitgeofence_et52'
+  readings_to_notify = Reading.find(:all, :conditions => "notified='0' and event_type like '%geofen_%' and event_type not like '%geofen_et%'")
 
   logger.info("Notification needed for #{readings_to_notify.size.to_s} readings\n")
   
   readings_to_notify.each do |reading| 
-    reading.device.account.users.each do |user|    
+    reading.device.account.users.each do |user|
       if user.enotify == 1       
         logger.info("notifying: #{user.email}\n")
         action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
