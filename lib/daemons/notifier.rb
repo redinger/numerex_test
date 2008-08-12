@@ -13,7 +13,7 @@ while($running) do
   logger.info("This notification daemon is still running at #{Time.now}.\n")
 
   # NOTE: eliminate legacy geofences 'entergeofence_et11' and 'exitgeofence_et52'
-  readings_to_notify = Reading.find(:all, :conditions => "notified='0' and event_type like '%geofen_%' and event_type not like '%geofen_et%'")
+  readings_to_notify = Reading.find(:all, :conditions => "notified='0' and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%') and event_type != 'entergeofen_et11' and event_type != 'exitgeofen_et52'")
 
   logger.info("Notification needed for #{readings_to_notify.size.to_s} readings\n")
   
