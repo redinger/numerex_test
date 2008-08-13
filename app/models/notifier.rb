@@ -33,10 +33,9 @@ class Notifier < ActionMailer::Base
     @body["action"] = action
     @body["name"] = "#{user.first_name} #{user.last_name}"
     @body["device_name"] = reading.device.name
-    tz = user.time_zone.nil? ? TimeZone.us_zones[5] : TimeZone.new(user.time_zone)
-    @body["time"] = tz.adjust(reading.created_at)
-    @body["time_zone"] = tz.to_s.split(/[\(\\s)]/)[2].strip
-    
+    #tz = user.time_zone.nil? ? TimeZone.us_zones[5] : TimeZone.new(user.time_zone)
+    #@body["time"] = tz.adjust(reading.created_at)
+    #@body["time_zone"] = tz.to_s.split(/[\(\\s)]/)[2].strip
   end
   
   def device_offline(user, device)
