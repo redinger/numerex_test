@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
 
  
     def set_time_zone
-      user = User.find_by_account_id(session[:account_id])
+      user = User.find_by_id(session[:user_id])
       if !user.nil? && user.time_zone
           Time.zone = user.time_zone 
        else
