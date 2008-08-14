@@ -15,7 +15,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     end
   end
   
-  fixtures :users, :readings, :stop_events
+  fixtures :users, :readings, :stop_events, :idle_events, :runtime_events
   
   def setup
     @controller = ReportsController.new
@@ -38,12 +38,13 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
   
   def test_all_for_start_and_end_time
-      get :all, {:id => 1, :start_time1=>"month7day18year2008",:end_time1=>"month7day18year2004"}, {:user => users(:dennis), :account_id => 1}
+      get :all, {:id => 1, :start_date=>"2008-07-18",:end_date=>"2004-07-18"}, {:user => users(:dennis), :account_id => 1}
       assert_response :success
   end
   
+   
   def test_all_for_start_and_end_time_page_number
-      get :all, {:id => 1, :start_time1=>"month7day18year2008",:end_time1=>"month7day18year2004", :page=>3}, {:user => users(:dennis), :account_id => 1}
+      get :all, {:id => 1, :start_date=>"2008-07-18", :end_date=>"2004-07-18", :page=>3}, {:user => users(:dennis), :account_id => 1}
       assert_response :success
   end
   
@@ -51,7 +52,7 @@ class ReportsControllerTest < Test::Unit::TestCase
      get :index, {:id => 1}, {:user => users(:dennis), :account_id => 1}   
      assert_response :success
   end   
-  
+    
   def test_all_unauthorized
     get :all, {:id => 1}, {:user => users(:nick)}
     assert_nil assigns(:readings)
@@ -69,7 +70,7 @@ class ReportsControllerTest < Test::Unit::TestCase
 
   # Test stop report
   def test_stop
-    get :stop, {:id => 1, :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :stop, {:id => 1, :start_date=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_date=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_equal 5, assigns(:record_count)
     assert_response :success
 =begin
@@ -120,7 +121,7 @@ class ReportsControllerTest < Test::Unit::TestCase
   
   # Test geofence report
   def test_geofence
-    get :geofence, {:id => '1', :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_time1=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :geofence, {:id => '1', :start_date=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_date=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
     assert_equal "32.939, -96.8235", readings[1].shortAddress
@@ -135,24 +136,32 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
  
  def test_for_valid_time
-    get :all, {:id => 1, :t => 30, :start_time1=>{"month"=>"4", "day"=>"27", "year"=>"2008"}, :end_time1=>{"month"=>"6", "day"=>"26", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :all, {:id => 1, :t => 30, :start_date=>{"month"=>"4", "day"=>"27", "year"=>"2008"}, :end_date=>{"month"=>"6", "day"=>"26", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success    
  end    
   
   # Report exports.  Needs support for readings, stops, and geofence exports
   def test_export
-    get :export, {:id => 6, :type => 'all', :start_time=>"Thu May 24 21:24:10 +0530 2008", :end_time=>"Thu Jun 26 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
+    get :export, {:id => 6, :type => 'all', :start_date=>"2008-05-24", :end_date=>"2008-06-26"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     assert_kind_of String, @response.body
     output = StringIO.new
     #assert_nothing_raised { @response.body.call(@response, output) }
     #assert_equal csv_data, output.string
     # for stop events
-    get :export, {:id => 6, :type => 'stop', :start_time=>"Thu May 24 21:24:10 +0530 2008", :end_time=>"Thu Jun 25 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    
+    get :export, {:id => 6, :type => 'stop', :start_date=>"2008-05-24", :end_date=>"2008-06-25"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    
     assert_response :success
     # for geofence 
-    get :export, {:id => 6, :type => 'geofence', :start_time=>"Thu May 24 21:24:10 +0530 2008", :end_time=>"Thu Jun 25 21:24:10 +0530 2008"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    
+    get :export, {:id => 6, :type => 'geofence', :start_date=>"2008-05-24", :end_date=>"2008-06-25"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    
     assert_response :success
+    
+    get :export, {:id => 6, :type => 'idle', :start_date=>"2008-05-24", :end_date=>"2008-06-25"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    
+    assert_response :success
+
+    get :export, {:id => 6, :type => 'runtime', :start_date=>"2008-05-24", :end_date=>"2008-06-25"}, {:user => users(:dennis), :account_id => users(:dennis).account_id}    
+    assert_response :success
+   
+   
   end
   
   private
