@@ -19,8 +19,8 @@ class ReportsController < ApplicationController
      @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
                                :conditions => ["device_id = ? and date(created_at) between ? and ?", 
                                params[:id],@start_date, @end_date],:order => "created_at desc")                             
-     @record_count = Reading.count('id', 
-                                   :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id],@start_date, @end_date])
+     @record_count = Reading.find(:all, 
+                                   :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id],@start_date, @end_date]).size
      @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
      @record_count = MAX_LIMIT if @record_count > MAX_LIMIT         
   end
@@ -32,7 +32,7 @@ class ReportsController < ApplicationController
           :conditions => ["device_id = ? and date(created_at) between ? and ?",
            params[:id],@start_date, @end_date], :order => "created_at desc")
     @readings = @stop_events      
-    @record_count = StopEvent.count('id', :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_date, @end_date])
+    @record_count = StopEvent.find(:all, :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_date, @end_date]).size
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
@@ -44,7 +44,7 @@ class ReportsController < ApplicationController
          :conditions => ["device_id = ? and date(created_at) between ? and ?",
          params[:id],@start_date, @end_date], :order => "created_at desc")    
     @readings = @idle_events
-    @record_count = IdleEvent.count('id', :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_date, @end_date])
+    @record_count = IdleEvent.find(:all, :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_date, @end_date]).size
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
@@ -56,7 +56,7 @@ class ReportsController < ApplicationController
          :conditions => ["device_id = ? and date(created_at) between ? and ?",
           params[:id],@start_date, @end_date], :order => "created_at desc")    
     @readings = @runtime_events
-    @record_count = RuntimeEvent.count('id', :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_date, @end_date])
+    @record_count = RuntimeEvent.find(:all, :conditions => ["device_id = ? and date(created_at) between ? and ?", params[:id], @start_date, @end_date]).size
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
@@ -69,7 +69,7 @@ class ReportsController < ApplicationController
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
                               :conditions => ["device_id = ? and date(created_at) between ? and ? and event_type like '%geofen%'",
                               params[:id],@start_date, @end_date], :order => "created_at desc")                                             
-     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and date(created_at) between ? and ?", params[:id], @start_date, @end_date])
+     @record_count = Reading.find(:all, :conditions => ["device_id = ? and event_type like '%geofen%' and date(created_at) between ? and ?", params[:id], @start_date, @end_date]).size
      @actual_record_count = @record_count
      @record_count = MAX_LIMIT if @record_count > MAX_LIMIT     
   end
