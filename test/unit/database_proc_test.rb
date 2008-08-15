@@ -5,7 +5,6 @@ class DatabaseProcTest < Test::Unit::TestCase
   fixtures :devices, :stop_events, :idle_events
   
   def setup
-    load_fixtures
     file = File.new("db_procs.sql")
     file.readline
     file.readline  #skip 1st two lines of file
@@ -17,6 +16,7 @@ class DatabaseProcTest < Test::Unit::TestCase
       ActiveRecord::Base.connection.execute(stmt)
       puts stmt
     }
+    load_fixtures
   end
   
   def test_stop_insert
@@ -86,7 +86,7 @@ class DatabaseProcTest < Test::Unit::TestCase
     
     insert_engine_off(1.2, 2.3, now+120, devices(:device1).imei)
     idle_event.reload
-    assert_equal 2, idle_event.duration
+    assert_equal 5, idle_event.duration
   end
   
   def test_reading_insert
@@ -103,6 +103,25 @@ class DatabaseProcTest < Test::Unit::TestCase
     assert_equal 5, readings[0].direction
     assert_equal now.to_s, readings[0].created_at.to_s
     assert_equal devices(:device1).id, readings[0].device_id
+  end
+  
+  def test_reading_insert_with_io
+    Reading.delete_all
+    now = Time.now
+    #latitude, longitude, altitude, speed, heading, event_type, created_at
+    ActiveRecord::Base.connection.execute("CALL insert_reading_with_io(1,2,3,4,5,#{devices(:device1).imei},'#{now.strftime("%Y-%m-%d %H:%M:%S")}', '',1,0,1 )")
+    readings = Reading.find(:all)
+    assert_equal 1, readings.size, "there should be only one reading"
+    assert_equal 1, readings[0].latitude
+    assert_equal 2, readings[0].longitude
+    assert_equal 3, readings[0].altitude
+    assert_equal 4, readings[0].speed
+    assert_equal 5, readings[0].direction
+    assert_equal now.to_s, readings[0].created_at.to_s
+    assert_equal devices(:device1).id, readings[0].device_id
+    assert_equal true, readings[0].ignition
+    assert_equal false, readings[0].gpio1
+    assert_equal true, readings[0].gpio2
   end
   
   def test_process_stops
