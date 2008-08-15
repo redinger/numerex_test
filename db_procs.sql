@@ -78,7 +78,7 @@ BEGIN
 	SELECT id INTO deviceID FROM devices WHERE imei=_modem;
 	SELECT id,duration,created_at INTO latestIdleID,latestDuration,idleTimestamp FROM idle_events WHERE device_id=deviceID AND created_at <= _created ORDER BY created_at desc limit 1;
 	IF latestDuration IS NULL THEN
-		UPDATE idle_events SET duration=TIMESTAMPDIFF(MINUTE, idleTimestamp, _created) WHERE id=latestIdleID;
+		UPDATE idle_events SET duration=TIMESTAMPDIFF(MINUTE, idleTimestamp, _created)+3 WHERE id=latestIdleID;
 	END IF;
 	
 END;;
@@ -101,6 +101,25 @@ BEGIN
 	SELECT id INTO deviceID FROM devices WHERE imei=_modem;
 	INSERT INTO readings (device_id, latitude, longitude, altitude, speed, direction, event_type, created_at)
 		VALUES (deviceID, _latitude, _longitude, _altitude, _speed, _heading, _event_type, _created);
+END;;
+
+DROP PROCEDURE IF EXISTS insert_reading_with_io;;
+CREATE PROCEDURE insert_reading_with_io(
+	_latitude FLOAT,
+	_longitude FLOAT,
+	_altitude  FLOAT,
+	_speed FLOAT,
+	_heading float,
+	_modem VARCHAR(22),
+	_created DATETIME,
+	_event_type VARCHAR(25),
+	_ignition TINYINT(1),
+	_gpio1 TINYINT(1),
+	_gpio2 TINYINT(1)
+)
+BEGIN
+	CALL insert_reading(_latitude, _longitude, _altitude, _speed, _heading, _modem, _created,_event_type);
+	UPDATE readings SET ignition=_ignition, gpio1=_gpio1, gpio2=_gpio2 WHERE id=LAST_INSERT_ID();
 END;;
 
 DROP PROCEDURE IF EXISTS process_stop_events;;
@@ -155,9 +174,9 @@ BEGIN
 		SELECT id INTO first_move_after_idle_id FROM readings  
 		  WHERE device_id=deviceID AND speed>1 AND created_at>idleTime ORDER BY created_at ASC LIMIT 1;
 		  
-		IF first_move_after_idle_id IS NOT NULL THEN
+		IF first_move_after_idle_id IS NOT NULL THEN	 
 			SELECT TIMESTAMPDIFF(MINUTE, idleTime, created_at) INTO idleDuration FROM readings where id=first_move_after_idle_id;
-			UPDATE idle_events SET duration = idleDuration+1 where id=eventID;
+			UPDATE idle_events SET duration = idleDuration+3 where id=eventID;
 		END IF;
 		
 		SELECT COUNT(*) INTO num_events_to_check FROM open_idle_events WHERE checked=FALSE;
