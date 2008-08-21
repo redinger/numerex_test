@@ -3,3 +3,6 @@
 one:
     id: 1
     name: 'Fleet Basic'
+    speeds: 1
+    stops: 1
+ 
