@@ -6,7 +6,7 @@ class DeviceController; def rescue_action(e) raise e end; end
 
 class DeviceControllerTest < Test::Unit::TestCase 
 
-  fixtures :users,:devices,:accounts, :groups
+  fixtures :users,:devices,:accounts,:groups,:device_profiles
   
   module RequestExtensions
     def server_name

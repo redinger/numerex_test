@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class DeviceProfileTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
+  fixtures :device_profiles,:devices
+
   def test_truth
     assert true
   end

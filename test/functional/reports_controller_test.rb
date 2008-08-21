@@ -15,7 +15,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     end
   end
   
-  fixtures :users, :readings, :stop_events, :idle_events, :runtime_events
+  fixtures :users, :readings, :stop_events, :idle_events, :runtime_events, :device_profiles
   
   def setup
     @controller = ReportsController.new
