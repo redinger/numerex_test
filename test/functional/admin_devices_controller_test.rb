@@ -31,7 +31,7 @@ class Admin::DevicesControllerTest < Test::Unit::TestCase
   
   def test_devices_table
     get :index, {}, get_user
-    assert_select "table tr", 9
+    assert_select "table tr", 10
   end
   
   def test_new_device
