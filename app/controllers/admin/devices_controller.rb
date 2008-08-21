@@ -3,9 +3,9 @@ class Admin::DevicesController < ApplicationController
   layout 'admin'
   def index
     if params[:id]
-      @devices = Device.find(:all, :order => "name", :conditions => ["account_id = ?", params[:id]])
+      @devices = Device.find(:all, :order => "profile_id,name", :conditions => ["account_id = ?", params[:id]])
     else
-      @devices = Device.find(:all, :order => "name")
+      @devices = Device.find(:all, :order => "profile_id,name")
     end
     
     @accounts = Account.find(:all, :order => "company")

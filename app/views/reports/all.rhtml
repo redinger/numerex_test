@@ -6,15 +6,17 @@
 			<table class="panel_table">
 				<tr>
 					<th>Location</th>
-					<th>Speed (mph)</th>
+					<% if @device.profile.speeds %><th>Speed (mph)</th><% end %>
 					<th>Event Type</th>
+					<% if @device.profile.gpio1_name %><th><%= @device.profile.gpio1_name %></th><% end %>
+					<% if @device.profile.gpio2_name %><th><%= @device.profile.gpio2_name %></th><% end %>
 					<th>When</th>
 				</tr>                
                  <%if  !@readings.empty?%> 
 				<% for reading in @readings %>
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
 						<td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location" ><%= reading.shortAddress %></a></td>
-						<td><%= reading.speed %></td>
+						<% if @device.profile.speeds %><td><%= reading.speed %></td><% end %>
 						<td>
 							<% if reading.event_type.nil? %>
 								-
@@ -23,17 +25,31 @@
 									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
 								<% elsif reading.event_type.index('exit') %>
 									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" >Exit geofence</a>
-								<% elsif (reading.event_type =='startstop_et41' || reading.event_type == 'stop') && reading.speed==0 %>
+								<% elsif @device.profile.stops and (reading.event_type =='startstop_et41' || reading.event_type == 'stop') && reading.speed==0 %>
 									<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
-								<% elsif reading.event_type == 'idle' %>
+								<% elsif @device.profile.idles and reading.event_type == 'idle' %>
 									<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
-								<% elsif reading.event_type.index('engine') %>
+								<% elsif @device.profile.runs and reading.event_type.index('engine') %>
 									<%= reading.event_type %>
 								<% else %>
 									-
 								<% end %>
 							<% end %>
 						</td>                                                            
+						<%if @device.profile.gpio1_name %>
+							<% if reading.gpio1.nil? %>
+								<td>-</td>
+							<% else %>
+								<td><a href="/reports/gpio1/<%= params[:id] %>" title="View <%= @device.profile.gpio1_name %> report"><%= reading.gpio1 ? @device.profile.gpio1_high_value : @device.profile.gpio1_low_value %></a></td>
+							<% end %>
+						<% end %>
+						<%if @device.profile.gpio2_name %>
+							<% if reading.gpio2.nil? %>
+								<td>-</td>
+							<% else %>
+								<td><a href="/reports/gpio2/<%= params[:id] %>" title="View <%= @device.profile.gpio2_name %> report"><%= reading.gpio2 ? @device.profile.gpio2_high_value : @device.profile.gpio2_low_value %></a></td>
+							<% end %>
+						<% end %>
 						<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script>
 					</tr>                                                              
 					<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude%>, address: '<%= escape_javascript reading.shortAddress %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= escape_javascript reading.note %>', event: '<%= reading.event_type %>'});</script>

@@ -1,6 +1,7 @@
 class Device < ActiveRecord::Base
   belongs_to :account
-  belongs_to :group  
+  belongs_to :group
+  belongs_to :profile,:class_name => 'DeviceProfile'
   
   validates_uniqueness_of :imei
   validates_presence_of :name, :imei
@@ -38,6 +39,15 @@ class Device < ActiveRecord::Base
   
   def last_offline_notification
     Notification.find(:first, :order => 'created_at desc', :conditions => ['device_id = ? and notification_type = ?', id, "device_offline"])
+  end
+  
+  def last_status_string
+    return '-' unless self.profile.runs
+    last_status_reading = Reading.find(:first,:conditions => "device_id = #{id} and event_type like 'engine%' and created_at >= (now() - interval 1 day)",:limit => 1)
+    return 'Unknown' unless last_status_reading
+    last_status_value = last_status_reading.event_type.split(' ')[1]
+    return 'Undefined' unless last_status_value
+    last_status_value.upcase
   end
   
   def online?

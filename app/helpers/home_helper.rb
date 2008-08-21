@@ -4,34 +4,39 @@ module HomeHelper
     params[:action] == "index"
   end
 
-   def show_device(device)
-       content = ""
-        content << %(<tr class="#{cycle('dark_row', 'light_row')}" id="row#{device.id}"> <td>)                          
-         if !device.readings.empty?
-            content << %(<a href="javascript:centerMap(#{device.id});highlightRow(#{device.id});" title="Center map on this device" class="link-all1">#{device.name}</a>)
-         else
-             content << %(#{device.name})
-         end 
-         content << %(</td>
+  def show_device(device)
+    content = ""
+    content << %(<tr class="#{cycle('dark_row', 'light_row')}" id="row#{device.id}"> <td>)                          
+    if !device.readings.empty?
+      content << %(<a href="javascript:centerMap(#{device.id});highlightRow(#{device.id});" title="Center map on this device" class="link-all1">#{device.name}</a>)
+    else
+      content << %(#{device.name})
+    end 
+    content << %(</td>
       <td style="font-size:11px;">
         <a href="/reports/all/#{device.id}" title="View device details" class="link-all1">details</a>
       </td>
       <td>) 
-            if !device.readings.empty? 
-              content << %(#{device.readings[0].shortAddress})
-            else 
-              content << %(N/A)
-             end 
-             content << %(</td>
+    if !device.readings.empty? 
+      content << %(#{device.readings[0].shortAddress})
+    else 
+      content << %(N/A)
+    end 
+    content << %(</td>
       <td>)
-          if !device.readings.empty? 
-              content << %(#{time_ago_in_words device.readings[0].created_at} ago )
-          else 
-              content << %(N/A) 
-          end
-          content << %(</td>
-                     </tr>)
-       content 
+    if current_account.show_runtime
+      content << %(#{device.last_status_string}
+      </td>
+      <td>)
+    end
+    if !device.readings.empty? 
+      content << %(#{time_ago_in_words device.readings[0].created_at} ago )
+    else 
+      content << %(N/A) 
+    end
+    content << %(</td>
+      </tr>)
+    content 
    end    
    
   def show_statistics(device)

@@ -14,6 +14,7 @@ class ReportsController < ApplicationController
  
   def all               
      get_start_and_end_date
+     @device = Device.find(params[:id])
      @device_names = Device.get_names(session[:account_id]) 
      @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
                                :conditions => ["device_id = ? and created_at between ? and ?", 
@@ -26,6 +27,7 @@ class ReportsController < ApplicationController
  
   def stop
     get_start_and_end_date
+    @device = Device.find(params[:id])
     @device_names = Device.get_names(session[:account_id])
     @stop_events = StopEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
           :conditions => ["device_id = ? and created_at between ? and ?",
@@ -38,6 +40,7 @@ class ReportsController < ApplicationController
  
   def idle
     get_start_and_end_date
+    @device = Device.find(params[:id])
     @device_names = Device.get_names(session[:account_id])
     @idle_events = IdleEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
          :conditions => ["device_id = ? and created_at between ? and ?",
@@ -50,6 +53,7 @@ class ReportsController < ApplicationController
   
   def runtime
     get_start_and_end_date
+    @device = Device.find(params[:id])
     @device_names = Device.get_names(session[:account_id])
     @runtime_events = RuntimeEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
          :conditions => ["device_id = ? and created_at between ? and ?",
@@ -63,12 +67,39 @@ class ReportsController < ApplicationController
   # Display geofence exceptions
   def geofence
     get_start_and_end_date 
+    @device = Device.find(params[:id])
     @geofences = Device.find(params[:id]).geofences # Geofences to display as overlays
     @device_names = Device.get_names(session[:account_id])
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
                               :conditions => ["device_id = ? and created_at between ? and ? and event_type like '%geofen%'",
                               params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")                                             
      @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
+     @actual_record_count = @record_count
+     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT     
+  end
+     
+  # Display gpio1 events
+  def gpio1
+    get_start_and_end_date 
+    @device = Device.find(params[:id])
+    @device_names = Device.get_names(session[:account_id])
+    @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
+                              :conditions => ["device_id = ? and created_at between ? and ? and gpio1 is not null",
+                              params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")                                             
+     @record_count = Reading.count('id', :conditions => ["device_id = ? and gpio1 is not null and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
+     @actual_record_count = @record_count
+     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT     
+  end
+     
+  # Display gpio2 events
+  def gpio2
+    get_start_and_end_date 
+    @device = Device.find(params[:id])
+    @device_names = Device.get_names(session[:account_id])
+    @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
+                              :conditions => ["device_id = ? and created_at between ? and ? and gpio2 is not null",
+                              params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")                                             
+     @record_count = Reading.count('id', :conditions => ["device_id = ? and gpio2 is not null and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
      @actual_record_count = @record_count
      @record_count = MAX_LIMIT if @record_count > MAX_LIMIT     
   end

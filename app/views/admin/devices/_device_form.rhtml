@@ -9,6 +9,13 @@
 			<% end %>
 		</select>
 	</td></tr>
+	<tr><td>Profile:</td><td>&nbsp;</td><td>
+		<select class="input" name="device[profile_id]" style="width:250px;">
+			<% for profile in DeviceProfile.find(:all) %>
+				<option value="<%= profile.id %>" <% if @device.profile_id.to_s == profile.id.to_s %>selected="selected"<% end %>><%= profile.name %></option>
+			<% end %>
+		</select>
+	</td></tr>
 	<tr><td>Provision Status:</td><td>&nbsp;</td>
 		<td><select name="device[provision_status_id]" class="input">
 				<option value="1" <% if @device.provision_status_id == 1 %>selected="selected"<% end %>>Provisioned</option>

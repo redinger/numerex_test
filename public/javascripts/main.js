@@ -107,6 +107,7 @@ function getRecentReadings(redrawMap,id) {
         var lngs = xml.documentElement.getElementsByTagName("lng");
 		var dts = xml.documentElement.getElementsByTagName("dt");
 		var addresses = xml.documentElement.getElementsByTagName("address");
+		var statuses = xml.documentElement.getElementsByTagName("status");
 		var notes = xml.documentElement.getElementsByTagName("note");
 		var icon_id = xml.documentElement.getElementsByTagName("icon_id");		        
 		for(var i = 0; i < lats.length; i++) {              
@@ -151,7 +152,7 @@ function getRecentReadings(redrawMap,id) {
 				if(notes[i].firstChild != undefined)
 					note = notes[i].firstChild.nodeValue;
 					
-				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note};
+				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, status: statuses[i].firstChild.nodeValue};
 				devices.push(device);                
                  
 				// Populate the table
@@ -159,7 +160,13 @@ function getRecentReadings(redrawMap,id) {
                                 if (row && row.getElementsByTagName) {
 				  var tds = row.getElementsByTagName("td");
 				  tds[2].innerHTML = device.address;
-				  tds[3].innerHTML = device.dt;
+				  if (tds.length == 4)
+					  tds[3].innerHTML = device.dt;
+				  else
+				  {
+				  	tds[3].innerHTML = device.status;
+					  tds[4].innerHTML = device.dt;
+				  }
 			        }	
 		        var point = new GLatLng(device.lat, device.lng);
 				gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));

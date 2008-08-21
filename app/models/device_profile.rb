@@ -1,0 +1,76 @@
+class DeviceProfile < ActiveRecord::Base
+  has_many :devices,:foreign_key => 'profile_id'
+  
+  def gpio1_name
+    gpio1_split[GPIO_NAME]
+  end
+  
+  def gpio1_low_value
+    gpio1_split[GPIO_LOW_VALUE]
+  end
+  
+  def gpio1_high_value
+    gpio1_split[GPIO_HIGH_VALUE]
+  end
+  
+  def gpio1_low_notice
+    gpio1_split[GPIO_LOW_NOTICE]
+  end
+  
+  def gpio1_high_notice
+    gpio1_split[GPIO_HIGH_NOTICE]
+  end
+  
+  def gpio2_name
+    gpio2_split[GPIO_NAME]
+  end
+  
+  def gpio2_low_value
+    gpio2_split[GPIO_LOW_VALUE]
+  end
+  
+  def gpio2_high_value
+    gpio2_split[GPIO_HIGH_VALUE]
+  end
+  
+  def gpio2_low_notice
+    gpio2_split[GPIO_LOW_NOTICE]
+  end
+  
+  def gpio2_high_notice
+    gpio2_split[GPIO_HIGH_NOTICE]
+  end
+  
+  def update_gpio_attributes(watch,labels,name,low_value,high_value,low_notice,high_notice)
+    non_name_blanks = (low_value.blank? and high_value.blank? and low_notice.blank? and high_notice.blank?)
+    errors.push({:field => labels,:msg => "#{labels.to_s.split('_')[0].upcase} must have a name"}) if name.blank? and not non_name_blanks
+    combined_values = "#{name}\t#{low_value}\t#{high_value}\t#{low_notice}\t#{high_notice}" unless name.blank?
+    update_attribute(labels,combined_values)
+    update_attribute(watch,(combined_values and not (low_notice.blank? and high_notice.blank?)))
+    reset_gpio
+  end
+
+private
+  GPIO_NAME = 0
+  GPIO_LOW_VALUE = 1
+  GPIO_HIGH_VALUE = 2
+  GPIO_LOW_NOTICE = 3
+  GPIO_HIGH_NOTICE = 4
+  
+  def gpio1_split
+    @gpio1_split ||= split_labels_without_empty_strings(gpio1_labels)
+  end
+  
+  def gpio2_split
+    @gpio2_split ||= split_labels_without_empty_strings(gpio2_labels)
+  end
+  
+  def reset_gpio
+    @gpio1_split = nil
+    @gpio2_split = nil
+  end
+  
+  def split_labels_without_empty_strings(labels)
+    (labels or '').split("\t").collect {|label| label unless label.blank?}
+  end
+end

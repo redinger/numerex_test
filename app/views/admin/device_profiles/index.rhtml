@@ -1,0 +1,24 @@
+<h3>Device Profiles (<%= @profiles.size %> total)</h3><br/>
+
+<%= render :partial=>"/layouts/flash_message" %>    
+
+<table  id="ub-table">
+	<tr class="header">
+		<td></td><td>Name</td><td>Options</td><td>GPIO #1</td><td>LOW</td><td>HIGH</td><td>GPIO #2</td><td>LOW</td><td>HIGH</td><td>Count</td><td></td>
+     </tr>
+		<% for profile in @profiles %>
+			<tr class="<%= cycle("gray_row", "") %>">
+				<td><a href="/admin/device_profiles/edit/<%= profile.id %>">edit</a></td>
+				<td><a href="/admin/device_profiles/show/<%= profile.id %>"><%= profile.name %></a></td>
+				<td><%= encode_profile_options(profile) %></td>
+				<td><%= profile.gpio1_name or '&nbsp;' %></td>
+				<td><%= profile.gpio1_low_value or '&nbsp;' %></td>
+				<td><%= profile.gpio1_high_value or '&nbsp;' %></td>
+				<td><%= profile.gpio2_name or '&nbsp;' %></td>
+				<td><%= profile.gpio2_low_value or '&nbsp;' %></td>
+				<td><%= profile.gpio2_high_value or '&nbsp;' %></td>
+				<td><%= profile.devices.size %></td>
+				<td><% if profile.devices.any? %>&nbsp;<% else %><a href="/admin/device_profiles/destroy/<%= profile.id %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a><% end %></td>
+			</tr>
+		<% end %>	
+</table>
