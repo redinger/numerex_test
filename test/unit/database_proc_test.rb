@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class DatabaseProcTest < Test::Unit::TestCase
   
-  fixtures :devices, :stop_events, :idle_events
+  fixtures :devices, :stop_events, :idle_events, :runtime_events
   
   def setup
     file = File.new("db_procs.sql")
@@ -73,6 +73,30 @@ class DatabaseProcTest < Test::Unit::TestCase
     insert_idle(2.2,2.3, now-200, devices(:device1).imei)
     idle_events = IdleEvent.find :all
     assert_equal(4, idle_events.size, "should allowed idle event in the past")
+  end
+  
+  def test_runtime_insert
+    RuntimeEvent.delete_all
+    now = Time.now
+    insert_runtime(1.2,2.3, now, devices(:device1).imei)
+    runtime_events = RuntimeEvent.find :all
+    assert_equal(1, runtime_events.size, "should have been one runtime event")
+    
+    insert_runtime(1.2, 2.3, now+60, devices(:device1).imei)
+    runtime_events = RuntimeEvent.find :all
+    assert_equal(1, runtime_events.size, "should have ignored duplicate runtime event")
+    
+    insert_runtime(1.2, 2.3, now, devices(:device1).imei)
+    runtime_events = RuntimeEvent.find :all
+    assert_equal(1, runtime_events.size, "should have ignored duplicate runtime event w/same timestamp")
+    
+    insert_runtime(2.2, 2.3, now+80, devices(:device2).imei)
+    runtime_events = RuntimeEvent.find :all
+    assert_equal(2, runtime_events.size, "should have allowed runtime event on different device")
+    
+    insert_runtime(2.2,2.3, now-200, devices(:device1).imei)
+    runtime_events = RuntimeEvent.find :all
+    assert_equal(3, runtime_events.size, "should allowed runtime event in the past")
   end
   
   def test_engine_off
@@ -176,6 +200,10 @@ class DatabaseProcTest < Test::Unit::TestCase
   
   def insert_engine_off(lat, lng, created, imei)
     ActiveRecord::Base.connection.execute("CALL insert_engine_off_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
+  end
+  
+  def insert_runtime(lat, lng, created, imei)
+    ActiveRecord::Base.connection.execute("CALL insert_runtime_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
   end
   
   
