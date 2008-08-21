@@ -207,6 +207,37 @@ BEGIN
 	END WHILE;
 END;;
 
+DROP PROCEDURE IF EXISTS process_runtime_events;;
+CREATE PROCEDURE process_runtime_events()
+BEGIN
+	DECLARE num_events_to_check INT;
+	CREATE TEMPORARY TABLE open_runtime_events(runtime_event_id INT(11), checked BOOLEAN);
+	INSERT INTO open_runtime_events SELECT id, FALSE FROM runtime_events where duration IS NULL;
+	SELECT COUNT(*) INTO num_events_to_check FROM open_runtime_events WHERE checked=FALSE;
+	WHILE num_events_to_check>0 DO BEGIN
+		DECLARE eventID INT;
+		DECLARE first_off_after_runtime_id INT;
+		DECLARE runtimeDuration INT;
+		DECLARE deviceID INT;
+		DECLARE runtimeTime DATETIME;
+		
+		SELECT runtime_event_id INTO eventID FROM open_runtime_events WHERE checked=FALSE limit 1;
+		SELECT device_id, created_at into deviceID, runtimeTime FROM runtime_events where id=eventID;
+		UPDATE open_runtime_events SET checked=TRUE WHERE runtime_event_id=eventId;
+		
+		SELECT id INTO first_off_after_runtime_id FROM readings  
+		  WHERE device_id=deviceID AND ignition=0 AND created_at>runtimeTime ORDER BY created_at ASC LIMIT 1;
+		  
+		IF first_off_after_runtime_id IS NOT NULL THEN	 
+			SELECT TIMESTAMPDIFF(MINUTE, runtimeTime, created_at) INTO runtimeDuration FROM readings where id=first_off_after_runtime_id;
+			UPDATE runtime_events SET duration = runtimeDuration where id=eventID;
+		END IF;
+		
+		SELECT COUNT(*) INTO num_events_to_check FROM open_runtime_events WHERE checked=FALSE;
+	END;
+	END WHILE;
+END;;
+
 DROP PROCEDURE IF EXISTS migrate_stop_data;;
 CREATE PROCEDURE migrate_stop_data()
 BEGIN

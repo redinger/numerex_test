@@ -190,6 +190,27 @@ class DatabaseProcTest < Test::Unit::TestCase
         assert_nil idle_events(:four).duration
   end
   
+    def test_process_runtimes
+        Reading.delete_all
+        assert_equal 20, runtime_events(:one).duration
+        assert_nil runtime_events(:two).duration
+        assert_nil runtime_events(:three).duration
+        assert_nil runtime_events(:four).duration
+          
+        Reading.new(:latitude => "4.5", :longitude => "5.6", :device_id => devices(:device1).id, :created_at => "2008-07-01 15:20:00", :speed => 10, :ignition => 0).save
+        Reading.new(:latitude => "8.5", :longitude => "5.614", :device_id => devices(:device1).id, :created_at => "2008-07-01 16:25:00", :speed => 10, :ignition => 0).save
+        ActiveRecord::Base.connection.execute("call process_runtime_events()")
+        
+        runtime_events(:two).reload
+        runtime_events(:three).reload
+        runtime_events(:four).reload
+        
+        assert_equal 20, runtime_events(:one).duration
+        assert_equal 20, runtime_events(:two).duration
+        assert_equal 25, runtime_events(:three).duration
+        assert_nil runtime_events(:four).duration
+  end
+  
   def insert_stop(lat, lng, created, imei)
     ActiveRecord::Base.connection.execute("CALL insert_stop_event(#{lat},#{lng},'#{imei}','#{created.strftime("%Y-%m-%d %H:%M:%S")}', 42)")
   end
