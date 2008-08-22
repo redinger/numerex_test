@@ -3,6 +3,7 @@ task :setup_db_scripts => :environment do
   db_config = ActiveRecord::Base.configurations[RAILS_ENV]
   process_script_file("stopreport.sh", db_config)
   process_script_file("idlereport.sh", db_config)
+  process_script_file("runtimereport.sh", db_config)
 end
 
 def process_script_file(filename, db_config)
