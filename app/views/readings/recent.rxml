@@ -13,6 +13,7 @@ xml.devices do
         xml.address
         xml.dt
         xml.note
+        xml.status
       else # We got data
         xml.lat(device.readings[0].latitude)
         xml.lng(device.readings[0].longitude)
