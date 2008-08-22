@@ -43,7 +43,7 @@ class Device < ActiveRecord::Base
   
   def last_status_string
     return '-' unless self.profile.runs
-    last_status_reading = Reading.find(:first,:conditions => "device_id = #{id} and event_type like 'engine%' and created_at >= (now() - interval 1 day)",:limit => 1)
+    last_status_reading = Reading.find(:first,:conditions => "device_id = #{id} and event_type like 'engine%' and created_at >= (now() - interval 1 day)",:limit => 1,:order => "created_at desc")
     return 'Unknown' unless last_status_reading
     last_status_value = last_status_reading.event_type.split(' ')[1]
     return 'Undefined' unless last_status_value
