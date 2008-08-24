@@ -8,7 +8,7 @@
               </td>
          </tr>
          <%if !group.devices.empty?%>                     
-             <% group.devices.each do |device|%>
+             <% group.ordered_devices.each do |device|%>
                   <%= send(callback,device) %>
              <%end%>
          <%else%>

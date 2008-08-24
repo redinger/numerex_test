@@ -35,4 +35,8 @@ class GroupTest < Test::Unit::TestCase
      assert_equal false,@group.is_selected_for_notification(users(:nick)) 
   end
 
+  def test_ordered_devices
+      assert_equal 2,@group.ordered_devices.size
+  end
+  
 end

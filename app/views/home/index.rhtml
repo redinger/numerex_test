@@ -7,6 +7,8 @@
 	  <th>Last Location</th>
 	  <% if current_account.show_runtime %><th>Last Status</th><% end %>
 	  <th>Last Report</th>
-	</tr>
+	</tr>    
+    
 	<%= render :partial => "group_rows",:locals => {:column_span => row_count,:callback => "show_device"} %>
 </table>
+

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 45) do
+ActiveRecord::Schema.define(:version => 47) do
 
   create_table "accounts", :force => true do |t|
     t.string   "company",          :limit => 75
@@ -28,6 +28,18 @@ ActiveRecord::Schema.define(:version => 45) do
     t.boolean  "show_maintenance",                :default => false
   end
 
+  create_table "device_profiles", :force => true do |t|
+    t.string  "name",         :default => "",    :null => false
+    t.boolean "speeds",       :default => false, :null => false
+    t.boolean "stops",        :default => false, :null => false
+    t.boolean "idles",        :default => false, :null => false
+    t.boolean "runs",         :default => false, :null => false
+    t.boolean "watch_gpio1",  :default => false, :null => false
+    t.boolean "watch_gpio2",  :default => false, :null => false
+    t.string  "gpio1_labels"
+    t.string  "gpio2_labels"
+  end
+
   create_table "devices", :force => true do |t|
     t.string   "name",                :limit => 75
     t.string   "imei",                :limit => 30
@@ -42,6 +54,9 @@ ActiveRecord::Schema.define(:version => 45) do
     t.integer  "icon_id",             :limit => 11, :default => 1
     t.integer  "group_id",            :limit => 11
     t.integer  "is_public",           :limit => 11, :default => 0
+    t.integer  "profile_id",          :limit => 11, :default => 1,  :null => false
+    t.boolean  "last_gpio1"
+    t.boolean  "last_gpio2"
   end
 
   create_table "devices_users", :force => true do |t|
@@ -123,6 +138,9 @@ ActiveRecord::Schema.define(:version => 45) do
     t.string   "note"
     t.string   "address",    :limit => 1024
     t.boolean  "notified",                   :default => false
+    t.boolean  "ignition"
+    t.boolean  "gpio1"
+    t.boolean  "gpio2"
   end
 
   add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"

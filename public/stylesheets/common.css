@@ -88,7 +88,7 @@ div#header_login #logo {
 	font-size: 12px;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding: 5px;
-	width:55%;}
+	width:50%;}
 	
 /*header CSS End*/	
 
@@ -190,9 +190,20 @@ select {
 /*map CSS */
 
 div#map {
-	width: 100%;
+	position: absolute;
+	width: 45%;
 	height: 500px;
 	float: left;}
+
+div#header_ddd{
+	position: absolute;
+	width: 49%;
+	height: 500px;
+	float: left;}
+
+div#arrow_expand{
+	position: absolute;	
+	}
 
 .googlemap{
 	width: 99%;
@@ -205,9 +216,7 @@ div#map {
 	background-color:#eeeeee;
 	margin-bottom:15px }
 
-.reports_map{
-	width:50%; 
-	float:right;
+.reports_map{		
 	border:4px #eeeeee solid;
 	}
 
@@ -296,6 +305,10 @@ div#main_container {
 	padding: 0;
 	list-style-type: none;	
 	float: left;}
+
+#inner_table{
+ width:100%;	
+}
 
 #device_list_old a {
 	display: block;
@@ -621,7 +634,6 @@ h4 {
 .panel_table {
 	width: 100%;
 	padding: 0;
-	margin: 0;
 	border-collapse: collapse;}
 
 .panel_table th {
@@ -639,6 +651,14 @@ h4 {
 	color: #FFFFFF;
 	font-size: 12px;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;}
+
+.header_test{
+	background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	width:50%;
 	padding: 5px;}
 	
 .panel_table .bluebar1{ 
@@ -997,7 +1017,7 @@ div#success_message {
 	margin:0px; 
 	width:70%; 
 	float:left}
-	
+
 .alert{
 	width:98%;
 	color:#336633;
@@ -1011,6 +1031,9 @@ div#success_message {
 	padding-right:5px;
 	font-size:10pt;}
 
+.padd-bot{
+	padding-bottom: 400px;
+}
 .paddin-l{
 	padding-left:75%;}
 

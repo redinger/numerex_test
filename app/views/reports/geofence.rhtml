@@ -1,6 +1,6 @@
 <%= render :partial => 'report_header' %>
 
-<table class="text_width">
+<table class="text_width" id="main_table">
 	<tr>
 		<td width="50%" valign="top" id="left_panel">
 			<table class="panel_table">
@@ -37,10 +37,15 @@
                 <%if flag%>
                        <div class="alert">
                             <span>No geofence events found.</span>
-                       </div>                                       
+                       </div>  
+                       <div class="padd-bot"></div> 
                 <%end%>                
 		</td>
-		<td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>
+		<td>
+              <div id="arrow_expand">
+                   <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>
+              </div>
+          </td>
 		<td width="50%" valign="top" id="right_panel">
 			<div id="map" class="reports_map"></div>
 		</td>
@@ -53,5 +58,7 @@ var geofences = [];
 	geofences.push({id: <%= geofence.id %>, name: '<%= escape_javascript(geofence.name) %>', bounds: '<%= geofence.bounds %>'});
 <% end %>
 </script>
+
+<%= javascript_include_tag "scrolling_effect.js"%>
 
 <%= render :partial => 'report_footer' %>

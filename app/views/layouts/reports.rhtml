@@ -7,6 +7,7 @@
         <%= stylesheet_link_tag "common" %>
 		<%= render :partial => 'layouts/includes/map_key' %>
 		<%= javascript_include_tag "main", "reports", "utils" %>
+
 	</head>
 	<% if params[:action] == 'index' %>
 	<body>
@@ -28,6 +29,7 @@
     	<div id="content">
         	<%= yield %>
         </div>
+<br/><br/><br/><br/><br/><br/><br/><br/>        
 		<%= render :partial => 'layouts/includes/footer' %>
 	</body>
 </html>

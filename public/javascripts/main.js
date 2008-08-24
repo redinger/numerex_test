@@ -9,7 +9,7 @@ var zoom = 3;
 var fullScreenMap = false;
 var grp_id;
 var zoom_val = get_cookie("zvalue");
-
+var from_main = false;
 function load() 
 {
   if (GBrowserIsCompatible()) {
@@ -50,7 +50,7 @@ function load()
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];
 	if(page == 'home' || page == 'admin' ||page=='devices')
-    	getRecentReadings();
+    	getRecentReadings(true,grp_id);        
 	else if(page == 'reports')
 		getReportBreadcrumbs();
 	else 
@@ -493,32 +493,59 @@ function createMarker(id, point, icon, html) {
 // Toggle between full map view or split table/map view
 function toggleMap() {
 	var left = document.getElementById("left_panel");
-	var right = document.getElementById("right_panel");
-	var img = document.getElementById("toggler");
+	var right = document.getElementById("right_panel"); 
+    var arraow = document.getElementById("arrow_expand");     
+	var img = document.getElementById("toggler");   
+    if (from_main){
+        var google_map_div = document.getElementById("header_ddd");       
+        var inner_table_id = document.getElementById("inner_table");               
+      }  
+    else{
+        var google_map_div = document.getElementById("map");        
+     }
+    
 	var isIE = navigator.appName.indexOf("Microsoft Internet Explorer");
-	
+
 	if(fullScreenMap) { // Collapse map and display table
-		left.style.visibility = 'visible';
+         
+		left.style.visibility =  'visible';
 		left.style.display = 'block';
-		if(isIE > -1)
-			left.width = "50%";
+		if(isIE > -1)              
+			left.width = "50%"; 
 		else
 			left.width = "100%";
-		right.width = "50%";
+		right.width = "50%";        
+        if (from_main){        
+        google_map_div.style.width="48%";
+        inner_table_id.style.width = "100%";
+        }
+        else{            
+         google_map_div.style.width="45%";
+        }
 		img.src = "/images/collapse.png";
 		img.parentNode.title = "Expand map view";
 		fullScreenMap = false;
 	} else { // Expand map
 		left.style.visibility = 'hidden';
-		left.style.display = 'none';
-		right.width = "100%";
+		left.style.display = 'none';        
+		right.width = "100%";        
+        right.height = "500px;";        
+        if (from_main) {
+          google_map_div.style.width = "98%";              
+          inner_table_id.style.width = "99%";
+          }
+        else{
+          google_map_div.style.width = "95%";              
+          }
+        google_map_div.style.left="30px";
+        google_map_div.style.top="150px";                
 		img.src = "/images/expand.png";
 		img.parentNode.title = "Collapse map view";
 		fullScreenMap = true;
-	}
-	
+	}	
 	gmap.checkResize();
 }
+
 
 
 
