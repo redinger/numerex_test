@@ -6,7 +6,7 @@ class Device < ActiveRecord::Base
   validates_uniqueness_of :imei
   validates_presence_of :name, :imei
   
-  has_many :readings, :order => "created_at desc", :limit => 1 # Gets the most recent reading
+  has_many :readings, :order => "created_at desc", :conditions => "address is not null", :limit => 1 # Gets the most recent reading
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
   has_many :stop_events, :order => "created_at desc"
