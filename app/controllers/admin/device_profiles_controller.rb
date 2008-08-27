@@ -5,7 +5,7 @@ class Admin::DeviceProfilesController < ApplicationController
   helper_method :encode_profile_options
   
   def encode_profile_options(profile)
-    (profile.stops ? "S" : "-") + (profile.idles ? "I" : "-") + (profile.runs ? "R" : "-") + (profile.watch_gpio1 ? "1" : "-") + (profile.watch_gpio2 ? "2" : "-")
+    (profile.speeds ? "F" : "-") + (profile.stops ? "S" : "-") + (profile.idles ? "I" : "-") + (profile.runs ? "R" : "-") + (profile.watch_gpio1 ? "1" : "-") + (profile.watch_gpio2 ? "2" : "-")
   end
   
   def index
@@ -54,7 +54,10 @@ class Admin::DeviceProfilesController < ApplicationController
       profile.update_attributes(params[:profile])
       apply_options_to_profile(params,profile)
       
-      if profile.save
+      gpio1_success = apply_gpio_options(profile,params[:gpio1],:watch_gpio1,:gpio1_labels)
+      gpio2_success = apply_gpio_options(profile,params[:gpio2],:watch_gpio2,:gpio2_labels)
+      
+      if gpio1_success and gpio2_success and profile.save
         flash[:success] = "#{profile.name} updated successfully"
         redirect_to :action => 'index' and return
       else
@@ -85,7 +88,7 @@ class Admin::DeviceProfilesController < ApplicationController
   
 private
   def apply_options_to_profile(params,profile)
-    update_attributes_with_checkboxes(profile,[:stops,:idles,:runs],params[:options])
+    update_attributes_with_checkboxes(profile,[:speeds,:stops,:idles,:runs],params[:options])
   end
   
   def apply_gpio_options(profile,options,watch,labels)
