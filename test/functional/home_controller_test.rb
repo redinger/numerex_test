@@ -35,6 +35,11 @@ class HomeControllerTest < Test::Unit::TestCase
       assert_response :success
   end
   
+  def test_show_devices_for_default
+      get :show_devices,{:type =>'default'},{:user=>users(:dennis), :account_id => accounts(:dennis).id}
+      assert_response :success        
+  end
+  
   def test_show_devices_for_group
       get :show_devices,{:type =>2},{:user=>users(:dennis), :account_id => accounts(:dennis).id}
       assert_response :success    

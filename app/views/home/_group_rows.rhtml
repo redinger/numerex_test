@@ -17,7 +17,7 @@
     <%end%>
 <%end%>
 <%if !@default_devices.empty?%>
-    <%if !@groups.empty? %>
+    <%if !@groups.empty? || session[:gmap_value] == 'default'%>
         <tr>
              <td colspan="<%= column_span or 4 %>" class="bg_overview">
                   <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">

@@ -8,6 +8,9 @@ class HomeController < ApplicationController
         @groups = @all_groups
          session[:gmap_value] = "all"
         @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')            
+     elsif session[:gmap_value] == 'default'
+         @groups = []
+         @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
      else
          @groups=Group.find(:all, :conditions=>['id=?',session[:gmap_value]], :order=>'name')                  
          @default_devices=[]            
@@ -28,6 +31,10 @@ class HomeController < ApplicationController
          session[:gmap_value] = "all"
          @groups= @all_groups 
          @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')    
+    elsif params[:type] == "default"
+         session[:gmap_value] = params[:type]
+         @groups = []
+         @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')            
     else
          @groups=Group.find(:all, :conditions=>['id=?',params[:type]], :order=>'name')
          session[:gmap_value] = params[:type]

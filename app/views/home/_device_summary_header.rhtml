@@ -8,6 +8,9 @@
                  <% for group in @all_groups %>
             <option <%if session[:gmap_value].to_i == group.id%> selected <%end%> value='<%= group.id%>'><%= group.name%> </option>
                   <% end %>
+            <%if !@default_devices.empty?%>    
+             <option <%if session[:gmap_value] == "default"%> selected <%end%> value='default'>Default</option>     
+            <%end%> 
         </select>            
   </td>
 </tr>

@@ -61,22 +61,21 @@
                 <%if flag%>
                        <div class="alert">
                             <span>No readings found.</span>
-                       </div> 
-                       <div class="padd-bot"></div>
+                       </div>                        
                 <%end%>        
 		</td>
         
-		<td>
-                <div id="arrow_expand">
-                 <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>
-                </div> 
+		<td>                
+                 <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>                
            </td>
            
 		<td width="50%" valign="top" id="right_panel">                    
                  <div id="map" class="reports_map" ></div>                 
 		</td>
 	</tr>
-</table>		
+</table>
+
+<%= javascript_include_tag "scrolling_effect.js"%>			
 
 <%= render :partial => 'report_footer' %>
 
