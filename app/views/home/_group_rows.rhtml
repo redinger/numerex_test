@@ -16,7 +16,7 @@
          <%end%>
     <%end%>
 <%end%>
-<%if !@default_devices.empty?%>
+<%if !@default_devices.empty? && @show_default_devices %>
     <%if !@groups.empty? || session[:gmap_value] == 'default'%>
         <tr>
              <td colspan="<%= column_span or 4 %>" class="bg_overview">
