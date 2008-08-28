@@ -134,6 +134,71 @@ CREATE TRIGGER trig_event_42_insert_toublip AFTER INSERT ON EVENT_42 FOR EACH RO
  CALL ublip_prod.insert_stop_event(NEW.latitude, NEW.longitude, NEW.modem, CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() ), LAST_INSERT_ID() );
 END;;
 
+drop trigger IF EXISTS trig_event_43_insert_toublip;;
+CREATE TRIGGER trig_event_43_insert_toublip AFTER INSERT ON EVENT_43 FOR EACH ROW BEGIN
+ CALL insert_readings(NEW.latitude, NEW.longitude, NEW.altitude, NEW.speed, NEW.heading, NEW.modem, 
+	  concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)), 'idle');
+ CALL ublip_prod.insert_idle_event(NEW.latitude, NEW.longitude, NEW.modem, CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() ), LAST_INSERT_ID() );
+END;;
+
+drop trigger IF EXISTS trig_event_143_insert_toublip;;
+CREATE TRIGGER trig_event_143_insert_toublip AFTER INSERT ON EVENT_143 FOR EACH ROW BEGIN
+  DECLARE gps_time DATETIME;
+ SET gps_time = CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() );
+ IF ABS( TIMESTAMPDIFF( YEAR, gps_time, now() ) ) > 5 THEN
+ 	SET gps_time = NEW.created;
+ END IF;
+ CALL ublip_prod.insert_reading_with_io(NEW.latitude, NEW.longitude, NEW.altitude, KNOTS_X_TEN_TO_MPH(NEW.speed), NEW.heading, NEW.modem, gps_time, 'idle', NEW.GPIO8='Y', NEW.GPIO1='Y', NEW.GPIO2='Y');
+ CALL ublip_prod.insert_idle_event(NEW.latitude, NEW.longitude, NEW.modem, gps_time, LAST_INSERT_ID() );
+END;;
+
+drop trigger IF EXISTS trig_event_44_insert_toublip;;
+CREATE TRIGGER trig_event_44_insert_toublip AFTER INSERT ON EVENT_44 FOR EACH ROW BEGIN
+ CALL insert_readings(NEW.latitude, NEW.longitude, NEW.altitude, KNOTS_X_TEN_TO_MPH(NEW.speed), NEW.heading, NEW.modem, 
+	  concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)), 'engine off');
+ CALL ublip_prod.insert_engine_off_event(NEW.latitude, NEW.longitude, NEW.modem, CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() ), LAST_INSERT_ID() );
+END;;
+
+drop trigger IF EXISTS trig_event_144_insert_toublip;;
+CREATE TRIGGER trig_event_144_insert_toublip AFTER INSERT ON EVENT_144 FOR EACH ROW BEGIN
+ DECLARE gps_time DATETIME;
+ SET gps_time = CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() );
+ IF ABS( TIMESTAMPDIFF( YEAR, gps_time, now() ) ) > 5 THEN
+ 	SET gps_time = NEW.created;
+ END IF;
+ CALL ublip_prod.insert_reading_with_io(NEW.latitude, NEW.longitude, NEW.altitude, KNOTS_X_TEN_TO_MPH(NEW.speed), NEW.heading, NEW.modem, gps_time, 'engine off', NEW.GPIO8='Y', NEW.GPIO1='Y', NEW.GPIO2='Y');
+ CALL ublip_prod.insert_engine_off_event(NEW.latitude, NEW.longitude, NEW.modem, gps_time, LAST_INSERT_ID() );
+END;;
+
+drop trigger IF EXISTS trig_event_45_insert_toublip;;
+CREATE TRIGGER trig_event_45_insert_toublip AFTER INSERT ON EVENT_45 FOR EACH ROW BEGIN
+ CALL insert_readings(NEW.latitude, NEW.longitude, NEW.altitude, KNOTS_X_TEN_TO_MPH(NEW.speed), NEW.heading, NEW.modem, 
+	  concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)), 'engine on');
+END;;
+
+drop trigger IF EXISTS trig_event_145_insert_toublip;;
+CREATE TRIGGER trig_event_145_insert_toublip AFTER INSERT ON EVENT_145 FOR EACH ROW BEGIN
+ DECLARE gps_time DATETIME;
+ SET gps_time = CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() );
+ IF ABS( TIMESTAMPDIFF( YEAR, gps_time, now() ) ) > 5 THEN
+ 	SET gps_time = NEW.created;
+ END IF;
+ CALL ublip_prod.insert_reading_with_io(NEW.latitude, NEW.longitude, NEW.altitude, KNOTS_X_TEN_TO_MPH(NEW.speed), NEW.heading, NEW.modem, gps_time, 'engine on', NEW.GPIO8='Y', NEW.GPIO1='Y', NEW.GPIO2='Y');
+END;;
+
+drop trigger IF EXISTS trig_event_101_insert_toublip;;
+CREATE TRIGGER trig_event_101_insert_toublip AFTER INSERT ON EVENT_101 FOR EACH ROW BEGIN
+ DECLARE gps_time DATETIME;
+ SET gps_time = CONVERT_TZ(concat_ws(' ', DATE(NEW.UTC_GPS_DATE), TIME(NEW.UTC_GPS_TIME)),'UTC', get_system_timezone() );
+ IF ABS( TIMESTAMPDIFF( YEAR, gps_time, now() ) ) > 5 THEN
+ 	SET gps_time = NEW.created;
+ END IF;
+ CALL ublip_prod.insert_reading_with_io(NEW.latitude, NEW.longitude, NEW.altitude, KNOTS_X_TEN_TO_MPH(NEW.speed), NEW.heading, NEW.modem, gps_time, 'normal', NEW.GPIO8='Y', NEW.GPIO1='Y', NEW.GPIO2='Y');
+ IF NEW.GPIO8=1 THEN
+		CALL ublip_prod.insert_runtime_event(NEW.latitude, NEW.longitude, NEW.modem, gps_time, LAST_INSERT_ID());
+ END IF;
+END;;
+
 drop trigger IF EXISTS trig_event_61_insert_toublip;;
 CREATE TRIGGER trig_event_61_insert_toublip AFTER INSERT ON EVENT_61 FOR EACH ROW BEGIN
 CALL insert_readings(NEW.latitude, NEW.longitude, NEW.altitude, NEW.speed, NEW.heading, NEW.modem, 
