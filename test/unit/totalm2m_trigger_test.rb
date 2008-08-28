@@ -52,6 +52,51 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
     test_reading_insert_old(41, 'startstop_et41')
   end
   
+  def test_insert_event101
+    insert_device
+    test_reading_insert_with_io(101, 'normal')
+  end
+  
+  def test_insert_event101_badgps
+      insert_device
+      test_reading_insert_with_io_badgps(101, 'normal')
+  end
+  
+  def test_insert_event143_badgps
+      insert_device
+      test_reading_insert_with_io_badgps(143, 'idle')
+  end
+  
+  def test_insert_event144_badgps
+      insert_device
+      test_reading_insert_with_io_badgps(144, 'engine off')
+  end
+  
+  def test_insert_event145_badgps
+      insert_device
+      test_reading_insert_with_io_badgps(145, 'engine on')
+  end
+  
+  def test_insert_event101
+    insert_device
+    test_reading_insert_with_io(101, 'normal')
+  end
+  
+  def test_insert_event143
+    insert_device
+    test_reading_insert_with_io(143, 'idle')
+  end
+  
+  def test_insert_event144
+    insert_device
+    test_reading_insert_with_io(144, 'engine off')
+  end
+  
+  def test_insert_event145
+    insert_device
+    test_reading_insert_with_io(145, 'engine on')
+  end
+  
   def test_enter_geofences
     insert_device
     for i in 1..4
@@ -120,6 +165,40 @@ class Totalm2mTriggerTest < Test::Unit::TestCase
     assert_equal 200, reading.direction
     assert_equal 12, reading.speed
     assert_equal 'Thu Oct 11 12:57:28 -0500 2007', reading.created_at.to_s
+    assert_equal event_type, reading.event_type
+ end
+ 
+ def test_reading_insert_with_io(table_number, event_type)
+    ActiveRecord::Base.connection.execute("INSERT INTO ublip_totalm2m.EVENT_#{table_number} VALUES ('d739a720-0e43-4cfe-a2f2-065e87493766', '9354e7c9-74b8-4ba8-bbd5-6d1ec5d1d58c', '2007-10-11 18:02:02', '010657000847181', '010657000847181', 'Y', 'N', 'Y', 'N', 'Y', 'N', 'Y', 'N' ,11 ,12, 32.9393, -96.823, 100, 200, '2007-10-11 00:00:00', '1970-01-01 17:57:28', 211 ) ")
+    readings = Reading.find(:all)
+    assert_equal 1, readings.size
+    reading = readings[0]
+    assert_equal 32.9393, reading.latitude
+    assert_equal -96.823, reading.longitude
+    assert_equal 211, reading.altitude
+    assert_equal 200, reading.direction
+    assert_equal 12, reading.speed
+    assert_equal true, reading.gpio1;
+    assert_equal false, reading.gpio2;
+    assert_equal false, reading.ignition;
+    assert_equal 'Thu Oct 11 12:57:28 -0500 2007', reading.created_at.to_s
+    assert_equal event_type, reading.event_type
+ end
+ 
+ def test_reading_insert_with_io_badgps(table_number, event_type)
+    ActiveRecord::Base.connection.execute("INSERT INTO ublip_totalm2m.EVENT_#{table_number} VALUES ('d739a720-0e43-4cfe-a2f2-065e87493766', '9354e7c9-74b8-4ba8-bbd5-6d1ec5d1d58c', '2007-10-11 18:02:02', '010657000847181', '010657000847181', 'Y', 'N', 'Y', 'N', 'Y', 'N', 'Y', 'N' ,11 ,12, 32.9393, -96.823, 100, 200, '2063-01-01 00:00:00', '1970-01-01 17:57:28', 211 ) ")
+    readings = Reading.find(:all)
+    assert_equal 1, readings.size
+    reading = readings[0]
+    assert_equal 32.9393, reading.latitude
+    assert_equal -96.823, reading.longitude
+    assert_equal 211, reading.altitude
+    assert_equal 200, reading.direction
+    assert_equal 12, reading.speed
+    assert_equal true, reading.gpio1;
+    assert_equal false, reading.gpio2;
+    assert_equal false, reading.ignition;
+    assert_equal 'Thu Oct 11 18:02:02 -0500 2007', reading.created_at.to_s
     assert_equal event_type, reading.event_type
  end
  
