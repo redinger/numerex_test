@@ -6,7 +6,7 @@ class Admin::DevicesController; def rescue_action(e) raise e end; end
 
 class Admin::DevicesControllerTest < Test::Unit::TestCase
   
-  fixtures :users, :accounts, :devices
+  fixtures :users, :accounts, :devices, :device_profiles
   
   module RequestExtensions
     def server_name

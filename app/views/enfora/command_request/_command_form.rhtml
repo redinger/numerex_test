@@ -1,0 +1,32 @@
+<table>
+		<tr>
+			<td><b>Device IMEI:</b></td>
+			<td>
+				<% if @command_request.device %>
+					<%= link_to @command_request.device.imei,:action=>'list',:id=>@command_request.device %>
+					<%= hidden_field 'command_request','device_id' %>
+				<% else%>
+					<span style="color:red;">NO DEVICE SPECIFIED</span>
+				<% end %>
+			</td>
+		</tr>
+	<tr>
+		<td><b>Standard Commands:</b>:</b></td>
+		<td>
+			<select onchange="this.form.command_request_command.value = this.value;">
+				<%= predefined_command_options %>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Command To Submit:</b></td>
+		<td><%= text_field 'command_request','command' %></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><%= submit_tag 'Submit',:disabled => @command_request.device.nil? %></td>
+	</tr>
+	<tr>
+		<td colspan="2" style="color:red;"><%= @error %></td>
+	</tr>
+</table>

@@ -1,6 +1,15 @@
 class Admin::DevicesController < ApplicationController
   before_filter :authorize_super_admin
   layout 'admin'
+  
+  helper_method :device_imei_or_link
+  
+  def device_imei_or_link(logical_device)
+    gateway = Gateway.find(logical_device.gateway_name)
+    return logical_device.imei unless gateway and logical_device.gateway_device
+    %(<a href="#{gateway.device_uri}/#{logical_device.gateway_device.id}">#{logical_device.imei}</a>)
+  end
+  
   def index
     if params[:id]
       @devices = Device.find(:all, :order => "profile_id,name", :conditions => ["account_id = ?", params[:id]])

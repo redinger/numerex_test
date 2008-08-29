@@ -1,4 +1,91 @@
 class Notifier < ActionMailer::Base
+  
+  def self.send_geofence_notifications(logger)
+    # NOTE: eliminate legacy geofences 'entergeofence_et11' and 'exitgeofence_et52'
+    readings_to_notify = Reading.find(:all, :conditions => "notified='0' and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%') and event_type != 'entergeofen_et11' and event_type != 'exitgeofen_et52'")
+  
+    logger.info("Notification needed for #{readings_to_notify.size.to_s} readings\n")
+    
+    readings_to_notify.each do |reading|
+      action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
+      action += reading.get_fence_name unless reading.get_fence_name.nil?
+      send_notify_reading_to_users(action,reading)
+      reading.notified = true
+      reading.save    
+    end
+  end
+  
+  def self.send_device_offline_notifications(logger)
+    devices_to_notify = Device.find(:all, :conditions => "(unix_timestamp(now())-unix_timestamp(last_online_time))/60>online_threshold and provision_status_id=1")
+    devices_to_notify.each do |device| 
+      last_notification = device.last_offline_notification
+      if (last_notification.nil? || Time.now - last_notification.created_at > 24*60*60)
+        device.account.users.each do |user|
+          if user.enotify == 1
+            logger.info("device offline, notifying: #{user.email}\n")
+            mail = deliver_device_offline(user, device)         
+          elsif user.enotify == 2
+            devices_ids = user.group_devices_ids
+            if !devices_ids.empty? || devices_ids.include?(device.id)
+              logger.info("device offline, notifying: #{user.email}\n")
+              mail = deliver_device_offline(user, device)                         
+            end    
+          end
+          if user.enotify != 0
+            notification = Notification.new
+            notification.user_id = user.id
+            notification.device_id = device.id
+            notification.notification_type = "device_offline"
+            notification.save   
+          end 
+        end
+      end
+    end
+  end
+  
+  def self.send_gpio_notifications(logger)
+    devices_to_notify = Device.find_by_sql("select devices.* from devices,device_profiles where profile_id = device_profiles.id and provision_status_id = 1 and (watch_gpio1 or device_profiles.watch_gpio2)")
+    devices_to_notify.each do |device|
+      readings_to_notify = Reading.find(:all,:conditions => "notified=0 and device_id = #{device.id} and gpio1 is not null") # NOTE: assumes if gpio1 is not null, then gpio2 is not null also
+      readings_to_notify.each do |reading|
+        if device.last_gpio1.nil?
+          device.last_gpio1 = reading.gpio1
+          device.save
+        elsif device.profile.watch_gpio1 and not reading.gpio1.eql?(device.last_gpio1)
+          device.last_gpio1 = reading.gpio1
+          device.save
+          action = reading.gpio1 ? device.profile.gpio1_high_notice : device.profile.gpio1_low_notice
+          send_notify_reading_to_users(action,reading) if action
+        end
+        if device.last_gpio2.nil?
+          device.last_gpio2 = reading.gpio2
+          device.save
+        elsif device.profile.watch_gpio2 and reading.gpio2 != device.last_gpio2
+          device.last_gpio2 = reading.gpio2
+          device.save
+          action = reading.gpio2 ? device.profile.gpio2_high_notice : device.profile.gpio2_low_notice
+          send_notify_reading_to_users(action,reading) if action
+        end
+        reading.notified = true
+        reading.save    
+      end
+    end
+  end
+  
+  def self.send_notify_reading_to_users(action,reading)
+    reading.device.account.users.each do |user|
+      if user.enotify == 1       
+        logger.info("notifying(1): #{user.email} about: #{action}\n")
+        mail = deliver_notify_reading(user, action, reading)
+      elsif user.enotify == 2         
+        device_ids = user.group_devices_ids
+        if  !device_ids.empty? && device_ids.include?(reading.device.id)
+          logger.info("notifying(2): #{user.email} about: #{action}\n")
+          mail = deliver_notify_reading(user, action, reading)            
+        end    
+      end    
+    end
+  end
 
   def forgot_password(user, url=nil)
     setup_email(user)

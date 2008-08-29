@@ -1,0 +1,10 @@
+<% form_tag({:controller=>'command_request',:action =>'script',:id = @command_request.id},:multipart=>true,:target=>'upload_frame') do %>
+	<table>
+		<tr>
+			<td><b>Script File:</b></td>
+			<td><input type="file" name="file"/></td>
+			<td><input type="submit" value="Upload"/></td>
+		</tr>
+	</table>
+<% end %>
+<iframe name="upload_frame" style="display:none;"></iframe>
