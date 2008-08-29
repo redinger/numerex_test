@@ -13,14 +13,7 @@ development:
 
 production:
   adapter: mysql
-  database: enfora_enfora
+  database: enfora_prod
   username: root
-  password: 
+  password: rootpass
   host: localhost
-
-#production:
-#  adapter: mysql
-#  database: enfora_prod
-#  username: root
-#  password: rootpass
-#  host: localhost
