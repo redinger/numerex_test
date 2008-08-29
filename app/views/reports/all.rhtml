@@ -29,8 +29,12 @@
 									<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
 								<% elsif @device.profile.idles and reading.event_type == 'idle' %>
 									<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
-								<% elsif @device.profile.runs and reading.event_type.index('engine') %>
-									<a href="/reports/runtime/<%= params[:id] %>" title="View runtime report"><%= reading.event_type.titleize %></a>
+								<% elsif (@device.profile.runs or @device.profile.idles) and reading.event_type.index('engine') %>
+									<% if @device.profile.runs %>
+										<a href="/reports/runtime/<%= params[:id] %>" title="View runtime report"><%= reading.event_type.titleize %></a>
+									<% else %>
+										<%= reading.event_type.titleize %>
+									<% end %>
 								<% else %>
 									-
 								<% end %>
