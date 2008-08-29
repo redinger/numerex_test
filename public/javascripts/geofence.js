@@ -74,13 +74,22 @@ function geocode(address) {
 				var r = document.getElementById("radius")[document.getElementById("radius").selectedIndex].value;
 				drawGeofence(point, r);
 						
-				if(parseInt(r) > 1)
-					zoom = 9;
-				else
-					zoom = 14;
-					
-				gmap.panTo(point, zoom);
-				
+                                if(parseInt(r) > 25) {
+                                        zoom = 3;
+                                }
+                                else if(parseInt(r) > 5) {
+                                        zoom = 7;
+                                }
+                                else if(parseInt(r) >= 1) {
+                                        zoom = 10;
+                                }
+                                else {
+                                        zoom = 14;
+                                }
+
+                                gmap.panTo(point, zoom);
+                                gmap.setCenter(point, zoom);
+
 				// Populate the bounds field
 				form.bounds.value = point.lat() + ',' + point.lng() + ',' + r;            
 				// Display the last location for the device                
