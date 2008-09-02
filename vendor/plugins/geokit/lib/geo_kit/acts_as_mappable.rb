@@ -199,7 +199,7 @@ module GeoKit
         # conditionally adding to the select clause for finders.
         def prepare_for_find_or_count(action, args)
           #options = extract_options_from_args!(args)
-          options = args.extract_options!
+          options = args.extract_options! # Rails 2.0 compliance
           # Obtain items affecting distance condition.
           origin = extract_origin_from_options(options)
           units = extract_units_from_options(options)
