@@ -26,23 +26,38 @@ class HomeControllerTest < Test::Unit::TestCase
   end
 
   def test_index
-    get :index, {}, {:user => users(:dennis), :account_id => accounts(:dennis).id} 
+    get :index, {}, {:user => users(:dennis), :account_id => accounts(:dennis).id}
     assert_response :success
   end
   
-  def test_show_all_devices
-      get :show_devices,{:type =>"all"},{:user=>users(:dennis), :account_id => accounts(:dennis).id}
-      assert_response :success
+  def test_index_for_all
+    get :index, {}, {:user => users(:dennis), :account_id => accounts(:dennis).id}, {:gmap_value => 'all'}
+    assert_response :success    
+    assert_equal 3 , assigns(:groups).length
   end
   
+  def test_index_for_default
+    get :index, {}, {:user => users(:dennis), :account_id => accounts(:dennis).id}, {:gmap_value => 'default'}
+    assert_response :success    
+    assert_equal 1 , assigns(:default_devices).length
+  end
+
+ def test_show_devices_all
+     get :show_devices, {:type =>'all'}, {:user => users(:dennis), :account_id => accounts(:dennis).id}
+     assert_response :success
+     assert_equal 3,assigns(:groups).length
+ end
+ 
   def test_show_devices_for_default
       get :show_devices,{:type =>'default'},{:user=>users(:dennis), :account_id => accounts(:dennis).id}
       assert_response :success        
+      assert_equal 1,assigns(:default_devices).length
   end
   
   def test_show_devices_for_group
       get :show_devices,{:type =>2},{:user=>users(:dennis), :account_id => accounts(:dennis).id}
       assert_response :success    
+      assert_equal 1,assigns(:groups).length
   end
     
   def test_not_logged_in

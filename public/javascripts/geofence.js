@@ -89,7 +89,6 @@ function geocode(address) {
 
                                 gmap.panTo(point, zoom);
                                 gmap.setCenter(point, zoom);
-
 				// Populate the bounds field
 				form.bounds.value = point.lat() + ',' + point.lng() + ',' + r;            
 				// Display the last location for the device                

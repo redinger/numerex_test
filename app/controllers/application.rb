@@ -92,8 +92,37 @@ class ApplicationController < ActionController::Base
            false
        end           
    end
-   
-  private
+
+   def check_the_session_for_active_group
+         if session[:gmap_value] == "all" || session[:gmap_value].nil?        
+             @groups = @all_groups
+             session[:gmap_value] = "all"
+             @show_default_devices = true
+         elsif session[:gmap_value] == 'default'
+             @groups = []  
+             @show_default_devices = true
+         else
+             @groups=Group.find(:all, :conditions=>['id=?',session[:gmap_value]], :order=>'name')                               
+             @show_default_devices = false
+         end                
+   end
+
+   def assign_the_selected_group_to_session
+        if params[:type] == "all"
+             session[:gmap_value] = "all"
+             @groups= @all_groups          
+             @show_default_devices = true
+        elsif params[:type] == "default"
+             session[:gmap_value] = params[:type]
+             @groups = []
+             @show_default_devices = true
+        else
+             @groups=Group.find(:all, :conditions=>['id=?',params[:type]], :order=>'name')
+             session[:gmap_value] = params[:type]         
+             @show_default_devices = false
+        end           
+   end    
+private
   def authorize
     unless session[:user]
       flash[:message] = "You're not currently logged in"
@@ -146,7 +175,7 @@ class ApplicationController < ActionController::Base
       session[:return_to] = nil
     end
   
-  private
+
     @@http_auth_headers = %w(X-HTTP_AUTHORIZATION HTTP_AUTHORIZATION Authorization)
     # gets BASIC auth info
     def get_auth_data

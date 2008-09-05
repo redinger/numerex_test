@@ -18,4 +18,24 @@ module ReportsHelper
     total
   end
 
+  def show_device(device)
+    content = ""
+    content << %(<tr class="#{cycle('dark_row', 'light_row')}" id="row#{device.id}"> <td>)                              
+    content << %(<a href="/reports/all/#{device.id}">#{device.name}</a></td><td>)    
+    if !device.readings.empty? 
+      content << %(#{device.readings[0].shortAddress})
+    else 
+      content << %(N/A)
+    end 
+    content << %(</td><td>)    
+    if !device.readings.empty? 
+      content << %(reported #{time_ago_in_words device.readings[0].created_at} ago )
+    else 
+      content << %(no report yet) 
+    end  
+    content << %(</td>
+      </tr>)
+    content 
+   end    
+
 end

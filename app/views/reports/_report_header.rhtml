@@ -18,17 +18,30 @@
 		<tr>
 			<td align="left">
 				<span class="dark_blue_header"><%= title %> for: </span>
+                
 				<select onchange="changeDevice(this.options[this.selectedIndex].value, '<%= params[:action] %>', '<%= @start_date %>', '<%= @end_date%>');">
-					<% for device in @device_names %>
-						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
-					<% end %>
+					<% @all_groups.each do |group| %>                                                              
+                               <option id="" disabled="disabled"> <%= group.name%> </option>                                                              
+                              <%group.ordered_devices.each do |device|%>
+                                  <option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+                              <%end%>
+                              <option id="" disabled="disabled"> - - - - - - - - - - - - - - - - - - - - -</option>                                                               
+                          <% end %>    
+                          <%if !@default_devices.empty?%>
+                             <option id="" disabled="disabled"> Default </option>                                                            
+                             <% @default_devices.each do |device|%>
+                                 <option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+                             <%end%>
+                             <option id="" disabled="disabled"> - - - - - - - - - - - - - - - - - - - - -</option>                               
+                          <%end%>					
 				</select>
+                
                     <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" style="display:inline">                     
                      
                      <span class="dark_blue_header">from: </span>                 
                               <%= select_date(@start_date, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"start_date")%> <span class="dark_blue_header">to:</span>   
                               <%= select_date(@end_date, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"end_date")%>
-                     <input name="commit" type="submit" value="Go" />
+                     <input name="commit" type="submit" value="     Go     " />
                      </form>
                 </td>
                     <%if !(@record_count <= 0) %>

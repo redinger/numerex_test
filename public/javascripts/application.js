@@ -1,7 +1,7 @@
-function select_action()
-{     
+function select_action(obj,from)
+{  
   var Index = document.getElementById("type1").selectedIndex;
-  var selected_text = document.getElementById("type1").options[Index].text;        
+  var selected_text = document.getElementById("type1").options[Index].text;              
     if (selected_text == "New group")
     {
          szNewURL = "http://"+document.location.hostname+"/devices/new_group"         
@@ -13,8 +13,20 @@ function select_action()
         window.location.href=szNewURL;                
     }
     else
-    { 
-       new Ajax.Updater('to_update', '/home/show_devices', {asynchronous:true, evalScripts:true, parameters:'type='+escape($F('type1'))});javascript:getRecentReadings(true,document.getElementById('type1').value);
+    {
+      if (from=='from_reports')
+      {
+         szNewURL = "http://"+document.location.hostname+"/reports?type="+document.getElementById('type1').value
+        window.location.href=szNewURL;                            
+      }
+      else if (from=='from_devices')
+      {
+         szNewURL = "http://"+document.location.hostname+"/devices?type="+document.getElementById('type1').value
+        window.location.href=szNewURL;                                
+      }
+      else
+         new Ajax.Updater('to_update', '/home/show_devices', {asynchronous:true, evalScripts:true, parameters:'type='+escape($F('type1'))});javascript:getRecentReadings(true,document.getElementById('type1').value);
     }
 }
+
 
