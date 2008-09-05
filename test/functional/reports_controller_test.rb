@@ -159,9 +159,9 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :geofence, {:id => '1', :start_date=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_date=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
-    assert_equal "32.939, -96.8235", readings[1].shortAddress
+    assert_equal "Yates Dr, Hurst, Texas", readings[1].shortAddress
     assert_equal 0, readings[1].speed
-    assert_equal "entergeofen_20", readings[1].event_type
+    assert_equal "exitgeofen_et51", readings[1].event_type
   end
   
   def test_geofence_unauthorized
