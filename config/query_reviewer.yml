@@ -29,6 +29,12 @@ all:
     warn_affected_rows: 10
     critical_affected_rows: 100
 
+staging:
+    enabled: true
+
+slicehost:
+    enabled: false
+
 development:
     enabled: true
 
@@ -38,8 +44,3 @@ production:
 test:
     enabled: false
 	
-staging:
-	enabled: false
-	
-slicehost:
-	enabled: false	
