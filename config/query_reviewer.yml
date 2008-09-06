@@ -38,8 +38,8 @@ production:
 test:
     enabled: false
 	
-staging: 
+staging:
 	enabled: false
 	
-slicehost: 
+slicehost:
 	enabled: false	
