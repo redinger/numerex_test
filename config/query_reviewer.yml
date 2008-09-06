@@ -30,7 +30,7 @@ all:
     critical_affected_rows: 100
 
 staging:
-    enabled: true
+    enabled: false
 
 slicehost:
     enabled: false
