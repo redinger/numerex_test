@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 47) do
+ActiveRecord::Schema.define(:version => 49) do
 
   create_table "accounts", :force => true do |t|
     t.string   "company",          :limit => 75
@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(:version => 47) do
     t.integer  "profile_id",          :limit => 11, :default => 1,  :null => false
     t.boolean  "last_gpio1"
     t.boolean  "last_gpio2"
+    t.string   "gateway_name"
   end
+
+  add_index "devices", ["imei"], :name => "imei", :unique => true
 
   create_table "devices_users", :force => true do |t|
     t.integer "device_id", :limit => 11
