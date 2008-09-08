@@ -3,22 +3,54 @@
 		<h3>Your Active Devices (<%= @devices.size %> <%if @from_search %>result(s) found<%else%>total<%end%>)</h3>
 		<div id="tab_rt">
                 <form action="/devices/search_devices" name="device_search_form"> 
-                    <input type="text" name="device_search" value=<%if @from_search%> <%= params[:device_search]%><%else%>" Device Name"<%end%> onfocus="if (this.value == ' Device Name') {this.value = '';}" onblur="if (this.value == '') {this.value = ' Device Name';}" /> &nbsp; <input type="submit" value="Search" />
+                    <input type="text" name="device_search" value=<%if @from_search%> <%= params[:device_search]%><%else%> " Device Name"<%end%> onfocus="if (this.value == ' Device Name') {this.value = '';}" onblur="if (this.value == '') {this.value = ' Device Name';}" /> &nbsp; <input type="submit" value="Search" />
                 </form>
           </div>
 	<br>
 </div>
 	
-<%= render :partial=>"/layouts/flash_message" %>  
+<%= render :partial=>"/layouts/flash_message" %>    
 
-<table class="panel_table" >
-	<% row_count = current_account.show_runtime ? 5 : 4 %>
-	<%= render :partial => '/home/device_summary_header',:locals =>{:column_span => row_count,:sub_heading => nil} %>
-	<tr>
-			<th>Name</th>
-			<th>Last Location</th>
-			<th>Last Report</th>			
-			<th>Action</th>
-	</tr>        
-	<%= render :partial => "/home/group_rows",:locals => {:column_span => row_count,:callback => "show_device"} %>        
-</table>
+	<div>	
+	<table id="ub-table"> 
+		<tr class="header">
+			<td>Name</td>
+			<td>Last Location</td>
+			<td>Last Report</td>			
+			<td>Action</td>
+		</tr>
+	
+      <%if !@devices.empty?%>
+        <% for device in @devices %>
+			<tr  class="<%= cycle('gray_row','') %>">
+				<td><a href="/reports/all/<%= device.id %>"><%= device.name %></a></td> 
+				<td>
+                          <%if !device.readings.empty? && !device.readings[0].nil?%>                
+                               <%= device.readings[0].shortAddress %> 
+                          <%else%> 
+                               N/A
+                          <%end%>
+				</td>
+				<td >
+                         <%if !device.readings.empty? && !device.readings[0].nil?%>                
+                               <%= time_ago_in_words device.readings[0].created_at %> ago
+                         <%else%> 
+                              N/A
+                         <%end%>
+                    </td>				
+				<td >
+					  <a href="/devices/edit/<%= device.id %>" title="Edit properties for this device">Edit</a> | 
+					  <a href="<%= view_url(:id=>device.id) %>" title="Create and edit geofences for this device">Geofences</a>
+				</td>
+			</tr>
+        <% end %>        
+        </table>
+     <%else%>
+          </table>     
+           <div id="alert">
+                <span>No devices found.</span>
+           </div>                       
+      <%end%>	
+	
+	</div>
+

@@ -9,17 +9,17 @@ class ReportsController < ApplicationController
   MAX_LIMIT = 999 # Max number of results
  
   def index
-      @from_reports = true
-      @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
+      #~ @from_reports = true
+      #~ @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
       @devices = Device.get_devices(session[:account_id]) # Get devices associated with account            
-      @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
-     if params[:type]
-        assign_the_selected_group_to_session # this will set the parameter value of group to the session for persisit throught the app
-     else   
-        check_the_session_for_active_group # This will check which group is currently active in the session, For display.
-     end 
+      #~ @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+     #~ if params[:type]
+        #~ assign_the_selected_group_to_session # this will set the parameter value of group to the session for persisit throught the app
+     #~ else   
+        #~ check_the_session_for_active_group # This will check which group is currently active in the session, For display.
+     #~ end 
   end
- 
+
   def all               
      get_start_and_end_date
      @device = Device.find(params[:id])     
@@ -47,7 +47,7 @@ class ReportsController < ApplicationController
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
  
- 
+
   def idle
     get_start_and_end_date
     @device = Device.find(params[:id])    
@@ -62,7 +62,7 @@ class ReportsController < ApplicationController
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
   
-  
+
   def runtime
     get_start_and_end_date
     @device = Device.find(params[:id])    

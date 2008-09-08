@@ -1,14 +1,12 @@
-<table class="panel_table" >
-	<% row_count = current_account.show_runtime ? 5 : 4 %>
-	<%= render :partial => '/home/device_summary_header',:locals =>{:column_span => row_count,:sub_heading => nil} %>
-	<tr>
-	  <th>Name</th>	  
-	  <th>Last Location</th>	  
-	  <th>Last Report</th>
-	</tr>        
-	<%= render :partial => "/home/group_rows",:locals => {:column_span => row_count,:callback => "show_device"} %>        
-</table>
+<h3>Select a Device</h3>
 
-
-
-
+<div id="device_list">
+	<ul>
+		<% for device in @devices %>
+	    	<li>
+	    		<a href="/reports/all/<%= device.id %>"><%= device.name %></a> - 
+				<% if !device.readings.empty? %>reported <%= time_ago_in_words device.readings[0].created_at %> ago<% else %>no report yet<% end %>
+			</li>
+	    <% end %>
+	</ul>
+</div>
