@@ -25,13 +25,13 @@ class WsController < ApplicationController
         # Save the reading id with the device
         device.recent_reading_id = reading.id
         device.save
-        render_text "Success"
+        render :text => "Success"
       else
-        render_text "Error saving data"
+        render :text => "Error saving data"
       end
     # Error finding device
     else
-       render_text "We're sorry, this device does not exist"
+       render :text => "We're sorry, this device does not exist"
     end
   end
   
