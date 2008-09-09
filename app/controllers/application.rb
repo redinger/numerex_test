@@ -12,12 +12,6 @@ class ApplicationController < ActionController::Base
   
   helper_method :current_account
   
-  #def rescue_action exception
-    #rescue_action_in_public exception
-    
-  #end
-  
-  
   def current_account
     @current_account ||= Account.find(session[:account_id])
   end
