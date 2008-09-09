@@ -4,8 +4,9 @@ task :setup_db_procs do
   sudo "chmod a+x #{current_path}/runtimereport.sh"
   sudo "mkdir -p /var/run/ublip_db"
   sudo "chown ublip:ublip /var/run/ublip_db"
-  run "cd #{current_path} && rake setup_db_scripts RAILS_ENV=#{rails_env}"
-
+  run "cd #{current_path} && rake ublip:setup_db_scripts RAILS_ENV=#{rails_env}"
+  run "cd #{current_path} && rake ublip:deploy_db_procs RAILS_ENV=#{rails_env}"
+  
   begin  
     sudo "crontab -u #{user} -l" do |channel, stream, data|
       if !data.include?('no crontab for') #only get current contents if there is a crontab
