@@ -7,8 +7,8 @@ class ReportsController < ApplicationController
   DayInSeconds = 86400
   NUMBER_OF_DAYS = 7
   MAX_LIMIT = 999 # Max number of results
- 
-  def index
+    
+  def index 
       #~ @from_reports = true
       #~ @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
       @devices = Device.get_devices(session[:account_id]) # Get devices associated with account            
@@ -23,8 +23,7 @@ class ReportsController < ApplicationController
   def all               
      get_start_and_end_date
      @device = Device.find(params[:id])     
-     @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-     @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+     @device_names = Device.get_names(session[:account_id]) 
      @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
                                :conditions => ["device_id = ? and created_at between ? and ?", 
                                params[:id],@start_dt_str, @end_dt_str],:order => "created_at desc")                             
@@ -35,9 +34,8 @@ class ReportsController < ApplicationController
   end
   def stop
     get_start_and_end_date
-    @device = Device.find(params[:id])    
-    @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+    @device = Device.find(params[:id])     
+    @device_names = Device.get_names(session[:account_id]) 
     @stop_events = StopEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
           :conditions => ["device_id = ? and created_at between ? and ?",
            params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")
@@ -50,9 +48,8 @@ class ReportsController < ApplicationController
 
   def idle
     get_start_and_end_date
-    @device = Device.find(params[:id])    
-    @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+    @device = Device.find(params[:id])     
+    @device_names = Device.get_names(session[:account_id]) 
     @idle_events = IdleEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
          :conditions => ["device_id = ? and created_at between ? and ?",
          params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")    
@@ -65,9 +62,8 @@ class ReportsController < ApplicationController
 
   def runtime
     get_start_and_end_date
-    @device = Device.find(params[:id])    
-    @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+    @device = Device.find(params[:id])     
+    @device_names = Device.get_names(session[:account_id]) 
     @runtime_events = RuntimeEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
          :conditions => ["device_id = ? and created_at between ? and ?",
           params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")    
@@ -80,10 +76,9 @@ class ReportsController < ApplicationController
   # Display geofence exceptions
   def geofence
     get_start_and_end_date 
-    @device = Device.find(params[:id])
+    @device = Device.find(params[:id])     
+    @device_names = Device.get_names(session[:account_id])  
     @geofences = Device.find(params[:id]).geofences # Geofences to display as overlays    
-    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
-    @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
                               :conditions => ["device_id = ? and created_at between ? and ? and event_type like '%geofen%'",
                               params[:id],@start_dt_str, @end_dt_str], :order => "created_at desc")                                             

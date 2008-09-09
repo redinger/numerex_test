@@ -20,20 +20,9 @@
 				<span class="dark_blue_header"><%= title %> for: </span>
                 
 				<select onchange="changeDevice(this.options[this.selectedIndex].value, '<%= params[:action] %>', '<%= @start_date %>', '<%= @end_date%>');">
-					<% @all_groups.each do |group| %>                                                              
-                               <option id="" disabled="disabled"> <%= group.name%> </option>                                                              
-                              <%group.ordered_devices.each do |device|%>
-                                  <option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
-                              <%end%>
-                              <option id="" disabled="disabled"> - - - - - - - - - - - - - - - - - - - - -</option>                                                               
-                          <% end %>    
-                          <%if !@default_devices.empty?%>
-                             <option id="" disabled="disabled"> Default </option>                                                            
-                             <% @default_devices.each do |device|%>
-                                 <option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
-                             <%end%>
-                             <option id="" disabled="disabled"> - - - - - - - - - - - - - - - - - - - - -</option>                               
-                          <%end%>					
+					<% for device in @device_names %>
+						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+					<% end %>
 				</select>
                 
                     <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" style="display:inline">                     
