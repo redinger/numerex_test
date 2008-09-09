@@ -19,6 +19,7 @@ end
 while($running) do
   
   logger = ActiveRecord::Base.logger
+  logger.auto_flushing = true
   logger.info("This notification daemon is still running at #{Time.now}.\n")
 
   Notifier.send_geofence_notifications(logger)
