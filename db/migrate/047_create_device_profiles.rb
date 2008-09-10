@@ -13,7 +13,7 @@ class CreateDeviceProfiles < ActiveRecord::Migration
     end
       
     execute "insert into device_profiles (id,name,speeds,stops) values (1,'Fleet Basic',1,1)"
-    execute "insert into device_profiles (id,name,speeds,stops,idles,runs) values (2,'Fleet Plus',1,1,1,1)"
+    execute "insert into device_profiles (id,name,speeds,stops,idles,runs) values (2,'Fleet Plus',1,1,1,0)"
     execute "insert into device_profiles (id,name,runs,watch_gpio1,watch_gpio2,gpio1_labels,gpio2_labels) values (3,'Generic Machine',1,1,1,'GPIO\#1\tLOW\tHIGH\tGPIO\#1 is LOW\tGPIO\#1 is HIGH','GPIO\#2\tLOW\tHIGH\tGPIO\#2 is LOW\tGPIO#2 is HIGH')"
     execute "insert into device_profiles (id,name,runs,watch_gpio1,gpio1_labels) values (4,'Machine w/ Cut-Wire',1,1,'Cut-Wire\tCUT\tOK\tWire has been cut!\tConnection restored')"
     execute "insert into device_profiles (id,name,runs,watch_gpio1,gpio1_labels) values (5,'Tow Truck',1,1,'Tow Arm\tOff\tOn\t\t')"
