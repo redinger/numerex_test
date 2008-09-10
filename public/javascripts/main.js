@@ -9,6 +9,8 @@ var readings = []; //JS readings model
 var zoom = 3;
 var fullScreenMap = false;
 var grp_id;
+var infowindow;
+var new_drag_point;
 var zoom_val = get_cookie("zvalue");
 function load() 
 {
@@ -28,25 +30,38 @@ function load()
     iconALL.infoWindowAnchor = new GPoint(11, 34);
 	
 	var infoWin = gmap.getInfoWindow();
-	
+    
+
 	// Detect when info window is closed
 	GEvent.addListener(infoWin, "closeclick", function() {
+        dev_id=false;
 		if(prevSelectedRow)
 			highlightRow(0);
 	});
 	
-	GEvent.addListener(gmap, "click", function(marker, point) {
+	GEvent.addListener(gmap, "click", function(marker, point) {               
 		if (marker) {
 	    	highlightRow(marker.id);
 	  	}
 	});
+    
+	GEvent.addListener(gmap, "moveend", function(marker, point) {                     
+       new_drag_point = gmap.getCenter();
+	});
+    
+	GEvent.addListener(gmap, "dragend", function(marker, point) {              
+       new_drag_point = gmap.getCenter();
+	});
+    
+    
 	var page = document.location.href.split("/")[3];
-	GEvent.addListener(gmap, "zoomend", function(oldZoom, newZoom) {
+	GEvent.addListener(gmap, "zoomend", function(oldZoom, newZoom) {        
 		zoom = newZoom; 
         if(page == 'reports')        
           set_cookie("zvalue",zoom);
 	});
 	
+    
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];
 	if(page == 'home' || page == 'admin' ||page=='devices')
@@ -168,7 +183,7 @@ function getRecentReadings(redrawMap,id) {
 					  tds[4].innerHTML = device.dt;
 				  }
 			        }	
-		        var point = new GLatLng(device.lat, device.lng);
+		          var point = new GLatLng(device.lat, device.lng);                
 				gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
 		        bounds.extend(point);
 			}
@@ -189,13 +204,20 @@ function getRecentReadings(redrawMap,id) {
                 var zl = (devices.length > 1) ? gmap.getBoundsZoomLevel(bounds) : 15;
                 if (dev_id){                  
                 	var device = getDeviceById(dev_id);
-	                var point = new GLatLng(device.lat, device.lng);
-                     gmap.setCenter(point, zoom);			
+                    if (new_drag_point)
+                      var point = new_drag_point;
+                    else
+	                  var point = new GLatLng(device.lat, device.lng);
+                      
+                     gmap.setCenter(point, zoom);			                                          
                      centerMap(dev_id); 
                  }
                 else
                  {
-                   gmap.setCenter(bounds.getCenter(), zl);			
+                   if (new_drag_point)
+                     gmap.setCenter(new_drag_point, zl);	
+                   else
+                     gmap.setCenter(bounds.getCenter(), zl);			
                  }
             } else {
                 // Do the AJAXY update
@@ -212,12 +234,16 @@ function getRecentReadings(redrawMap,id) {
 }
 
 // Center map on device and show details
-function centerMap(id) {
+function centerMap(id) {    
     dev_id = id;
-	var device = getDeviceById(id);
-	var point = new GLatLng(device.lat, device.lng);
+	var device = getDeviceById(id);    
+    if (new_drag_point)
+      var point = new_drag_point; //new GLatLng(device.lat, device.lng);                  
+    else    
+     var point = new GLatLng(device.lat, device.lng);   
+    
 	gmap.panTo(point);
-	gmap.openInfoWindowHtml(point, createDeviceHtml(id));
+	gmap.openInfoWindowHtml(new GLatLng(device.lat, device.lng), createDeviceHtml(id));
 }
 
 // Get a device object based on id
@@ -243,7 +269,7 @@ function createDeviceHtml(id) {
 }
 
 // Center map on reading and show details
-function centerMapOnReading(id) {
+function centerMapOnReading(id) {    
 	var reading = getReadingById(id);
 	var point = new GLatLng(reading.lat, reading.lng);
 	gmap.panTo(point);
