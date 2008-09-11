@@ -50,7 +50,7 @@ function load()
 	});
     
 	GEvent.addListener(gmap, "dragend", function(marker, point) {              
-       new_drag_point = gmap.getCenter();
+       new_drag_point = gmap.getCenter();              
 	});
     
     
@@ -194,9 +194,14 @@ function getRecentReadings(redrawMap,id) {
 		// Don't continue if there's no data
 		if (ids.length == 0)
         {
-          gmap.setCenter(new GLatLng(37.0625, -95.677068), 3);
+          if (new_drag_point)
+            gmap.setCenter(new_drag_point, zoom);
+          else
+            gmap.setCenter(new GLatLng(37.0625, -95.677068), 3);
+          
           return;        
         }
+        
          if (no_data_flag)
          { 
             if(redrawMap == undefined || redrawMap == true) {      
@@ -210,7 +215,7 @@ function getRecentReadings(redrawMap,id) {
 	                  var point = new GLatLng(device.lat, device.lng);
                       
                      gmap.setCenter(point, zoom);			                                          
-                     centerMap(dev_id); 
+                     centerMap(dev_id);                                           
                  }
                 else
                  {
@@ -221,11 +226,17 @@ function getRecentReadings(redrawMap,id) {
                  }
             } else {
                 // Do the AJAXY update
+                if (new_drag_point)
+                gmap.setCenter(new_drag_point, zoom);
+                else
                 gmap.setCenter(gmap.getCenter(), zoom);
             }
          }
          else
          {
+            if (new_drag_point)
+            gmap.setCenter(new_drag_point, 3);
+            else
             gmap.setCenter(new GLatLng(37.0625, -95.677068), 3);
          }   
 		// Hide the action panel
@@ -238,12 +249,13 @@ function centerMap(id) {
     dev_id = id;
 	var device = getDeviceById(id);    
     if (new_drag_point)
-      var point = new_drag_point; //new GLatLng(device.lat, device.lng);                  
+      var point = new_drag_point; 
     else    
      var point = new GLatLng(device.lat, device.lng);   
+     
+    gmap.panTo(point);       
+    gmap.openInfoWindowHtml(new GLatLng(device.lat, device.lng), createDeviceHtml(id));
     
-	gmap.panTo(point);
-	gmap.openInfoWindowHtml(new GLatLng(device.lat, device.lng), createDeviceHtml(id));
 }
 
 // Get a device object based on id

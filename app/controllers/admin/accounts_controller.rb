@@ -42,6 +42,16 @@ class Admin::AccountsController < ApplicationController
     end
   end
 
+  def user_domain    
+      user_account = Account.find_by_id(params[:id])                      
+      if  !user_account.nil?   #No need to check for super_admin because of before_filter "authorize_super_admin"
+         cookies[:account_value] = { :value => "#{user_account.id}", :domain => ".#{request.domain}"}                                              
+         redirect_to("http://#{user_account.subdomain}.#{request.domain}:#{request.port}/login/user_login")                                     
+      else         
+         redirect_to :controller=>'/home', :action=>'index'
+      end
+  end
+    
   def update
     if request.post?
       account = Account.find(params[:id])
@@ -64,6 +74,7 @@ class Admin::AccountsController < ApplicationController
     end
   end
 
+  
   def destroy
     if request.post?
       account = Account.find(params[:id])
@@ -73,9 +84,11 @@ class Admin::AccountsController < ApplicationController
     end
     redirect_to :action => 'index'
   end
-  
+
+
 private
   def apply_options_to_account(params,account)
     update_attributes_with_checkboxes(account,[:show_idle,:show_runtime,:show_statistics,:show_maintenance],params[:options])
-  end
+   end
+
 end

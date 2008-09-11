@@ -74,8 +74,18 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
     assert_equal flash[:success], "dennis deleted successfully"
   end
   
+  def test_user_domain
+      get :user_domain, {:id=>4}, get_user      
+      assert_redirected_to("http://byron.ubliplocal.com:3000/login/user_login")      
+  end
+
+  def test_user_domain_account_not_present
+      get :user_domain, {:id=>12545}, get_user      
+      assert_redirected_to :controller=>'/home', :action=>'index'
+  end
+
   def get_user
     {:user => users(:dennis).id, :account_id => accounts(:dennis).id, :is_super_admin => users(:dennis).is_super_admin}
   end
-  
+
 end

@@ -1,8 +1,7 @@
 
 class DevicesController < ApplicationController
-
-  before_filter :authorize
-  
+  include GeoKit::Mappable
+  before_filter :authorize  
   
   # Device details view
   def view
@@ -151,7 +150,7 @@ class DevicesController < ApplicationController
   def index
       #~ @from_devices = true
       #~ @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-      @devices = Device.get_devices(session[:account_id]) # Get devices associated with account            
+      @devices = Device.get_devices(session[:account_id]) # Get devices associated with account                  
       #~ @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
      #~ if params[:type]
          #~ assign_the_selected_group_to_session # this will set the parameter value of group to the session for persisit throught the app
@@ -325,7 +324,6 @@ class DevicesController < ApplicationController
          end   
      end    
      
-
      def search_devices
          #~ @from_search = true    
          #~ @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')         
@@ -357,8 +355,26 @@ class DevicesController < ApplicationController
              search_text = "%"+"#{params[:device_search]}"+"%"
              if params[:device_search] != ""
                  @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
-             end         
+             end     
+             @search_text = "#{params[:device_search]}"
          render :action=>'index'        
+     end
+     
+     def search_devices_by_address
+        max_distance_in_miles =  10.0000
+        @devices = []
+        @from_search_address = true
+        @all_devices = Device.get_devices(session[:account_id]) # Get devices associated with account                  
+        @all_devices.each do |device| 
+             if !device.readings[0].nil?   
+                distance_in_miles = DevicesController.distance_between("#{params[:device_address]}" ,"#{device.readings[0].latitude},#{device.readings[0].longitude}")
+                if distance_in_miles <= max_distance_in_miles
+                    @devices << device 
+                end    
+             end  
+        end   
+        @search_text = "#{params[:device_address].to_s.gsub(' ','_')}" 
+       render :action=>'index'
      end
      
     # show the current user group

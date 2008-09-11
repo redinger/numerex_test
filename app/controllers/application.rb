@@ -2,9 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  
   include HoptoadNotifier::Catcher
-  
   session :session_key => '_ublip_session_id'
   before_filter :set_page_title
   before_filter :create_referral_url
@@ -29,23 +27,25 @@ class ApplicationController < ActionController::Base
     end
   end
   
+
+ 
   def set_time_zone
     user = User.find_by_id(session[:user_id])
     if !user.nil? && user.time_zone
       Time.zone = user.time_zone 
     else
       Time.zone = 'Central Time (US & Canada)'  
-    end    
-  end
-  
-  def create_referral_url
-    unless request.env["HTTP_REFERER"].blank?
-      unless request.env["HTTP_REFERER"][/register|login|logout|authenticate/]
-        session[:referral_url] = request.env["HTTP_REFERER"]
-      end
+       end    
     end
-  end  
-  
+
+    def create_referral_url
+         unless request.env["HTTP_REFERER"].blank?
+             unless request.env["HTTP_REFERER"][/register|login|logout|authenticate/]
+                 session[:referral_url] = request.env["HTTP_REFERER"]
+             end
+         end
+     end  
+
   def paginate_collection(options = {}, &block)
     if block_given?
       options[:collection] = block.call
@@ -59,50 +59,53 @@ class ApplicationController < ActionController::Base
     last = [first + options[:per_page], options[:collection].size].min
     slice = options[:collection][first...last]
     return [pages, slice]
-  end
-  
+ end
+
   def date_helpers
     Helper.instance
   end
-  
-  def check_action_for_user
-    if !@geofence.nil? && (session[:account_id] == @geofence.account_id || (@geofence.device_id !=0 && @geofence.device.account_id == session[:account_id].to_i))
-      true
-    else
-      false
-    end           
-  end
-  
-  def check_the_session_for_active_group
-    if session[:gmap_value] == "all" || session[:gmap_value].nil?        
-      @groups = @all_groups
-      session[:gmap_value] = "all"
-      @show_default_devices = true
-    elsif session[:gmap_value] == 'default'
-      @groups = []  
-      @show_default_devices = true
-    else
-      @groups=Group.find(:all, :conditions=>['id=?',session[:gmap_value]], :order=>'name')                               
-      @show_default_devices = false
-    end                
-  end
-  
-  def assign_the_selected_group_to_session
-    if params[:type] == "all"
-      session[:gmap_value] = "all"
-      @groups= @all_groups          
-      @show_default_devices = true
-    elsif params[:type] == "default"
-      session[:gmap_value] = params[:type]
-      @groups = []
-      @show_default_devices = true
-    else
-      @groups=Group.find(:all, :conditions=>['id=?',params[:type]], :order=>'name')
-      session[:gmap_value] = params[:type]         
-      @show_default_devices = false
-    end           
-  end    
-  private
+
+   def check_action_for_user
+       if !@geofence.nil? && (session[:account_id] == @geofence.account_id || (@geofence.device_id !=0 && @geofence.device.account_id == session[:account_id].to_i))
+           true
+       else
+           false
+       end           
+   end
+
+   def check_the_session_for_active_group
+         if session[:gmap_value] == "all" || session[:gmap_value].nil?        
+             @groups = @all_groups
+             session[:gmap_value] = "all"
+             @show_default_devices = true
+         elsif session[:gmap_value] == 'default'
+             @groups = []  
+             @show_default_devices = true
+         else
+             @groups=Group.find(:all, :conditions=>['id=?',session[:gmap_value]], :order=>'name')                               
+             @show_default_devices = false
+         end                
+   end
+
+   def assign_the_selected_group_to_session
+        if params[:type] == "all"
+             session[:gmap_value] = "all"
+             @groups= @all_groups          
+             @show_default_devices = true
+        elsif params[:type] == "default"
+             session[:gmap_value] = params[:type]
+             @groups = []
+             @show_default_devices = true
+        else
+             @groups=Group.find(:all, :conditions=>['id=?',params[:type]], :order=>'name')
+             session[:gmap_value] = params[:type]         
+             @show_default_devices = false
+        end           
+   end    
+
+
+private
+
   def authorize
     unless session[:user]
       flash[:message] = "You're not currently logged in"
@@ -137,39 +140,39 @@ class ApplicationController < ActionController::Base
   end
   
   def authorize_http
-    username, passwd = get_auth_data
-    unless User.authenticate(request.subdomains.first, username, passwd) then access_denied end
-  end
+      username, passwd = get_auth_data
+      unless User.authenticate(request.subdomains.first, username, passwd) then access_denied end
+    end
+    
+    def access_denied
+          headers["Status"]           = "Unauthorized"
+          headers["WWW-Authenticate"] = %(Basic realm="Web Password")
+          render :text => "Couldn't authenticate you", :status => '401 Unauthorized'
+      false
+    end  
+    
+    # Redirect to the URI stored by the most recent store_location call or
+    # to the passed default.
+    def redirect_back_or_default(default)
+      session[:return_to] ? redirect_to_url(session[:return_to]) : redirect_to(default)
+      session[:return_to] = nil
+    end
   
-  def access_denied
-    headers["Status"]           = "Unauthorized"
-    headers["WWW-Authenticate"] = %(Basic realm="Web Password")
-    render :text => "Couldn't authenticate you", :status => '401 Unauthorized'
-    false
-  end  
-  
-  # Redirect to the URI stored by the most recent store_location call or
-  # to the passed default.
-  def redirect_back_or_default(default)
-    session[:return_to] ? redirect_to_url(session[:return_to]) : redirect_to(default)
-    session[:return_to] = nil
-  end
-  
-  
-  @@http_auth_headers = %w(X-HTTP_AUTHORIZATION HTTP_AUTHORIZATION Authorization)
-  # gets BASIC auth info
-  def get_auth_data
-    auth_key  = @@http_auth_headers.detect { |h| request.env.has_key?(h) }
-    auth_data = request.env[auth_key].to_s.split unless auth_key.blank?
-    return auth_data && auth_data[0] == 'Basic' ? Base64.decode64(auth_data[1]).split(':')[0..1] : [nil, nil] 
-  end
-  
-  def set_page_title
-    @page_title = "Ublip - Location Matters"
-  end
+    @@http_auth_headers = %w(X-HTTP_AUTHORIZATION HTTP_AUTHORIZATION Authorization)
+    # gets BASIC auth info
+    def get_auth_data
+      auth_key  = @@http_auth_headers.detect { |h| request.env.has_key?(h) }
+      auth_data = request.env[auth_key].to_s.split unless auth_key.blank?
+      return auth_data && auth_data[0] == 'Basic' ? Base64.decode64(auth_data[1]).split(':')[0..1] : [nil, nil] 
+    end
+    
+    def set_page_title
+      @page_title = "Ublip - Location Matters"
+    end
+
 end
 
 class Helper
-  include Singleton
-  include ActionView::Helpers::DateHelper
+    include Singleton
+    include ActionView::Helpers::DateHelper
 end
