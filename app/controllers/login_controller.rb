@@ -163,11 +163,11 @@ class LoginController < ApplicationController
      end   
  end
  
-  def user_login                      
+  def admin_login                      
          account = Account.find_by_id(cookies[:account_value]) 
-         user = User.find(:first, :conditions=>['account_id = ? && is_admin = 1',account.id])                 
+         user = User.find_by_id(cookies[:admin_user_id])
          if account && user
-             session[:from] = "admin"  # we can use this variable to differentiate between actual user and superamdin user & limit the access to account.
+             session[:from] = "admin"  # we can use this to differentiate between actual user and superamdin user & limit the access to account.
              session[:user] = user
              session[:user_id] = user.id # Store current user's id
              session[:account_id] = account.id # Store the account id
@@ -176,7 +176,7 @@ class LoginController < ApplicationController
              session[:email] = user.email # Store user's email
              session[:is_admin] = user.is_admin         
              cookies[:account_value] = {:value=>"", :domain=>".#{request.domain}"}
-             redirect_to(:controller => '/home', :action => 'index') # Login success                                                                           
+             redirect_to(:controller => '/home', :action => 'index') # Login success 
          else             
              redirect_to :controller=>'login'
          end                 

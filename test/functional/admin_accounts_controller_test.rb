@@ -75,12 +75,12 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
   end
   
   def test_user_domain
-      get :user_domain, {:id=>4}, get_user      
-      assert_redirected_to("http://byron.ubliplocal.com:3000/login/user_login")      
+      get :subdomain_login, {:id=>4}, get_user
+      assert_redirected_to("http://byron.ubliplocal.com:3000/login/admin_login")
   end
 
   def test_user_domain_account_not_present
-      get :user_domain, {:id=>12545}, get_user      
+      get :subdomain_login, {:id=>12545}, get_user
       assert_redirected_to :controller=>'/home', :action=>'index'
   end
 

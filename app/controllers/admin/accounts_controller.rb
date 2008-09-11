@@ -42,16 +42,17 @@ class Admin::AccountsController < ApplicationController
     end
   end
 
-  def user_domain    
+  def subdomain_login
       user_account = Account.find_by_id(params[:id])                      
       if  !user_account.nil?   #No need to check for super_admin because of before_filter "authorize_super_admin"
-         cookies[:account_value] = { :value => "#{user_account.id}", :domain => ".#{request.domain}"}                                              
-         redirect_to("http://#{user_account.subdomain}.#{request.domain}:#{request.port}/login/user_login")                                     
-      else         
+         cookies[:account_value] = { :value => "#{user_account.id}", :domain => ".#{request.domain}"} 
+         cookies[:admin_user_id] = { :value => "#{session[:user_id]}", :domain => ".#{request.domain}"} 
+         redirect_to("http://#{user_account.subdomain}.#{request.domain}:#{request.port}/login/admin_login")
+      else
          redirect_to :controller=>'/home', :action=>'index'
       end
   end
-    
+ 
   def update
     if request.post?
       account = Account.find(params[:id])

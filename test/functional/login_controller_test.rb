@@ -65,24 +65,25 @@ class LoginControllerTest < Test::Unit::TestCase
     post :password, {:id => "1", :user => {:password => "newpassword", :password_confirmation =>"newpassword"}}
     user2 = User.find(1)
     assert_equal User.encrypt("newpassword", "salty"), user2.crypted_password
-  end
+ end
 
  def test_user_login
      @request.cookies['account_value'] = CGI::Cookie.new('account_value', '4')
-     get :user_login,{}
-     assert_redirected_to(:controller => '/home', :action => 'index')      
+     @request.cookies['admin_user_id'] = CGI::Cookie.new('admin_user_id', '1')
+     get :admin_login,{}
+     assert_redirected_to(:controller => '/home', :action => 'index')
  end
- 
+
  def test_user_login_with_invalid_account_number
      @request.cookies['account_value'] = CGI::Cookie.new('account_value', '12563')
-     get :user_login,{}
-     assert_redirected_to(:controller => 'login')          
- end    
- 
+     get :admin_login,{}
+     assert_redirected_to(:controller => 'login')
+ end
+
  def test_user_login_with_null_account
      @request.cookies['account_value'] = CGI::Cookie.new('account_value', nil)
-     get :user_login,{}
-     assert_redirected_to(:controller => 'login')          
- end    
+     get :admin_login,{}
+     assert_redirected_to(:controller => 'login')
+ end
  
 end

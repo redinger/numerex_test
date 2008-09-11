@@ -8,7 +8,7 @@
      </tr>
 		<% for account in @accounts %>
 		
-          <tr class="<%= cycle("gray_row", "") %>"><td><a href="/admin/accounts/edit/<%= account.id %>">edit</a></td><td><%= account.company %></td><td><a href="/admin/accounts/user_domain/<%= account.id%>" target="_blank" title="View this site"><%= account.subdomain %></a></td><td><%= account.address %></td><td><%= account.city %></td><td><%= account.state %></td><td><%= account.zip %></td><td><%= encode_account_options(account) %></td><td><script>document.write(displayLocalDT(<%= account.created_at.to_i*1000 %>));</script></td><td><a href="/admin/accounts/destroy/<%= account.id %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a></td></tr>
+          <tr class="<%= cycle("gray_row", "") %>"><td><a href="/admin/accounts/edit/<%= account.id %>">edit</a></td><td><%= account.company %></td><td><a href="/admin/accounts/subdomain_login/<%= account.id%>" target="_blank" title="View this site"><%= account.subdomain %></a></td><td><%= account.address %></td><td><%= account.city %></td><td><%= account.state %></td><td><%= account.zip %></td><td><%= encode_account_options(account) %></td><td><script>document.write(displayLocalDT(<%= account.created_at.to_i*1000 %>));</script></td><td><a href="/admin/accounts/destroy/<%= account.id %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a></td></tr>
 		<% end %>	
 </table>
 
