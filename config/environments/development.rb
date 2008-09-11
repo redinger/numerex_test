@@ -27,3 +27,5 @@ ActionMailer::Base.sendmail_settings = {
   :location => "/usr/sbin/sendmail",
   :arguments => "-t"
 }
+
+Google_Maps_Api_Key = 'ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBSmj5SEivQATyWojPmDElbJWyb8ZxQu0yMBdlNrfGjnOEwcmui2dVSyJQ'
