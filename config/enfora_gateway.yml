@@ -17,3 +17,10 @@ production:
   username: root
   password: rootpass
   host: localhost
+
+slicehost:
+  adapter: mysql
+  database: enfora_prod
+  username: root
+  password: rootpass
+  host: localhost
