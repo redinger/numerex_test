@@ -1,4 +1,4 @@
-<table
+<table>
 	<tr><td>* Name:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="device[name]" id="name" value="<%= @device.name %>" /></td></tr>
 	<tr><td>* IMEI:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="device[imei]" value="<%= @device.imei %>" /></td></tr>
 	<tr><td>Account:</td><td>&nbsp;</td><td>
