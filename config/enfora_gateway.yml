@@ -13,9 +13,9 @@ development:
 
 production:
   adapter: mysql
-  database: enfora_prod
+  database: enfora_enfora
   username: root
-  password: rootpass
+  password: 
   host: localhost
 
 slicehost:
@@ -24,3 +24,5 @@ slicehost:
   username: root
   password: rootpass
   host: localhost
+  socket: /var/run/mysqld/mysqld.sock
+
