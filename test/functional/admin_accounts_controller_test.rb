@@ -74,14 +74,23 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
     assert_equal flash[:success], "dennis deleted successfully"
   end
   
-  def test_user_domain
+  def test_super_admin_can_access_across_subdomains
       get :subdomain_login, {:id=>4}, get_user
       assert_redirected_to("http://byron.ubliplocal.com:3000/login/admin_login")
   end
 
-  def test_user_domain_account_not_present
+  def test_subdomain_login_account_not_present
       get :subdomain_login, {:id=>12545}, get_user
       assert_redirected_to :controller=>'/home', :action=>'index'
+  end
+  
+  def test_standard_user_cannot_access_subdomain
+      get :subdomain_login, {:id=>1}, get_standard_user
+      assert_redirected_to :controller=>'/home'
+  end
+  
+  def get_standard_user
+     {:user => users(:demo).id, :account_id => users(:demo).id, :is_super_admin => users(:demo).is_super_admin} 
   end
 
   def get_user

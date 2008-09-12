@@ -59,6 +59,7 @@ function load()
 		zoom = newZoom; 
         if(page == 'reports')        
           set_cookie("zvalue",zoom);
+        new_drag_point =  gmap.getCenter();         
 	});
 	
     
@@ -220,7 +221,7 @@ function getRecentReadings(redrawMap,id) {
                 else
                  {
                    if (new_drag_point)
-                     gmap.setCenter(new_drag_point, zl);	
+                     gmap.setCenter(new_drag_point, zoom);	
                    else
                      gmap.setCenter(bounds.getCenter(), zl);			
                  }
