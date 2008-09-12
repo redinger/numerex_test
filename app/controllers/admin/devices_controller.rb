@@ -60,8 +60,13 @@ class Admin::DevicesController < ApplicationController
       params[:device][:is_public].nil? ? device.is_public = false : device.is_public = true
       device.update_attributes(params[:device])
       flash[:success] = "#{device.name} updated successfully"
+    
+      if params[:device][:account_id]
+         redirect_to :action => 'index', :id => params[:device][:account_id].to_s
+       else
+         redirect_to :action => 'index'
+       end
     end
-    redirect_to :action => 'index'
   end
 
   def destroy
