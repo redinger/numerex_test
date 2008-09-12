@@ -90,7 +90,8 @@ class ReportsController < ApplicationController
   # Display gpio1 events
   def gpio1
     get_start_and_end_date 
-    @device = Device.find(params[:id])    
+    @device = Device.find(params[:id])
+    @device_names = Device.get_names(session[:account_id]) 
     @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
     @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
@@ -104,7 +105,8 @@ class ReportsController < ApplicationController
   # Display gpio2 events
   def gpio2
     get_start_and_end_date 
-    @device = Device.find(params[:id])    
+    @device = Device.find(params[:id])
+    @device_names = Device.get_names(session[:account_id])
     @all_groups = Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
     @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], 
