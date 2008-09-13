@@ -1,10 +1,16 @@
-<% form_tag({:controller=>'command_request',:action =>'script',:id = @command_request.id},:multipart=>true,:target=>'upload_frame') do %>
+<% if @script %>
+	<% form_tag({:controller=>'command_request',:action =>'script',:id => @command_request.id}) do %>
+		<input type="submit" value="Execute"/>
+		<%= render :partial => 'script_table' %>
+	<% end %>
+<% end %>
+<% form_tag({:controller=>'command_request',:action =>'upload',:id => @command_request.id},:multipart=>true) do %>
 	<table>
 		<tr>
 			<td><b>Script File:</b></td>
 			<td><input type="file" name="file"/></td>
 			<td><input type="submit" value="Upload"/></td>
 		</tr>
+		<tr><td colspan="2" style="color:red;"><%= @error %></td></tr>
 	</table>
 <% end %>
-<iframe name="upload_frame" style="display:none;"></iframe>
