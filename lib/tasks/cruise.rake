@@ -1,7 +1,7 @@
 desc 'Continuous build target'
 task :cruise do
   puts "revision #{ENV['CC_BUILD_REVISION']}"
-  pus ENV
+  puts ENV
   out = ENV['CC_BUILD_ARTIFACTS']
   mkdir_p out unless File.directory? out if out
 
