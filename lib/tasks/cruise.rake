@@ -1,7 +1,8 @@
 desc 'Continuous build target'
 task :cruise do
+  ENV.each_key {|key| puts "#{key}=#{ENV[key]}"
+
   puts "revision #{ENV['CC_BUILD_REVISION']}"
-  puts ENV
   out = ENV['CC_BUILD_ARTIFACTS']
   mkdir_p out unless File.directory? out if out
 
