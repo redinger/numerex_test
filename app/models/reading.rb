@@ -11,7 +11,12 @@ class Reading < ActiveRecord::Base
 
               
   def speed
-    read_attribute(:speed).round
+    spd = read_attribute(:speed)
+    if spd.nil?
+      "N/A"
+    else
+      read_attribute(:speed).round
+    end
   end
   
   def get_fence_name

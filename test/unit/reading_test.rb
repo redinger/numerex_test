@@ -13,10 +13,14 @@ class ReadingTest < Test::Unit::TestCase
     assert_equal "32.9514, -96.8228", readings(:reading6).shortAddress
   end
   
-  
   def test_speed_round
     assert_equal 29, readings(:reading1).speed
     assert_equal 39, readings(:reading2).speed  
+  end
+  
+  def test_null_speed
+    assert_equal "N/A", readings(:reading3).speed
+    assert_not_equal "N/A", readings(:reading4).speed
   end
   
   def test_distance
@@ -44,8 +48,5 @@ class ReadingTest < Test::Unit::TestCase
     reading.event_type="entergeofen_1234" #bad geofence ID
     assert_nil reading.get_fence_name()
   end
-  
-  
-  
 
   end

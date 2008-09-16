@@ -53,7 +53,7 @@ reading2:
 reading3:
  id: 3
  latitude: 32.9395
- speed: 80
+ speed:
  longitude: -96.8244
  direction: 130
  altitude: 5000
