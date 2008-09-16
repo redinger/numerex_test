@@ -51,7 +51,28 @@ class ReportsControllerTest < Test::Unit::TestCase
   def test_index
      get :index, {:id => 1}, {:user => users(:dennis), :account_id => 1}   
      assert_response :success
+  end
+  
+  # Need to extend the following reports with tests that actually verify page content
+  def test_idle
+    get :idle, {:id => 1}, {:user => users(:dennis), :account_id => 1}
+    assert_response :success
+  end
+  
+  def test_runtime
+    get :runtime, {:id => 1}, {:user => users(:dennis), :account_id => 1}
+    assert_response :success
   end   
+  
+  def test_gpio1
+    get :gpio1, {:id => 1}, {:user => users(:dennis), :account_id => 1}
+    assert_response :success
+  end
+  
+  def test_gpio2
+    get :gpio2, {:id => 1}, {:user => users(:dennis), :account_id => 1}
+    assert_response :success
+  end
 
    
   #~ def test_index_for_all
