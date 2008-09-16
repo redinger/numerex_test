@@ -25,6 +25,7 @@ class Admin::AccountsControllerTest < Test::Unit::TestCase
   end
 
   def test_index
+    assert false
     get :index, {}, get_user
     assert_response :success
   end
