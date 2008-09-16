@@ -1,7 +1,5 @@
 desc 'Continuous build target'
 task :cruise do
-  puts `svn info`
-  puts "revision #{ENV['CC_BUILD_REVISION']}"
   out = ENV['CC_BUILD_ARTIFACTS']
   mkdir_p out unless File.directory? out if out
   
@@ -27,7 +25,7 @@ task :cruise do
 end
   
   def copy_to_success_tag(rev)
-    dst = get_svn_base + "/tags/successful_build_" + Time.now().strftime("%Y%m%d%H%M%S")
+    dst = get_svn_base + "/tags/successful_build_" + get_revision_datetime
     cmd = "svn copy -r #{rev} #{get_repo_url} #{dst} -m 'successful build'"
     puts cmd
     puts `#{cmd}`
@@ -38,6 +36,19 @@ end
     puts repo_url
     last_slash = repo_url.rindex('/')
     repo_url[0, last_slash]
+  end
+  
+  def get_revision_datetime
+    svn_info = `svn info`
+    svn_info.each_line do |line|
+      if (line.include?("Last Changed Date:")) 
+        line.slice!("Last Changed Date:")
+        line.slice!(/\(.*\)/)
+        datetime = line[0, line.rindex(/[+-]/)]
+        datetime.delete!(" :-")
+        return datetime.strip
+      end
+    end
   end
   
   def get_repo_url
