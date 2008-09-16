@@ -72,6 +72,8 @@ class ReadingsControllerTest < Test::Unit::TestCase
     @request.host = "dennis.ublip.com"
     get :public
     assert_select "channel item", 1
+    assert_select "channel item speed", 1
+    assert_select "channel item direction", 1 
   end
   
 end

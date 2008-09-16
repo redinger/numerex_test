@@ -14,7 +14,8 @@ xml.rss(:version=>"2.0", "xmlns:georss" => "http://www.georss.org/georss"){
         xml.description( location.shortAddress)
         end
         xml.georss :point, location.latitude.to_s+' '+ location.longitude.to_s
-         # rfc822
+        xml.speed(location.speed)
+        xml.direction(location.direction)
         xml.pubDate(location.created_at.rfc2822)
       end
     end
