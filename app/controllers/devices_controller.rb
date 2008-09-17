@@ -148,15 +148,7 @@ class DevicesController < ApplicationController
     end
     
   def index
-      #~ @from_devices = true
-      #~ @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
       @devices = Device.get_devices(session[:account_id]) # Get devices associated with account                  
-      #~ @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
-     #~ if params[:type]
-         #~ assign_the_selected_group_to_session # this will set the parameter value of group to the session for persisit throught the app
-     #~ else   
-         #~ check_the_session_for_active_group # This will check which group is currently active in the session, For display.            
-     #~ end 
   end
 
   # Device details view
@@ -324,33 +316,7 @@ class DevicesController < ApplicationController
          end   
      end    
      
-     def search_devices
-         #~ @from_search = true    
-         #~ @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')         
-         #~ @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
-         #~ search_text = "%"+"#{params[:device_search]}"+"%"
-             #~ if session[:gmap_value] == "all" || session[:gmap_value].nil?        
-                 #~ @groups = @all_groups
-                 #~ session[:gmap_value] = "all"                 
-                 #~ @show_default_devices = true
-                 #~ if params[:device_search] != ""
-                     #~ @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
-                 #~ end                        
-             #~ elsif session[:gmap_value] == 'default'
-                 #~ @groups = []  
-                 #~ @show_default_devices = true
-                 #~ if params[:device_search] != ""
-                     #~ @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ? and group_id is NULL',search_text,session[:account_id]], :order => 'name')
-                 #~ end                         
-             #~ else
-                 #~ @groups=Group.find(:all, :conditions=>['id=?',session[:gmap_value]], :order=>'name')                               
-                 #~ @show_default_devices = false
-                 #~ if params[:device_search] != ""
-                     #~ @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ? and group_id = ?',search_text,session[:account_id],session[:gmap_value]], :order => 'name')
-                 #~ end                         
-             #~ end                        
-         #~ render :action=>'index'
-         
+     def search_devices        
          @from_search = true          
              search_text = "%"+"#{params[:device_search]}"+"%"
              if params[:device_search] != ""
@@ -360,22 +326,6 @@ class DevicesController < ApplicationController
          render :action=>'index'        
      end
      
-     def search_devices_by_address
-        max_distance_in_miles =  10.0000
-        @devices = []
-        @from_search_address = true
-        @all_devices = Device.get_devices(session[:account_id]) # Get devices associated with account                  
-        @all_devices.each do |device| 
-             if !device.readings[0].nil?   
-                distance_in_miles = DevicesController.distance_between("#{params[:device_address]}" ,"#{device.readings[0].latitude},#{device.readings[0].longitude}")
-                if distance_in_miles <= max_distance_in_miles
-                    @devices << device 
-                end    
-             end  
-        end   
-        @search_text = "#{params[:device_address].to_s.gsub(' ','_')}" 
-       render :action=>'index'
-     end
      
     # show the current user group
     def show_group

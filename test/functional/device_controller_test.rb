@@ -29,40 +29,6 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_response :success        
  end
  
-  #~ def test_index_for_all
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 'all'}
-    #~ assert_response :success    
-    #~ assert_equal 3 , assigns(:groups).length
-  #~ end
-  
-  #~ def test_index_for_default
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 'default'}
-    #~ assert_response :success    
-    #~ assert_equal 1 , assigns(:default_devices).length
-  #~ end
-
-  #~ def test_index_for_perticular_group
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 1}
-    #~ assert_response :success        
-  #~ end
-  
-  #~ def test_index_for_type_params_all
-    #~ get :index, {:type => 'all'}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success    
-    #~ assert_equal 3 , assigns(:groups).length    
-  #~ end
-  
-  #~ def test_index_for_type_params_default
-    #~ get :index, {:type => "default"}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success    
-    #~ assert_equal 1 , assigns(:default_devices).length    
-  #~ end
-
-  #~ def test_index_for_type_params_for_perticular_group
-    #~ get :index, {:type => 1}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success        
-  #~ end
-
    def test_view
      get :view, {:id=>"2"},{:user => users(:dennis), :account_id => "1"} 
      assert_response :success     

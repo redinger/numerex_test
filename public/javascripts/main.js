@@ -9,6 +9,7 @@ var readings = []; //JS readings model
 var zoom = 3;
 var fullScreenMap = false;
 var grp_id;
+var devices_string;
 var infowindow;
 var new_drag_point;
 var zoom_val = get_cookie("zvalue");
@@ -64,17 +65,22 @@ function load()
 	
     
 	// Only load this on home page
-	var page = document.location.href.split("/")[3];
-	if(page == 'home' || page == 'admin' ||page=='devices')
-    	getRecentReadings(true,grp_id);        
-	else if(page == 'reports')
+	var page = document.location.href.split("/")[3];            
+    var action = document.location.href.split("/")[4];                
+	if(page == 'home' || page == 'admin' ||page=='devices' || (page=='reports' && action==undefined) || (page=='reports' && action=='group_devices'))             	 
+      {       
+      if (devices_string)
+        getRecentReadings(true,devices_string);                
+      else
+        getRecentReadings(true,grp_id);                
+      }
+	else if(page == 'reports' )
 		getReportBreadcrumbs();
 	else 
 		getBreadcrumbs(device_id);
 	
   }
 }
-
 
 
 function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )

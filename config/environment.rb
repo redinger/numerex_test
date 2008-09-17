@@ -63,6 +63,7 @@ end
 
 
 RADIUS_ARRAY = [0.1,0.25,0.5,1,5,10,25,50,100]
+Last_Report_Within = [1,5,10,15,30,40,50,60,70,80,90,100]
 
 GROUP_IMAGES = ['no_image.png','blue_small.png','red_small.png','green_small.png','yellow_small.png','purple_small.png','dark_blue_small.png','grey_small.png','orange_small.png']
 MAP_MARKER_COLOR = ['blue','red',  'green', 'yellow','purple','black', 'gray', 'orange', 'white','brown',]

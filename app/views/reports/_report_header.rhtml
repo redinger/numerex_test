@@ -1,4 +1,3 @@
-
 <%
 	if params[:action] == 'all'
 		title = 'Readings'
@@ -12,40 +11,38 @@
 		title = 'Geofence Events'
 	end
 %>
-
-<div style="margin-bottom: 10px;">
-	<table class="text_width">
-		<tr>
-			<td align="left">
-				<span class="dark_blue_header"><%= title %> for: </span>
-                
-				<select onchange="changeDevice(this.options[this.selectedIndex].value, '<%= params[:action] %>', '<%= @start_date %>', '<%= @end_date%>');">
-					<% for device in @device_names %>
-						<option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
-					<% end %>
-				</select>
-                
-                    <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" style="display:inline">                     
-                     
-                     <span class="dark_blue_header">from: </span>                 
-                              <%= select_date(@start_date, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"start_date")%> <span class="dark_blue_header">to:</span>   
-                              <%= select_date(@end_date, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"end_date")%>
-                     <input name="commit" type="submit" value="     Go     " />
-                     </form>
-                </td>
-                    <%if !(@record_count <= 0) %>
-				    <td><div id="result_count"><b><%= display_result_count(params[:page].to_i,@actual_record_count,ResultCount)%></b></div></td>
-                    <%end%>
-			<td align="right">
-				&nbsp;&nbsp;
-				<% if @record_count > 0 %>
-					<a href="/reports/export/<%=params[:id]%>?end_date=<%= @end_date %>&start_date=<%= @start_date%>&type=<%=params[:action] %>" target="_blank" title="Export  <%= @record_count%> readings for selected timeframe in CSV format">Export</a>
-					<% if params[:action] == 'all' %>
-					| <a href="/readings/last/<%= params[:id] %>" target="_blank"><img src="/images/georss.png" border="0" title="Export this device's most recent location into your favorite RSS or GeoRSS reader" style="vertical-align: text-bottom;" /></a>
-					<% end %>
-				<% end %>
-			</td>
-		</tr>
-	</table>
-</div>
-<%flag=false%>
+                     <table class="panel_table">	
+	                    <tbody>
+                              <tr>     
+                                  <td colspan="5" class="header"> 
+                                        <% if params[:action] != 'index' %>
+                                        <% if params[:action] == 'all' %><a href="<%= url_for(:controller=>"reports",:action=>"all", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected">All Readings</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"all", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">All Readings</a><% end %> |  
+                                        <% if @device.profile.stops %><% if params[:action] == 'stop' %><a href="<%= url_for(:controller=>"reports",:action=>"stop", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected" >Stop Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"stop", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Stop Events</a><% end %> | <% end %>
+                                        <% if @device.profile.idles %><% if params[:action] == 'idle' %><a href="<%= url_for(:controller=>"reports",:action=>"idle", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected" >Idle Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"idle", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Idle Events</a><% end %> | <% end %>
+                                        <% if @device.profile.runs %><% if params[:action] == 'runtime' %><a href="<%= url_for(:controller=>"reports",:action=>"runtime", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected" >Runtime Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"runtime", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Runtime Events</a><% end %> | <% end %>
+                                        <% if @device.profile.gpio1_name %><% if params[:action] == 'gpio1' %><a href="<%= url_for(:controller=>"reports",:action=>"gpio1", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected"><%= @device.profile.gpio1_name %> Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"gpio1", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>"><%= @device.profile.gpio1_name %> Events</a><% end %> | <% end %>
+                                        <% if @device.profile.gpio2_name %><% if params[:action] == 'gpio2' %><a href="<%= url_for(:controller=>"reports",:action=>"gpio2", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected"><%= @device.profile.gpio2_name %> Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"gpio2", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>"><%= @device.profile.gpio2_name %> Events</a><% end %> | <% end %>
+                                        <% if params[:action] == 'geofence' %><a href="<%= url_for(:controller=>"reports",:action=>"geofence", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="selected" >Geofence Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"geofence", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Geofence Events</a><% end %>
+                                        <% end %>                                
+                                  </td>
+                              </tr>	    
+                         </tbody>
+                     </table>	
+                   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="blue_table">
+                      <tr>
+                          <td><%= title %> for: <br>                                                
+                            <select onchange="changeDevice(this.options[this.selectedIndex].value, '<%= params[:action] %>', '<%= @start_date %>', '<%= @end_date%>');">
+                                <% for device in @device_names %>
+                                    <option value="<%= device.id %>" <% if params[:id].to_i == device.id %>selected="selected"<% end %>><%= device.name %></option>
+                                <% end %>
+                            </select>                               
+                          </td>
+                          <form action="/reports/<%= params[:action] %>/<%= params[:id] %>" method="get" >                     
+                              
+                              <td> From: <br><%= select_date(@start_date, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"start_date")%></td>
+                            
+                              <td> To: <br><%= select_date(@end_date, :order=>[:month,:day,:year], :use_short_month => true, :prefix=>"end_date")%> &nbsp; <input name="commit" type="submit" value="Go" /></td>
+                          </form>
+                     </tr>
+                   </table>
+                   <%flag=false%>

@@ -211,6 +211,15 @@ div#map {
 	border:4px #eeeeee solid;
 	}
 
+.report_map_header{
+	width:99.7%; 
+	float: left; 
+	background-color:#6699CC;
+	color:#FFFFFF;
+	font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size:12px;
+	padding:5px;	
+   }
 /*map CSS End*/
 
 /*Container CSS*/
@@ -633,14 +642,56 @@ h4 {
 .panel_table td {
 	padding: 5px;
 	border: 1px solid #FFFFFF;}
+	
+.blue_table{
+    width: 100%;
+	padding: 0;
+	margin: 0;
+    background-color:#d2eafc;
+	padding: 5px;
+	margin-bottom:10px
+	}
+	
+.blue_table td {
+    background-color:#d2eafc;
+	padding: 5px;
+	}		
+
 
 .panel_table .header {
 	background-color: #6699CC;
 	color: #FFFFFF;
 	font-size: 12px;
+	text-decoration:none;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding: 5px;}
 
+	
+.panel_table .header a{
+	background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	padding: 5px;}
+
+.panel_table .header a:hover{
+	background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	text-decoration:underline;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;}
+
+.panel_table .selected {
+	background-color: #6699CC;
+	color: #FFFFFF;
+	font-size: 12px;
+	text-decoration:none;
+	font-weight:bold;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding: 5px;}
+	
 .panel_table .bluebar1{ 
 	background: url(../images/red_small.png) no-repeat left; 
 	line-height:24px;

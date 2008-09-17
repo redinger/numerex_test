@@ -1,0 +1,67 @@
+<script>
+   <%if @from_default%>
+   var grp_id= 'default';
+   <%end%>
+</script>
+<table width="100%">
+      <tbody>
+           <tr>
+               <td id="left_panel" valign="top" width="50%">                    
+            <div id="to_update">
+              <table class="panel_table">                
+                    <tr>     
+                       <td colspan="5" class="header">
+                          <span class="device_summery"> <a href="/reports">Standard Reports</a> > <%if @from_default%> Default <%else%><%= @group.name%><%end%></span>
+                                <select id="select_group" class="device_summery_select" style="width:115px;" name="select_group" onchange="select_group(this);">                                     
+                                    <option> Change Group </option>    
+                                    <% for group in @all_groups %>
+                                        <option  value='<%= group.id%>'><%= group.name%> </option>
+                                    <% end %> 
+                                    <% if  !@default_devices.empty?%>
+                                        <option  value='default'> Default </option>
+                                    <%end%>
+                                </select>            
+                       </td>
+                   </tr>
+                <tr>
+                     <th> Name </th>
+                     <th> Last Location </th>
+                     <th> Last Report </th>
+                </tr>
+                <%if @devices%>
+                    <%for device in @devices%>
+                        <%= show_device_for_reports(device,'false') %> 
+                    <%end%> 
+                <%end%>
+                
+                <%if @from_default && @default_devices%>
+                    <%for device in @default_devices%>
+                        <%= show_device_for_reports(device,'false') %> 
+                    <%end%> 
+                <%end%>
+              </tbody>
+          </table>
+        </div> 
+      </td>
+      <%= render :partial=>"rhs_map"%>
+      
+      <% if update_readings_automatically? %> 
+        <script>   
+             <%if !@group.nil? %>
+                var grp_id= <%= @group.id %>;
+             <%end%>
+            window.setInterval("updateLocations();", 30000);
+            function updateLocations() {                                              
+            if (grp_id)
+                  {
+                    getRecentReadings(true,grp_id);
+                  }   
+               else
+                 {  
+                  getRecentReadings(false);                          
+                 }
+            }
+        </script>            
+      <%end%>   
+    </tr>
+ </tbody></table>			

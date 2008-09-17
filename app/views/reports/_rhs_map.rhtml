@@ -1,0 +1,12 @@
+            <td><a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a></td>                       
+            <td valign="top" width="50%" id="right_panel">                                                   
+                    <table class="panel_table">
+                        <tr>
+                            <td class="header" >                                         
+                                <div style="float: left;">Locations for <%if @group_name %><%= @group_name%><%else%>All Devices<%end%></div>                                
+                                <% if update_readings_automatically? %><div id="updating">Updating locations...</div><% end %>                                         
+                               </td>                                                            
+                        </tr>
+                        <tr class="dark_row"><td valign="top"><div id="map" ></div></td></tr>                            
+                    </table>                                                       
+            </td>

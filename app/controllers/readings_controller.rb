@@ -36,7 +36,10 @@ class ReadingsController < ApplicationController
    
   def recent
           @user_pre= params[:id]        
-          if  @group_for_data=Group.find(:first,:conditions => ["id=? ", @user_pre])
+          if @user_pre.to_s =~ /,/
+              @devices = []
+              @user_pre.split(',').each{|dev_id| @devices << Device.find_by_id(dev_id.to_i)}
+          elsif  @group_for_data=Group.find(:first,:conditions => ["id=? ", @user_pre])
              @devices=Device.find(:all , :conditions => [ 'group_id=?', params[:id]] )                
          elsif @user_pre == "default"
              @devices = Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]])                     
@@ -44,10 +47,10 @@ class ReadingsController < ApplicationController
             ( @user_pre == "undefined" || @user_pre == "all" )         
                @devices = Device.get_devices(session[:account_id])                
          end
-    
+
         render :layout => false
   end
-   
+  
   # Display last reading for device
   def last
     account = Account.find(:first, :conditions => ["subdomain = ?", request.host.split('.')[0]])
