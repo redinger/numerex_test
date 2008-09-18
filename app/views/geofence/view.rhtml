@@ -46,8 +46,8 @@
 <script>
   var device_flag
   var remove_listener = 'true'
-  <% if @device && @device.readings[0] %>
-    var device = {name: '<%= escape_javascript @device.name %>', lat: <%= @device.readings[0].latitude %>, lng: <%= @device.readings[0].longitude %>};
+  <% if @device && @device.latest_gps_reading %>
+    var device = {name: '<%= escape_javascript @device.name %>', lat: <%= @device.latest_gps_reading.latitude %>, lng: <%= @device.latest_gps_reading.longitude %>};
   <% elsif @account && @gf %> 	
     var device = {name: '<%= escape_javascript @account.subdomain %>', lat: <%= @gf.latitude %>, lng: <%= @gf.longitude %>}; 
   <% end %>
