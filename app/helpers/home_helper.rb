@@ -22,11 +22,11 @@ module HomeHelper
     end    
     content << %(</td>)
     
-    content << %(<td>)
     if current_account.show_runtime
-        content << %(#{device.last_status_string})     
+      content << %(<td>)
+      content << %(#{device.last_status_string})     
+      content << %(</td>)
     end        
-    content << %(</td>)
     
      content << %(<td>)
        if !device.readings.empty?
