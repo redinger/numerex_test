@@ -41,7 +41,6 @@ class ReadingsControllerTest < Test::Unit::TestCase
     @request.host="dennis.ublip.com"
     @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
     get :last, { :id => 7}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
-    puts @response.body
     
     assert_select "channel" do |element|
     element[0].children.each do |tag|
