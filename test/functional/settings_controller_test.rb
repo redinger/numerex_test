@@ -35,7 +35,7 @@ class SettingsControllerTest < Test::Unit::TestCase
     assert_equal 1, user.enotify
     
     # Post the settings
-    post :index, {:company => 'New Co', :notify => 1, :time_zone => 'Eastern Time (US & Canada)'}, {:account_id => 1, :user_id => 1}
+    post :index, {:company => 'New Co', :notify => 1, :time_zone => 'Eastern Time (US & Canada)'}, {:account_id => 1, :user_id => 1, :is_admin => users(:dennis).is_admin}
     assert_redirected_to :controller => 'settings', :action => 'index'
     
     # Verify the settings were saved
@@ -46,7 +46,7 @@ class SettingsControllerTest < Test::Unit::TestCase
     assert_equal 1, user.enotify
     
     #post setting with group notification
-    post :index, {:company => 'New Co', :notify => 2, :rad_grp1=>1, :time_zone => 'Eastern Time (US & Canada)'}, {:account_id => 1, :user_id => 1}
+    post :index, {:company => 'New Co', :notify => 2, :rad_grp1=>1, :time_zone => 'Eastern Time (US & Canada)'}, {:account_id => 1, :user_id => 1, :is_admin => users(:dennis).is_admin}
     assert_redirected_to :controller => 'settings', :action => 'index'
     
     account = assigns(:account)
