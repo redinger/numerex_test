@@ -5,8 +5,14 @@
 <form method="post">
 <div class="settings_box">
 	<h2>Company or Group Name</h2>
-	Your company or group name is used to personalize your login screen and header banner.  Please note that changing your company or group name applies to all users within this account.<br /><br />
-	<input type="text" name="company" value="<%= @account.company %>" size="30" />
+	Your company or group name is used to personalize your login screen and header banner.  
+	<% if session[:is_admin] %>
+		Please note that changing your company or group name applies to all users within this account.
+	<% else%>
+		You must be an account administrator to change this setting.
+	<% end %>
+	<br /><br />
+	<input type="text" name="company" value="<%= @account.company %>" size="30"<% unless session[:is_admin] %>disabled<% end %>/>
 </div>
 
 <div class="settings_box">
