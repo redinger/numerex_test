@@ -5,30 +5,31 @@
 		<title><%= @page_title %></title>
 
         <%= stylesheet_link_tag "common" %>
-		<%= render :partial => 'layouts/includes/map_key' %>          
+		<%= render :partial => 'layouts/includes/map_key' %>
 		<%= javascript_include_tag "main", "reports", "utils" %>
           <%= javascript_include_tag :defaults%>
+
 	</head>
+	<% if params[:action] == 'index' %>
+	<body>
+	<% else %>
 	<body onload="load();">
+	<% end %>
    		<%= render :partial => 'layouts/includes/header' %>
-		<div align="right" style="padding-right:15px; padding-top:5px;">
-                <%if !@record_count.nil?%>
-                    <%if !(@record_count <= 0) %>
-				    <b><%= display_result_count(params[:page].to_i,@actual_record_count,ResultCount)%></b>
-                    <%end%>			
-				&nbsp;&nbsp;
-				<% if @record_count > 0 %>
-					<a href="/reports/export/<%=params[:id]%>?end_date=<%= @end_date %>&start_date=<%= @start_date%>&type=<%=params[:action] %>" target="_blank" title="Export  <%= @record_count%> readings for selected timeframe in CSV format">Export</a>
-					<% if params[:action] == 'all' %>
-					| <a href="/readings/last/<%= params[:id] %>" target="_blank"><img src="/images/georss.png" border="0" title="Export this device's most recent location into your favorite RSS or GeoRSS reader" style="vertical-align: text-bottom;" /></a>
-					<% end %>
-				<% end %>            
-                <%end%> 
+		<div id="submenu">
+			<% if params[:action] != 'index' %>
+			<% if params[:action] == 'all' %><a href="<%= url_for(:controller=>"reports",:action=>"all", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current" >All Readings</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"all", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">All Readings</a><% end %> |  
+			<% if @device.profile.stops %><% if params[:action] == 'stop' %><a href="<%= url_for(:controller=>"reports",:action=>"stop", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current">Stop Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"stop", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Stop Events</a><% end %> | <% end %>
+			<% if @device.profile.idles %><% if params[:action] == 'idle' %><a href="<%= url_for(:controller=>"reports",:action=>"idle", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current">Idle Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"idle", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Idle Events</a><% end %> | <% end %>
+			<% if @device.profile.runs %><% if params[:action] == 'runtime' %><a href="<%= url_for(:controller=>"reports",:action=>"runtime", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current">Runtime Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"runtime", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Runtime Events</a><% end %> | <% end %>
+			<% if @device.profile.gpio1_name %><% if params[:action] == 'gpio1' %><a href="<%= url_for(:controller=>"reports",:action=>"gpio1", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current"><%= @device.profile.gpio1_name %> Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"gpio1", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>"><%= @device.profile.gpio1_name %> Events</a><% end %> | <% end %>
+			<% if @device.profile.gpio2_name %><% if params[:action] == 'gpio2' %><a href="<%= url_for(:controller=>"reports",:action=>"gpio2", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current"><%= @device.profile.gpio2_name %> Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"gpio2", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>"><%= @device.profile.gpio2_name %> Events</a><% end %> | <% end %>
+			<% if params[:action] == 'geofence' %><a href="<%= url_for(:controller=>"reports",:action=>"geofence", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>" class="current">Geofence Events</a><% else %><a href="<%= url_for(:controller=>"reports",:action=>"geofence", :id=>params[:id], :start_date=>@start_date, :end_date=>@end_date)%>">Geofence Events</a><% end %>
+			<% end %>
 		</div>
     	<div id="content">
         	<%= yield %>
         </div>
-
 		<%= render :partial => 'layouts/includes/footer' %>
 	</body>
 </html>

@@ -4,12 +4,17 @@ class GeofenceController < ApplicationController
 
   before_filter :authorize
 
+  
   def index
     device_ids = Device.get_devices(session[:account_id]).map{|x| x.id}
-    if device_ids.empty?
-      @geofences = Geofence.paginate(:per_page=>ResultCount, :page=>params[:page],:conditions => ["account_id = ?",session[:account_id]],:order => "name")
+    if device_ids.empty?       
+      @geofences = Geofence.paginate(:per_page=>ResultCount, :page=>params[:page],
+                                 :conditions => ["account_id = ?",session[:account_id]],
+                                 :order => "name")                                 
     else
-      @geofences = Geofence.paginate(:per_page=>ResultCount, :page=>params[:page],:conditions => ["device_id in (#{device_ids.join(',')}) or account_id = ?",session[:account_id]], :order => "name")
+      @geofences = Geofence.paginate(:per_page=>ResultCount, :page=>params[:page],
+                                 :conditions => ["device_id in (#{device_ids.join(',')}) or account_id = ?",session[:account_id]], 
+                                 :order => "name")                                             
     end
   end
 
@@ -138,6 +143,7 @@ class GeofenceController < ApplicationController
     flash[:error] = "Invalid action"
     redirect_to geofence_url
   end
+
 
   def goto_correct_page(a_or_d,id)
     page = 1     if !params[:page]

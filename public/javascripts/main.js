@@ -9,7 +9,6 @@ var readings = []; //JS readings model
 var zoom = 3;
 var fullScreenMap = false;
 var grp_id;
-var devices_string;
 var infowindow;
 var new_drag_point;
 var zoom_val = get_cookie("zvalue");
@@ -54,26 +53,19 @@ function load()
        new_drag_point = gmap.getCenter();              
 	});
     
-    
 	var page = document.location.href.split("/")[3];
 	GEvent.addListener(gmap, "zoomend", function(oldZoom, newZoom) {        
 		zoom = newZoom; 
         if(page == 'reports')        
-          set_cookie("zvalue",zoom);
+          set_cookie("zvalue",zoom);        
         new_drag_point =  gmap.getCenter();         
 	});
 	
     
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];            
-    var action = document.location.href.split("/")[4];                
-	if(page == 'home' || page == 'admin' ||page=='devices' || (page=='reports' && action==undefined) || (page=='reports' && action=='group_devices'))             	 
-      {       
-      if (devices_string)
-        getRecentReadings(true,devices_string);                
-      else
+	if(page == 'home' || page == 'admin' ||page=='devices')
         getRecentReadings(true,grp_id);                
-      }
 	else if(page == 'reports' )
 		getReportBreadcrumbs();
 	else 
@@ -81,7 +73,6 @@ function load()
 	
   }
 }
-
 
 function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
 {
@@ -116,9 +107,10 @@ function getRecentReadings(redrawMap,id) {
 	$("updating").style.visibility = 'visible';
     var bounds = new GLatLngBounds();
     var temp ;
-    var no_data_flag=false;
+    var no_data_flag=false;      
     
-    temp="/readings/recent/" + id 
+      temp="/readings/recent/" + id 
+      
     GDownloadUrl(temp, function(data, responseCode) {
 		devices = [];
 		gmap.clearOverlays();
@@ -178,18 +170,28 @@ function getRecentReadings(redrawMap,id) {
 				devices.push(device);                
                  
 				// Populate the table
+              if (frm_index)
+              {
 				var row = $("row" + device.id);
                                 if (row && row.getElementsByTagName) {
-				  var tds = row.getElementsByTagName("td");
+				  var tds = row.getElementsByTagName("td");                
 				  tds[2].innerHTML = device.address;
 				  if (tds.length == 4)
-					  tds[3].innerHTML = device.dt;
+				  	{                     
+                     tds[3].innerHTML = device.status;                                                                
+                     }
 				  else
-				  {
+				  {                    
 				  	tds[3].innerHTML = device.status;
 					  tds[4].innerHTML = device.dt;
-				  }
-			        }	
+				  }                  
+                 if (tds[1].innerHTML==tds[2].innerHTML)
+                  {
+                    tds[2].innerHTML = device.status;
+                    tds[3].innerHTML = device.dt
+                  }
+                }   
+              }	
 		          var point = new GLatLng(device.lat, device.lng);                
 				gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
 		        bounds.extend(point);
@@ -226,7 +228,7 @@ function getRecentReadings(redrawMap,id) {
                  }
                 else
                  {
-                   if (new_drag_point)
+                   if (new_drag_point)                     
                      gmap.setCenter(new_drag_point, zoom);	
                    else
                      gmap.setCenter(bounds.getCenter(), zl);			
@@ -329,7 +331,7 @@ function highlightRow(id) {
 	}
 	
 	// An id of 0 deselects all
-	if(id > 0) {
+	if(id > 0) {        
 		prevSelectedRow = row;
 		prevSelectedRowClass = row.className;
 		

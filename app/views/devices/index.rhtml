@@ -14,22 +14,24 @@
 	<div>	
 	<table id="ub-table"> 
 		<tr class="header">
+               <td>&nbsp;</td>
 			<td>Name</td>
 			<td>Last Location</td>
 			<td>Last Report</td>			
-			<td>Action</td>
+			<td>&nbsp;</td>
 		</tr>
 	
       <%if !@devices.empty?%>
         <% for device in @devices %>
 			<tr  class="<%= cycle('gray_row','') %>">
+                    <td><a href="/devices/edit/<%= device.id %>" title="Edit properties for this device">edit</a></td>
 				<td><a href="/reports/all/<%= device.id %>"><%= device.name %></a></td> 
 				<td>
                           <%if device.latest_gps_reading %>                
                                <%= device.latest_gps_reading.short_address %> 
-                          <%else%> 
-                               N/A
-                          <%end%>
+                                                   <%else%> 
+                                                        N/A
+                                                   <%end%>
 				</td>
 				<td >
                          <%if device.latest_gps_reading %>                
@@ -38,9 +40,8 @@
                               N/A
                          <%end%>
                     </td>				
-				<td >
-					  <a href="/devices/edit/<%= device.id %>" title="Edit properties for this device">Edit</a> | 
-					  <a href="<%= view_url(:id=>device.id) %>" title="Create and edit geofences for this device">Geofences</a>
+				<td >					  
+					  <a href="<%= view_url(:id=>device.id) %>" title="Create and edit geofences for this device">geofences</a>
 				</td>
 			</tr>
         <% end %>        

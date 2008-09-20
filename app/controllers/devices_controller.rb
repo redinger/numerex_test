@@ -147,8 +147,9 @@ class DevicesController < ApplicationController
   end
 
   def index
-    @devices = Device.get_devices(session[:account_id]) # Get devices associated with account
+      @devices = Device.get_devices(session[:account_id]) # Get devices associated with account                  
   end
+
 
   # Device details view
   def view
@@ -315,20 +316,21 @@ class DevicesController < ApplicationController
     end
   end
 
-  def search_devices
-    @from_search = true
-    search_text = "%"+"#{params[:device_search]}"+"%"
-    if params[:device_search] != ""
-      @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
-    end
-    @search_text = "#{params[:device_search]}"
-    render :action=>'index'
-  end
+     def search_devices        
+         @from_search = true          
+             search_text = "%"+"#{params[:device_search]}"+"%"
+             if params[:device_search] != ""
+                 @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
+             end     
+             @search_text = "#{params[:device_search]}"
+         render :action=>'index'        
+     end
 
 
   # show the current user group
   def show_group
     show_group_by_id()
   end
+
 
 end

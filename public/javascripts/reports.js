@@ -48,12 +48,5 @@ function drawGeofence(p, r) {
 }
 
 
-function select_group()
-{
-  var Index = document.getElementById("select_group").selectedIndex;
-  var selected_text = document.getElementById("select_group").options[Index].text;              
-  szNewURL = "http://"+document.location.hostname+"/reports/group_devices/"+ document.getElementById('select_group').value 
-  window.location.href=szNewURL;                
-}
 
 

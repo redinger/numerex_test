@@ -1,69 +1,12 @@
-<script>
-var devices_string = "<%= @device_string %>";
-</script>
-<table width="100%">
-      <tbody>
-           <tr>
-               <td id="left_panel" valign="top" width="50%">                    
-                  <div id="to_update">
-                  <%= render :partial=>"search_devices_box"%>
-                <table class="panel_table">                
-                    <tr>     
-                       <td colspan="5" class="header"><span class="device_summery"><%if @from_search%> Search Result <%else%>Standard Reports<%end%> </span></td>
-                   </tr>         
-                     <%if @from_search %>
-                             <tr>
-                                <th> Name </th>
-                                <th> Last Location </th>
-                                <th> Last Report </th>
-                             </tr>
-                            <%if !@devices.empty?%>                            
-                                <%for device in @devices%>
-                                    <%= show_device_for_reports(device,'false') %>  
-                                <%end%>    
-                            <%else%>
-                                <tr><td>No devices found. </td></tr>
-                            <%end%>    
-                     <%else%> 
-                            <%for group in @all_groups%>   
-                              <tr class="<%= cycle('dark_row','light_row')%>"> 
-                                    <td width="50%">
-                                    <a href="/reports/group_devices/<%= group.id%>"><%= group.name%></a>
-                                    </td>      
-                                    <td width="50%"><%= group.devices.length%> devices</td>                             
-                             </tr>
-                            <%end%>                
-                            <%if !@default_devices.empty?%>
-                             <tr>
-                                 <td width="50%"><a href="/reports/group_devices/default">Default</a></td>
-                                 <td width="50%"><%= @default_devices.length%> devices</td>
-                             </tr>
-                            <%end%>
-                            <%for device in @devices%>
-                                 <%= show_device_for_reports(device,'true') %> 
-                            <%end%>
-                            <% @default_devices.each do |device|%>
-                                <%= show_device_for_reports(device,'true') %> 
-                            <%end%>
-                     <%end%>
-              </tbody>
-          </table>
-        </div> 
-      </td>                    
-    
-      <%= render :partial=>"rhs_map"%>
-    
- <% if update_readings_automatically? %> 
-    <script>   
-        window.setInterval("updateLocations();", 30000);
-        var devices_string = "<%= @device_string %>";
-        function updateLocations() {  
-          if (devices_string)
-             getRecentReadings(true,devices_string);                          
-          else
-             getRecentReadings(false);                          
-        }
-    </script>            
- <%end%>   
-    </tr>
- </tbody></table>			
+<h3>Select a Device</h3>
+
+<div id="device_list">
+	<ul>
+		<% for device in @devices %>
+	    	<li>
+	    		<a href="/reports/all/<%= device.id %>"><%= device.name %></a> - 
+				<% if device.latest_gps_reading %>reported <%= time_ago_in_words device.latest_gps_reading.created_at%> ago<% else %>no report yet<% end %>
+			</li>
+	    <% end %>
+	</ul>
+</div>

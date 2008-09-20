@@ -1,8 +1,7 @@
-
+<%= render :partial => 'report_header' %>
 <table class="text_width" id="main_table">
 	<tr>
 		<td width="50%" valign="top" id="left_panel">
-               <%= render :partial => 'report_header' %>
 			<table class="panel_table">
 				<tr>
 					<th>Location</th>
@@ -44,6 +43,7 @@
                    <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>              
           </td>
 		<td width="50%" valign="top" id="right_panel">
+            <div class="report_map_header">Locations for <%= @device.name%></div>   
 			<div id="map" class="reports_map"></div>
 		</td>
 	</tr>
