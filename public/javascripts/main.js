@@ -178,7 +178,7 @@ function getRecentReadings(redrawMap,id) {
 				  tds[2].innerHTML = device.address;
 				  if (tds.length == 4)
 				  	{                     
-                     tds[3].innerHTML = device.status;                                                                
+                     tds[3].innerHTML = device.dt;                                                                
                      }
 				  else
 				  {                    
