@@ -45,10 +45,8 @@ class DevicesController < ApplicationController
   def edit
     if request.post?
       device = Device.find(params[:id], :conditions => ["account_id = ?", session[:account_id]])
-      device.name = params[:name]
-      device.imei = params[:imei] if session[:is_admin]
-      if device.save
-        flash[:success] = params[:name] + ' was updated successfully'
+      if device.update_attributes(params[:device])
+        flash[:success] = device.name + ' was updated successfully'
         redirect_to :controller => 'devices'
       else
         flash[:error] =""

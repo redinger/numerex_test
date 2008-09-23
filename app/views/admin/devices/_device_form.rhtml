@@ -30,6 +30,9 @@
 			</select>
 		</td>
 	</tr>
+	<tr><td>Speed Limit:</td><td>&nbsp;</td><td>
+		<input type="text" name="device[max_speed]" value="<%= @device.max_speed %>"<% unless @device.account.allow_speed_exceptions %> disabled<% end %>>
+	</td><td>MPH</td></tr>
 	<tr>
 		<td>Make GeoRSS Public?</td><td>&nbsp;</td><td style="text-align: left"><input type="checkbox" name="device[is_public]" value="1" <% if @device.is_public == 1 %>checked="checked"<% end %> /></td>
 	</tr>

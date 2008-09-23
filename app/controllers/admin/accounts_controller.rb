@@ -56,10 +56,14 @@ class Admin::AccountsController < ApplicationController
   def update
     if request.post?
       account = Account.find(params[:id])
-      account.update_attributes(params[:account])
+      previous_allow_speed_exceptions = account.allow_speed_exceptions
       apply_options_to_account(params,account)
-      
-      if account.save
+      previous_max_speed = account.max_speed
+      if account.update_attributes(params[:account])
+        if previous_max_speed.to_s != account.max_speed.to_s or (previous_allow_speed_exceptions and not account.allow_speed_exceptions)
+          previous_condition = (previous_max_speed ? " and max_speed = #{previous_max_speed}" : " and max_speed is null") if account.allow_speed_exceptions
+          Account.connection.execute("update devices set max_speed = #{account.max_speed or 'null'} where account_id = #{account.id}#{previous_condition}")
+        end
         flash[:success] = "#{account.subdomain} updated successfully"
         redirect_to :action => 'index' and return
       else
@@ -89,7 +93,7 @@ class Admin::AccountsController < ApplicationController
 
 private
   def apply_options_to_account(params,account)
-    update_attributes_with_checkboxes(account,[:show_idle,:show_runtime,:show_statistics,:show_maintenance],params[:options])
+    update_attributes_with_checkboxes(account,[:allow_speed_exceptions,:show_idle,:show_runtime,:show_statistics,:show_maintenance],params[:options])
    end
 
 end

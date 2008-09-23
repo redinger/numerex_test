@@ -2,8 +2,8 @@
 <h3>Editing <%= @device.name %></h3>
 <form method="post" class="form_table">
 <table>
-    <tr><th>Name</th><td><input type="text" name="name" value="<%= h @device.name %>" /></td></tr>
-    <tr><th>IMEI</th><td><input type="text" name="imei" value="<%= @device.imei %>"<% unless session[:is_admin] %> disabled<% end %>/></td></tr>
+    <tr><th>Name</th><td><input type="text" name="device[name]" value="<%= h @device.name %>" /></td></tr>
+    <tr><th>IMEI</th><td><input type="text" name="device[imei]" value="<%= @device.imei %>"<% unless session[:is_admin] %> disabled<% end %>/></td></tr>
 	<% if session[:is_admin] %>
 		<tr><td></td><td><span class="gray_small">(Please note that an invalid IMEI may cause<br />a temporary loss of data)</span></td></tr>
 	<% else %>

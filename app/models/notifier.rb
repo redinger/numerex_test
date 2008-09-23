@@ -1,8 +1,10 @@
 class Notifier < ActionMailer::Base
   
+  SPEED_NOTIFICATION_DELAY = 12 * 60 * 60
+  
   def self.send_geofence_notifications(logger)
     # NOTE: eliminate legacy geofences 'entergeofence_et11' and 'exitgeofence_et52'
-    readings_to_notify = Reading.find(:all, :conditions => "notified='0' and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%') and event_type != 'entergeofen_et11' and event_type != 'exitgeofen_et52'")
+    readings_to_notify = Reading.find(:all, :conditions => "#{NotificationState.instance.reading_bounds_condition} and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%') and event_type != 'entergeofen_et11' and event_type != 'exitgeofen_et52'")
   
     logger.info("Notification needed for #{readings_to_notify.size.to_s} readings\n")
     
@@ -10,8 +12,6 @@ class Notifier < ActionMailer::Base
       action = reading.event_type.include?('exit') ? "exited geofence " : "entered geofence "
       action += reading.get_fence_name unless reading.get_fence_name.nil?
       send_notify_reading_to_users(action,reading)
-      reading.notified = true
-      reading.save    
     end
   end
   
@@ -46,7 +46,7 @@ class Notifier < ActionMailer::Base
   def self.send_gpio_notifications(logger)
     devices_to_notify = Device.find_by_sql("select devices.* from devices,device_profiles where profile_id = device_profiles.id and provision_status_id = 1 and (watch_gpio1 or device_profiles.watch_gpio2)")
     devices_to_notify.each do |device|
-      readings_to_notify = Reading.find(:all,:conditions => "notified=0 and device_id = #{device.id} and gpio1 is not null") # NOTE: assumes if gpio1 is not null, then gpio2 is not null also
+      readings_to_notify = Reading.find(:all,:conditions => "#{NotificationState.instance.reading_bounds_condition} and device_id = #{device.id} and gpio1 is not null") # NOTE: assumes if gpio1 is not null, then gpio2 is not null also
       readings_to_notify.each do |reading|
         if device.last_gpio1.nil?
           device.last_gpio1 = reading.gpio1
@@ -66,8 +66,23 @@ class Notifier < ActionMailer::Base
           action = reading.gpio2 ? device.profile.gpio2_high_notice : device.profile.gpio2_low_notice
           send_notify_reading_to_users(action,reading) if action
         end
-        reading.notified = true
-        reading.save    
+      end
+    end
+  end
+  
+  def self.send_speed_notifications(logger)
+    devices_to_notify = Device.find_by_sql("select devices.* from devices,device_profiles where provision_status_id = 1 and profile_id = device_profiles.id and device_profiles.speeds and max_speed is not null")
+    devices_to_notify.each do |device|
+      readings_to_notify = Reading.find(:all,:conditions => "#{NotificationState.instance.reading_bounds_condition} and device_id = #{device.id} and (speed > #{device.max_speed} or speed = 0)")
+      readings_to_notify.each do |reading|
+        if device.speeding_at and reading.speed == 0 and reading.created_at > device.speeding_at + SPEED_NOTIFICATION_DELAY
+          device.speeding_at = nil
+          device.save
+        elsif device.speeding_at.nil? and reading.speed > device.max_speed
+          device.speeding_at = reading.created_at
+          device.save
+          send_notify_reading_to_users("maximum speed of #{device.max_speed} MPH exceeded",reading)
+        end
       end
     end
   end
