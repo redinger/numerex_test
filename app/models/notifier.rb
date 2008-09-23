@@ -71,23 +71,24 @@ class Notifier < ActionMailer::Base
   end
   
   def self.send_speed_notifications(logger)
-    devices_to_notify = Device.find_by_sql("select devices.* from devices,device_profiles where provision_status_id = 1 and profile_id = device_profiles.id and device_profiles.speeds and max_speed is not null")
+    devices_to_notify = Device.find_by_sql("select devices.* from devices,device_profiles,accounts where provision_status_id = 1 and profile_id = device_profiles.id and device_profiles.speeds and account_id = accounts.id and max_speed is not null")
     devices_to_notify.each do |device|
-      readings_to_notify = Reading.find(:all,:conditions => "#{NotificationState.instance.reading_bounds_condition} and device_id = #{device.id} and (speed > #{device.max_speed} or speed = 0)")
+      readings_to_notify = Reading.find(:all,:conditions => "#{NotificationState.instance.reading_bounds_condition} and device_id = #{device.id} and (speed > #{device.account.max_speed} or speed = 0)")
       readings_to_notify.each do |reading|
         if device.speeding_at and reading.speed == 0 and reading.created_at > device.speeding_at + SPEED_NOTIFICATION_DELAY
           device.speeding_at = nil
           device.save
-        elsif device.speeding_at.nil? and reading.speed > device.max_speed
+        elsif device.speeding_at.nil? and reading.speed > device.account.max_speed
           device.speeding_at = reading.created_at
           device.save
-          send_notify_reading_to_users("maximum speed of #{device.max_speed} MPH exceeded",reading)
+          send_notify_reading_to_users("maximum speed of #{device.account.max_speed} MPH exceeded",reading)
         end
       end
     end
   end
   
   def self.send_notify_reading_to_users(action,reading)
+return puts("SEND: #{action}")
     reading.device.account.users.each do |user|
       if user.enotify == 1       
         logger.info("notifying(1): #{user.email} about: #{action}\n")
@@ -135,9 +136,6 @@ class Notifier < ActionMailer::Base
     @body["action"] = action
     @body["name"] = "#{user.first_name} #{user.last_name}"
     @body["device_name"] = reading.device.name
-    #tz = user.time_zone.nil? ? TimeZone.us_zones[5] : TimeZone.new(user.time_zone)
-    #@body["time"] = tz.adjust(reading.created_at)
-    #@body["time_zone"] = tz.to_s.split(/[\(\\s)]/)[2].strip
   end
   
   def device_offline(user, device)
