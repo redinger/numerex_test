@@ -9,7 +9,7 @@ class NotificationState < ActiveRecord::Base
   
   def begin_reading_bounds
     next_reading = Reading.find(:first,:order => "id desc")
-    @next_reading_id = next_reading.id
+    @next_reading_id = next_reading ? next_reading.id : 0
   end
   
   def end_reading_bounds
