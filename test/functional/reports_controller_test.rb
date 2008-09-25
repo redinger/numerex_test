@@ -49,10 +49,25 @@ class ReportsControllerTest < Test::Unit::TestCase
   end
 
   def test_index
-     get :index, {:id => 1}, {:user => users(:dennis), :account_id => 1}   
+     get :index, {:id => 1}, {:user => users(:dennis), :account_id => 1}
      assert_response :success
   end
   
+  def test_index_for_gmap_session_to_all
+    get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"all"}     
+    assert_response :success            
+   end    
+   
+   def test_index_for_gmap_session_to_default
+        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"default"}     
+        assert_response :success            
+   end    
+
+   def test_index_for_gmap_session_to_group_number
+        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>1}     
+        assert_response :success            
+   end    
+
   # Need to extend the following reports with tests that actually verify page content
   def test_idle
     get :idle, {:id => 1}, {:user => users(:dennis), :account_id => 1}

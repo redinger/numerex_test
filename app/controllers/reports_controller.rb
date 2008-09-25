@@ -8,8 +8,14 @@ class ReportsController < ApplicationController
   NUMBER_OF_DAYS = 7
   MAX_LIMIT = 999 # Max number of results
 
-  def index    
-      @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
+  def index
+     if session[:gmap_value]=="all" 
+         @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
+     elsif session[:gmap_value]=="default"
+         @devices =Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+     else
+         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id],session[:gmap_value]], :order=>'name')
+     end    
   end
 
   def all
