@@ -88,7 +88,6 @@ class Notifier < ActionMailer::Base
   end
   
   def self.send_notify_reading_to_users(action,reading)
-return puts("SEND: #{action}")
     reading.device.account.users.each do |user|
       if user.enotify == 1       
         logger.info("notifying(1): #{user.email} about: #{action}\n")
