@@ -31,6 +31,8 @@ while($running) do
   
   Notifier.send_gpio_notifications(logger)
   
+  Notifier.send_speed_notifications(logger)
+  
   sleep 10
 
 end
