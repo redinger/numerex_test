@@ -25,13 +25,14 @@ while($running) do
   logger.auto_flushing = true
   logger.info("This notification daemon is still running at #{Time.now}.\n")
 
+  NotificationState.instance.begin_reading_bounds
+
   Notifier.send_geofence_notifications(logger)
-  
   Notifier.send_device_offline_notifications(logger)
-  
   Notifier.send_gpio_notifications(logger)
-  
   Notifier.send_speed_notifications(logger)
+  
+  NotificationState.instance.end_reading_bounds
   
   sleep 10
 
