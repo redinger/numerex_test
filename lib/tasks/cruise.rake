@@ -38,6 +38,7 @@ def copy_to_success_tag(rev)
 end
 
 def get_svn_base
+  puts "getting SVN base"
   repo_url = get_repo_url
   puts repo_url
   last_slash = repo_url.rindex('/')
@@ -45,6 +46,7 @@ def get_svn_base
 end
 
 def get_revision_datetime
+  puts "getting revision datetime"
   svn_info = `svn info`
   svn_info.each_line do |line|
     if (line.include?("Last Changed Date:")) 
@@ -58,6 +60,7 @@ def get_revision_datetime
 end
 
 def get_repo_url
+  puts "getting SVN URL"
   svn_info = `svn info`
   puts svn_info
   svn_info.each_line do |line|
