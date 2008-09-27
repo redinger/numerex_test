@@ -21,7 +21,8 @@ task :cruise do
   # Rake::Task["test:integration"].invoke
   begin
     copy_to_success_tag(ENV['CC_BUILD_REVISION'])
-  rescue
+  rescue Exception => e
+    puts e.backtrace[1..-1] 
     puts "unable to tag in SVN"
     puts $!
   end
