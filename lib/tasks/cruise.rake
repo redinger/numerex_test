@@ -25,6 +25,7 @@ task :cruise do
 end
   
   def copy_to_success_tag(rev)
+    puts "tagging successful build in SVN"
     dst = get_svn_base + "/tags/successful_build_" + get_revision_datetime
     cmd = "svn copy -r #{rev} #{get_repo_url} #{dst} -m 'successful build'"
     puts cmd
