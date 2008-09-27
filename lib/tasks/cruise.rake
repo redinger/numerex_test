@@ -31,7 +31,7 @@ end
 
 def copy_to_success_tag(rev)
   puts "tagging revision #{rev} as successful build in SVN"
-  dst = get_svn_base + "/tags/successful_build_" + get_revision_datetime
+  dst = get_svn_base + "/tags/successful_build_" + get_current_revision_datetime
   cmd = "svn copy -r #{rev} #{get_repo_url} #{dst} -m 'successful build'"
   puts cmd
   puts `#{cmd}`
@@ -45,7 +45,7 @@ def get_svn_base
   repo_url[0, last_slash]
 end
 
-def get_revision_datetime
+def get_current_revision_datetime
   puts "getting revision datetime"
   svn_info = `svn info`
   svn_info.each_line do |line|
