@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class GroupTest < Test::Unit::TestCase
-  fixtures :groups, :users
+  fixtures :groups, :users, :group_notifications
 
   def setup
     @group = Group.find(1)
