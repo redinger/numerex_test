@@ -23,6 +23,7 @@ task :cruise do
     copy_to_success_tag(ENV['CC_BUILD_REVISION'])
   rescue
     puts "unable to tag in SVN"
+    puts $!
   end
   
 end
