@@ -22,15 +22,15 @@ task :cruise do
   begin
     copy_to_success_tag(ENV['CC_BUILD_REVISION'])
   rescue Exception => e
-    puts e.backtrace[1..-1] 
     puts "unable to tag in SVN"
     puts $!
+    puts e.backtrace[1..-1] 
   end
   
 end
 
 def copy_to_success_tag(rev)
-  puts "tagging successful build in SVN"
+  puts "tagging revision #{rev} as successful build in SVN"
   dst = get_svn_base + "/tags/successful_build_" + get_revision_datetime
   cmd = "svn copy -r #{rev} #{get_repo_url} #{dst} -m 'successful build'"
   puts cmd
@@ -59,6 +59,7 @@ end
 
 def get_repo_url
   svn_info = `svn info`
+  puts svn_info
   svn_info.each_line do |line|
     if (line.include?("URL:")) 
       line.slice!("URL:")
