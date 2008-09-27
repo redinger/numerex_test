@@ -19,45 +19,48 @@ task :cruise do
   
   # Commenting until we have integration tests...
   # Rake::Task["test:integration"].invoke
-  
-  copy_to_success_tag(ENV['CC_BUILD_REVISION'])
+  begin
+    copy_to_success_tag(ENV['CC_BUILD_REVISION'])
+  rescue
+    puts "unable to tag in SVN"
+  end
   
 end
-  
-  def copy_to_success_tag(rev)
-    puts "tagging successful build in SVN"
-    dst = get_svn_base + "/tags/successful_build_" + get_revision_datetime
-    cmd = "svn copy -r #{rev} #{get_repo_url} #{dst} -m 'successful build'"
-    puts cmd
-    puts `#{cmd}`
-  end
-  
-  def get_svn_base
-    repo_url = get_repo_url
-    puts repo_url
-    last_slash = repo_url.rindex('/')
-    repo_url[0, last_slash]
-  end
-  
-  def get_revision_datetime
-    svn_info = `svn info`
-    svn_info.each_line do |line|
-      if (line.include?("Last Changed Date:")) 
-        line.slice!("Last Changed Date:")
-        line.slice!(/\(.*\)/)
-        datetime = line[0, line.rindex(/[+-]/)]
-        datetime.delete!(" :-")
-        return datetime.strip
-      end
+
+def copy_to_success_tag(rev)
+  puts "tagging successful build in SVN"
+  dst = get_svn_base + "/tags/successful_build_" + get_revision_datetime
+  cmd = "svn copy -r #{rev} #{get_repo_url} #{dst} -m 'successful build'"
+  puts cmd
+  puts `#{cmd}`
+end
+
+def get_svn_base
+  repo_url = get_repo_url
+  puts repo_url
+  last_slash = repo_url.rindex('/')
+  repo_url[0, last_slash]
+end
+
+def get_revision_datetime
+  svn_info = `svn info`
+  svn_info.each_line do |line|
+    if (line.include?("Last Changed Date:")) 
+      line.slice!("Last Changed Date:")
+      line.slice!(/\(.*\)/)
+      datetime = line[0, line.rindex(/[+-]/)]
+      datetime.delete!(" :-")
+      return datetime.strip
     end
   end
-  
-  def get_repo_url
-    svn_info = `svn info`
-    svn_info.each_line do |line|
-      if (line.include?("URL:")) 
-        line.slice!("URL:")
-        return line.strip!
-      end
+end
+
+def get_repo_url
+  svn_info = `svn info`
+  svn_info.each_line do |line|
+    if (line.include?("URL:")) 
+      line.slice!("URL:")
+      return line.strip!
     end
   end
+end
