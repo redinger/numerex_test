@@ -1,4 +1,4 @@
-class Notifier < ActionMailer::Base
+class Notifier < ActionMailer::Base  
   
   SPEED_NOTIFICATION_DELAY = 12 * 60 * 60
   
@@ -20,25 +20,25 @@ class Notifier < ActionMailer::Base
     devices_to_notify.each do |device| 
       last_notification = device.last_offline_notification
       if (last_notification.nil? || Time.now - last_notification.created_at > 24*60*60)
-        device.account.users.each do |user|
-          if user.enotify == 1
-            logger.info("device offline, notifying: #{user.email}\n")
-            mail = deliver_device_offline(user, device)         
-          elsif user.enotify == 2
-            devices_ids = user.group_devices_ids
-            if !devices_ids.empty? || devices_ids.include?(device.id)
-              logger.info("device offline, notifying: #{user.email}\n")
-              mail = deliver_device_offline(user, device)                         
-            end    
+            device.account.users.each do |user|
+              if user.enotify == 1
+                logger.info("device offline, notifying: #{user.email}\n")
+                mail = deliver_device_offline(user, device)         
+              elsif user.enotify == 2
+                devices_ids = user.group_devices_ids
+                if !devices_ids.empty? || devices_ids.include?(device.id)
+                  logger.info("device offline, notifying: #{user.email}\n")
+                  mail = deliver_device_offline(user, device)                         
+                end    
+              end
+              if user.enotify != 0
+                notification = Notification.new
+                notification.user_id = user.id
+                notification.device_id = device.id
+                notification.notification_type = "device_offline"
+                notification.save   
           end
-          if user.enotify != 0
-            notification = Notification.new
-            notification.user_id = user.id
-            notification.device_id = device.id
-            notification.notification_type = "device_offline"
-            notification.save   
-          end 
-        end
+        end 
       end
     end
   end
@@ -102,6 +102,7 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  
   def forgot_password(user, url=nil)
     setup_email(user)
 
@@ -135,10 +136,16 @@ class Notifier < ActionMailer::Base
     @body["action"] = action
     @body["name"] = "#{user.first_name} #{user.last_name}"
     @body["device_name"] = reading.device.name
+    if !user.nil? && user.time_zone
+      Time.zone = user.time_zone 
+    else
+      Time.zone = 'Central Time (US & Canada)'  
+    end     
+    @body["display_time"] = reading.get_local_time(reading.created_at.in_time_zone.inspect)
   end
   
   def device_offline(user, device)
-    @recipients = user.email
+    @recipients =user.email
     @from = "alerts@ublip.com"
     @subject = "Device Offline Notification"
     @body["device_name"] = device.name
