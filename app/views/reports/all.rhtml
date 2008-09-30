@@ -16,7 +16,7 @@
 					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
 						<td>
                                <%if reading.short_address==', '%>
-                                    <a href="#">Not Available</a>
+                                    Not Available
                                <%else%>
                                    <a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>)" title="Center map on this location" ><%= reading.short_address %></a>
                                <%end%>    
