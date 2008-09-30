@@ -172,12 +172,6 @@ input[type="text"], input[type="password"]{
 	border-left: 1px solid #CCCCCC;
 	padding:2px;}
 
-select {
-	border-top: 1px solid #CCCCCC;
-	border-right: 1px solid #EEEEEE;
-	border-bottom: 1px solid #EEEEEE;
-	border-left: 1px solid #CCCCCC;}
-
 .label {
 	text-align: right;
 	padding-right: 10px;
@@ -746,10 +740,6 @@ h4 {
 	margin-top: 10px}
 
 @charset utf-8;
-
-* {
-	margin:0;
-	padding:0;}
 
 h1,h2,h3,h4,h5,p,ul {
 	list-style:none;
