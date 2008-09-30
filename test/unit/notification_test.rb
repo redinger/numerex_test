@@ -75,6 +75,7 @@ class NotificationTest < Test::Unit::TestCase
 
 context "A speeding notification" do
   setup do
+    User.delete_all #must delete since some tests are still using fixtures
     account = Factory.create :account
     @user1 = Factory.create :user, :account => account, :enotify => true
     @user2 = Factory.create :user, :account => account, :enotify => true
@@ -88,6 +89,7 @@ context "A speeding notification" do
       end
       
       def deliver_notify_reading(user, action, reading)
+        puts "notifying #{user.first_name}"
         @test.record_notification(user)
       end
     end
