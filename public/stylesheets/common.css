@@ -919,7 +919,7 @@ div#error_message {
 	background-color: #FF6262;
 	font-size: 14px;
 	font-weight: bold;
-	margin-top: 10px;
+	margin: 10px 0;
 	padding: 5px;}
 
 div#success_message {
@@ -929,7 +929,7 @@ div#success_message {
 	font-weight: bold;
 	color: #FFFFFF;
 	padding: 5px;
-	margin-top: 10px;}
+	margin: 10px 0;}
 
 #ub_account_tbl{
 	width:23%; 
