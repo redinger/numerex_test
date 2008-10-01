@@ -16,41 +16,62 @@ class NotificationTest < Test::Unit::TestCase
     @notified_readings.push(reading)
   end
   
-  def test_notify_device_offline
-    user = Factory.build(:user)
-    device = Factory.build(:device)
-    response = Notifier.deliver_device_offline(user, device)
-    puts response.body
-    assert_equal 'Device Offline Notification', response.subject
-    assert_match /Dear #{user.first_name} #{user.last_name},\n\n#{device.name} seems to be offline/, response.body
+  context "a device offline notification" do
+    setup do
+      @user = Factory.build(:user)
+      @device = Factory.build(:device)
+      @response = Notifier.deliver_device_offline(@user, @device)
+    end
+    
+    should "have the correct content" do
+      assert_equal 'Device Offline Notification', @response.subject
+      assert_match /Dear #{@user.first_name} #{@user.last_name},\n\n#{@device.name} seems to be offline/, @response.body
+    end
   end
   
-  def test_notify_forgot_password
-    user = Factory.build(:user)
-    response = Notifier.deliver_forgot_password(user, "http://a.com")
-    assert_equal 'Forgotten Password Notification', response.subject
-    assert_equal user.email, response.destinations[0]
+  context "a forgotten password notification" do
+    setup do
+      @user = Factory.build(:user)
+      @response = Notifier.deliver_forgot_password(@user, "http://a.com")
+    end
+    should "have the proper content" do
+      assert_equal 'Forgotten Password Notification', @response.subject
+      assert_equal @user.email, @response.destinations[0]
+    end
   end
   
-  def test_notify_change_password
-    user = Factory.build(:user)
-    response = Notifier.deliver_change_password(user, "http://a.com")
-    assert_equal 'Changed Password Notification', response.subject
-    assert_equal user.email, response.destinations[0]
+  
+  context "A password change notification" do
+    setup do
+      @user = Factory.build(:user)
+      @response = Notifier.deliver_change_password(@user, "http://a.com")
+    end
+    should "have the correct content" do
+      assert_equal 'Changed Password Notification', @response.subject
+      assert_equal @user.email, @response.destinations[0]
+    end
   end
   
-  def test_notify_app_feedback
-    user = Factory.build(:user)
-    response = Notifier.deliver_app_feedback(user, "qwerty", "your app rocks!")
-    assert_equal 'Feedback from qwerty.ublip.com', response.subject
-    assert_equal "support@ublip.com", response.destinations[0]
+  context "A feedback notification" do
+    setup do
+      @user = Factory.build(:user)
+      @response = Notifier.deliver_app_feedback(@user, "qwerty", "your app rocks!")
+    end
+    should "have the proper content" do
+      assert_equal 'Feedback from qwerty.ublip.com', @response.subject
+      assert_equal "support@ublip.com", @response.destinations[0]
+    end
   end
   
-  def test_notify_order_confirmation
-    user = Factory.build(:user)
-    response = Notifier.deliver_order_confirmation(42, 42, "order_details", user.email, "password", "qwerty")
-    assert_equal 'Thank you for ordering from Ublip', response.subject
-    assert_equal user.email, response.destinations[0]
+  context "an order confirmation email" do
+    setup do
+      @user = Factory.build(:user)
+      @response = Notifier.deliver_order_confirmation(42, 42, "order_details", @user.email, "password", "qwerty")
+    end
+    should "have the correct content" do
+      assert_equal 'Thank you for ordering from Ublip', @response.subject
+      assert_equal @user.email, @response.destinations[0]
+    end
   end
   
   context "A reading notification" do
