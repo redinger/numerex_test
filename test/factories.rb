@@ -35,6 +35,7 @@ end
 Factory.define :device do |d|
   d.imei {Factory.next(:imei)}
   d.name {Factory.next(:device_name)}
+  d.last_online_time Time.now
   d.account {|account| account.association(:account)}
 end
 
