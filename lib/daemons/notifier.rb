@@ -34,6 +34,6 @@ while($running) do
   
   NotificationState.instance.end_reading_bounds
   
-  sleep 10
+  sleep 60
 
 end
