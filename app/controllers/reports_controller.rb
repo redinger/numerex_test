@@ -9,12 +9,18 @@ class ReportsController < ApplicationController
   MAX_LIMIT = 999 # Max number of results
 
   def index
+    
+    if params[:group_id]
+      session[:gmap_value] = params[:group_id] # To allow groups to be selected on reports index page
+    end
+    
+     @groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
      if session[:gmap_value]=="all" 
          @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
      elsif session[:gmap_value]=="default"
-         @devices =Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+         @devices = Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
      else
-         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id],session[:gmap_value]], :order=>'name')
+         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id], session[:gmap_value]], :order=>'name')
      end    
   end
 

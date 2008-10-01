@@ -12,13 +12,13 @@
 	<% page_action = request.path_info.split("/")[2]  %>
 	
 	<div id="nav_tabs">
-		<ul >
-	   		<li <% if page_name== 'home'%> class="selected"<% end %>><a href="/home">Overview</a></li>
+		<ul>
+	   		<li <% if page_name== 'home'%> class="selected "<% end %> style="margin-left: 10px"><a href="/home">Overview</a></li>
 			<li <% if page_name == 'reports' %> class="selected_subnav"<% end %>><a href="/reports">Reports</a></li>
-			<li <% if page_name == 'contact' %> class="selected"<% end %> style="float:right;"><a href="/contact">Contact</a></li>
+			<li <% if page_name == 'contact' %> class="selected"<% end %> style="float:right; margin-right: 10px;"><a href="/contact">Contact</a></li>
 			<li <% if page_name == 'settings' %> class="selected"<% end %> style="float:right;"><a href="/settings">Settings</a></li>
 			<li <% if page_name == 'users' %> class="selected_subnav"<% end %> style="float:right;"><a href="/users">Users</a></li>
-			<li <% if page_name == 'devices' || page_name == 'geofence' %> class="selected_subnav"<% end %>><a href="/devices">Devices</a></li>
+			<li <% if page_name == 'devices' || page_name == 'geofence' %> class="selected_subnav"<% end %> style="float: right;"><a href="/devices">Devices</a></li>
 		</ul>
     </div>
      

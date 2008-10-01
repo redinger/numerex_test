@@ -9,8 +9,8 @@ body {
 
 #nav_tabs {
 	background-color: #0066FF;
-	padding: 0 15px;
 	position: absolute;
+	width: 100%;
 	bottom: 0px;}
 
 #nav_tabs ul {
@@ -23,7 +23,8 @@ body {
 	display: inline;
 	background-color: #003366;
 	padding: 4px 0; /* 1px less padding for IE */
-	margin: 0 1px;}
+	margin: 0 1px;
+}
 
 #nav_tabs a {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
@@ -1056,4 +1057,4 @@ div#footer {
 	font-size: 10px;
 	clear:both;}
 	
-/*footer CSS End*/		
+/*footer CSS End*/

@@ -13,7 +13,7 @@
 	<% controller_parts = controller.split('/') %>
 	<div id="nav_tabs">
 		<ul>
-	   		<li <% if controller == 'admin' %> class="selected"<% end %>><a href="/admin">Overview</a></li>
+	   		<li <% if controller == 'admin' %> class="selected"<% end %> style="margin-left: 10px"><a href="/admin">Overview</a></li>
 			<li <% if controller == 'admin/accounts' %> class="selected_subnav"<% end %>><a href="/admin/accounts">Accounts</a></li>
 			<li <% if controller == 'admin/users' %> class="selected_subnav"<% end %>><a href="/admin/users">Users</a></li>
 			<li <% if controller == 'admin/devices' %> class="selected_subnav"<% end %>><a href="/admin/devices">Devices</a></li>
