@@ -22,29 +22,7 @@
                                <%end%>    
                               </td>
 						<% if @device.profile.speeds %><td><%= reading.speed %></td><% end %>
-						<td>
-							<% if reading.event_type.nil? %>
-								-
-							<% else %>
-								<% if reading.event_type.index('enter') %>
-									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
-								<% elsif reading.event_type.index('exit') %>
-									<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report" >Exit geofence</a>
-								<% elsif @device.profile.stops and (reading.event_type =='startstop_et41' || reading.event_type == 'stop') && reading.speed==0 %>
-									<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
-								<% elsif @device.profile.idles and reading.event_type == 'idle' %>
-									<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
-								<% elsif (@device.profile.runs or @device.profile.idles) and reading.event_type.index('engine') %>
-									<% if @device.profile.runs %>
-										<a href="/reports/runtime/<%= params[:id] %>" title="View runtime report"><%= reading.event_type.titleize %></a>
-									<% else %>
-										<%= reading.event_type.titleize %>
-									<% end %>
-								<% else %>
-									-
-								<% end %>
-							<% end %>
-						</td>                                                            
+						<td><%= render :partial => 'event_display',:locals => {:reading => reading} %></td>
 						<%if @device.profile.gpio1_name %>
 							<% if reading.gpio1.nil? %>
 								<td>-</td>

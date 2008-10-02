@@ -36,6 +36,20 @@ class ReportsController < ApplicationController
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
+  
+  def speeding
+    get_start_and_end_date
+    @device = Device.find(params[:id])    
+    @device_names = Device.get_names(session[:account_id])
+    @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
+      :conditions => ["device_id = ? and speed > ? and created_at between ? and ?",params[:id],(@device.account.max_speed or -1),@start_dt_str, @end_dt_str],
+      :order => "created_at desc")
+    @record_count = Reading.count('id',
+      :conditions => ["device_id = ? and speed > ? and created_at between ? and ?", params[:id],(@device.account.max_speed or -1),@start_dt_str, @end_dt_str])
+    @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
+    @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
+  end
+  
   def stop
     get_start_and_end_date
     @device = Device.find(params[:id])
@@ -48,7 +62,6 @@ class ReportsController < ApplicationController
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
-
 
   def idle
     get_start_and_end_date
@@ -123,10 +136,11 @@ class ReportsController < ApplicationController
       params[:page] = 1
     end
     # Determine report type so we know what filter to apply
-    if params[:type] == 'all'
-      event_type = '%'
-    elsif params[:type] == 'geofence'
-      event_type = '%geofen%'
+    case params[:type]
+      when 'geofence'
+        event_type = '%geofen%'
+      else
+        event_type = '%'
     end
     get_start_and_end_date
     if params[:type]=='stop'
