@@ -9,6 +9,7 @@ class NotificationTest < Test::Unit::TestCase
     ActionMailer::Base.deliveries = []
     @notified_users = Array.new
     @notified_readings = Array.new
+    
   end
   
   def record_notification(user, reading)
@@ -86,8 +87,8 @@ class NotificationTest < Test::Unit::TestCase
       assert_equal  @response_user1.subject, "#{@reading.device.name} did something"
       assert_equal  [@user1.email], @response_user1.to
       assert_equal ["alerts@ublip.com"], @response_user1.from
-      assert_equal "Dear #{@user1.first_name} #{@user1.last_name},\n\nDevice 1 did something at Sat, Jan 01 2000 20:15:01\n", @response_user1.body
-      assert_equal "Dear #{@user2.first_name} #{@user2.last_name},\n\nDevice 1 did something at Sat, Jan 01 2000 12:15:01\n", @response_user2.body
+      assert_equal "Dear #{@user1.first_name} #{@user1.last_name},\n\n#{@reading.device.name} did something at Sat, Jan 01 2000 20:15:01\n", @response_user1.body
+      assert_equal "Dear #{@user2.first_name} #{@user2.last_name},\n\n#{@reading.device.name} did something at Sat, Jan 01 2000 12:15:01\n", @response_user2.body
     end
   end
   
@@ -105,7 +106,19 @@ class NotificationTest < Test::Unit::TestCase
       end
       Notifier.extend(MockNotify)
       Notifier.set_test(self)
-      User.delete_all #must delete since some tests are still using fixtures
+      User.delete_all 
+      Group.delete_all
+      Device.delete_all
+      GroupNotification.delete_all
+      Account.delete_all
+      Reading.delete_all
+      end
+    
+    teardown do
+      Object.class_eval do
+        remove_const :Notifier.to_s
+        load "notifier.rb"
+      end
     end
     
     context "without groups" do
@@ -151,10 +164,10 @@ class NotificationTest < Test::Unit::TestCase
       end
       
       should "only notify user for subscribed groups" do
-      assert_equal 2, @notified_users.size
+      assert_equal 2, @notified_users.size, "wrong number of notified users"
       assert_equal @user4, @notified_users[0]
       assert_equal @user4, @notified_users[1]
-      assert_equal 2, @notified_readings.size
+      assert_equal 2, @notified_readings.size, "wrong number of notified readings"
       assert @notified_readings.include?(@reading1)
       assert @notified_readings.include?(@reading2)
       assert_equal false, @notified_readings.include?(@reading3)
