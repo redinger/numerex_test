@@ -1,7 +1,5 @@
 class Notifier < ActionMailer::Base  
   
-  SPEED_NOTIFICATION_DELAY = 12 * 60 * 60
-  
   def self.send_geofence_notifications(logger)
     # NOTE: eliminate legacy geofences 'entergeofence_et11' and 'exitgeofence_et52'
     readings_to_notify = Reading.find(:all, :conditions => "#{NotificationState.instance.reading_bounds_condition} and (event_type LIKE 'entergeofen%' OR event_type LIKE 'exitgeofen%') and event_type != 'entergeofen_et11' and event_type != 'exitgeofen_et52'")
@@ -75,12 +73,16 @@ class Notifier < ActionMailer::Base
     devices_to_notify.each do |device|
       readings_to_notify = Reading.find(:all,:conditions => "#{NotificationState.instance.reading_bounds_condition} and device_id = #{device.id} and (speed > #{device.account.max_speed} or speed = 0)")
       readings_to_notify.each do |reading|
-        if device.speeding_at and reading.speed == 0 and reading.created_at > device.speeding_at + SPEED_NOTIFICATION_DELAY
+        if device.speeding_at and reading.speed == 0
           device.speeding_at = nil
           device.save
         elsif device.speeding_at.nil? and reading.speed > device.account.max_speed
           device.speeding_at = reading.created_at
           device.save
+          if reading.event_type == 'normal' # NOTE: we're only setting the "speeding" event if nothing else is set to avoid overwriting anything
+            reading.event_type = 'speeding'
+            reading.save
+          end
           send_notify_reading_to_users("maximum speed of #{device.account.max_speed} MPH exceeded",reading)
         end
       end
