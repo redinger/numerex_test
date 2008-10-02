@@ -26,7 +26,7 @@ class Notifier < ActionMailer::Base
                 mail = deliver_device_offline(user, device)         
               elsif user.enotify == 2
                 devices_ids = user.group_devices_ids
-                if !devices_ids.empty? || devices_ids.include?(device.id)
+                if devices_ids.include?(device.id)
                   logger.info("device offline, notifying: #{user.email}\n")
                   mail = deliver_device_offline(user, device)                         
                 end    
