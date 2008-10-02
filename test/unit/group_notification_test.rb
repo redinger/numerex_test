@@ -7,6 +7,7 @@ class GroupNotificationTest < Test::Unit::TestCase
       @logger = ActiveRecord::Base.logger
       @logger.auto_flushing = true
       @logger.info("This notification daemon is still running at #{Time.now}.\n")    
+      NotificationState.instance.begin_reading_bounds
   end
   
     #~ def test_send_geofence_notifications
@@ -27,6 +28,6 @@ class GroupNotificationTest < Test::Unit::TestCase
     
     def test_send_speed_notifications
         devices_to_notify = Notifier.send_speed_notifications(@logger)
-        assert_equal 0,devices_to_notify.length
+        assert_equal 5,devices_to_notify.length
     end    
 end
