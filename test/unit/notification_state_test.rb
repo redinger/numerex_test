@@ -1,9 +1,13 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class NotificationStateTest < ActiveSupport::TestCase
-  fixtures :notification_states,:readings
+  fixtures :notification_states, :readings
 
   def test_precise_ranges
+    
+    Reading.delete_all #interaction with other test calling NotificationState methods require this
+    load_fixtures
+    
     all_readings_count = Reading.count(:all)
     
     NotificationState.instance.begin_reading_bounds
