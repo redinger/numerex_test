@@ -11,6 +11,7 @@ device1:
  online_threshold: NULL
  is_public: true
  icon_id: 4
+ device_profile_id: 1
  
 device2:
  id: 2
@@ -20,6 +21,7 @@ device2:
  recent_reading_id: 2
  provision_status_id: 1
  account_id: 1 # Dennis Co
+ device_profile_id: 1
  
 device3:
  id: 3
@@ -32,6 +34,7 @@ device3:
  group_id: 2
  last_online_time: <%= (Time.now-120*60).to_s :db %>
  icon_id: 3
+ device_profile_id: 1
  
 device4:
  id: 4
@@ -43,6 +46,7 @@ device4:
  group_id: 5
  last_online_time: <%= Time.now.to_s :db %>
  icon_id: 8
+ device_profile_id: 1
  
 device5:
  id: 5
@@ -52,6 +56,7 @@ device5:
  recent_reading_id: 5
  provision_status_id: 0
  last_online_time: <%= Time.now.to_s :db %> 
+ device_profile_id: 1
   
 device6:
  id: 6
@@ -64,6 +69,7 @@ device6:
  group_id: 1
  last_online_time: <%= Time.now.to_s :db %> 
  icon_id: 4
+ device_profile_id: 1
  
 device7:
  id: 7
@@ -74,6 +80,7 @@ device7:
  provision_status_id: 1
  account_id: 2
  last_online_time: <%= Time.now.to_s :db %> 
+ device_profile_id: 1
  
 device8:
  id: 8
@@ -84,3 +91,4 @@ device8:
  provision_status_id: 1
  account_id: 6
  last_online_time: <%= Time.now.to_s :db %>
+ device_profile_id: 1
