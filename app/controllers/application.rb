@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   end
   
 
- 
+
   def set_time_zone
     user = User.find_by_id(session[:user_id])
     if !user.nil? && user.time_zone
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
     else
       Time.zone = 'Central Time (US & Canada)'  
        end    
-    end
+  end
 
     def create_referral_url
          unless request.env["HTTP_REFERER"].blank?
@@ -73,36 +73,19 @@ class ApplicationController < ActionController::Base
        end           
    end
 
-   def check_the_session_for_active_group
-         if session[:gmap_value] == "all" || session[:gmap_value].nil?        
-             @groups = @all_groups
-             session[:gmap_value] = "all"
-             @show_default_devices = true
-         elsif session[:gmap_value] == 'default'
-             @groups = []  
-             @show_default_devices = true
-         else
-             @groups=Group.find(:all, :conditions=>['id=?',session[:gmap_value]], :order=>'name')                               
-             @show_default_devices = false
-         end                
-   end
-
-   def assign_the_selected_group_to_session
-        if params[:type] == "all"
-             session[:gmap_value] = "all"
+   def assign_the_selected_group_to_session        
+        session[:group_value]="all"  if session[:group_value].nil?        
+        if session[:group_value]=="all"              
              @groups= @all_groups          
              @show_default_devices = true
-        elsif params[:type] == "default"
-             session[:gmap_value] = params[:type]
+        elsif session[:group_value]=="default"             
              @groups = []
              @show_default_devices = true
         else
-             @groups=Group.find(:all, :conditions=>['id=?',params[:type]], :order=>'name')
-             session[:gmap_value] = params[:type]         
+             @groups=Group.find(:all, :conditions=>['id=?',session[:group_value]], :order=>'name', :include=>[:devices])            
              @show_default_devices = false
-        end           
+         end                    
    end    
-
 
 private
 

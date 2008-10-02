@@ -13,7 +13,7 @@
 		<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Exit geofence</a>
 	<% end%>
 <% elsif @device.profile.stops and (reading.event_type =='startstop_et41' || reading.event_type == 'stop') && reading.speed==0 %>
-	<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
+	<a href="/reports/stop/<%= params[:id] %>?end_date=<%= reading.created_at.to_date %>&start_date=<%= reading.created_at.to_date%>" title="View stop report" >Stop</a>
 <% elsif @device.profile.idles and reading.event_type == 'idle' %>
 	<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
 <% elsif @device.profile.speeds and reading.event_type == 'speeding' %>

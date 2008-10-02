@@ -12,6 +12,7 @@ var grp_id;
 var infowindow;
 var new_drag_point;
 var zoom_val = get_cookie("zvalue");
+var zoom_val_for_overview = get_cookie("zvalue_overview");
 function load() 
 {
   if (GBrowserIsCompatible()) {
@@ -57,16 +58,19 @@ function load()
 	GEvent.addListener(gmap, "zoomend", function(oldZoom, newZoom) {        
 		zoom = newZoom; 
         if(page == 'reports')        
-          set_cookie("zvalue",zoom);        
-        new_drag_point =  gmap.getCenter();         
+          set_cookie("zvalue",zoom); 
+        if (page == 'home')        
+          set_cookie("zvalue_overview",zoom) ;                                      
+          new_drag_point =  gmap.getCenter();         
 	});
-	
-    
+	    
 	// Only load this on home page
 	var page = document.location.href.split("/")[3];            
 	if(page == 'home' || page == 'admin' ||page=='devices')
+        {        
         getRecentReadings(true,grp_id);                
-	else if(page == 'reports' )
+        }
+	else if(page == 'reports' )        
 		getReportBreadcrumbs();
 	else 
 		getBreadcrumbs(device_id);
@@ -74,183 +78,144 @@ function load()
   }
 }
 
-function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
-{
-  var cookie_string = name + "=" + escape ( value );
+     function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
+         {
+             var cookie_string = name + "=" + escape ( value );
+             if ( exp_y )
+                 {
+                     var expires = new Date ( exp_y, exp_m, exp_d );
+                     cookie_string += "; expires=" + expires.toGMTString();
+                 }
+                 cookie_string += "; path=/" ;
+                 document.cookie = cookie_string;
+         }
 
-  if ( exp_y )
-  {
-    var expires = new Date ( exp_y, exp_m, exp_d );
-    cookie_string += "; expires=" + expires.toGMTString();
-  }
-  cookie_string += "; path=/" ;
-  document.cookie = cookie_string;
-}
+    function get_cookie ( cookie_name )
+     {
+         var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );  
+         if ( results )
+             return ( unescape ( results[2] ) );
+         else
+             return null;
+     }
+    
+    if (parseInt(zoom_val) > 0)
+         {var zoom= parseInt(zoom_val);}
+    else
+         {var zoom= 15;}
 
-function get_cookie ( cookie_name )
-{
-  var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );  
-  if ( results )
-    return ( unescape ( results[2] ) );
-  else
-    return null;
-}
-
-if (parseInt(zoom_val) > 0)
-{var zoom= parseInt(zoom_val);}
-else
-{var zoom= 15;}
 
 // Display all devices on overview page
-function getRecentReadings(redrawMap,id) {     
-     grp_id =  id ;
-	$("updating").style.visibility = 'visible';
-    var bounds = new GLatLngBounds();
-    var temp ;
-    var no_data_flag=false;      
-    
-      temp="/readings/recent/" + id 
-      
-    GDownloadUrl(temp, function(data, responseCode) {
-		devices = [];
-		gmap.clearOverlays();
-        var xml = GXml.parse(data);
-		var ids = xml.documentElement.getElementsByTagName("id");
-		var names = xml.documentElement.getElementsByTagName("name");
-        var lats = xml.documentElement.getElementsByTagName("lat");
-        var lngs = xml.documentElement.getElementsByTagName("lng");
-		var dts = xml.documentElement.getElementsByTagName("dt");
-		var addresses = xml.documentElement.getElementsByTagName("address");
-		var statuses = xml.documentElement.getElementsByTagName("status");
-		var notes = xml.documentElement.getElementsByTagName("note");
-		var icon_id = xml.documentElement.getElementsByTagName("icon_id");		        
-		for(var i = 0; i < lats.length; i++) {              
-			if(lats[i].firstChild) {
-                 if (lats[i].firstChild != null)
-                 {
-                    no_data_flag = true;
-                 }
-				// Check for existence of address
-				var address = "N/A";
-				if(addresses[i].firstChild != undefined)
-					address = addresses[i].firstChild.nodeValue;
-					
+ function getRecentReadings(redrawMap,id)  // code cleanup remains
+    {    
+    if (parseInt(zoom_val_for_overview) > 0)
+         {var zoom= parseInt(zoom_val_for_overview);}
+    else
+         {var zoom= 15;}
+     grp_id =  id ;     
+	 $("updating").style.visibility = 'visible';
+     var bounds = new GLatLngBounds();
+     var temp ;
+     var no_data_flag=false;    
+     if (devices[0] != null)                 
+         no_data_flag = true;                      
+         
+         for(var i = 0; i < devices.length; i++) {              					                             
 			 // check for the group image
-			
-			 var icon_id_1
-			  if(icon_id[i].firstChild != undefined)
-					icon_id_1 = icon_id[i].firstChild.nodeValue;
-				  
-                     if (icon_id_1 == 1)
-                   iconALL.image=" /icons/ublip_marker.png" ;
-                   else if (icon_id_1 == 2)
-                   iconALL.image=" /icons/ublip_red.png" ;
-                  else if (icon_id_1 == 3)
-                   iconALL.image=" /icons/green_big.png" ;
-                    else if (icon_id_1 == 4)
-                   iconALL.image="/icons/yellow_big.png" ;
-                    else if (icon_id_1 == 5)
-                   iconALL.image="/icons/purple_big.png" ;
-                     else if (icon_id_1 == 6)
-                   iconALL.image="/icons/dark_blue_big.png" ;
-                    else if (icon_id_1 == 7)
-                   iconALL.image="/icons/grey_big.png" ;
-                    else if (icon_id_1 == 8)
-                   iconALL.image="/icons/orange_big.png" ;
-                    else
-                    
-                    iconALL.image = "/icons/ublip_marker.png";
-			  
-				// Check for existence of note
-				var note = '';
-				if(notes[i].firstChild != undefined)
-					note = notes[i].firstChild.nodeValue;
-					
-				var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, status: statuses[i].firstChild.nodeValue};
-				devices.push(device);                
-                 
+			 var device = devices[i]
+			 var icon_id_1			  
+             icon_id_1 = device.icon_id;
+			 set_marker_image_for_device(icon_id_1); //set the marker image for device	  			  
 				// Populate the table
-              if (frm_index)
-              {
-				var row = $("row" + device.id);
-                                if (row && row.getElementsByTagName) {
-				  var tds = row.getElementsByTagName("td");                
-				  tds[2].innerHTML = device.address;
-				  if (tds.length == 4)
-				  	{                     
-                     tds[3].innerHTML = device.dt;                                                                
-                     }
-				  else
-				  {                    
-				  	tds[3].innerHTML = device.status;
-					  tds[4].innerHTML = device.dt;
-				  }                  
-                 if (tds[1].innerHTML==tds[2].innerHTML)
-                  {
-                    tds[2].innerHTML = device.status;
-                    tds[3].innerHTML = device.dt
-                  }
-                }   
-              }	
-		          var point = new GLatLng(device.lat, device.lng);                
-				gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
-		        bounds.extend(point);
-			}
-		}
-		
-		$("updating").style.visibility = 'hidden';
-		
-		// Don't continue if there's no data
-		if (ids.length == 0)
-        {
-          if (new_drag_point)
-            gmap.setCenter(new_drag_point, zoom);
-          else
-            gmap.setCenter(new GLatLng(37.0625, -95.677068), 3);
-          
-          return;        
-        }
-        
-         if (no_data_flag)
-         { 
-            if(redrawMap == undefined || redrawMap == true) {      
-                // If there's only one device let's not zoom all the way in
-                var zl = (devices.length > 1) ? gmap.getBoundsZoomLevel(bounds) : 15;
-                if (dev_id){                  
-                	var device = getDeviceById(dev_id);
-                    if (new_drag_point)
-                      var point = new_drag_point;
-                    else
-	                  var point = new GLatLng(device.lat, device.lng);
-                      
-                     gmap.setCenter(point, zoom);			                                          
-                     centerMap(dev_id);                                           
-                 }
-                else
+             if (frm_index)
                  {
-                   if (new_drag_point)                     
-                     gmap.setCenter(new_drag_point, zoom);	
-                   else
-                     gmap.setCenter(bounds.getCenter(), zl);			
+				     var row = $("row" + device.id);
+                     if (row && row.getElementsByTagName) 
+                     {
+				         var tds = row.getElementsByTagName("td");                
+				         tds[2].innerHTML = device.address;
+				         if (tds.length == 4)
+                             {                     
+                                 tds[3].innerHTML = device.dt;                                                                
+                             }
+                         else
+				             {                    
+				  	             tds[3].innerHTML = device.status;
+					             tds[4].innerHTML = device.dt;
+				             }                  
+                         if (tds[1].innerHTML==tds[2].innerHTML)
+                             {
+                                 tds[2].innerHTML = device.status;
+                                 tds[3].innerHTML = device.dt
+                             }
+                     }   
+                 }	                        
+                 var point = new GLatLng(device.lat, device.lng);                
+				 gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
+		         bounds.extend(point);
+             }                    
+		     
+             if (no_data_flag)
+                 {                        
+                     if(redrawMap == undefined || redrawMap == true) {                    
+                         // If there's only one device let's not zoom all the way in
+                         var zl = (devices.length > 1) ? gmap.getBoundsZoomLevel(bounds) : 15;
+                         if (dev_id){                      
+                             var device = getDeviceById(dev_id);
+                             if (new_drag_point)
+                                 var point = new_drag_point;
+                             else
+                                 var point = new GLatLng(device.lat, device.lng);                      
+                                 gmap.setCenter(point, zoom);			                                          
+                                 centerMap(dev_id);                                           
+                             }
+                         else
+                             {                   
+                                 if (new_drag_point)                     
+                                     gmap.setCenter(new_drag_point, zoom);	
+                                 else
+                                     gmap.setCenter(bounds.getCenter(), zoom);			
+                             }
+                     } 
+                 else 
+                 {                
+                     // Do the AJAXY update
+                     if (new_drag_point)
+                         gmap.setCenter(new_drag_point, zoom);
+                     else
+                         gmap.setCenter(gmap.getCenter(), zoom);
                  }
-            } else {
-                // Do the AJAXY update
-                if (new_drag_point)
-                gmap.setCenter(new_drag_point, zoom);
-                else
-                gmap.setCenter(gmap.getCenter(), zoom);
-            }
-         }
+             }
          else
-         {
-            if (new_drag_point)
-            gmap.setCenter(new_drag_point, 3);
-            else
-            gmap.setCenter(new GLatLng(37.0625, -95.677068), 3);
-         }   
-		// Hide the action panel
-		// document.getElementById("action_panel").style.visibility = "hidden";
-    });
+             {
+                 if (new_drag_point)
+                     gmap.setCenter(new_drag_point, 3);
+                else
+                     gmap.setCenter(new GLatLng(37.0625, -95.677068), 3);
+             }      
+     $("updating").style.visibility = 'hidden';                        
+     }
+
+
+function set_marker_image_for_device(icon_id_1){
+      if (icon_id_1 == 1)
+        iconALL.image=" /icons/ublip_marker.png" ;
+      else if (icon_id_1 == 2)
+        iconALL.image=" /icons/ublip_red.png" ;
+      else if (icon_id_1 == 3)
+        iconALL.image=" /icons/green_big.png" ;
+      else if (icon_id_1 == 4)
+         iconALL.image="/icons/yellow_big.png" ;
+      else if (icon_id_1 == 5)
+       iconALL.image="/icons/purple_big.png" ;
+      else if (icon_id_1 == 6)
+       iconALL.image="/icons/dark_blue_big.png" ;
+      else if (icon_id_1 == 7)
+       iconALL.image="/icons/grey_big.png" ;
+      else if (icon_id_1 == 8)
+       iconALL.image="/icons/orange_big.png" ;
+      else                
+        iconALL.image = "/icons/ublip_marker.png";
 }
 
 // Center map on device and show details
@@ -432,36 +397,6 @@ function getBreadcrumbs(id) {
 			}
 		}
 		
-		/*iconcount = 2;
-	
-		for(var i = 0; i < lats.length; i++) {
-        	var point = new GLatLng(lats[i].firstChild.nodeValue, lngs[i].firstChild.nodeValue);
-
-			if(notes[i].childNodes.length != 0)
-			{	
-				gnote = notes[i].firstChild.nodeValue;
-			}
-			else
-			{
-				gnote = ""
-			}
-    
-	     	if(i == 0)
-		 	 	{ 
-					
-				gmap.setCenter(point, 13);
-  
-			 	gmap.addOverlay(createNow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue, times[i].firstChild.nodeValue, event_type[i].firstChild.nodeValue, gnote));
-				gmap.openInfoWindowHtml(point, "Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spds[0].firstChild.nodeValue/10)*1.15 + "<br/>" + "Altitude: " + alts[0].firstChild.nodeValue + "<br/>" + "Time: " + times[0].firstChild.nodeValue + "<br/>" + gnote);
-				}
-			else
-				{
-				gmap.addOverlay(createPast(point, event_type[i].firstChild.nodeValue, spds[i].firstChild.nodeValue));
-				gmap.addOverlay(createArrow(point, alts[i].firstChild.nodeValue, spds[i].firstChild.nodeValue, dirs[i].firstChild.nodeValue/10, times[i].firstChild.nodeValue, gnote, event_type[i].firstChild.nodeValue)); //dividing by ten till middleware issue is fixed.
-			
-				iconcount++;
-				}
-	    }*/
 	});
 }
 		
@@ -573,9 +508,8 @@ function toggleMap() {
 		img.src = "/images/expand.png";
 		img.parentNode.title = "Collapse map view";
 		fullScreenMap = true;
-	}
-	
-	gmap.checkResize();
+	}	
+  gmap.checkResize();
 }
 
 

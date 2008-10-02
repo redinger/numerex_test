@@ -11,16 +11,16 @@ class ReportsController < ApplicationController
   def index
     
     if params[:group_id]
-      session[:gmap_value] = params[:group_id] # To allow groups to be selected on reports index page
+      session[:group_value] = params[:group_id] # To allow groups to be selected on reports index page
     end
     
      @groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-     if session[:gmap_value]=="all" 
+     if session[:group_value]=="all" 
          @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
-     elsif session[:gmap_value]=="default"
+     elsif session[:group_value]=="default"
          @devices = Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
      else
-         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id], session[:gmap_value]], :order=>'name')
+         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id], session[:group_value]], :order=>'name')
      end    
   end
 
@@ -36,6 +36,7 @@ class ReportsController < ApplicationController
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
+
   
   def speeding
     get_start_and_end_date

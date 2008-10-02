@@ -1,4 +1,3 @@
-
 class DevicesController < ApplicationController
   include GeoKit::Mappable
   before_filter :authorize
@@ -23,7 +22,7 @@ class DevicesController < ApplicationController
   end
 
   # A device can provisioned
-  def choose_MT
+  def choose_MT     
     if (request.post? && params[:imei] != '' && params[:name] !='')
       device = provision_device(params[:imei])
       if(!device.nil?)
@@ -79,7 +78,7 @@ class DevicesController < ApplicationController
     device = Device.find_by_imei(imei) # Determine if device is already in system
 
     # Device is already in the system so let's associate it with this account
-    if(device)
+    if(device)      
       if(device.provision_status_id == 0)
         device.account_id = session[:account_id]
         imei = params[:imei]
@@ -100,7 +99,7 @@ class DevicesController < ApplicationController
         device.online_threshold = extras[:online_threshold].nil? ? nil : extras[:online_threshold]
       end
       device.provision_status_id = 1
-      device.account_id = session[:account_id]
+      device.account_id = session[:account_id]      
       device.save
       flash[:success] = params[:name] + ' was created successfully'
     end
