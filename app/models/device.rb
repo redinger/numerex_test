@@ -10,7 +10,7 @@ class Device < ActiveRecord::Base
   validates_uniqueness_of :imei
   validates_presence_of :name, :imei
   
-  has_many :readings, :order => "created_at desc", :conditions => "latitude is not null", :limit => 1 # Gets the most recent reading
+  has_one :latest_gps_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "latitude is not null"
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
   has_many :stop_events, :order => "created_at desc"
@@ -39,7 +39,7 @@ class Device < ActiveRecord::Base
   # 1 = provisioned
   # 2 = device deleted by user
   def self.get_devices(account_id)
-    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id], :order => 'name')
+    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id], :order => 'name',:include => :profile)
   end
   
   def self.get_public_devices(account_id)

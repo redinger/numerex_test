@@ -44,10 +44,10 @@ class ReadingsController < ApplicationController
             ( @user_pre == "undefined" || @user_pre == "all" )         
                @devices = Device.get_devices(session[:account_id])                
          end
-    
+
         render :layout => false
   end
-   
+  
   # Display last reading for device
   def last
     account = Account.find(:first, :conditions => ["subdomain = ?", request.host.split('.')[0]])

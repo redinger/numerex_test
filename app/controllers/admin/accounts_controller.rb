@@ -56,10 +56,8 @@ class Admin::AccountsController < ApplicationController
   def update
     if request.post?
       account = Account.find(params[:id])
-      account.update_attributes(params[:account])
       apply_options_to_account(params,account)
-      
-      if account.save
+      if account.update_attributes(params[:account])
         flash[:success] = "#{account.subdomain} updated successfully"
         redirect_to :action => 'index' and return
       else

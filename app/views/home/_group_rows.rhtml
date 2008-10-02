@@ -8,33 +8,26 @@
               </td>
          </tr>
          <%if !group.devices.empty?%>                     
-             <% group.ordered_devices.each do |device|%>
-                    <%if @from_search %>
-                        <%if @devices.include?(device)%> <%= send(callback,device) %> <%end%>
-                    <%else%>
-                       <%= send(callback,device) %>
-                    <%end%>  
+             <% group.ordered_devices.each do |device|%>                                            
+                       <%= send(callback,device) %>                                            
              <%end%>
          <%else%>
               <tr><td>No devices in this group.</td></tr>
          <%end%>
     <%end%>
 <%end%>
+
 <%if !@default_devices.empty? && @show_default_devices %>
-    <%if !@groups.empty? || session[:gmap_value] == 'default'%>
-        <tr>
-             <td colspan="<%= column_span or 4 %>" class="bg_overview">
-                  <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
-                       Default
-                  </span>
-             </td>
-        </tr>
-    <%end%>
-    <% @default_devices.each do |device|%>
-        <%if @from_search %> 
-           <%if @devices.include?(device)%> <%= send(callback,device) %> <%end%>
-        <%else%>  
-		 <%= send(callback,device) %>
-        <%end%>
-    <%end%>
+      <%if !@groups.empty? || session[:gmap_value] == 'default'%>
+           <tr>
+                <td colspan="<%= column_span or 4 %>" class="bg_overview">
+                     <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
+                          Default
+                     </span>
+                </td>
+           </tr>
+      <%end%>
+      <% @default_devices.each do |device|%>                  
+		 <%= send(callback,device) %>                  
+      <%end%>
 <%end%>           

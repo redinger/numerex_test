@@ -1,10 +1,10 @@
 <tr>     
   <td colspan="<%= column_span or 4 %>" class="header"><span class="device_summery">Device Summary <%= sub_heading if sub_heading %></span>
-        <select id="type1" class="device_summery_select" name="type" onchange="<%if @from_reports%>select_action(this,'from_reports')<%elsif @from_devices || @from_search%>select_action(this,'from_devices')<%else%>select_action(this,'from_home')<%end%>;"> 
+        <select id="type1" class="device_summery_select" name="type" onchange="<%= decide_action %>;"> 
             <option id=""  value="new">New group</option>
             <option id=""  value="edit">Edit groups</option>
             <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-            <option value="all" <%if session[:gmap_value] == 'all' %> selected class="bgcolor"<%end%>>  All Devices  </option>            
+            <option value="all" <%if session[:gmap_value] == 'all' %> selected class="bgcolor"<%end%>>  All Groups  </option>            
                  <% for group in @all_groups %>
             <option <%if session[:gmap_value].to_i == group.id%> selected class="bgcolor"<%end%> value='<%= group.id%>'><%= group.name%> </option>
                   <% end %>            

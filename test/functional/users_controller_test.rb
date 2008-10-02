@@ -31,7 +31,7 @@ class UsersControllerTest < Test::Unit::TestCase
   
   def test_edit_user
     params = {:first_name => "qwerty", :last_name => "asdf", :email =>"asdf"}
-    post :edit, {:id => 1, :user => params}, {:user => users(:dennis), :account_id => 1}
+    post :edit, {:id => 1, :user => params}, {:user => users(:dennis), :account_id => 1, :is_admin => users(:dennis).is_admin}
     assert_redirected_to :controller => "users"
     assert_equal "qwerty", User.find(1).first_name
   end
@@ -58,13 +58,13 @@ class UsersControllerTest < Test::Unit::TestCase
   
   def test_short_password
     params = {:first_name => "qwerty", :last_name => "asdf", :email =>"asdf"}
-    post :edit, {:id => 1, :user => params, :password_checkbox => "checked", :existing_password => "test"}, {:user => users(:dennis), :account_id => 1}
+    post :edit, {:id => 1, :user => params, :password_checkbox => "checked", :existing_password => "test"}, {:user => users(:dennis), :account_id => 1, :is_admin => users(:dennis).is_admin}
     assert_redirected_to :controller => "users", :action => "edit", :id => 1
     assert_equal flash[:error], "Your existing password must match what's currently stored in our system"
   end
   
   def test_new_user
-    get :new, {}, {:user => users(:dennis), :user_id => users(:dennis).id, :account_id => users(:dennis).account_id}
+    get :new, {}, {:user => users(:dennis), :user_id => users(:dennis).id, :account_id => users(:dennis).account_id, :is_admin => users(:dennis).is_admin}
     assert_response :success
     params = {:first_name => "dennis", :last_name => "baldwin", :email => "dennisbaldwin@gmail.com", :password => "testing123", :password_confirmation => "testing123"}
     post :new, {:user => params}, {:user => users(:dennis), :account_id => 1, :user_id => users(:dennis).id}
@@ -73,7 +73,7 @@ class UsersControllerTest < Test::Unit::TestCase
   
   def test_new_user_email_exists
     params = {:first_name => "dennis", :last_name => "baldwin", :email => "dennis@ublip.com", :password => "testing123", :password_confirmation => "testing123"}
-    post :new, {:user => params}, {:user => users(:dennis), :account_id => 1, :user_id => users(:dennis).id}
+    post :new, {:user => params}, {:user => users(:dennis), :account_id => 1, :user_id => users(:dennis).id, :is_admin => users(:dennis).is_admin}
     assert_response :success
     assert_equal flash[:error], "Email has already been taken<br />"
   end

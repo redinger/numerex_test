@@ -14,18 +14,13 @@ function select_action(obj,from)
     }
     else
     {
-      if (from=='from_reports')
-      {
-         szNewURL = "http://"+document.location.hostname+"/reports?type="+document.getElementById('type1').value
-        window.location.href=szNewURL;                            
+      if (from=='from_devices')
+      {         
+           szNewURL = "http://"+document.location.hostname+"/devices?type="+document.getElementById('type1').value         
+           window.location.href=szNewURL;                                
       }
-      else if (from=='from_devices')
-      {
-         szNewURL = "http://"+document.location.hostname+"/devices?type="+document.getElementById('type1').value
-        window.location.href=szNewURL;                                
-      }
-      else
-         new Ajax.Updater('to_update', '/home/show_devices', {asynchronous:true, evalScripts:true, parameters:'type='+escape($F('type1'))});javascript:getRecentReadings(true,document.getElementById('type1').value);
+      else         
+         new Ajax.Updater('to_update', '/home/show_devices?frm='+from, {asynchronous:true, evalScripts:true, parameters:'type='+escape($F('type1'))});javascript:getRecentReadings(true,document.getElementById('type1').value);
     }
 }
 

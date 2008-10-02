@@ -1,11 +1,21 @@
-<h3>Select a Device</h3>
+<div style="margin: 15px 0">
+	<h3 style="float: left; margin-right: 10px;">Displaying <%= @devices.size %> device<% if @devices.size != 1 %>s<% end %> for</h3>
+
+	<select id="type1" onchange="document.location.href='/reports?group_id=' + this.options[this.selectedIndex].value;">
+		<option value="all">All Groups</option>
+		<% for group in @groups %>
+		<option value="<%= group.id %>" <%if session[:gmap_value].to_i == group.id%>selected class="bgcolor"<%end%>><%= group.name %></option>
+		<% end %>
+		<option <% if session[:gmap_value] == "default" %>selected class="bgcolor"<% end %> value="default">Default</option>
+	</select>
+</div>
 
 <div id="device_list">
 	<ul>
 		<% for device in @devices %>
 	    	<li>
 	    		<a href="/reports/all/<%= device.id %>"><%= device.name %></a> - 
-				<% if !device.readings.empty? %>reported <%= time_ago_in_words device.readings[0].created_at %> ago<% else %>no report yet<% end %>
+				<% if device.latest_gps_reading %>reported <%= time_ago_in_words device.latest_gps_reading.created_at%> ago<% else %>no report yet<% end %>
 			</li>
 	    <% end %>
 	</ul>

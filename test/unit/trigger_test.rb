@@ -21,6 +21,10 @@ class TriggerTest < Test::Unit::TestCase
     Reading.delete_all
   end
   
+  def teardown
+    ActiveRecord::Base.connection.execute("DROP TRIGGER IF EXISTS trig_readings_before_insert")
+  end
+  
   def test_enter
     reading = save_reading(32.833781, -96.756807, 1)
     assert_equal "entergeofen_1", reading.event_type

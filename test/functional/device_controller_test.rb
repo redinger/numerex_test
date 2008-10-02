@@ -26,42 +26,23 @@ class DeviceControllerTest < Test::Unit::TestCase
   
   def test_index   
     get :index, {}, { :user => users(:dennis), :account_id => 1}     
-    assert_response :success        
+    assert_response :success            
  end
  
-  #~ def test_index_for_all
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 'all'}
-    #~ assert_response :success    
-    #~ assert_equal 3 , assigns(:groups).length
-  #~ end
-  
-  #~ def test_index_for_default
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 'default'}
-    #~ assert_response :success    
-    #~ assert_equal 1 , assigns(:default_devices).length
-  #~ end
+   def test_index_for_gmap_session_to_all
+    get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"all"}     
+    assert_response :success            
+   end    
+   
+   def test_index_for_gmap_session_to_default
+        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"default"}     
+        assert_response :success            
+   end    
 
-  #~ def test_index_for_perticular_group
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 1}
-    #~ assert_response :success        
-  #~ end
-  
-  #~ def test_index_for_type_params_all
-    #~ get :index, {:type => 'all'}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success    
-    #~ assert_equal 3 , assigns(:groups).length    
-  #~ end
-  
-  #~ def test_index_for_type_params_default
-    #~ get :index, {:type => "default"}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success    
-    #~ assert_equal 1 , assigns(:default_devices).length    
-  #~ end
-
-  #~ def test_index_for_type_params_for_perticular_group
-    #~ get :index, {:type => 1}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success        
-  #~ end
+   def test_index_for_gmap_session_to_group_number
+        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>1}     
+        assert_response :success            
+   end    
 
    def test_view
      get :view, {:id=>"2"},{:user => users(:dennis), :account_id => "1"} 
@@ -102,13 +83,13 @@ class DeviceControllerTest < Test::Unit::TestCase
   end   
 
   def test_delete_group
-      post :delete_group, {:id=>"1"}, { :user => users(:dennis), :account_id => "1" }
+      post :delete_group, {:id=>"1"}, { :user => users(:dennis), :account_id => "1"}
       assert_equal "Group Dennis was deleted successfully ", flash[:success]
       assert_redirected_to :controller => "devices", :action=>'groups'
   end   
   
   def test_groups
-      get :groups, {}, { :user => users(:dennis), :account_id => "1" }
+      get :groups, {}, { :user => users(:dennis), :account_id => "1"}
       assert_response :success
   end
   
@@ -118,19 +99,19 @@ class DeviceControllerTest < Test::Unit::TestCase
   end
   
   def test_edit_post
-    post :edit, {:id => "1", :name => "qwerty", :imei=>"000000"}, { :user => users(:dennis), :account_id => "1" }
+    post :edit, {:id => "1", :device => {:name => "qwerty", :imei=>"000000"}}, { :user => users(:dennis), :account_id => "1", :is_admin => users(:dennis).is_admin}
     assert_equal devices(:device1).name, "qwerty"
     assert_equal devices(:device1).imei, "000000"
     assert_redirected_to :controller => "devices"
   end
   
   def test_edit_for_uniqueness_of_imei
-     post :edit, {:id => "1", :name => "qwerty", :imei=>"551211"}, { :user => users(:dennis), :account_id => "1" }
-     assert_equal flash[:error],"Imei has already been taken<br/>"    
+     post :edit, {:id => "1", :device => {:name => "qwerty", :imei=>"551211"}}, { :user => users(:dennis), :account_id => "1", :is_admin => users(:dennis).is_admin}
+     assert_equal flash[:error], "Imei has already been taken<br/>"    
   end
   
   def test_edit_post_unautorized
-    post :edit, {:id => "1", :name => "qwerty", :imei=>"000000"}, { :user => users(:nick), :account_id => "2" }
+    post :edit, {:id => "1", :device => {:name => "qwerty", :imei=>"000000"}}, { :user => users(:nick), :account_id => "2"}
     assert_response 404
     assert_not_equal devices(:device1).name, "qwerty"
     assert_not_equal devices(:device1).imei, "000000"
@@ -148,10 +129,17 @@ class DeviceControllerTest < Test::Unit::TestCase
     assert_response 302
   end
   
-  def test_delete
-    post :delete, {:id => "1"}, { :user => users(:dennis), :account_id => "1" }
+  def test_admin_delete_device
+    post :delete, {:id => "1"}, { :user => users(:dennis), :account_id => "1", :is_admin => users(:dennis).is_admin }
     assert_redirected_to :controller => "devices"
     assert_equal 2, devices(:device1).provision_status_id
+  end
+  
+  def test_non_admin_delete_device
+    post :delete, {:id => "1"}, { :user => users(:demo), :account_id => "1", :is_admin => users(:demo).is_admin }
+    assert_redirected_to :controller => "devices"
+    assert_equal flash[:error], "Invalid action."
+    assert_equal 1, devices(:device1).provision_status_id
   end
   
   def test_delete_unauthorized

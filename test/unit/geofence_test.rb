@@ -25,26 +25,31 @@ class GeofenceTest < Test::Unit::TestCase
   end
   
   def test_unique
-    fence1 = Geofence.new 
-    fence1.device_id = 1    
-    fence1.fence_num = 1
-    fence1.save
-    
-    fence2 = Geofence.new 
-    fence2.device_id = 2
-    fence2.name="hometown"
-    fence2.fence_num = 1
-    fence2.save!
-    
-    begin
-      fence3 = Geofence.new 
-      fence3.fence_num = 1
-      fence3.device_id = 2
-      fence3.save!
-      fail "should have thrown exception"
-    rescue
-      puts $!
+    Geofence.transaction do
+      fence1 = Geofence.new 
+      fence1.device_id = 1    
+      fence1.fence_num = 1
+      fence1.save
+      
+      fence2 = Geofence.new 
+      fence2.device_id = 2
+      fence2.name="hometown"
+      fence2.fence_num = 1
+      fence2.save!
+      
+      begin
+        fence3 = Geofence.new 
+        fence3.fence_num = 1
+        fence3.device_id = 2
+        fence3.save!
+        fail "should have thrown exception"
+      rescue
+        puts $!
+      end
+      raise ActiveRecord::Rollback
     end
+  rescue ActiveRecord::Rollback
+    # expected, do nothing
   end
   
   def test_find_fence_number

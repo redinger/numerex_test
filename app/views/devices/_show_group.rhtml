@@ -22,15 +22,15 @@
                 <% for device in @devices %>
                     <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
                         <td>
-                        	<% if !device.readings.empty? %>
+                        	<% if device.latest_gps_reading %>
 								<a href="javascript:centerMap(<%= device.id %>);highlightRow(<%= device.id %>);" title="Center map on this device"><%= device.name %></a>
 							<% else %>
 								<%= device.name %>
 							<% end %>
 						</td>
 						<td style="font-size:11px;"><a href="/reports/all/<%= device.id %>" title="View device details">details</a></td>
-                        <td><% if !device.readings.empty? %><%= device.readings[0].shortAddress %><% else %>N/A<% end %></td>
-                        <td><% if !device.readings.empty? %><%= time_ago_in_words device.readings[0].created_at %> ago <% else %>N/A<% end %></td>
+                        <td><% if device.latest_gps_reading %><%= device.latest_gps_reading.short_address %><% else %>N/A<% end %></td>
+                        <td><% if device.latest_gps_reading %><%= time_ago_in_words device.latest_gps_reading.created_at %> ago <% else %>N/A<% end %></td>
                     </tr>
                 <% end %>
             </table>

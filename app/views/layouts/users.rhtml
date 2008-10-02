@@ -10,7 +10,7 @@
 	<body>
    		<%= render :partial => 'layouts/includes/header' %>
 		<div id="submenu">
-  		    <div style="float: right"><a href="/users/new" title="Add a new user">Add New User</a></div>
+  		    <div style="float: right"><% if session[:is_admin] %><a href="/users/new" title="Add a new user">Add New User</a><% end %></div>
 			<div style="clear: right"></div>
 		</div>
     	<div id="content">

@@ -9,10 +9,12 @@ class HomeController < ApplicationController
   end
   
   def statistics
+    @from_statistics  = true
     index # TODO add proper query
   end
   
   def maintenance
+     @from_maintenance = true 
     index # TODO add proper query
   end
   
@@ -21,7 +23,15 @@ class HomeController < ApplicationController
     @devices = Device.get_devices(session[:account_id]) # Get devices associated with account            
     @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')        
     assign_the_selected_group_to_session # this will set the parameter value of group to the session for persisit throught the app
-    render :action=>'index'
+    if params[:frm]=='from_statistics'
+        @from_statistics  = true
+        render :action=>'statistics'
+    elsif params[:frm]=='from_maintenance'
+        @from_maintenance = true 
+        render :action=>'maintenance'
+    else    
+        render :action=>'index'
+    end
   end
   
   def map
