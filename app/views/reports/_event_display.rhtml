@@ -1,0 +1,33 @@
+<% if reading.event_type.nil? %>
+	-
+<% elsif reading.event_type.index('enter') %>
+	<% if params[:action] == 'geofence' %>
+		Enter geofence
+	<% else %>
+		<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
+	<% end%>
+<% elsif reading.event_type.index('exit') %>
+	<% if params[:action] == 'geofence' %>
+		Exit geofence
+	<% else %>
+		<a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Exit geofence</a>
+	<% end%>
+<% elsif @device.profile.stops and (reading.event_type =='startstop_et41' || reading.event_type == 'stop') && reading.speed==0 %>
+	<a href="/reports/stop/<%= params[:id] %>" title="View stop report" >Stop</a>
+<% elsif @device.profile.idles and reading.event_type == 'idle' %>
+	<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Idle</a>
+<% elsif @device.profile.speeds and reading.event_type == 'speeding' %>
+	<% if params[:action] == 'speeding' %>
+		Speeding
+	<% else %>
+		<a href="/reports/idle/<%= params[:id] %>" title="View idle report">Speeding</a>
+	<% end %>
+<% elsif (@device.profile.runs or @device.profile.idles) and reading.event_type.index('engine') %>
+	<% if @device.profile.runs %>
+		<a href="/reports/runtime/<%= params[:id] %>" title="View runtime report"><%= reading.event_type.titleize %></a>
+	<% else %>
+		<%= reading.event_type.titleize %>
+	<% end %>
+<% else %>
+	-
+<% end %>
