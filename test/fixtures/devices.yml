@@ -80,7 +80,7 @@ device7:
  provision_status_id: 1
  account_id: 2
  last_online_time: <%= Time.now.to_s :db %> 
- profile_id: 1
+ profile_id: 2
  
 device8:
  id: 8
@@ -91,4 +91,4 @@ device8:
  provision_status_id: 1
  account_id: 6
  last_online_time: <%= Time.now.to_s :db %>
- profile_id: 1
+ profile_id: 3

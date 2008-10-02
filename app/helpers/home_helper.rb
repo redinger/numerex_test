@@ -39,11 +39,9 @@ module HomeHelper
     end
     content << %(</td>)
 
-    if current_account.show_runtime
-      content << %(<td>)
-      content << %(#{device.last_status_string})
-      content << %(</td>)
-    end
+    content << %(<td>)
+    content << %(#{device.latest_status or '-'})
+    content << %(</td>)
 
     content << %(<td>)
     if device.latest_gps_reading

@@ -14,7 +14,7 @@
              <% group.ordered_devices.each do |device|%>                                            
                        <%= send(callback,device) %>
                        <%if !device.latest_gps_reading.nil? && device.latest_gps_reading.short_address !=', '%> 
-                           <script>devices.push({id: <%= device.id%>, name: '<%= device.name%>', lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: '<%= device.latest_gps_reading.short_address%>', dt: '<%= time_ago_in_words device.latest_gps_reading.created_at %> ago', note: '<%= device.latest_gps_reading.note%>', status: '<%= device.last_status_string%>', icon_id: <%= device.icon_id%>, group_id: '<%= device.group_id %>'});</script>                       
+                           <script>devices.push({id: <%= device.id%>, name: '<%= device.name%>', lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: '<%= device.latest_gps_reading.short_address%>', dt: '<%= time_ago_in_words device.latest_gps_reading.created_at %> ago', note: '<%= device.latest_gps_reading.note%>', status: '<%= device.latest_status %>', icon_id: <%= device.icon_id%>, group_id: '<%= device.group_id %>'});</script>                       
                        <%end%> 
              <%end%>
          <%else%>
@@ -36,7 +36,7 @@
       <% @default_devices.each do |device|%>                  
 		 <%= send(callback,device) %>
            <%if !device.latest_gps_reading.nil? && device.latest_gps_reading.short_address !=', ' %>
-                <script>devices.push({id: <%= device.id%>, name: '<%= device.name%>', lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: '<%= device.latest_gps_reading.short_address%>', dt: '<%= time_ago_in_words device.latest_gps_reading.created_at %> ago', note: '<%= device.latest_gps_reading.note%>', status: '<%= device.last_status_string%>', icon_id: <%= device.icon_id%>, group_id: '<%= device.group_id %>'});</script>                       
+                <script>devices.push({id: <%= device.id%>, name: '<%= device.name%>', lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: '<%= device.latest_gps_reading.short_address%>', dt: '<%= time_ago_in_words device.latest_gps_reading.created_at %> ago', note: '<%= device.latest_gps_reading.note%>', status: '<%= device.latest_status %>', icon_id: <%= device.icon_id%>, group_id: '<%= device.group_id %>'});</script>                       
            <%end%>
       <%end%>
 <%end%>           

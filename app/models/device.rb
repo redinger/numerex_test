@@ -11,6 +11,9 @@ class Device < ActiveRecord::Base
   validates_presence_of :name, :imei
   
   has_one :latest_gps_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "latitude is not null"
+  has_one :latest_speed_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "speed is not null"
+  has_one :latest_data_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "ignition is not null"
+  
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
   has_many :stop_events, :order => "created_at desc"
@@ -78,17 +81,32 @@ class Device < ActiveRecord::Base
     Notification.find(:first, :order => 'created_at desc', :conditions => ['device_id = ? and notification_type = ?', id, "device_offline"])
   end
   
-  def last_status_string
-    return '-' unless self.profile.runs
-    last_status_reading = Reading.find(:first,:conditions => "device_id = #{id} and (event_type like 'engine%' or ignition is not null) and created_at >= (now() - interval 1 day)",:limit => 1,:order => "created_at desc")
-    return 'Unknown' unless last_status_reading
-    if last_status_reading.event_type == 'engine on'
-      return 'On'
-    elsif last_status_reading.event_type == 'engine off'
-      return 'Off'
-    else
-      return last_status_reading.ignition ? 'On' : 'Off'
+  def latest_status
+    results = []
+    if profile.speeds and latest_speed_reading
+      if latest_speed_reading.speed == 0
+        results.push((profile.idles and latest_data_reading and latest_data_reading.ignition) ? "Idling" : "Stopped")
+      else
+        results.push((account.max_speed and latest_speed_reading.speed > account.max_speed) ? "<b><i>Speeding</i></b>" : "Moving")
+      end
     end
+    if latest_data_reading
+      if profile.gpio1_name
+        gpio1_value = (latest_data_reading.gpio1 ? profile.gpio1_high_value : profile.gpio1_low_value)
+        gpio1_status = "#{profile.gpio1_name}: #{gpio1_value}" unless gpio1_value.blank?
+      end
+      if profile.gpio2_name
+        gpio2_value = (latest_data_reading.gpio2 ? profile.gpio2_high_value : profile.gpio2_low_value)
+        gpio2_status = "#{profile.gpio2_name}: #{gpio2_value}" unless gpio2_value.blank?
+      end
+      if profile.runs and not profile.idles
+        value = latest_data_reading.ignition ? "On" : "Off"
+        results.push((gpio1_status or gpio2_status) ? "Engine:&nbsp;#{value}" : value)
+      end
+      results.push(gpio1_status.gsub(/ /,'&nbsp;')) if gpio1_status
+      results.push(gpio2_status.gsub(/ /,'&nbsp;')) if gpio2_status
+    end
+    results.join(', ') if results.any?
   end
   
   def online?
