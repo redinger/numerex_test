@@ -45,6 +45,6 @@ class AdminControllerTest < Test::Unit::TestCase
     assert_select "ul.list li:first-child", :text => "6 active Accounts - view or create"
     assert_select "ul.list li:nth-child(2)", :text => "7 active Users - view or create"
     assert_select "ul.list li:nth-child(3)", :text => "7 active Devices - view or create"
-    assert_select "ul.list li:last-child", :text => "1 active Device Profiles - view or create"
+    assert_select "ul.list li:last-child", :text => "3 active Device Profiles - view or create"
   end
 end
