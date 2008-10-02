@@ -1,7 +1,24 @@
 <div class="container">
 	<div id="top_head">
-		<h3>Your Active Devices (<%= @devices.size %> <%if @from_search %>result(s) found<%else%>total<%end%>)</h3>
-		<div id="tab_rt"></div>
+		<% if !params[:device_search] %>
+		<span class="title">Displaying <%= @devices.size %> devices for</span>
+		<select id="type1" onchange="document.location.href='/devices?group_id=' + this.options[this.selectedIndex].value;" style="margin-left: 10px;">
+			<option value="all">All Groups</option>
+			<% for group in @groups %>
+			<option value="<%= group.id %>" <%if session[:gmap_value].to_i == group.id%>selected class="bgcolor"<%end%>><%= group.name %></option>
+			<% end %>
+			<option <% if session[:gmap_value] == "default" %>selected class="bgcolor"<% end %> value="default">Default</option>
+		</select>
+		<% else%>
+		<span class="title">Displaying <%= @devices.size %> devices that match "<%= params[:device_search] %>"</span>
+		<% end %>
+		
+		<div id="tab_rt">
+			<form action="/devices/search_devices" name="device_search_form"> 
+				<input type="text" name="device_search" value=<%if @from_search%> <%= params[:device_search]%><%else%> "Device Name"<%end%> onfocus="if (this.value == 'Device Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Device Name';}" /> &nbsp; <input type="submit" value="Search" />
+			</form>
+		</div>
+	</div>
 	</div>
 	
 	<%= render :partial=>"/layouts/flash_message" %>    
@@ -20,7 +37,7 @@
         	<% for device in @devices %>
 			<tr class="<%= cycle('gray_row','') %>">
 				<td><a href="/devices/edit/<%= device.id %>" title="Edit this device">edit</a></td> 
-				<td><%= device.name %></td>
+				<td><a href="/reports/all/<%= device.id %>" title="View reports for this device"><%= device.name %></a></td>
 				<td><%= device.imei %></td>
 				<td><% if !device.group.nil? %><a href="/devices/edits_group?group_id=<%= device.group.id %>" title="Edit this group"><%= device.group.name %></a><% else %>Default<% end %></td>
 				<td>
