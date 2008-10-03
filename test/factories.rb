@@ -47,6 +47,7 @@ end
 
 Factory.define :reading do |r|
   r.device {|device| device.association(:device, :imei => "1234567890")}
+  r.event_type "normal"
 end
 
 Factory.define :group do |g|
