@@ -12,7 +12,7 @@ var grp_id;
 var infowindow;
 var new_drag_point;
 var zoom_val = get_cookie("zvalue");
-var zoom_val_for_overview = get_cookie("zvalue_overview");
+
 function load() 
 {
   if (GBrowserIsCompatible()) {
@@ -23,7 +23,7 @@ function load()
 	
 	iconALL = new GIcon();
 	
-	
+
    // iconALL.image = "/icons/ublip_marker.png";
     iconALL.shadow = "/images/ublip_marker_shadow.png";
     iconALL.iconSize = new GSize(23, 34);
@@ -59,9 +59,6 @@ function load()
 		zoom = newZoom; 
         if(page == 'reports')        
           set_cookie("zvalue",zoom); 
-        if (page == 'home')        
-          set_cookie("zvalue_overview",zoom) ;                                      
-          new_drag_point =  gmap.getCenter();         
 	});
 	    
 	// Only load this on home page
@@ -108,10 +105,6 @@ function load()
 // Display all devices on overview page
  function getRecentReadings(redrawMap,id)  // code cleanup remains
     {    
-    if (parseInt(zoom_val_for_overview) > 0)
-         {var zoom= parseInt(zoom_val_for_overview);}
-    else
-         {var zoom= 15;}
      grp_id =  id ;     
 	 $("updating").style.visibility = 'visible';
      var bounds = new GLatLngBounds();
@@ -174,7 +167,7 @@ function load()
                                  if (new_drag_point)                     
                                      gmap.setCenter(new_drag_point, zoom);	
                                  else
-                                     gmap.setCenter(bounds.getCenter(), zoom);			
+                                     gmap.setCenter(bounds.getCenter(), zl);			
                              }
                      } 
                  else 

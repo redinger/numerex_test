@@ -1,10 +1,10 @@
 ResultCount =25# Number of results per page
 Per_page = 15
+
 class GeofenceController < ApplicationController
 
   before_filter :authorize
 
-  
   def index
     device_ids = Device.get_devices(session[:account_id]).map{|x| x.id}
     if device_ids.empty?       
@@ -43,7 +43,6 @@ class GeofenceController < ApplicationController
 
   def edit
     @devices = Device.get_devices(session[:account_id])
-
     @geofence = Geofence.find(:first,:include => "device", :conditions => ["geofences.id = ? and ((devices.account_id = ? and devices.provision_status_id =1) or geofences.account_id = ?)", params[:id],session[:account_id],session[:account_id]])
     if @geofence.nil?
       flash[:error] = "Invalid action."
@@ -113,7 +112,6 @@ class GeofenceController < ApplicationController
 
   def view_detail
     geofence = Geofence.find(:first,:include => "device", :conditions => ["geofences.id = ? and ((devices.account_id = ? and devices.provision_status_id =1) or geofences.account_id = ?)", params[:id],session[:account_id],session[:account_id]])
-
     if geofence.nil?
       flash[:error] = "Invalid action."
       redirect_to geofence_url
@@ -127,7 +125,6 @@ class GeofenceController < ApplicationController
 
   def delete
     @geofence = Geofence.find(:first,:include => "device", :conditions => ["geofences.id = ? and ((devices.account_id = ? and devices.provision_status_id =1) or geofences.account_id = ?)", params[:id],session[:account_id],session[:account_id]])
-
     if @geofence && check_action_for_user
       Geofence.delete(params[:id])
       flash[:success] = "#{@geofence.name} deleted successfully"
@@ -143,7 +140,6 @@ class GeofenceController < ApplicationController
     flash[:error] = "Invalid action"
     redirect_to geofence_url
   end
-
 
   def goto_correct_page(a_or_d,id)
     page = 1     if !params[:page]
