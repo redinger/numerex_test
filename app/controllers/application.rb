@@ -29,8 +29,6 @@ class ApplicationController < ActionController::Base
     end
   end
   
-
-
   def set_time_zone
     user = User.find_by_id(session[:user_id])
     if !user.nil? && user.time_zone
