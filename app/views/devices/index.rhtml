@@ -1,16 +1,16 @@
 <div class="container">
 	<div id="top_head">
 		<% if !params[:device_search] %>
-		<span class="title">Displaying <%= @devices.size %> devices for</span>
+		<span class="title">Displaying <%= @devices.size %> device<% if @devices.size != 1 %>s<% end %> for</span>
 		<select id="type1" onchange="document.location.href='/devices?group_id=' + this.options[this.selectedIndex].value;" style="margin-left: 10px;">
 			<option value="all">All Groups</option>
 			<% for group in @groups %>
-			<option value="<%= group.id %>" <%if session[:gmap_value].to_i == group.id%>selected class="bgcolor"<%end%>><%= group.name %></option>
+			<option value="<%= group.id %>" <%if session[:group_value].to_i == group.id%>selected class="bgcolor"<%end%>><%= group.name %></option>
 			<% end %>
-			<option <% if session[:gmap_value] == "default" %>selected class="bgcolor"<% end %> value="default">Default</option>
+			<option <% if session[:group_value] == "default" %>selected class="bgcolor"<% end %> value="default">Default</option>
 		</select>
 		<% else%>
-		<span class="title">Displaying <%= @devices.size %> devices that match "<%= params[:device_search] %>"</span>
+		<span class="title">Displaying <%= @devices.size %> device<% if @devices.size != 1 %>s<% end %> that match "<%= params[:device_search] %>"</span>
 		<% end %>
 		
 		<div id="tab_rt">
@@ -49,12 +49,7 @@
                 </td>				
 			</tr>
         	<% end %>        
-        </table>
-     	<%else%>
-        </table>     
-        <div id="alert">
-        	<span>No devices found.</span>
-        </div>                       
 		<%end%>	
+		</table>
 	</div>
 </div>
