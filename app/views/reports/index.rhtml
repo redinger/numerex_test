@@ -1,24 +1,27 @@
 <div class="container">
-	<div id="top_head">
-		<span class="title">Displaying <%= @devices.size %> device<% if @devices.size != 1 %>s<% end %> for</span>
+  <div id="top_head">
+    <span class="title">Displaying <%= @devices.size %> device<% if @devices.size != 1 %>s<% end %> for</span>
 
-	<select id="type1" onchange="document.location.href='/reports?group_id=' + this.options[this.selectedIndex].value;" style="margin-left: 10px;">
-		<option value="all">All Groups</option>
-		<% for group in @groups %>
-		<option value="<%= group.id %>" <%if session[:group_value].to_i == group.id%>selected class="bgcolor"<%end%>><%= group.name %></option>
-		<% end %>
-		<option <% if session[:group_value] == "default" %>selected class="bgcolor"<% end %> value="default">Default</option>
-	</select>
-	<div style="clear: left"></div>
-</div>
-	<div id="device_list">
-		<ul>
-			<% for device in @devices %>
-		    	<li>
-		    		<a href="/reports/all/<%= device.id %>"><%= device.name %></a> - 
-					<% if device.latest_gps_reading %>reported <%= time_ago_in_words device.latest_gps_reading.created_at%> ago<% else %>no report yet<% end %>
-				</li>
-		    <% end %>
-		</ul>
-	</div>
+    <select id="type1" onchange="document.location.href='/reports?group_id=' + this.options[this.selectedIndex].value;" style="margin-left: 10px;">
+      <option value="all">All Groups</option>
+      <% for group in @groups %>
+        <option value="<%= group.id %>" <%if session[:group_value].to_i == group.id%>selected class="bgcolor"<%end%>><%= group.name %></option>
+      <% end %>
+      <option <% if session[:group_value] == "default" %>selected class="bgcolor"<% end %> value="default">Default</option>
+    </select>
+  
+    <div style="clear: left"></div>
+  </div>
+
+  <div id="device_list">
+    <ul>
+      <% for device in @devices %>
+        <li>
+          <a href="/reports/all/<%= device.id %>"><%= device.name %></a> - 
+          <% if device.latest_gps_reading %>reported <%= time_ago_in_words device.latest_gps_reading.created_at%> ago<% else %>no report yet<% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  
 </div>

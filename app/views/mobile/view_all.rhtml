@@ -1,22 +1,25 @@
-    <ul>
-        <li><h1>My Devices</h1></li>        
-         <%for device in @all_devices_with_map%> 
-             <%= show_device device,false%>
-         <%end%>               
+<ul>
+  <li><h1>My Devices</h1></li>        
+  <%for device in @all_devices_with_map%> 
+    <%= show_device device,false%>
+  <%end%>               
                              
-         <% @marker_string =="" ? @marker_string="40.702147,-74.015794" : @marker_string%>
-           <li>
-              <img src="http://maps.google.com/staticmap?size=240x320&maptype=mobile&markers=<%= @marker_string %>&key=<%= Google_Maps_Api_Key %>" />                           
-           </li>            
-           
-		<li>
-		   <a href="<%= session[:referral_url] %>">Back</a>
-		</li>        
-		<li>
-		  <a href="#" onclick="window.location.reload(true);">Refresh</a>
-		</li>
-		<li>
-		  <a href="/login/logout?f_mb=frm_mob">Sign out</a>		
-          </li>
-           <li class="2008_ublip">&copy; 2008 <img src="/images/small-logo.png" alt=""  align="absmiddle"/></li>
-    </ul>
+  <% @marker_string =="" ? @marker_string="40.702147,-74.015794" : @marker_string%>
+  <li>
+    <img src="http://maps.google.com/staticmap?size=240x320&maptype=mobile&markers=<%= @marker_string %>&key=<%= Google_Maps_Api_Key %>" />                           
+  </li>                    
+  
+  <li>
+    <a href="<%= session[:referral_url] %>">Back</a>
+  </li>        
+  
+  <li>
+    <a href="#" onclick="window.location.reload(true);">Refresh</a>
+  </li>
+  
+  <li>
+    <a href="/login/logout?f_mb=frm_mob">Sign out</a>		
+  </li>
+  
+  <li class="2008_ublip">&copy; 2008 <img src="/images/small-logo.png" alt=""  align="absmiddle"/></li>
+</ul>

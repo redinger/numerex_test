@@ -3,11 +3,26 @@
 <h3>Device Information</h3>
 <h4>Currently, we only support Blackberry 8800 series of devices.</h4>
 <h4>Please assign a name to your device and enter the IMEI and phone number below and a test message will be sent to install the app.</h4>
+
 <form method="post" class="form_table">
-<table>
-    <tr><th>Name:</th><td><input type="text" size="20" name="name" value="<%= flash[:name] %>" /></td></tr>
-    <tr><th>IMEI:</th><td><input type="text" size="20" name="imei" value="<%= flash[:imei] %>" /></td></tr>
-	<tr><th>Phone Number:</th><td><input type="text" size="20" name="phone_number" value="<%= flash[:phone_number] %>" /></td></tr>
-    <tr><td colspan="2" align="right"><input type="submit" value="done" />&nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a></td></tr>
-</table>
+  <table>
+    <tr>
+      <th>Name:</th>
+      <td><input type="text" size="20" name="name" value="<%= flash[:name] %>" /></td>
+    </tr>
+    
+    <tr>
+      <th>IMEI:</th>
+      <td><input type="text" size="20" name="imei" value="<%= flash[:imei] %>" /></td>
+    </tr>
+    
+    <tr>
+      <th>Phone Number:</th>
+      <td><input type="text" size="20" name="phone_number" value="<%= flash[:phone_number] %>" /></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2" align="right"><input type="submit" value="done" />&nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a></td>
+    </tr>
+  </table>
 </form>

@@ -8,7 +8,6 @@ var devices = []; // JS devices model
 var readings = []; //JS readings model
 var zoom = 3;
 var fullScreenMap = false;
-var grp_id;
 var infowindow;
 var new_drag_point;
 var zoom_val = get_cookie("zvalue");
@@ -65,7 +64,7 @@ function load()
 	var page = document.location.href.split("/")[3];            
 	if(page == 'home' || page == 'admin' ||page=='devices')
         {        
-        getRecentReadings(true,grp_id);                
+        getRecentReadings(true);                
         }
 	else if(page == 'reports' )        
 		getReportBreadcrumbs();
@@ -103,9 +102,8 @@ function load()
 
 
 // Display all devices on overview page
- function getRecentReadings(redrawMap,id)  // code cleanup remains
-    {    
-     grp_id =  id ;     
+ function getRecentReadings(redrawMap)  // code cleanup remains
+    {         
 	 $("updating").style.visibility = 'visible';
      var bounds = new GLatLngBounds();
      var temp ;

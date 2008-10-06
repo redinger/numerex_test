@@ -77,7 +77,6 @@ class ReportsController < ApplicationController
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
 
-
   def runtime
     get_start_and_end_date
     @device = Device.find(params[:id])

@@ -180,7 +180,6 @@ class DevicesController < ApplicationController
     @groups = Group.find(:all,:conditions=>["account_id=?",session[:account_id]])
   end
 
-
   def show_group_1
     @group_ids=params[:group_id]
     redirect_to :action=>'new_group',:group_id=>@group_ids
@@ -323,16 +322,15 @@ class DevicesController < ApplicationController
     end
   end
 
-     def search_devices        
-         @from_search = true          
-             search_text = "%"+"#{params[:device_search]}"+"%"
-             if params[:device_search] != ""
-                 @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
-             end     
-             @search_text = "#{params[:device_search]}"
-         render :action=>'index'        
-     end
-
+  def search_devices        
+    @from_search = true          
+    search_text = "%"+"#{params[:device_search]}"+"%"    
+    if params[:device_search] != ""
+      @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
+    end
+    @search_text = "#{params[:device_search]}"
+    render :action=>'index'        
+  end
 
   # show the current user group
   def show_group

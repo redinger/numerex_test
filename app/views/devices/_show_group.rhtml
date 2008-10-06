@@ -1,81 +1,78 @@
-
 <table width="100%" border="0">
-    <tr>
-        <td width="50%" valign="top">
-        	<% if @devices.size == 0 %>
-        	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
-        		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
-				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
-				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
-        	</div>
-        	
-			<% end %>
-			
-            <table width="100%" class="panel_table">
-           
-                <tr><td colspan="4" class="header">Device Summary (<%= @devices.size %> total)</td></tr>
-                <tr><th>Name</th><th width="30"></th><th>Last Location</th><th>Last Report</th></tr>
-            
-           
-           
-            
-                <% for device in @devices %>
-                    <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
-                        <td>
-                        	<% if device.latest_gps_reading %>
-								<a href="javascript:centerMap(<%= device.id %>);highlightRow(<%= device.id %>);" title="Center map on this device"><%= device.name %></a>
-							<% else %>
-								<%= device.name %>
-							<% end %>
-						</td>
-						<td style="font-size:11px;"><a href="/reports/all/<%= device.id %>" title="View device details">details</a></td>
-                        <td><% if device.latest_gps_reading %><%= device.latest_gps_reading.short_address %><% else %>N/A<% end %></td>
-                        <td><% if device.latest_gps_reading %><%= time_ago_in_words device.latest_gps_reading.created_at %> ago <% else %>N/A<% end %></td>
-                    </tr>
-                <% end %>
-            </table>
-            <br />
-			<div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
-				<div class="dark_grey">
-                   <div class="dark_blue_header" style="margin-bottom: 5px;">Traffic Overlay</div>
-					Click the checkbox below to view a traffic overlay on the map.  The traffic overlay is a series of stop light icons that you can click and zoom for more
-					detailed information.  If you've already zoomed in to an appropriate level, and if data is available for your region, you will see color coded lines. These lines
-					represent how fast traffic is moving:
-					<ul>
-						<li>Green: more than 50 mph</li>
-						<li>Yellow: 25-50 mph</li>
-						<li>Red: less than 25 mph</li>
-						<li>Gray: no data available</li>
-					</ul>
-					<p><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Show traffic overlay</p>
-                </div>
-				<!--<ul>					
-					<li><input type="checkbox"> Geofences</li>
-					<li><input type="checkbox"> Crime areas</li>
-					<li><input type="checkbox"> Service stations</li>
-					<li><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Traffic</li>
-					<li><input type="checkbox" onclick="getLocal(this, 'gas stations');"> Gas stations</li>
-					<li><input type="checkbox"> Pizza parlors</li>
-					<li><input type="text" size="15" /> <input type="submit" value="search" /></li>
-					<a href="">Add your own layer</a>
-				</ul>-->
-			</div>
-			<br />
-            <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
-                <span style="font-size: 16px; color: #666666;">
-                    What would you like to do?
-                </span>
-                <ul>
-                    <li><a href="javascript:go('/geofence/view');">View geofence</a></li>
-                    <li><a href="javascript:go('/geofence/new');">Create geofence</a></li>
-                    <li><a href="#">Subscribe to GeoRSS</a></li>
-                    <li><a href="#">Export to KML</a></li>
-                </ul>
-            </div>
-        </td>
+  <tr>
+    <td width="50%" valign="top">
+      <% if @devices.size == 0 %>
+        <div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
+          Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
+          You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
+          Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
+        </div>        	
+      <% end %>		
+      
+      <table width="100%" class="panel_table">          
+        <tr>
+          <td colspan="4" class="header">Device Summary (<%= @devices.size %> total)</td>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <th width="30"></th><th>Last Location</th><th>Last Report</th>
+        </tr>                                          
+        <% for device in @devices %>
+          <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= device.id %>">
+            <td>
+              <% if device.latest_gps_reading %>
+                <a href="javascript:centerMap(<%= device.id %>);highlightRow(<%= device.id %>);" title="Center map on this device"><%= device.name %></a>
+              <% else %>
+                <%= device.name %>
+              <% end %>
+            </td>
+            <td style="font-size:11px;"><a href="/reports/all/<%= device.id %>" title="View device details">details</a></td>
+            <td><% if device.latest_gps_reading %><%= device.latest_gps_reading.short_address %><% else %>N/A<% end %></td>
+            <td><% if device.latest_gps_reading %><%= time_ago_in_words device.latest_gps_reading.created_at %> ago <% else %>N/A<% end %></td>
+          </tr>
+        <% end %>
+      </table><br />
+      
+      <div style="border: 1px solid #CCCCCC; background-color: #EEEEEE; padding: 10px;">
+        <div class="dark_grey">
+          <div class="dark_blue_header" style="margin-bottom: 5px;">Traffic Overlay</div>
+            Click the checkbox below to view a traffic overlay on the map.  The traffic overlay is a series of stop light icons that you can click and zoom for more
+            detailed information.  If you've already zoomed in to an appropriate level, and if data is available for your region, you will see color coded lines. These lines
+            represent how fast traffic is moving:
+          <ul>
+            <li>Green: more than 50 mph</li>
+            <li>Yellow: 25-50 mph</li>
+            <li>Red: less than 25 mph</li>
+            <li>Gray: no data available</li>
+          </ul>
+          <p><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Show traffic overlay</p>
+        </div>
         
-       
-    </tr>
+        <!--<ul>					
+          <li><input type="checkbox"> Geofences</li>
+          <li><input type="checkbox"> Crime areas</li>
+          <li><input type="checkbox"> Service stations</li>
+          <li><input type="checkbox" onclick="toggleLayer(this, 'traffic');"> Traffic</li>
+          <li><input type="checkbox" onclick="getLocal(this, 'gas stations');"> Gas stations</li>
+          <li><input type="checkbox"> Pizza parlors</li>
+          <li><input type="text" size="15" /> <input type="submit" value="search" /></li>
+          <a href="">Add your own layer</a>
+        </ul>-->        
+      </div><br />
+      
+      <div style="border: 1px solid #CCCCCC; padding: 10px; visibility: hidden;" id="action_panel">
+        <span style="font-size: 16px; color: #666666;">
+          What would you like to do?
+        </span>
+        <ul>
+          <li><a href="javascript:go('/geofence/view');">View geofence</a></li>
+          <li><a href="javascript:go('/geofence/new');">Create geofence</a></li>
+          <li><a href="#">Subscribe to GeoRSS</a></li>
+          <li><a href="#">Export to KML</a></li>
+        </ul>
+      </div>
+    </td>            
+  </tr>
 </table>
 
 <script>

@@ -2,6 +2,7 @@ class LoginController < ApplicationController
 
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
+  
   # If you want "remember me" functionality, add this before_filter to Application Controller
   before_filter :login_from_cookie
 
@@ -13,7 +14,7 @@ class LoginController < ApplicationController
     end
   end
 
-  def index
+  def index    
     #Check if user is logged in and redirect to home controller if they are
     if logged_in?
       user = self.current_user
@@ -31,7 +32,7 @@ class LoginController < ApplicationController
       # Authenticate based on un/pw as well as subdomain
       if self.current_user = User.authenticate(request.subdomains.first, params[:email], params[:password])
         if params[:remember_me] == "on"
-          self.current_user.remember_me
+          self.current_user.remember_me          
           cookies['auth_token'] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
           cookies['user_name'] = params[:email]
         end
@@ -133,7 +134,6 @@ class LoginController < ApplicationController
       redirect_back_or_default(:controller => '/login', :action => 'index')
     end
   end
-
 
   def login_from_cookie
     return unless cookies['auth_token'] && session[:user].nil?
