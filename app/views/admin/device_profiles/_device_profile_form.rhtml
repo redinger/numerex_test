@@ -11,6 +11,8 @@
 		<tr><td>&gt; High Value:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio1[high_value]" value="<%= @profile.gpio1_high_value %>" /></td></tr>
 		<tr><td>&gt; Low Notice:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio1[low_notice]" value="<%= @profile.gpio1_low_notice %>" /></td></tr>
 		<tr><td>&gt; High Notice:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio1[high_notice]" value="<%= @profile.gpio1_high_notice %>" /></td></tr>
+		<tr><td>&gt; Low Status:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio1[low_status]" value="<%= @profile.gpio1_low_status %>" /></td></tr>
+		<tr><td>&gt; High Status:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio1[high_status]" value="<%= @profile.gpio1_high_status %>" /></td></tr>
 	<% end %>
 	<tr><td>GPIO #2:</td><td>&nbsp;</td><td><input type="checkbox" class="disabled" disabled="disabled"<%if @profile.gpio2_labels %> checked<% end %>/></td></tr>
 	<% if params[:action] != 'show' or @profile.gpio2_labels %>
@@ -19,6 +21,8 @@
 		<tr><td>&gt; High Value:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio2[high_value]" value="<%= @profile.gpio2_high_value %>" /></td></tr>
 		<tr><td>&gt; Low Notice:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio2[low_notice]" value="<%= @profile.gpio2_low_notice %>" /></td></tr>
 		<tr><td>&gt; High Notice:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio2[high_notice]" value="<%= @profile.gpio2_high_notice %>" /></td></tr>
+		<tr><td>&gt; Low Status:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio2[low_status]" value="<%= @profile.gpio2_low_status %>" /></td></tr>
+		<tr><td>&gt; High Status:</td><td>&nbsp;</td><td><input type="text" <% if params[:action] == "show" %>class="disabled" disabled="disabled"<% else %>class="input"<% end %> name="gpio2[high_status]" value="<%= @profile.gpio2_high_status %>" /></td></tr>
 	<% end %>
 	<% if params[:action] == "edit" || params[:action] == "new" %>
 	<tr><td colspan="3"><input type="submit" value="Save" /> <a href="javascript: history.go(-1);">cancel</a></td></tr>

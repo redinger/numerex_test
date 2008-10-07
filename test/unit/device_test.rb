@@ -46,12 +46,12 @@ class DeviceTest < Test::Unit::TestCase
   end
   
   def test_latest_status
-    assert_equal "Moving",devices(:device1).latest_status
-    assert_equal "<b><i>Speeding</i></b>",devices(:device2).latest_status
-    assert_equal "Stopped",devices(:device3).latest_status
+    assert_equal [Device::REPORT_TYPE_ALL,"Moving"],devices(:device1).latest_status
+    assert_equal [Device::REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"],devices(:device2).latest_status
+    assert_equal [Device::REPORT_TYPE_STOP,"Stopped"],devices(:device3).latest_status
     assert_equal nil,devices(:device4).latest_status
-    assert_equal "Idling",devices(:device6).latest_status
-    assert_equal "On",devices(:device7).latest_status
-    assert_equal "Engine:&nbsp;On, GPIO-1:&nbsp;HIGH",devices(:device8).latest_status
+    assert_equal [Device::REPORT_TYPE_IDLE,"Idling"],devices(:device6).latest_status
+    assert_equal [Device::REPORT_TYPE_RUNTIME,"On"],devices(:device7).latest_status
+    assert_equal [Device::REPORT_TYPE_GPIO1,"HIGH STATUS"],devices(:device8).latest_status
   end
 end

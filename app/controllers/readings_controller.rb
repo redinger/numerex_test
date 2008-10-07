@@ -39,7 +39,7 @@ class ReadingsController < ApplicationController
     if  @group_for_data=Group.find(:first,:conditions => ["id=? ", @user_pre])
       @devices=Device.find(:all , :conditions => [ 'group_id=?', params[:id]] )                
     elsif @user_pre == "default"
-      @devices = Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]])                     
+      @devices = Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]],:include => :profile)                     
     else            
       ( @user_pre == "undefined" || @user_pre == "all" )         
       @devices = Device.get_devices(session[:account_id])                

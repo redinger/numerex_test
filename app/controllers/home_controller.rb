@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index    
     @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name', :include=>[:devices])    
     @device_count = Device.count(:all, :conditions => ['provision_status_id = 1 and account_id = ?', session[:account_id]])
-    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                           
+    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name', :include => :profile)                           
     assign_the_selected_group_to_session 
   end
   

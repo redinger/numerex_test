@@ -2,6 +2,14 @@ class Device < ActiveRecord::Base
   STATUS_INACTIVE = 0
   STATUS_ACTIVE   = 1
   STATUS_DELETED  = 2
+  
+  REPORT_TYPE_ALL       = 0
+  REPORT_TYPE_STOP      = 1
+  REPORT_TYPE_IDLE      = 2
+  REPORT_TYPE_SPEEDING  = 3
+  REPORT_TYPE_RUNTIME   = 4
+  REPORT_TYPE_GPIO1     = 5
+  REPORT_TYPE_GPIO2     = 6
 
   belongs_to :account
   belongs_to :group
@@ -82,31 +90,37 @@ class Device < ActiveRecord::Base
   end
   
   def latest_status
-    results = []
+    results = nil
+    
     if profile.speeds and latest_speed_reading
       if latest_speed_reading.speed == 0
-        results.push((profile.idles and latest_data_reading and latest_data_reading.ignition) ? "Idling" : "Stopped")
+        if profile.idles and latest_data_reading and latest_data_reading.ignition
+          results = [REPORT_TYPE_IDLE,"Idling"]
+        else
+          results = [REPORT_TYPE_STOP,"Stopped"]
+        end
       else
-        results.push((account.max_speed and latest_speed_reading.speed > account.max_speed) ? "<b><i>Speeding</i></b>" : "Moving")
+        if account.max_speed and latest_speed_reading.speed > account.max_speed
+          results = [REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"]
+        else
+          results = [REPORT_TYPE_ALL,"Moving"]
+        end
       end
     end
-    if latest_data_reading
-      if profile.gpio1_name
-        gpio1_value = (latest_data_reading.gpio1 ? profile.gpio1_high_value : profile.gpio1_low_value)
-        gpio1_status = "#{profile.gpio1_name}: #{gpio1_value}" unless gpio1_value.blank?
-      end
-      if profile.gpio2_name
-        gpio2_value = (latest_data_reading.gpio2 ? profile.gpio2_high_value : profile.gpio2_low_value)
-        gpio2_status = "#{profile.gpio2_name}: #{gpio2_value}" unless gpio2_value.blank?
-      end
-      if profile.runs and not profile.idles
-        value = latest_data_reading.ignition ? "On" : "Off"
-        results.push((gpio1_status or gpio2_status) ? "Engine:&nbsp;#{value}" : value)
-      end
-      results.push(gpio1_status.gsub(/ /,'&nbsp;')) if gpio1_status
-      results.push(gpio2_status.gsub(/ /,'&nbsp;')) if gpio2_status
+
+    results = [REPORT_TYPE_RUNTIME,latest_data_reading.ignition ? "On" : "Off"]  if profile.runs and results.nil? and latest_data_reading
+
+    if profile.gpio1_name and latest_data_reading
+      gpio1_status = (latest_data_reading.gpio1 ? profile.gpio1_high_status : profile.gpio1_low_status)
+      results = [REPORT_TYPE_GPIO1,gpio1_status] unless gpio1_status.blank?
     end
-    results.join(', ') if results.any?
+    
+    if profile.gpio2_name and latest_data_reading
+      gpio2_status = (latest_data_reading.gpio2 ? profile.gpio2_high_status : profile.gpio2_low_status)
+      results = [REPORT_TYPE_GPIO2,gpio2_status] unless gpio2_status.blank?
+    end
+    
+    results
   end
   
   def online?

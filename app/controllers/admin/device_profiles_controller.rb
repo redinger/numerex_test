@@ -92,6 +92,6 @@ private
   end
   
   def apply_gpio_options(profile,options,watch,labels)
-    profile.update_gpio_attributes(watch,labels,options[:name],options[:low_value],options[:high_value],options[:low_notice],options[:high_notice])
+    profile.update_gpio_attributes(watch,labels,options[:name],options[:low_value],options[:high_value],options[:low_notice],options[:high_notice],options[:low_status],options[:high_status])
   end
 end

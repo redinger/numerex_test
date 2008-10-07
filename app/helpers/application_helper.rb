@@ -97,4 +97,28 @@ module ApplicationHelper
 				</td></tr>)
     content
   end
+  
+  def latest_status_html(device)
+    results = device.latest_status
+    return '-' unless results
+    uri = nil
+    case results[0]
+      when Device::REPORT_TYPE_ALL
+        uri = "/reports/all/#{device.id}"
+      when Device::REPORT_TYPE_STOP
+        uri = "/reports/stop/#{device.id}"
+      when Device::REPORT_TYPE_IDLE 
+        uri = "/reports/idle/#{device.id}"
+      when Device::REPORT_TYPE_SPEEDING
+        uri = "/reports/speeding/#{device.id}"
+      when Device::REPORT_TYPE_RUNTIME
+        uri = "/reports/runtime/#{device.id}"
+      when Device::REPORT_TYPE_GPIO1
+        uri = "/reports/gpio1/#{device.id}"
+      when Device::REPORT_TYPE_GPIO2
+        uri = "/reports/gpio2/#{device.id}"
+    end
+    return results[1] unless uri
+    %(<a href="#{uri}">#{results[1]}</a>)
+  end
 end
