@@ -119,6 +119,6 @@ module ApplicationHelper
         uri = "/reports/gpio2/#{device.id}"
     end
     return results[1] unless uri
-    %(<a href="#{uri}">#{results[1]}</a>)
+    %(<a href='#{uri}'>#{results[1]}</a>)
   end
 end

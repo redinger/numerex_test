@@ -43,14 +43,14 @@ class Admin::AccountsController < ApplicationController
   end
 
   def subdomain_login
-      user_account = Account.find_by_id(params[:id])                      
-      if  !user_account.nil?   #No need to check for super_admin because of before_filter "authorize_super_admin"
-         cookies[:account_value] = { :value => "#{user_account.id}", :domain => ".#{request.domain}"} 
-         cookies[:admin_user_id] = { :value => "#{session[:user_id]}", :domain => ".#{request.domain}"} 
-         redirect_to("http://#{user_account.subdomain}.#{request.domain}:#{request.port}/login/admin_login")
-      else
-         redirect_to :controller=>'/home', :action=>'index'
-      end
+    user_account = Account.find_by_id(params[:id])                      
+    if  !user_account.nil?   #No need to check for super_admin because of before_filter "authorize_super_admin"
+      cookies[:account_value] = { :value => "#{user_account.id}", :domain => ".#{request.domain}"} 
+      cookies[:admin_user_id] = { :value => "#{session[:user_id]}", :domain => ".#{request.domain}"} 
+      redirect_to("http://#{user_account.subdomain}.#{request.domain}:#{request.port}/login/admin_login")
+    else
+      redirect_to :controller=>'/home', :action=>'index'
+    end
   end
  
   def update
@@ -88,6 +88,6 @@ class Admin::AccountsController < ApplicationController
 private
   def apply_options_to_account(params,account)
     update_attributes_with_checkboxes(account,[:show_idle,:show_runtime,:show_statistics,:show_maintenance],params[:options])
-   end
+  end
 
 end

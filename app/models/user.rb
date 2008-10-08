@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
     self.remember_token_expires_at = 1.day.from_now
     self.remember_token = Digest::SHA1.hexdigest("#{salt}--#{self.email}--#{self.remember_token_expires_at}")
     self.password = "" # This bypasses password encryption, thus leaving password intact
-    self.save_with_validation(false)
+    self.save#_with_validation(false)
   end
   
   def forget_me

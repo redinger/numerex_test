@@ -1,46 +1,51 @@
 <div id="header">
-	<div id="company" ><%= session[:company] %></div>
-	
-	<div id="ub-login" >
-		Welcome, <%= session[:first_name] %> | <a href="/home" >Exit Admin</a> | <a href="/logout"  title="Logout">Logout</a>&nbsp;&nbsp;
-		<a href="http://www.ublip.com" target="_blank"><img src="/images/ublip_logo_small.png" alt="Ublip logo" border ="0" style="vertical-align: middle;" /></a>
-	</div>
+  <div id="company" ><%= session[:company] %></div>
+  
+  <div id="ub-login" >
+    Welcome, <%= session[:first_name] %> | <a href="/home" >Exit Admin</a> | <a href="/logout"  title="Logout">Logout</a>&nbsp;&nbsp;
+    <a href="http://www.ublip.com" target="_blank"><img src="/images/ublip_logo_small.png" alt="Ublip logo" border ="0" style="vertical-align: middle;" /></a>
+  </div>
 
-	<div style="clear:both;"></div>
+  <div style="clear:both;"></div>
 
-	<% controller = params[:controller]  %>
-	<% action = params[:action]  %>
-	<% controller_parts = controller.split('/') %>
-	<div id="nav_tabs">
-		<ul>
-	   		<li <% if controller == 'admin' %> class="selected"<% end %> style="margin-left: 10px"><a href="/admin">Overview</a></li>
-			<li <% if controller == 'admin/accounts' %> class="selected_subnav"<% end %>><a href="/admin/accounts">Accounts</a></li>
-			<li <% if controller == 'admin/users' %> class="selected_subnav"<% end %>><a href="/admin/users">Users</a></li>
-			<li <% if controller == 'admin/devices' %> class="selected_subnav"<% end %>><a href="/admin/devices">Devices</a></li>
-			<li <% if controller == 'admin/device_profiles' %> class="selected_subnav"<% end %>><a href="/admin/device_profiles">Device Profiles</a></li>
-			<% for gateway in Gateway.all %>
-				<li <%if controller == gateway.name %> class="selected"<% elsif controller_parts[0] == gateway.name %> class="selected_subnav"<% end %>><a href="/<%= gateway.name %>"><%= gateway.label %></a></li>
-			<% end %>
-		</ul>
-	</div>
+  <% controller = params[:controller]  %>
+  <% action = params[:action]  %>
+  <% controller_parts = controller.split('/') %>
+  
+  <div id="nav_tabs">
+    <ul>
+      <li <% if controller == 'admin' %> class="selected"<% end %> style="margin-left: 10px"><a href="/admin">Overview</a></li>
+      <li <% if controller == 'admin/accounts' %> class="selected_subnav"<% end %>><a href="/admin/accounts">Accounts</a></li>
+      <li <% if controller == 'admin/users' %> class="selected_subnav"<% end %>><a href="/admin/users">Users</a></li>
+      <li <% if controller == 'admin/devices' %> class="selected_subnav"<% end %>><a href="/admin/devices">Devices</a></li>
+      <li <% if controller == 'admin/device_profiles' %> class="selected_subnav"<% end %>><a href="/admin/device_profiles">Device Profiles</a></li>
+      <% for gateway in Gateway.all %>
+        <li <%if controller == gateway.name %> class="selected"<% elsif controller_parts[0] == gateway.name %> class="selected_subnav"<% end %>><a href="/<%= gateway.name %>"><%= gateway.label %></a></li>
+      <% end %>
+    </ul>
+  </div>
 </div>
+
 <% if controller_parts.length > 1 %>
-	<div id="subnav">
-		<% if controller_parts[0] != 'admin' %>
-			<%= render :partial => "#{controller_parts[0]}/#{controller_parts[1]}/header" %>
-		<% else %>
-			<% if action == 'edit' || action == 'new' || action == 'show' %>
-				<a href="javascript:history.go(-1);">&laquo; Back</a>
-			<% end %>
-			<% if action == 'edit' || action == 'show' %>
-				|
-			<% end %>
-			<% if action != 'new' %>
-				<a href="/admin/<%= controller_parts[1] %>/new">New</a>
-			<% end %>
-			<% if action == 'show' %>
-				| <a href="/admin/<%= controller_parts[1] %>/edit/<%= params[:id] %>">Edit</a>
-			<% end %>
-		<% end %>
-	</div>
+  <div id="subnav">
+    <% if controller_parts[0] != 'admin' %>
+      <%= render :partial => "#{controller_parts[0]}/#{controller_parts[1]}/header" %>
+    <% else %>    
+      <% if action == 'edit' || action == 'new' || action == 'show' %>
+        <a href="javascript:history.go(-1);">&laquo; Back</a>
+      <% end %>
+      
+      <% if action == 'edit' || action == 'show' %>
+        |
+      <% end %>
+      
+      <% if action != 'new' %>
+        <a href="/admin/<%= controller_parts[1] %>/new">New</a>
+      <% end %>
+      
+      <% if action == 'show' %>
+        | <a href="/admin/<%= controller_parts[1] %>/edit/<%= params[:id] %>">Edit</a>
+      <% end %>    
+    <% end %>
+  </div>
 <% end %>
