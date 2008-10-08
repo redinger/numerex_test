@@ -101,7 +101,7 @@ class Device < ActiveRecord::Base
         end
       else
         if account.max_speed and latest_speed_reading.speed > account.max_speed
-          results = [REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"]
+          results = [REPORT_TYPE_SPEEDING,"Speeding (#{latest_speed_reading.speed}mph)"]
         else
           results = [REPORT_TYPE_ALL,"Moving"]
         end

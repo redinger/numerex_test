@@ -47,7 +47,7 @@ class DeviceTest < Test::Unit::TestCase
   
   def test_latest_status
     assert_equal [Device::REPORT_TYPE_ALL,"Moving"],devices(:device1).latest_status
-    assert_equal [Device::REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"],devices(:device2).latest_status
+    assert_equal [Device::REPORT_TYPE_SPEEDING,"Speeding (31mph)"],devices(:device2).latest_status
     assert_equal [Device::REPORT_TYPE_STOP,"Stopped"],devices(:device3).latest_status
     assert_equal nil,devices(:device4).latest_status
     assert_equal [Device::REPORT_TYPE_IDLE,"Idling"],devices(:device6).latest_status
