@@ -11,16 +11,16 @@ class ReportsController < ApplicationController
   def index
     
     if params[:group_id]
-      session[:gmap_value] = params[:group_id] # To allow groups to be selected on reports index page
+      session[:group_value] = params[:group_id] # To allow groups to be selected on reports index page
     end
     
      @groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
-     if session[:gmap_value]=="all" 
+     if session[:group_value]=="all" 
          @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
-     elsif session[:gmap_value]=="default"
+     elsif session[:group_value]=="default"
          @devices = Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
      else
-         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id], session[:gmap_value]], :order=>'name')
+         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id], session[:group_value]], :order=>'name')
      end    
   end
 
@@ -36,6 +36,21 @@ class ReportsController < ApplicationController
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
+
+  
+  def speeding
+    get_start_and_end_date
+    @device = Device.find(params[:id])    
+    @device_names = Device.get_names(session[:account_id])
+    @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
+      :conditions => ["device_id = ? and speed > ? and created_at between ? and ?",params[:id],(@device.account.max_speed or -1),@start_dt_str, @end_dt_str],
+      :order => "created_at desc")
+    @record_count = Reading.count('id',
+      :conditions => ["device_id = ? and speed > ? and created_at between ? and ?", params[:id],(@device.account.max_speed or -1),@start_dt_str, @end_dt_str])
+    @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
+    @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
+  end
+  
   def stop
     get_start_and_end_date
     @device = Device.find(params[:id])
@@ -49,7 +64,6 @@ class ReportsController < ApplicationController
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
 
-
   def idle
     get_start_and_end_date
     @device = Device.find(params[:id])
@@ -62,7 +76,6 @@ class ReportsController < ApplicationController
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
-
 
   def runtime
     get_start_and_end_date
@@ -123,10 +136,11 @@ class ReportsController < ApplicationController
       params[:page] = 1
     end
     # Determine report type so we know what filter to apply
-    if params[:type] == 'all'
-      event_type = '%'
-    elsif params[:type] == 'geofence'
-      event_type = '%geofen%'
+    case params[:type]
+      when 'geofence'
+        event_type = '%geofen%'
+      else
+        event_type = '%'
     end
     get_start_and_end_date
     if params[:type]=='stop'

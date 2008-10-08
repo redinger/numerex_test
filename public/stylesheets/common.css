@@ -1058,3 +1058,9 @@ div#footer {
 	clear:both;}
 	
 /*footer CSS End*/
+
+.title {
+	font-size: 18px;
+	font-weight: bold;
+	color: #003366;
+}

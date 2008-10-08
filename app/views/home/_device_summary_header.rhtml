@@ -1,16 +1,16 @@
 <tr>     
   <td colspan="<%= column_span or 4 %>" class="header"><span class="device_summery">Device Summary <%= sub_heading if sub_heading %></span>
-        <select id="type1" class="device_summery_select" name="type" onchange="<%= decide_action %>;"> 
-            <option id=""  value="new">New group</option>
-            <option id=""  value="edit">Edit groups</option>
-            <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-            <option value="all" <%if session[:gmap_value] == 'all' %> selected class="bgcolor"<%end%>>  All Groups  </option>            
-                 <% for group in @all_groups %>
-            <option <%if session[:gmap_value].to_i == group.id%> selected class="bgcolor"<%end%> value='<%= group.id%>'><%= group.name%> </option>
-                  <% end %>            
-            <%if !@default_devices.empty?%>    
-             <option <%if session[:gmap_value] == "default"%> selected class="bgcolor" <%end%> value='default'>Default</option>     
-            <%end%> 
-        </select>            
+    <select id="group_type" class="device_summery_select" name="group_type" onchange="<%= decide_action %>;"> 
+      <option id=""  value="new">New group</option>
+      <option id=""  value="edit">Edit groups</option>
+      <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
+      <option value="all" <%if session[:group_value] == 'all' %> selected class="bgcolor"<%end%>>  All Groups  </option>            
+      <% for group in @all_groups %>
+        <option <%if session[:group_value].to_i == group.id%> selected class="bgcolor"<%end%> value='<%= group.id%>'><%= group.name%> </option>
+      <% end %>            
+      <%if !@default_devices.empty?%>    
+        <option <%if session[:group_value] == "default"%> selected class="bgcolor" <%end%> value='default'>Default</option>     
+      <%end%> 
+    </select>            
   </td>
 </tr>

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class DeviceTest < Test::Unit::TestCase
-  fixtures :devices, :geofences, :notifications
+  fixtures :devices, :accounts, :geofences, :notifications, :device_profiles, :readings
 
   # Replace this with your real tests.
   def test_get_by_device_and_account
@@ -43,5 +43,15 @@ class DeviceTest < Test::Unit::TestCase
   def test_last_offline_notification
     last_offline_notification = devices(:device1).last_offline_notification
     assert_equal 2, last_offline_notification.id
+  end
+  
+  def test_latest_status
+    assert_equal [Device::REPORT_TYPE_ALL,"Moving"],devices(:device1).latest_status
+    assert_equal [Device::REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"],devices(:device2).latest_status
+    assert_equal [Device::REPORT_TYPE_STOP,"Stopped"],devices(:device3).latest_status
+    assert_equal nil,devices(:device4).latest_status
+    assert_equal [Device::REPORT_TYPE_IDLE,"Idling"],devices(:device6).latest_status
+    assert_equal [Device::REPORT_TYPE_RUNTIME,"On"],devices(:device7).latest_status
+    assert_equal [Device::REPORT_TYPE_GPIO1,"HIGH STATUS"],devices(:device8).latest_status
   end
 end

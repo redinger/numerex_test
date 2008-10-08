@@ -1,4 +1,3 @@
-
 class DevicesController < ApplicationController
   include GeoKit::Mappable
   before_filter :authorize
@@ -23,7 +22,7 @@ class DevicesController < ApplicationController
   end
 
   # A device can provisioned
-  def choose_MT
+  def choose_MT     
     if (request.post? && params[:imei] != '' && params[:name] !='')
       device = provision_device(params[:imei])
       if(!device.nil?)
@@ -79,7 +78,7 @@ class DevicesController < ApplicationController
     device = Device.find_by_imei(imei) # Determine if device is already in system
 
     # Device is already in the system so let's associate it with this account
-    if(device)
+    if(device)      
       if(device.provision_status_id == 0)
         device.account_id = session[:account_id]
         imei = params[:imei]
@@ -100,7 +99,7 @@ class DevicesController < ApplicationController
         device.online_threshold = extras[:online_threshold].nil? ? nil : extras[:online_threshold]
       end
       device.provision_status_id = 1
-      device.account_id = session[:account_id]
+      device.account_id = session[:account_id]      
       device.save
       flash[:success] = params[:name] + ' was created successfully'
     end
@@ -145,13 +144,17 @@ class DevicesController < ApplicationController
   end
 
   def index
-     if session[:gmap_value]=="all" 
-         @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
-     elsif session[:gmap_value]=="default"
-         @devices =Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
-     else
-         @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id],session[:gmap_value]], :order=>'name')
-     end    
+    if params[:group_id]
+      session[:group_value] = params[:group_id] # To allow groups to be selected on devices index page
+    end
+    @groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name')
+    if session[:group_value]=="all" 
+      @devices = Device.get_devices(session[:account_id]) # Get devices associated with account    
+    elsif session[:group_value]=="default"
+      @devices =Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name')                     
+    else
+      @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id],session[:group_value]], :order=>'name')
+    end    
   end
 
 
@@ -176,7 +179,6 @@ class DevicesController < ApplicationController
   def create_group
     @groups = Group.find(:all,:conditions=>["account_id=?",session[:account_id]])
   end
-
 
   def show_group_1
     @group_ids=params[:group_id]
@@ -320,16 +322,15 @@ class DevicesController < ApplicationController
     end
   end
 
-     def search_devices        
-         @from_search = true          
-             search_text = "%"+"#{params[:device_search]}"+"%"
-             if params[:device_search] != ""
-                 @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
-             end     
-             @search_text = "#{params[:device_search]}"
-         render :action=>'index'        
-     end
-
+  def search_devices        
+    @from_search = true          
+    search_text = "%"+"#{params[:device_search]}"+"%"    
+    if params[:device_search] != ""
+      @devices = Device.find(:all, :conditions => ['name like ? and provision_status_id = 1 and account_id = ?',search_text,session[:account_id]], :order => 'name')
+    end
+    @search_text = "#{params[:device_search]}"
+    render :action=>'index'        
+  end
 
   # show the current user group
   def show_group

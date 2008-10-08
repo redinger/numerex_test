@@ -27,22 +27,13 @@ class DeviceControllerTest < Test::Unit::TestCase
   def test_index   
     get :index, {}, { :user => users(:dennis), :account_id => 1}     
     assert_response :success            
- end
- 
-   def test_index_for_gmap_session_to_all
-    get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"all"}     
-    assert_response :success            
-   end    
+  end
    
-   def test_index_for_gmap_session_to_default
-        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"default"}     
-        assert_response :success            
-   end    
-
-   def test_index_for_gmap_session_to_group_number
-        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>1}     
-        assert_response :success            
-   end    
+   def test_index_with_group_selection
+     get :index, {:group_id => 1}, {:user => users(:dennis), :account_id => 1}
+     devices = assigns(:devices)
+     assert_equal 2, devices.size
+   end
 
    def test_view
      get :view, {:id=>"2"},{:user => users(:dennis), :account_id => "1"} 

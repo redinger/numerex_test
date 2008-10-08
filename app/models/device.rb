@@ -2,6 +2,14 @@ class Device < ActiveRecord::Base
   STATUS_INACTIVE = 0
   STATUS_ACTIVE   = 1
   STATUS_DELETED  = 2
+  
+  REPORT_TYPE_ALL       = 0
+  REPORT_TYPE_STOP      = 1
+  REPORT_TYPE_IDLE      = 2
+  REPORT_TYPE_SPEEDING  = 3
+  REPORT_TYPE_RUNTIME   = 4
+  REPORT_TYPE_GPIO1     = 5
+  REPORT_TYPE_GPIO2     = 6
 
   belongs_to :account
   belongs_to :group
@@ -11,6 +19,9 @@ class Device < ActiveRecord::Base
   validates_presence_of :name, :imei
   
   has_one :latest_gps_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "latitude is not null"
+  has_one :latest_speed_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "speed is not null"
+  has_one :latest_data_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "ignition is not null"
+  
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
   has_many :stop_events, :order => "created_at desc"
@@ -78,17 +89,38 @@ class Device < ActiveRecord::Base
     Notification.find(:first, :order => 'created_at desc', :conditions => ['device_id = ? and notification_type = ?', id, "device_offline"])
   end
   
-  def last_status_string
-    return '-' unless self.profile.runs
-    last_status_reading = Reading.find(:first,:conditions => "device_id = #{id} and (event_type like 'engine%' or ignition is not null) and created_at >= (now() - interval 1 day)",:limit => 1,:order => "created_at desc")
-    return 'Unknown' unless last_status_reading
-    if last_status_reading.event_type == 'engine on'
-      return 'On'
-    elsif last_status_reading.event_type == 'engine off'
-      return 'Off'
-    else
-      return last_status_reading.ignition ? 'On' : 'Off'
+  def latest_status
+    results = nil
+    
+    if profile.speeds and latest_speed_reading
+      if latest_speed_reading.speed == 0
+        if profile.idles and latest_data_reading and latest_data_reading.ignition
+          results = [REPORT_TYPE_IDLE,"Idling"]
+        else
+          results = [REPORT_TYPE_STOP,"Stopped"]
+        end
+      else
+        if account.max_speed and latest_speed_reading.speed > account.max_speed
+          results = [REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"]
+        else
+          results = [REPORT_TYPE_ALL,"Moving"]
+        end
+      end
     end
+
+    results = [REPORT_TYPE_RUNTIME,latest_data_reading.ignition ? "On" : "Off"]  if profile.runs and results.nil? and latest_data_reading
+
+    if profile.gpio1_name and latest_data_reading
+      gpio1_status = (latest_data_reading.gpio1 ? profile.gpio1_high_status : profile.gpio1_low_status)
+      results = [REPORT_TYPE_GPIO1,gpio1_status] unless gpio1_status.blank?
+    end
+    
+    if profile.gpio2_name and latest_data_reading
+      gpio2_status = (latest_data_reading.gpio2 ? profile.gpio2_high_status : profile.gpio2_low_status)
+      results = [REPORT_TYPE_GPIO2,gpio2_status] unless gpio2_status.blank?
+    end
+    
+    results
   end
   
   def online?

@@ -20,7 +20,7 @@ xml.devices do
         xml.address(device.latest_gps_reading.short_address)
         xml.dt((time_ago_in_words device.latest_gps_reading.created_at) + ' ago')
         xml.note(device.latest_gps_reading.note)
-        xml.status(device.last_status_string)
+        xml.status(latest_status_html(device))
       end     
     end
   end

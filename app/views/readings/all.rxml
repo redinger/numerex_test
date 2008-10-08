@@ -8,14 +8,14 @@ xml.rss(:version=>"2.0", "xmlns:georss" => "http://www.georss.org/georss"){
     for device in @devices
       reading = device.latest_gps_reading
       xml.item do
-        if(!reading.nil?)
+        if(!reading.nil?)         
           xml.title("Location reading for " + device.name + " on " + reading.created_at.rfc2822)
           xml.description(reading.short_address)
           xml.georss :point, reading.latitude.to_s + ' '+ reading.longitude.to_s
           xml.speed(reading.speed)
           xml.direction(reading.direction)
           xml.pubDate(reading.created_at.rfc2822)
-        end
+         end         
       end
     end
   }
