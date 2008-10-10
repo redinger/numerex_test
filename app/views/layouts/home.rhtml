@@ -8,6 +8,12 @@
     <%= javascript_include_tag "main", "layers", "utils" %>
     <%= javascript_include_tag :defaults%>
   </head>
+  
+  <script>        
+    <%if session[:group_value]%>
+      var grp_id = '<%=session[:group_value] %>';                  
+    <%end%>    
+  </script>      
           
   <body onload="load();">
     <%= render :partial => 'layouts/includes/header' %>
@@ -62,9 +68,13 @@
       <script>   
        window.setInterval("updateLocations();", 30000);                    
        function updateLocations() 
-        {                    
-          getRecentReadings(true);                                                     
-        }
+         {   
+           if (grp_id) 
+            getRecentReadings(true,grp_id);                                                               
+           else{                     
+             getRecentReadings(false);                                                               
+           }
+         }
      </script>
     <% end %>                
   

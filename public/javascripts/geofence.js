@@ -169,7 +169,7 @@ function go(url) {
 }
 
 function enableDevice(id) {
-	if(document.getElementById("all").value == '1' && document.getElementById("all").checked == true) {
+	if(document.getElementById("radio").value == '1' && document.getElementById("radio").checked == true) {
 		document.getElementById("device").disabled = true;
 	} else {         
 		document.getElementById("device").disabled = false;

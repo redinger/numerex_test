@@ -52,17 +52,23 @@ class ReadingsControllerTest < Test::Unit::TestCase
     end
   end
   
+  def test_last_for_session_user
+      @request.host="dennis.ublip.com"
+      get :last, { :id => 1}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+      assert_select "channel item", 1
+  end
+  
   # Make sure that we're requiring HTTP auth
   def test_require_http_auth_for_last
     @request.host="dennis.ublip.com"
-    get :last, {:id => 1}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    get :last, {:id => 1}#, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
     assert_equal @response.body, "Couldn't authenticate you"
   end  
   
   # Make sure that we're requiring HTTP auth
   def test_require_http_auth_for_all
     @request.host="dennis.ublip.com"
-    get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    get :all, {}#, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
     assert_equal @response.body, "Couldn't authenticate you"
   end
   

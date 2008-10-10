@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       
       unless user.id == session[:user_id] or session[:is_admin]
         flash[:error] = 'Only administrators can edit a user other than himself'
-        return redirect_to :controller => 'users', :action => 'edit', :id => user
+        return redirect_to(:controller => 'users', :action => 'edit', :id => user)
       end
       
       user.update_attributes(params[:user])
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   def new
     unless session[:is_admin]
       flash[:error] = 'Only administrators can create users'
-      return redirect_to :controller => 'users', :action => 'index'
+      return redirect_to(:controller => 'users', :action => 'index')
     end
       
     @user = User.new(params[:user])
@@ -90,7 +90,7 @@ class UsersController < ApplicationController
   def delete
     unless session[:is_admin]
       flash[:error] = 'Only administrators can delete users'
-      return redirect_to :controller => 'users', :action => 'index'
+      return redirect_to(:controller => 'users', :action => 'index')
     end
       
     if request.post?

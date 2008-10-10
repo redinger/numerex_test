@@ -123,8 +123,12 @@ private
   end
   
   def authorize_http
-    username, passwd = get_auth_data
-    unless User.authenticate(request.subdomains.first, username, passwd) then access_denied end
+    if session[:account_id].nil?
+      username, passwd = get_auth_data    
+      unless User.authenticate(request.subdomains.first, username, passwd) then access_denied end    
+    else
+      unless  session[:account_id] then access_denied end      
+    end
   end
     
   def access_denied
@@ -146,7 +150,7 @@ private
   # gets BASIC auth info
   def get_auth_data
     auth_key  = @@http_auth_headers.detect { |h| request.env.has_key?(h) }
-    auth_data = request.env[auth_key].to_s.split unless auth_key.blank?
+    auth_data = request.env[auth_key].to_s.split unless auth_key.blank?    
     return auth_data && auth_data[0] == 'Basic' ? Base64.decode64(auth_data[1]).split(':')[0..1] : [nil, nil] 
   end
     
