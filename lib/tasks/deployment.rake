@@ -1,12 +1,5 @@
 require "rubygems"
-
-# This statement exists so that our servers don't need the dmclient gem installed
-begin
-  require "dm_client.rb"
-rescue Exception => e
-  puts "Doing nothing since the dmclient gem isn't installed"
-end
-
+require "dm_client.rb"
 
 namespace :ublip do
   
