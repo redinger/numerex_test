@@ -247,7 +247,7 @@ function checking_no_data_flag(no_data_flag,redrawMap,gmap,devices,bounds)
             else
               var point = new GLatLng(device.lat, device.lng);                    
             gmap.setCenter(point, zoom);			                                          
-            //centerMap(dev_id);  // afetr refresh the map the info window will close, if you want info window to remain open, please comment out this statment.                                         
+            centerMap(dev_id);  // after refresh the map the info window will close, if you want info window to remain open, please comment out this statment.                                         
           }
           else
           {
