@@ -4,7 +4,7 @@ class NotificationState < ActiveRecord::Base
   include Singleton
   
   def self.instance
-    @@instance ||= (find(:first) or new)
+   @@instance ||= (find(:first) or new) 
   end
   
   def begin_reading_bounds

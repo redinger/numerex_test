@@ -1,35 +1,43 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<title><%= @page_title %></title>
-		<%= stylesheet_link_tag "common" %>
-         <%= render :partial => 'layouts/includes/map_key' %>
-         <%= javascript_include_tag "main", "layers", "utils" %>
-         <%= javascript_include_tag :defaults %>         
-	</head>
-	<body>          
-   		<%= render :partial => 'layouts/includes/header' %>
-        
-		<div id="submenu">
-			<div style="float: left">
-               <% if ['groups','edits_group','new_group','create_group'].include?(controller.action_name)%>
-			<a href="/devices" >Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" class="current">Groups</a>            
-               <%else%>
-			<a href="/devices" class="current">Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups">Groups</a>
-               <%end%>
-			</div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title><%= @page_title %></title>
+    <%= stylesheet_link_tag "common" %>
+    
+    <%= render :partial => 'layouts/includes/map_key' %>
+    
+    <%= javascript_include_tag "main", "layers", "utils" %>
+    <%= javascript_include_tag :defaults %>         
+  </head>
+  
+  <body>          
+    <%= render :partial => 'layouts/includes/header' %>    
+    
+    <div id="submenu">
+      <div style="float: left">
+        <% if ['groups','edits_group','new_group','create_group'].include?(controller.action_name)%>
+          <a href="/devices" >Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" class="current">Groups</a>            
+        <%else%>
+          <a href="/devices" class="current">Devices</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups">Groups</a>
+        <%end%>
+      </div>
            
-                <%if controller.action_name == 'index' || controller.action_name == 'search_devices'%>
-                    <div style="float: right"><a href="/devices/choose_MT" title="Add a new device">Add New Device</a></div>
-				<% elsif controller.action_name == 'groups'%>
-					<div style="float: right"><a href="/devices/new_group" title="Create new group">Add New Group</a></div>
-                <%end%>
-           	 <div style="clear:both"></div>
-		</div>
-    	<div id="content">
-        	<%= yield %>
-        </div>
-		<%= render :partial => 'layouts/includes/footer' %>
-	</body>
+      <div style="float: right">             
+        <%if controller.action_name == 'index' || controller.action_name == 'search_devices'%>
+          <a href="/devices/choose_MT" title="Add a new device">Add New Device</a>
+        <% elsif controller.action_name == 'groups'%>
+          <a href="/devices/new_group" title="Create new group">Add New Group</a>
+        <%end%>
+      </div>          
+      
+      <div style="clear:both"></div>
+    </div>
+    
+    <div id="content">
+      <%= yield %>
+    </div>
+    
+    <%= render :partial => 'layouts/includes/footer' %>
+  </body>
 </html>

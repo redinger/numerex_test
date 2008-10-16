@@ -101,24 +101,34 @@ module ApplicationHelper
   def latest_status_html(device)
     results = device.latest_status
     return '-' unless results
+    title = nil
     uri = nil
+    label = results[1]
     case results[0]
       when Device::REPORT_TYPE_ALL
+        title = "View all readings"
         uri = "/reports/all/#{device.id}"
       when Device::REPORT_TYPE_STOP
+        title = "View stop report"
         uri = "/reports/stop/#{device.id}"
       when Device::REPORT_TYPE_IDLE 
+        title = "View idle report"
         uri = "/reports/idle/#{device.id}"
       when Device::REPORT_TYPE_SPEEDING
+        title = "View speeding report"
         uri = "/reports/speeding/#{device.id}"
+        label = "<b><i>#{label}</i></b>"
       when Device::REPORT_TYPE_RUNTIME
+        title = "View runtime report"
         uri = "/reports/runtime/#{device.id}"
       when Device::REPORT_TYPE_GPIO1
+        title = "View #{device.profile.gpio1_name} report"
         uri = "/reports/gpio1/#{device.id}"
       when Device::REPORT_TYPE_GPIO2
+        title = "View #{device.profile.gpio2_name} report"
         uri = "/reports/gpio2/#{device.id}"
     end
-    return results[1] unless uri
-    %(<a href="#{uri}">#{results[1]}</a>)
+    return label unless uri
+    %(<a href='#{uri}' title='#{title}'>#{label}</a>)
   end
 end

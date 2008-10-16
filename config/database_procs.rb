@@ -1,3 +1,6 @@
+require "rubygems"
+require "dm_client.rb"
+
 task :setup_db_procs do
   begin
     sudo "chmod a+x #{current_path}/*.sh"
@@ -13,7 +16,7 @@ task :setup_db_procs do
     continue = false
   end
   if continue
-    if get_db_admin(customer_name)
+    if DeployManagerClient.get_db_admin(customer_name)
       run "cd #{current_path} && rake ublip:deploy_db_procs RAILS_ENV=#{rails_env}"
     else
       puts "************************************************************************************************************"

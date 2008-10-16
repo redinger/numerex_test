@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class DeviceTest < Test::Unit::TestCase
-  fixtures :devices, :accounts, :geofences, :notifications, :device_profiles, :readings
+  fixtures :devices, :accounts, :geofences, :notifications, :device_profiles, :readings, :stop_events, :idle_events, :runtime_events
 
   # Replace this with your real tests.
   def test_get_by_device_and_account
@@ -46,11 +46,11 @@ class DeviceTest < Test::Unit::TestCase
   end
   
   def test_latest_status
-    assert_equal [Device::REPORT_TYPE_ALL,"Moving"],devices(:device1).latest_status
-    assert_equal [Device::REPORT_TYPE_SPEEDING,"<b><i>Speeding</i></b>"],devices(:device2).latest_status
-    assert_equal [Device::REPORT_TYPE_STOP,"Stopped"],devices(:device3).latest_status
+    assert_equal [Device::REPORT_TYPE_STOP,"Stopped"],devices(:device1).latest_status
+    assert_equal [Device::REPORT_TYPE_IDLE,"Idling"],devices(:device2).latest_status
+    assert_equal [Device::REPORT_TYPE_ALL,"Moving"],devices(:device3).latest_status
     assert_equal nil,devices(:device4).latest_status
-    assert_equal [Device::REPORT_TYPE_IDLE,"Idling"],devices(:device6).latest_status
+    assert_equal [Device::REPORT_TYPE_SPEEDING,"Speeding (31mph)"],devices(:device6).latest_status
     assert_equal [Device::REPORT_TYPE_RUNTIME,"On"],devices(:device7).latest_status
     assert_equal [Device::REPORT_TYPE_GPIO1,"HIGH STATUS"],devices(:device8).latest_status
   end
