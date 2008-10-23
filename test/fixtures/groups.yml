@@ -19,3 +19,9 @@ group5:
  account_id: 1
  created_at: <%= Time.now.to_s :db %>
   
+group6:
+ id: 6
+ name: Dragon
+ image_value: 8
+ account_id: 2
+ created_at: <%= Time.now.to_s :db %>

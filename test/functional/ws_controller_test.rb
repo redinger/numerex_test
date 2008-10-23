@@ -12,7 +12,7 @@ class WsControllerTest < Test::Unit::TestCase
       @request    = ActionController::TestRequest.new
       @response   = ActionController::TestResponse.new
     end
-        
+    
     context "without any parameters" do
       should "respond with 200 OK" do
         get :index
@@ -26,9 +26,24 @@ class WsControllerTest < Test::Unit::TestCase
     end
     
     context "with valid parameters" do
-      should "return success message" do
+      setup do
+        Reading.delete_all
         get :index, {:imei => "1234", :lat => 1, :lng => 2, :spd => 3, :dir => 4, :alt => 5}
-        assert_equal @response.body, "Success"
+      end
+      should_respond_with :success
+      
+      should "save one reading" do
+        assert_equal 1, Reading.find(:all).size
+      end
+      
+      should "save correct values" do
+        reading = Reading.find(:first)
+        assert_equal "1234", reading.device.imei
+        assert_equal 1, reading.latitude
+        assert_equal 2, reading.longitude
+        assert_equal 3, reading.speed
+        assert_equal 4, reading.direction
+        assert_equal 5, reading.altitude
       end
     end
     

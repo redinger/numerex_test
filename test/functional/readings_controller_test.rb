@@ -41,29 +41,39 @@ class ReadingsControllerTest < Test::Unit::TestCase
     @request.host="dennis.ublip.com"
     @request.env["Authorization"] = "Basic " + Base64.encode64("dennis@ublip.com:testing")
     get :last, { :id => 7}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
-    puts @response.body
     
     assert_select "channel" do |element|
-    element[0].children.each do |tag|
-           if tag.class==HTML::Tag && tag.name=="item"
-             fail("should not return any content")
-           end
-    end
-      
+      element[0].children.each do |tag|
+        if tag.class==HTML::Tag && tag.name=="item"
+          fail("should not return any content")
+        end
+      end      
     end
   end
   
+  def test_last_for_session_user
+      @request.host="dennis.ublip.com"
+      get :last, { :id => 1}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+      assert_select "channel item", 1
+  end
+
+  def test_all_for_session_user
+      @request.host="dennis.ublip.com"
+      get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+      assert_select "channel item", 5
+  end
+
   # Make sure that we're requiring HTTP auth
   def test_require_http_auth_for_last
     @request.host="dennis.ublip.com"
-    get :last, {:id => 1}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    get :last, {:id => 1}#, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
     assert_equal @response.body, "Couldn't authenticate you"
   end  
   
   # Make sure that we're requiring HTTP auth
   def test_require_http_auth_for_all
     @request.host="dennis.ublip.com"
-    get :all, {}, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
+    get :all, {}#, {:user => users(:dennis), :user_id => users(:dennis), :account_id => accounts(:dennis)}
     assert_equal @response.body, "Couldn't authenticate you"
   end
   

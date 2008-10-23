@@ -1,5 +1,5 @@
 class StopEvent < ActiveRecord::Base
   belongs_to :reading
   belongs_to :device
- include ApplicationHelper
+  include ApplicationHelper
 end

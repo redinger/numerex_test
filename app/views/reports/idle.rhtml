@@ -1,54 +1,64 @@
 <%= render :partial => 'report_header' %>
 
 <table class="text_width" id="main_table">
-	<tr>
-		<td width="50%" valign="top" id="left_panel">
-			<table class="panel_table">
-				<tr>
-					<th>Location</th>
-					<th>Idle Duration</th>
-					<th>Started</th>
-				</tr>                
-                <%if !@idle_events.empty?%> 
-				<% count = 0 %>
-				<% for idle_event in @idle_events %>
-					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= idle_event.id %>">
-						<td><a href="javascript:centerMapOnReading(<%= idle_event.id %>);highlightRow(<%= idle_event.id %>)" ><% if idle_event.reading.nil? %><%= idle_event.latitude %>, <%= idle_event.longitude %><% else %><%= idle_event.reading.shortAddress %><% end %></a></td>
-						<td>
-							<% if idle_event.duration.nil? && count == 0%>
-								<%
-									start_time = @idle_events[0].created_at.to_i
-								    end_time = Time.now.to_i
-									duration = (end_time-start_time)/60
-								%>
-								<strong>In progress:</strong> <%= minutes_to_hours(duration) %>
-							<% elsif idle_event.duration.nil? %>
-								Unknown
-							<% else %>
-								<%= minutes_to_hours(idle_event.duration) %>
-							<% end %>
-						</td>
-						<td><script>document.write(displayLocalDT(<%= idle_event.created_at.to_i*1000 %>));</script></td>
-					</tr>
-					<script>readings.push({id: <%= idle_event.id %>, lat: <%= idle_event.latitude %>, lng: <%= idle_event.longitude%>, address: '<%= escape_javascript(idle_event.reading.shortAddress) %>', dt: displayLocalDT(<%= idle_event.created_at.to_i*1000 %>), event: 'idle', note: ''});</script>
-					<% count = count + 1%>
-				<% end %>
-                 <%else%>
-                     <%flag=true%>
-                 <%end%>            
-			</table>
-                <%if flag%>
-                       <div class="alert">
-                            <span>No idle events found.</span>
-                       </div>                               
-                <%end%>                        
-		</td>
-		<td>               
-                    <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>               
-          </td>
-		<td width="50%" valign="top" id="right_panel">
-			<div id="map" class="reports_map"></div>
-		</td>
+  <tr>
+    <td width="50%" valign="top" id="left_panel">             
+      <table class="panel_table">
+        <tr>
+          <th>Location</th>
+          <th>Idle Duration</th>
+          <th>Started</th>
+        </tr>                
+        <%if !@idle_events.empty?%> 
+          <% count = 0 %>
+          <% for idle_event in @idle_events %>
+            <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= idle_event.id %>">
+              <td>
+                <a href="javascript:centerMapOnReading(<%= idle_event.id %>);highlightRow(<%= idle_event.id %>)" ><% if idle_event.reading.nil? %><%= idle_event.latitude %>, <%= idle_event.longitude %><% else %><%= idle_event.reading.short_address %><% end %></a>
+              </td>
+              
+              <td>              
+                <% if idle_event.duration.nil? && count == 0%>
+                  <%
+                 start_time = @idle_events[0].created_at.to_i
+                 end_time = Time.now.to_i
+                 duration = (end_time-start_time)/60
+              %>
+                  <strong>In progress:</strong> <%= minutes_to_hours(duration) %>
+                  <% elsif idle_event.duration.nil? %>
+                    Unknown
+                <% else %>
+                  <%= minutes_to_hours(idle_event.duration) %>
+                <% end %>
+              </td>
+              
+              <td><script>document.write(displayLocalDT(<%= idle_event.created_at.to_i*1000 %>));</script></td>
+            </tr>
+              
+            <script>readings.push({id: <%= idle_event.id %>, lat: <%= idle_event.latitude %>, lng: <%= idle_event.longitude%>, address: '<%= escape_javascript(idle_event.reading.short_address) %>', dt: displayLocalDT(<%= idle_event.created_at.to_i*1000 %>), event: 'idle', note: ''});</script>
+            
+            <% count = count + 1%>
+          <% end %>
+        <%else%>
+          <%flag=true%>
+        <%end%>            
+      </table>    
+      <%if flag%>
+        <div class="alert">
+          <span>No idle events found.</span>
+        </div>                               
+      <%end%>                        
+    </td>
+    
+    <td>               
+      <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>               
+    </td>
+    
+    <td width="50%" valign="top" id="right_panel">
+      <div class="report_map_header">Locations for <%= @device.name%></div> 
+      <div id="map" class="reports_map"></div>
+    </td>
+    
 	</tr>
 </table>
 

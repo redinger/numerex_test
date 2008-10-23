@@ -6,34 +6,38 @@
   <div>
     <div id="ub_account_tbl">
       <div id="dark_topbar"><strong><%= @geofence.name.capitalize %></strong><br />
-		<%= @geofence.get_lat_lng%><br />
-        Radius: <%= @geofence.radius %> miles</div>
-	  <% if @geofence.device_id == 0 %>	
-		  <div id="light-greybar">Account Level: <br />
-			<%= @geofence.account.subdomain %>
-		  </div>
-	  <% else %>
-		  <div>Device Level: <br />
-			<%= @geofence.device.name %>
-		  </div>
-	  <% end %>
-     <div id="ub-ajax_butt">
-			<input type="button" onclick="document.location='<%= edit_url(:id=>@geofence.id)%>';" value="edit" />
-			<input type="button" onclick="if(confirm('Are you sure you want to delete this geofence ?'))document.location='<%= delete_url(:id=>@geofence.id) %>';" value="delete"/>
-	  </div>    
+        <%= @geofence.get_lat_lng%><br />
+        Radius: <%= @geofence.radius %> miles
+      </div>
+      
+      <% if @geofence.device_id == 0 %>	
+         <div id="light-greybar">Account Level: <br />
+           <%= @geofence.account.subdomain %>
+         </div>
+      <% else %>
+         <div>Device Level: <br />
+            <%= @geofence.device.name %>
+         </div>
+      <% end %>
+      
+      <div id="ub-ajax_butt">
+        <input type="button" onclick="document.location='<%= edit_url(:id=>@geofence.id)%>';" value="edit" />
+        <input type="button" onclick="if(confirm('Are you sure you want to delete this geofence ?'))document.location='<%= delete_url(:id=>@geofence.id) %>';" value="delete"/>
+      </div>    
     </div>
+    
       <div class="main_map">
         <div id="geofence_map" class="googlemap"></div>
       </div>
+      
   </div>
-
 </div>
 
 <script>
   var device_flag = 1 // added
   var remove_listener = 'true'
-<% if !@geofence.device.nil? && @geofence.device.readings[0] %>
-	var device = {name: '<%= escape_javascript @geofence.device.name %>', lat: <%= @geofence.device.readings[0].latitude %>, lng: <%= @geofence.device.readings[0].longitude %>};
+<% if @geofence.device && @geofence.device.latest_gps_reading %>
+	var device = {name: '<%= escape_javascript @geofence.device.name %>', lat: <%= @geofence.device.latest_gps_reading.latitude %>, lng: <%= @geofence.device.latest_gps_reading.longitude %>};
 	geofences.push({id: <%= @geofence.id %>, name: '<%= escape_javascript(@geofence.name) %>', bounds: '<%= @geofence.bounds %>'});
 	var gf_index = 0;
 <% else %>

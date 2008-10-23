@@ -7,7 +7,7 @@ xml.devices do
       xml.imei(device.imei)
        xml.icon_id(device.icon_id)
         # Just display empty nodes if this device has no readings
-      if device.readings[0].nil?
+      if device.latest_gps_reading.nil?
         xml.lat
         xml.lng
         xml.address
@@ -15,12 +15,12 @@ xml.devices do
         xml.note
         xml.status
       else # We got data
-        xml.lat(device.readings[0].latitude)
-        xml.lng(device.readings[0].longitude)
-        xml.address(device.readings[0].shortAddress)
-        xml.dt((time_ago_in_words device.readings[0].created_at) + ' ago')
-        xml.note(device.readings[0].note)
-        xml.status(device.last_status_string)
+        xml.lat(device.latest_gps_reading.latitude)
+        xml.lng(device.latest_gps_reading.longitude)
+        xml.address(device.latest_gps_reading.short_address)
+        xml.dt((time_ago_in_words device.latest_gps_reading.created_at) + ' ago')
+        xml.note(device.latest_gps_reading.note)
+        xml.status(latest_status_html(device))
       end     
     end
   end

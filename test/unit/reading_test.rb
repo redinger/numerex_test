@@ -5,12 +5,12 @@ class ReadingTest < Test::Unit::TestCase
   
   
   def test_address
-    assert_equal "Bigfork, Montana", readings(:reading5).shortAddress
-    assert_equal "6762 Big Springs Dr, Arlington, Texas", readings(:reading1).shortAddress
-    assert_equal "Inwood Rd, Farmers Branch, Texas", readings(:reading2).shortAddress
-    assert_equal "32.9395, -96.8244", readings(:reading3).shortAddress
-    assert_equal "32.94, -96.8217", readings(:reading4).shortAddress
-    assert_equal "32.9514, -96.8228", readings(:reading6).shortAddress
+    assert_equal "Bigfork, Montana", readings(:reading5).short_address
+    assert_equal "6762 Big Springs Dr, Arlington, Texas", readings(:reading1).short_address
+    assert_equal "Inwood Rd, Farmers Branch, Texas", readings(:reading2).short_address
+    assert_equal "32.9395, -96.8244", readings(:reading3).short_address
+    assert_equal "32.94, -96.8217", readings(:reading4).short_address
+    assert_equal "32.9514, -96.8228", readings(:reading6).short_address
   end
   
   def test_speed_round

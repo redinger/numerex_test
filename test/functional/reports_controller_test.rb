@@ -30,7 +30,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :all, {:id => 1}, {:user => users(:dennis), :account_id => 1}
     assert_response :success
     readings = assigns(:readings)
-    assert_equal "6762 Big Springs Dr, Arlington, Texas", readings[0].shortAddress
+    assert_equal "6762 Big Springs Dr, Arlington, Texas", readings[0].short_address
     assert_equal 29, readings[0].speed
     
     # Device 1, page 2
@@ -47,12 +47,33 @@ class ReportsControllerTest < Test::Unit::TestCase
       get :all, {:id => 1, :start_date=>"2008-07-18", :end_date=>"2004-07-18", :page=>3}, {:user => users(:dennis), :account_id => 1}
       assert_response :success
   end
-  
+
   def test_index
-     get :index, {:id => 1}, {:user => users(:dennis), :account_id => 1}   
+     get :index, {:id => 1}, {:user => users(:dennis), :account_id => 1}
      assert_response :success
   end
   
+  def test_index_for_gmap_session_to_all
+    get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"all"}     
+    assert_response :success            
+   end    
+   
+   def test_index_for_gmap_session_to_default
+        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>"default"}     
+        assert_response :success            
+   end    
+
+   def test_index_for_gmap_session_to_group_number
+        get :index, {}, { :user => users(:dennis), :account_id => 1},{:gmap_value=>1}     
+        assert_response :success            
+   end
+   
+   def test_index_with_group_selection
+     get :index, {:group_id => 1}, {:user => users(:dennis), :account_id => 1}
+     devices = assigns(:devices)
+     assert_equal 2, devices.size
+   end
+
   # Need to extend the following reports with tests that actually verify page content
   def test_idle
     get :idle, {:id => 1}, {:user => users(:dennis), :account_id => 1}
@@ -73,41 +94,6 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :gpio2, {:id => 1}, {:user => users(:dennis), :account_id => 1}
     assert_response :success
   end
-
-   
-  #~ def test_index_for_all
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 'all'}
-    #~ assert_response :success    
-    #~ assert_equal 3 , assigns(:groups).length
-  #~ end
-  
-  #~ def test_index_for_default
-    #~ get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 'default'}
-    #~ assert_response :success    
-    #~ assert_equal 1 , assigns(:default_devices).length
-  #~ end
-
-  def test_index_for_perticular_group
-    get :index, {}, {:user => users(:dennis), :account_id => 1}, {:gmap_value => 1}
-    assert_response :success        
-  end
-  
-  #~ def test_index_for_type_params_all
-    #~ get :index, {:type => 'all'}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success    
-    #~ assert_equal 3 , assigns(:groups).length    
-  #~ end
-  
-  #~ def test_index_for_type_params_default
-    #~ get :index, {:type => "default"}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success    
-    #~ assert_equal 1 , assigns(:default_devices).length    
-  #~ end
-
-  #~ def test_index_for_type_params_for_perticular_group
-    #~ get :index, {:type => 1}, {:user => users(:dennis), :account_id => 1}
-    #~ assert_response :success        
-  #~ end
 
   def test_all_unauthorized
     get :all, {:id => 1}, {:user => users(:nick)}
@@ -180,7 +166,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :geofence, {:id => '1', :start_date=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_date=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
-    assert_equal "Yates Dr, Hurst, Texas", readings[1].shortAddress
+    assert_equal "Yates Dr, Hurst, Texas", readings[1].short_address
     assert_equal 0, readings[1].speed
     assert_equal "exitgeofen_et51", readings[1].event_type
   end
@@ -224,6 +210,6 @@ class ReportsControllerTest < Test::Unit::TestCase
   def csv_data
     reading1 = readings(:reading24)
     reading2 = readings(:reading26)
-    "latitude,longitude,address,speed,direction,altitude,event_type,note,when\r\n#{reading1.latitude},#{reading1.longitude},\"#{reading1.shortAddress}\",#{reading1.speed},#{reading1.direction},#{reading1.altitude},#{reading1.event_type},#{reading1.note},#{reading1.created_at}\r\n#{reading2.latitude},#{reading2.longitude},\"#{reading2.shortAddress}\",#{reading2.speed},#{reading2.direction},#{reading2.altitude},#{reading2.event_type},#{reading2.note},#{reading2.created_at}\r\n"
+    "latitude,longitude,address,speed,direction,altitude,event_type,note,when\r\n#{reading1.latitude},#{reading1.longitude},\"#{reading1.short_address}\",#{reading1.speed},#{reading1.direction},#{reading1.altitude},#{reading1.event_type},#{reading1.note},#{reading1.created_at}\r\n#{reading2.latitude},#{reading2.longitude},\"#{reading2.short_address}\",#{reading2.speed},#{reading2.direction},#{reading2.altitude},#{reading2.event_type},#{reading2.note},#{reading2.created_at}\r\n"
   end
 end

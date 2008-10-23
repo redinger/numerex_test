@@ -184,7 +184,7 @@ reading6:
  id: 14
  latitude: 32.9542
  longitude: -96.8249
- speed: 30 
+ speed: 31 
  direction: 200
  altitude: 5000
  device_id: 2
@@ -375,7 +375,7 @@ reading24:
  id: 24
  latitude: 32.9543
  longitude: -96.8283
- speed: 0
+ speed: 31
  note: Time for a bath
  event_type: 
  direction: 240
@@ -423,6 +423,7 @@ reading26:
  created_at: <%= (Time.now-1).to_s :db %>
  event_type: DEFAULT
  address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
+ ignition: 1
 
 readings_049:
  updated_at:
@@ -2051,6 +2052,8 @@ readings_9925:
  event_type: exitgeofen_et51
  direction: "0"
  created_at: 2007-07-24 15:39:58 
+ ignition: 1
+
 readings_9926:
   updated_at:
   latitude: "32.8491"
@@ -2081,3 +2084,6 @@ readings_9926:
   event_type: exitgeofen_et51
   direction: "0"
   created_at: <%= Time.now.to_s :db %>
+  ignition: 1
+  gpio1: 1
+  gpio2: 1

@@ -1,13 +1,14 @@
+<script>
+  var frm_index=true;
+</script>
 <table class="panel_table" >
-	<% row_count = current_account.show_runtime ? 5 : 4 %>
-	<%= render :partial => 'device_summary_header',:locals =>{:column_span => row_count,:sub_heading => nil} %>
-	<tr>
-	  <th>Name</th>
-	  <th>&nbsp;</th>
-	  <th>Last Location</th>
-	  <% if current_account.show_runtime %><th>Last Status</th><% end %>
-	  <th>Last Report</th>
-	</tr>    
-    
-	<%= render :partial => "group_rows",:locals => {:column_span => row_count,:callback => "show_device"} %>
+  <%= render :partial => 'device_summary_header',:locals =>{:column_span => 4,:sub_heading => nil} %>
+  <tr>
+    <th>Name</th>        
+    <th>Last Location</th>
+    <th>Last Status</th>
+    <th>Last Report</th>
+  </tr>    
+  <%= render :partial => "group_rows",:locals => {:column_span => 4,:callback => "show_device"} %>
 </table>
+

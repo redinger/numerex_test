@@ -1,10 +1,9 @@
-<p>Groups are a great way to keep your devices organized. Create a group and add devices to it. On the overview screen your devices will display in groups with the icon you selected.</p>
-<br>
-<br>
-<br>
-<br>
+<p>
+  Groups are a great way to keep your devices organized. Create a group and add devices to it. On the overview screen your devices will display in groups with the icon you selected.
+</p><br><br><br><br>
+
 <%if @groups.size==0%>
-<%= link_to 'Create your first group',:controller=>'devices',:action=>'new_group'%>
+  <%= link_to 'Create your first group',:controller=>'devices',:action=>'new_group'%>
 <%else%>
- <%= link_to 'Create  group',:controller=>'devices',:action=>'new_group'%>
- <%end%>
+  <%= link_to 'Create  group',:controller=>'devices',:action=>'new_group'%>
+<%end%>

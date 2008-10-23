@@ -1,40 +1,42 @@
+<script>
+  var devices=[];
+</script>
 <% if !@groups.nil?%> 
-    <% @groups.each do |group|%> 
-         <tr>
-              <td colspan="<%= column_span or 4 %>" class="bg_overview">
-                   <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;" class="group_name">
-                        <%= group.name%>
-                   </span>
-              </td>
-         </tr>
-         <%if !group.devices.empty?%>                     
-             <% group.ordered_devices.each do |device|%>
-                    <%if @from_search %>
-                        <%if @devices.include?(device)%> <%= send(callback,device) %> <%end%>
-                    <%else%>
-                       <%= send(callback,device) %>
-                    <%end%>  
-             <%end%>
-         <%else%>
-              <tr><td>No devices in this group.</td></tr>
-         <%end%>
-    <%end%>
-<%end%>
-<%if !@default_devices.empty? && @show_default_devices %>
-    <%if !@groups.empty? || session[:gmap_value] == 'default'%>
-        <tr>
-             <td colspan="<%= column_span or 4 %>" class="bg_overview">
-                  <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
-                       Default
-                  </span>
-             </td>
-        </tr>
-    <%end%>
-    <% @default_devices.each do |device|%>
-        <%if @from_search %> 
-           <%if @devices.include?(device)%> <%= send(callback,device) %> <%end%>
-        <%else%>  
-		 <%= send(callback,device) %>
+  <% @groups.each do |group|%> 
+    <tr>
+      <td colspan="<%= column_span or 4 %>" class="bg_overview">
+        <span style=" background:url(/icons/<%= GROUP_IMAGES[group.image_value]%>) no-repeat left;" class="group_name">
+          <%= group.name%>
+        </span>
+      </td>
+    </tr>
+    <%if !group.devices.empty?%>                     
+      <% group.ordered_devices.each do |device|%>                                            
+        <%= send(callback,device) %>
+          <%if !device.latest_gps_reading.nil? && device.latest_gps_reading.short_address !=', '%> 
+            <script>devices.push({id: <%= device.id%>, name: "<%= device.name%>", lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: "<%= device.latest_gps_reading.short_address%>", dt: "<%= time_ago_in_words device.latest_gps_reading.created_at %> ago", note: "<%= device.latest_gps_reading.note%>", status: "<%= latest_status_html(device) %>", icon_id: <%= device.icon_id%>, group_id: '<%= device.group_id %>'});</script>                       
+          <%end%> 
         <%end%>
+     <%else%>
+       <tr><td>No devices in this group.</td></tr>
+     <%end%>
+  <%end%>
+<%end%>
+
+<%if !@default_devices.empty? && @show_default_devices %>
+  <%if !@groups.empty? || session[:gmap_value] == 'default'%>
+    <tr>
+      <td colspan="<%= column_span or 4 %>" class="bg_overview">
+        <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
+          Default   
+        </span>
+      </td>
+    </tr>
+  <%end%>
+  <% @default_devices.each do |device|%>                  
+    <%= send(callback,device) %>
+    <%if !device.latest_gps_reading.nil? && device.latest_gps_reading.short_address !=', ' %>
+      <script>devices.push({id: <%= device.id%>, name: "<%= device.name%>", lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: "<%= device.latest_gps_reading.short_address%>", dt: "<%= time_ago_in_words device.latest_gps_reading.created_at %> ago", note: "<%= device.latest_gps_reading.note%>", status: "<%= latest_status_html(device) %>", icon_id: <%= device.icon_id%>, group_id: '<%= device.group_id %>'});</script>                       
     <%end%>
+  <%end%>
 <%end%>           

@@ -1,33 +1,58 @@
-
-
 <div id="login_form_container" width="20">
     
-    <%if session[:user_id] %>
-        <%user = User.find(session[:user_id])%>
-    <%end%>
+  <%if session[:user_id] %>
+    <%user = User.find(session[:user_id])%>
+  <%end%>
 
-    <%if user != nil%>
+  <%if user != nil%>      
+    <form action="/login" method="post" id="logform">
+      <table class="form_table">
+        <tr>
+          <th>Email:</th>
+          <td><input type="text" id="username" name="email" class="input" value="<%=user.email%>"/></td>
+        </tr>
         
-           <form action="/login" method="post" id="logform">
-                <table class="form_table">
-                    <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%=user.email%>"/></td></tr>
-                    <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input" onfocus="settext(this.id);"/></td></tr>
-                    <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
-                    <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
-                </table>
-            </form>
-                
-       
-    <%else%>
-        <form action="/login" method="post" id="logform">
-            <table class="form_table">
-                <tr><th>Email:</th><td><input type="text" id="username" name="email" class="input" value="<%= flash[:username] %>" /></td></tr>
-                <tr><th>Password:</th><td><input type="password" id="password" name="password" value="" class="input"/></td></tr>
-                <tr><th></th><td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td></tr>
-                <tr><th></th><td><input type="submit" value="Sign In" /></td></tr>
-            </table>	
-        </form>    
-    <%end%>    
+        <tr>
+          <th>Password:</th>
+          <td><input type="password" id="password" name="password" value="" class="input" onfocus="settext(this.id);"/></td>
+        </tr>
+        
+        <tr>
+          <th></th>
+          <td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td>
+        </tr>
+        
+        <tr>
+          <th></th>
+          <td><input type="submit" value="Sign In" /></td>
+        </tr>
+      </table>
+    </form>                    
+  <%else%>
+    <form action="/login" method="post" id="logform">
+      <table class="form_table">
+        <tr>
+          <th>Email:</th>
+          <td><input type="text" id="username" name="email" class="input" value="<%= flash[:username] %>" /></td>
+        </tr>
+        
+        <tr>
+          <th>Password:</th>
+          <td><input type="password" id="password" name="password" value="" class="input"/></td>
+        </tr>
+        
+        <tr>
+          <th></th>
+          <td><input type="checkbox" id="remember_me" name="remember_me"/> <span class="small_text">Remember me on this computer</span></td>
+        </tr>
+        
+        <tr>
+          <th></th>
+          <td><input type="submit" value="Sign In" /></td>
+        </tr>
+      </table>	
+    </form>    
+  <%end%>    
 </div>
 
 <script type="text/javascript">

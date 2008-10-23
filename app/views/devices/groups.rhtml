@@ -1,24 +1,25 @@
 <%= render :partial=>"/layouts/flash_message" %>    
 
 <div class="container">
-	<div id="top_head">
-		<h3>Your Groups (<%= @groups.size%> total)</h3>
-	</div>
+  <div id="top_head">
+    <h3>Your Groups (<%= @groups.size%> total)</h3>
+  </div>
 </div>
 
 <div id="helper">
-	Groups are a great way to keep your devices organized. Creating a group is easy and allows you to quickly see which devices are associated with your group on the <a href="/home">overview screen</a>. Click the "Add New Group" link above to create a group.
+  Groups are a great way to keep your devices organized. Creating a group is easy and allows you to quickly see which devices are associated with your group on the <a href="/home">overview screen</a>. Click the "Add New Group" link above to create a group.
 </div>
    
-    <%if @groups.empty?%>
-         <div class="crt_group1"> 
-            <a href="/devices/new_group">Create your first group</a>
-         </div>
-    <%else%>
-        <% for group in @groups%>
-         <div class="crt_group1"> 
-            <%= link_to group.name ,{:controller=>"devices", :action=>"edits_group", :group_id=> group.id},:class => "grayboldtext"%>    
-        </div>
-        <% end%>
-    <%end%>
-  <!-- Content ends here -->
+<%if @groups.empty?%>
+  <div class="crt_group1"> 
+    <a href="/devices/new_group">Create your first group</a>
+  </div>
+<%else%>
+  <% for group in @groups%>
+    <div class="crt_group1"> 
+      <%= link_to group.name ,{:controller=>"devices", :action=>"edits_group", :group_id=> group.id},:class => "grayboldtext"%>    
+    </div>
+  <% end%>
+<%end%>
+
+

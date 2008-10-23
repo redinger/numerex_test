@@ -54,8 +54,8 @@
     <script>     
       var device_flag = 1
       var remove_listener = 'false'
-         <% if !@geofence.device.nil? && !@geofence.device.readings.first.nil? %>
-              var device = {name: '<%= escape_javascript(@geofence.device.name ) %>', lat: <%= @geofence.device.readings.first.latitude %>, lng: <%= @geofence.device.readings.first.longitude %>, address: '<%= @geofence.device.readings.first.shortAddress %>'}; 
+         <% if @geofence.device && @geofence.device.latest_gps_reading %>
+              var device = {name: '<%= escape_javascript(@geofence.device.name ) %>', lat: <%= @geofence.device.latest_gps_reading.latitude %>, lng: <%= @geofence.device.latest_gps_reading.longitude %>, address: '<%= @geofence.device.latest_gps_reading.short_address %>'}; 
          <% else %>
               var device = {name: '<%= escape_javascript @geofence.name %>', lat: <%= @geofence.latitude %>, lng: <%= @geofence.longitude %>};
          <%end%>     

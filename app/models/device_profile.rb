@@ -21,6 +21,14 @@ class DeviceProfile < ActiveRecord::Base
     gpio1_split[GPIO_HIGH_NOTICE]
   end
   
+  def gpio1_low_status
+    gpio1_split[GPIO_LOW_STATUS]
+  end
+  
+  def gpio1_high_status
+    gpio1_split[GPIO_HIGH_STATUS]
+  end
+  
   def gpio2_name
     gpio2_split[GPIO_NAME]
   end
@@ -41,8 +49,16 @@ class DeviceProfile < ActiveRecord::Base
     gpio2_split[GPIO_HIGH_NOTICE]
   end
   
-  def update_gpio_attributes(watch,labels,name,low_value,high_value,low_notice,high_notice)
-    combined_values = "#{name}\t#{low_value}\t#{high_value}\t#{low_notice}\t#{high_notice}" unless name.blank?
+  def gpio2_low_status
+    gpio2_split[GPIO_LOW_STATUS]
+  end
+  
+  def gpio2_high_status
+    gpio2_split[GPIO_HIGH_STATUS]
+  end
+  
+  def update_gpio_attributes(watch,labels,name,low_value,high_value,low_notice,high_notice,low_status,high_status)
+    combined_values = "#{name}\t#{low_value}\t#{high_value}\t#{low_notice}\t#{high_notice}\t#{low_status}\t#{high_status}" unless name.blank?
     update_attribute(labels,combined_values)
     update_attribute(watch,(combined_values and not (low_notice.blank? and high_notice.blank?)))
     reset_gpio
@@ -55,6 +71,8 @@ private
   GPIO_HIGH_VALUE = 2
   GPIO_LOW_NOTICE = 3
   GPIO_HIGH_NOTICE = 4
+  GPIO_LOW_STATUS = 5
+  GPIO_HIGH_STATUS = 6
   
   def gpio1_split
     @gpio1_split ||= split_labels_without_empty_strings(gpio1_labels)

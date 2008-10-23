@@ -2,6 +2,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 require "test/authenticated_test_helper"
+require 'factory_girl'
+require 'test/factories'
 include AuthenticatedTestHelper
 
 class Test::Unit::TestCase

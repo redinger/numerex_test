@@ -2,6 +2,14 @@ class Device < ActiveRecord::Base
   STATUS_INACTIVE = 0
   STATUS_ACTIVE   = 1
   STATUS_DELETED  = 2
+  
+  REPORT_TYPE_ALL       = 0
+  REPORT_TYPE_STOP      = 1
+  REPORT_TYPE_IDLE      = 2
+  REPORT_TYPE_SPEEDING  = 3
+  REPORT_TYPE_RUNTIME   = 4
+  REPORT_TYPE_GPIO1     = 5
+  REPORT_TYPE_GPIO2     = 6
 
   belongs_to :account
   belongs_to :group
@@ -10,7 +18,13 @@ class Device < ActiveRecord::Base
   validates_uniqueness_of :imei
   validates_presence_of :name, :imei
   
-  has_many :readings, :order => "created_at desc", :conditions => "latitude is not null", :limit => 1 # Gets the most recent reading
+  has_one :latest_gps_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "latitude is not null"
+  has_one :latest_speed_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "speed is not null"
+  has_one :latest_data_reading, :class_name => "Reading", :order => "created_at desc", :conditions => "ignition is not null"
+  has_one :latest_idle_event, :class_name => "IdleEvent", :order => "created_at desc"
+  has_one :latest_runtime_event, :class_name => "RuntimeEvent", :order => "created_at desc"
+  has_one :latest_stop_event, :class_name => "StopEvent", :order => "created_at desc"
+  
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
   has_many :stop_events, :order => "created_at desc"
@@ -39,7 +53,7 @@ class Device < ActiveRecord::Base
   # 1 = provisioned
   # 2 = device deleted by user
   def self.get_devices(account_id)
-    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id], :order => 'name')
+    find(:all, :conditions => ['provision_status_id = 1 and account_id = ?', account_id], :order => 'name',:include => :profile)
   end
   
   def self.get_public_devices(account_id)
@@ -78,17 +92,34 @@ class Device < ActiveRecord::Base
     Notification.find(:first, :order => 'created_at desc', :conditions => ['device_id = ? and notification_type = ?', id, "device_offline"])
   end
   
-  def last_status_string
-    return '-' unless self.profile.runs
-    last_status_reading = Reading.find(:first,:conditions => "device_id = #{id} and (event_type like 'engine%' or ignition is not null) and created_at >= (now() - interval 1 day)",:limit => 1,:order => "created_at desc")
-    return 'Unknown' unless last_status_reading
-    if last_status_reading.event_type == 'engine on'
-      return 'On'
-    elsif last_status_reading.event_type == 'engine off'
-      return 'Off'
-    else
-      return last_status_reading.ignition ? 'On' : 'Off'
+  def latest_status
+    results = nil
+    
+    if profile.idles and latest_idle_event and latest_idle_event.duration.nil?
+      results = [REPORT_TYPE_IDLE,"Idling"]
+    elsif profile.stops and latest_stop_event and latest_stop_event.duration.nil?
+      results = [REPORT_TYPE_STOP,"Stopped"]
+    elsif profile.speeds and latest_speed_reading
+      if account.max_speed and latest_speed_reading.speed > account.max_speed
+        results = [REPORT_TYPE_SPEEDING,"Speeding (#{latest_speed_reading.speed}mph)"]
+      else
+        results = [REPORT_TYPE_ALL,"Moving"]
+      end
     end
+
+    results = [REPORT_TYPE_RUNTIME,latest_runtime_event.duration.nil? ? "On" : "Off"]  if profile.runs and results.nil? and latest_runtime_event
+
+    if profile.gpio1_name and latest_data_reading
+      gpio1_status = (latest_data_reading.gpio1 ? profile.gpio1_high_status : profile.gpio1_low_status)
+      results = [REPORT_TYPE_GPIO1,gpio1_status] unless gpio1_status.blank?
+    end
+    
+    if profile.gpio2_name and latest_data_reading
+      gpio2_status = (latest_data_reading.gpio2 ? profile.gpio2_high_status : profile.gpio2_low_status)
+      results = [REPORT_TYPE_GPIO2,gpio2_status] unless gpio2_status.blank?
+    end
+    
+    results
   end
   
   def online?

@@ -4,61 +4,78 @@
 
 <%= form_tag :action => 'new_group'%>
 
-  <!-- Content starts here -->
-    <div class="grp_3">
-      <h2 style="margin-bottom: 0;">Create a Group</h2>
-      <p>Creating a group is simple. Just enter a group name, select an icon color, and specify the devices you want to associate with this group.</p>
-
-      <h3>Group Name</h3>       
-       <input type="text" id="group_name" name="name" value="<%= flash[:group_name]%>">
-      <h3>Select Icon</h3>
-      <div class="sel_icon">
-        <ul>
-          <li><span class="rad_1"></span>
-            <input name="sel"  checked="checked" type="radio"  value="1"  />
-          </li>
-          <li><span class="rad_2"></span>
-            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%><% if @group.image_value==2%>checked="checked" <%end%>  <%end%>  value="2" />
-          </li>
-          <li><span class="rad_3"></span>
-            <input name="sel" type="radio"<%if @group!=nil ||@group == 0%> <% if @group.image_value==3%>checked="checked" <%end%> <%end%> value="3"  />
-          </li>
-          <li><span class="rad_4"></span>
-            <input name="sel" type="radio"  <%if @group!=nil ||@group == 0%><% if @group.image_value==4%>checked="checked" <%end%><%end%> value="4" />
-          </li>
-          <li><span class="rad_5"></span>
-            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%> <% if @group.image_value==5%>checked="checked" <%end%><%end%> value="5"  />
-          </li>
-          <li><span class="rad_6"></span>
-            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%> <% if @group.image_value==6%>checked="checked" <%end%><%end%> value="6"  />
-          </li>
-          <li><span class="rad_7"></span>
-            <input name="sel" type="radio"<%if @group!=nil ||@group == 0%> <% if @group.image_value==7%>checked="checked" <%end%> <%end%> value="7"  />
-          </li>
-          <li><span class="rad_8"></span>
-            <input name="sel" type="radio" <%if @group!=nil ||@group == 0%><% if @group.image_value==8%>checked="checked" <%end%> <%end%>value="8"  />
-          </li>
-        </ul>
-      </div>
+<!-- Content starts here -->
+  <div class="grp_3">
+    <h2 style="margin-bottom: 0;">Create a Group</h2>
+    <p>Creating a group is simple. Just enter a group name, select an icon color, and specify the devices you want to associate with this group.</p>
+    <h3>Group Name</h3>       
+    <input type="text" id="group_name" name="name" value="<%= flash[:group_name]%>">
+    <h3>Select Icon</h3>
+    
+    <div class="sel_icon">
+    <ul>
+      <li>
+        <span class="rad_1"></span>
+        <input name="sel"  checked="checked" type="radio"  value="1"  />
+      </li>
+      
+      <li>
+        <span class="rad_2"></span>
+        <input name="sel" type="radio" <%if @group!=nil ||@group == 0%><% if @group.image_value==2%>checked="checked" <%end%>  <%end%>  value="2" />
+      </li>
+      
+      <li>
+        <span class="rad_3"></span>
+        <input name="sel" type="radio"<%if @group!=nil ||@group == 0%> <% if @group.image_value==3%>checked="checked" <%end%> <%end%> value="3"  />
+      </li>
+      
+      <li>
+        <span class="rad_4"></span>
+        <input name="sel" type="radio"  <%if @group!=nil ||@group == 0%><% if @group.image_value==4%>checked="checked" <%end%><%end%> value="4" />
+      </li>
+      
+      <li>
+        <span class="rad_5"></span>
+        <input name="sel" type="radio" <%if @group!=nil ||@group == 0%> <% if @group.image_value==5%>checked="checked" <%end%><%end%> value="5"  />
+      </li>
+      
+      <li>
+        <span class="rad_6"></span>
+        <input name="sel" type="radio" <%if @group!=nil ||@group == 0%> <% if @group.image_value==6%>checked="checked" <%end%><%end%> value="6"  />
+      </li>
+      
+      <li>
+        <span class="rad_7"></span>
+        <input name="sel" type="radio"<%if @group!=nil ||@group == 0%> <% if @group.image_value==7%>checked="checked" <%end%> <%end%> value="7"  />
+      </li>
+      
+      <li>
+        <span class="rad_8"></span>
+        <input name="sel" type="radio" <%if @group!=nil ||@group == 0%><% if @group.image_value==8%>checked="checked" <%end%> <%end%>value="8"  />
+      </li>
+    </ul>
     </div>
-    <br class="clear"/>
-    <div class="sel_dev1" >
-      <h3>Select Devices</h3>
-      <p>Some devices may already be associated with another group. In this case, the group name will display in red after the device name. You can easily reassign any device to this group by clicking one or more checkboxes below.</p>
-      <ul>                
-           <%for device in @devices%>
-                <li>
-                     <input type='checkbox' multiple name='select_devices[]' <%for group_device in @group_devices %><%end%> value='<%= device.id%>'> <span style="color:#666666; margin-left:3px;"><%= device.name%></span></input> 
-                     <%for group_device in @group_devices %>
-                          <%if device.id == group_device.id %>    
-                               <span class="red_text"> (<%= group_device.group.name%>)</span>     
-                          <%end %>
-                     <%end %>
-                </li>
-           <%end %>
-        </ul>        
-    </div>
-  <!-- Content ends here -->
+  </div>
+  
+  <br class="clear"/>
+  
+  <div class="sel_dev1" >
+    <h3>Select Devices</h3>
+    <p>Some devices may already be associated with another group. In this case, the group name will display in red after the device name. You can easily reassign any device to this group by clicking one or more checkboxes below.</p>
+    <ul>                
+      <%for device in @devices%>
+        <li>
+          <input type='checkbox' multiple name='select_devices[]' <%for group_device in @group_devices %><%end%> value='<%= device.id%>'> <span style="color:#666666; margin-left:3px;"><%= device.name%></span></input> 
+          <%for group_device in @group_devices %>
+            <%if device.id == group_device.id %>    
+              <span class="red_text"> (<%= group_device.group.name%>)</span>     
+            <%end %>
+          <%end %>
+        </li>
+      <%end %>
+    </ul>        
+  </div>
+<!-- Content ends here -->
 
 <div style="margin-top: 10px">
   <%= submit_tag "create group" %> &nbsp;&nbsp;<a href="javascript:history.go(-1);">cancel</a>
