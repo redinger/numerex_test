@@ -1064,3 +1064,33 @@ div#footer {
 	font-weight: bold;
 	color: #003366;
 }
+
+div#configuration_header {
+	margin-top: 15px;
+	padding: 10px;
+	background-color: #6699CC;
+	color: #FFFFFF;
+}
+
+div#configuration_form {
+	padding: 15px;
+	background-color: #D8EBF6;
+	
+}
+
+div#configuration_form .row {
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+	border-bottom: 1px dotted #CCCCCC;
+}
+
+div#configuration_submit {
+	background-color: #EEEEEE;
+	padding: 10px;
+	text-align: center;
+}
+
+.dim {
+	color: #666666;
+	font-size: 11px;
+}
