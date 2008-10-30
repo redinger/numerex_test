@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 49) do
+ActiveRecord::Schema.define(:version => 20081030211017) do
 
   create_table "accounts", :force => true do |t|
     t.string   "company",          :limit => 75
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 49) do
     t.boolean  "show_runtime",                    :default => false
     t.boolean  "show_statistics",                 :default => false
     t.boolean  "show_maintenance",                :default => false
+    t.integer  "max_speed",        :limit => 11
   end
 
   create_table "device_profiles", :force => true do |t|
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(:version => 49) do
     t.boolean  "last_gpio1"
     t.boolean  "last_gpio2"
     t.string   "gateway_name"
+    t.datetime "speeding_at"
   end
 
   add_index "devices", ["imei"], :name => "imei", :unique => true
@@ -113,6 +115,10 @@ ActiveRecord::Schema.define(:version => 49) do
     t.integer  "device_id",  :limit => 11
     t.integer  "reading_id", :limit => 11
     t.datetime "created_at"
+  end
+
+  create_table "notification_states", :force => true do |t|
+    t.integer "last_reading_id", :limit => 11, :default => 0, :null => false
   end
 
   create_table "notifications", :force => true do |t|
@@ -177,6 +183,14 @@ ActiveRecord::Schema.define(:version => 49) do
     t.integer  "device_id",  :limit => 11
     t.datetime "created_at"
     t.integer  "reading_id", :limit => 11
+  end
+
+  create_table "trip_events", :force => true do |t|
+    t.integer  "device_id",        :limit => 11
+    t.integer  "reading_start_id", :limit => 11
+    t.integer  "reading_stop_id",  :limit => 11
+    t.integer  "duration",         :limit => 11
+    t.datetime "created_at"
   end
 
   create_table "users", :force => true do |t|
