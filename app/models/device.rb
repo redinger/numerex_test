@@ -28,6 +28,7 @@ class Device < ActiveRecord::Base
   has_many :geofences, :order => "created_at desc", :limit => 300
   has_many :notifications, :order => "created_at desc"
   has_many :stop_events, :order => "created_at desc"
+  has_many :trip_events, :order => "created_at desc"
   
   def self.logical_device_for_gateway_device(gateway_device)
     return gateway_device.logical_device if gateway_device.logical_device

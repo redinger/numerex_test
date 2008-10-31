@@ -23,6 +23,10 @@ class ReportsController < ApplicationController
          @devices = Device.find(:all, :conditions=>['account_id=? and group_id =? and provision_status_id=1',session[:account_id], session[:group_value]], :order=>'name')
      end    
   end
+  
+  def trip
+    @device = Device.find(params[:id])
+  end
 
   def all
     get_start_and_end_date

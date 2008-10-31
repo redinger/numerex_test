@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(:version => 20081030211017) do
   end
 
   create_table "device_profiles", :force => true do |t|
-    t.string  "name",         :default => "",    :null => false
+    t.string  "name",                            :null => false
     t.boolean "speeds",       :default => false, :null => false
     t.boolean "stops",        :default => false, :null => false
     t.boolean "idles",        :default => false, :null => false
