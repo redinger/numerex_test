@@ -5,12 +5,14 @@
 			<table class="panel_table">
 				<tr><th>Start Address</th><th>Stop Address</th><th>Duration</th><th>When</th></tr>
 				<% for trip in @device.trip_events %>
+					<% if !trip.reading_stop_id.nil? %>
 					<tr class="<%= cycle('dark_row', 'light_row') %>">
 						<td><a href=""><%= Reading.find(trip.reading_start_id).short_address %></a></td>
 						<td><a href=""><%= Reading.find(trip.reading_stop_id).short_address %></a></td>
 						<td><%= trip.duration %></td>
 						<td><script>document.write(displayLocalDT(<%= trip.created_at.to_i*1000 %>));</script></td>
 					</tr>
+					<% end %>
 				<% end %>
 			</table>
 		</td>
