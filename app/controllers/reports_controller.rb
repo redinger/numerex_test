@@ -30,7 +30,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @trip_events = TripEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
-      :readonly => true,:include => [:reading_start,:reading_stop],
+      :readonly => true,# NOTE: this causes some problems, but would be nice... :include => [:reading_start,:reading_stop],
       :order => "created_at desc")
     @readings = @trip_events
     @record_count = TripEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
