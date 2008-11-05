@@ -3,7 +3,7 @@ ResultCount = 25 # Number of results per page
 
 class ReportsController < ApplicationController
   before_filter :authorize
-  before_filter :authorize_device, :except => ['index']
+  before_filter :authorize_device, :except => ['index','trip_detail']
   DayInSeconds = 86400
   NUMBER_OF_DAYS = 7
   MAX_LIMIT = 999 # Max number of results
@@ -25,7 +25,28 @@ class ReportsController < ApplicationController
   end
   
   def trip
+    get_start_and_end_date
     @device = Device.find(params[:id])
+    @device_names = Device.get_names(session[:account_id])
+    @trip_events = TripEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
+      :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
+      :readonly => true,:include => [:reading_start,:reading_stop],
+      :order => "created_at desc")
+    @readings = @trip_events
+    @record_count = TripEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
+    @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
+    @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
+  end
+  
+  def trip_detail
+    @trip = TripEvent.find(params[:id])
+    @device = @trip.device
+    @device_names = Device.get_names(session[:account_id])
+    conditions = @trip.reading_stop ? ["id between ? and ?",@trip.reading_start_id,@trip.reading_stop_id] : ["id >= ?",@trip.reading_start_id]
+    @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], :conditions => conditions, :order => "created_at desc")
+    @record_count = Reading.count('id', :conditions => conditions)
+    @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
+    @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
 
   def all
@@ -191,7 +212,7 @@ class ReportsController < ApplicationController
   private
 
   def get_start_and_end_date
-    if !params[:end_date].nil?
+    if params[:end_date] and params[:end_date] != ''
       if params[:end_date].class.to_s == "String"
         @end_date = params[:end_date].to_date
         @start_date = params[:start_date].to_date

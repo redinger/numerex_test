@@ -4,12 +4,13 @@ class Device < ActiveRecord::Base
   STATUS_DELETED  = 2
   
   REPORT_TYPE_ALL       = 0
-  REPORT_TYPE_STOP      = 1
-  REPORT_TYPE_IDLE      = 2
-  REPORT_TYPE_SPEEDING  = 3
-  REPORT_TYPE_RUNTIME   = 4
-  REPORT_TYPE_GPIO1     = 5
-  REPORT_TYPE_GPIO2     = 6
+  REPORT_TYPE_TRIP      = 1
+  REPORT_TYPE_STOP      = 2
+  REPORT_TYPE_IDLE      = 3
+  REPORT_TYPE_SPEEDING  = 4
+  REPORT_TYPE_RUNTIME   = 5
+  REPORT_TYPE_GPIO1     = 6
+  REPORT_TYPE_GPIO2     = 7
 
   belongs_to :account
   belongs_to :group
@@ -104,7 +105,7 @@ class Device < ActiveRecord::Base
       if account.max_speed and latest_speed_reading.speed > account.max_speed
         results = [REPORT_TYPE_SPEEDING,"Speeding (#{latest_speed_reading.speed}mph)"]
       else
-        results = [REPORT_TYPE_ALL,"Moving"]
+        results = [REPORT_TYPE_TRIP,"Moving"]
       end
     end
 

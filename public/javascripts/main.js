@@ -194,7 +194,7 @@ function populate_the_table(device,frm_index,bounds)
         }   
     }	                        
     var point = new GLatLng(device.lat, device.lng);                
-    gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id)));
+    gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id),device.id));
     bounds.extend(point);
 }
 
@@ -355,7 +355,12 @@ function getReportBreadcrumbs() {
 		var id = readings[i].id;
 		var point = new GLatLng(readings[i].lat, readings[i].lng);
 		
-		gmap.addOverlay(createMarker(id, point, getMarkerType(i, readings[i]), createReadingHtml(id)));
+		var zorder = (readings.length - i - 1) * 2;
+		if (readings[i].start || readings[i].stop)
+			zorder = readings.length * 2;
+		if (readings[i].direction != undefined && !(readings[i].start || readings[i].stop))
+			gmap.addOverlay(createMarker(id, point, createArrow(readings[i].direction), createReadingHtml(id), zorder + 1));
+		gmap.addOverlay(createMarker(id, point, getMarkerType(i, readings[i]), createReadingHtml(id),zorder));
 		
 		if(i == 0) {
 			gmap.setCenter(point, zoom);
@@ -384,7 +389,11 @@ function getMarkerType(index, obj) {
 	icon.infoWindowAnchor = new GPoint(11, 34);
     icon.shadow = "/images/ublip_marker_shadow.png";
 	
-	if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1) {
+	if (obj.start)
+		icon.image = '/icons/start_marker.png';
+	else if (obj.stop)
+		icon.image = '/icons/stop_marker.png';
+	else if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1) {
 		icon.image = "/icons/" + (index+1) + "_red.png";
 	} else {
 	    icon.image = "/icons/" + (index+1) + ".png";
@@ -431,12 +440,12 @@ function getBreadcrumbs(id) {
 				var icon = getMarkerType(i, reading);
 				
 				if(i == 0) {
-					gmap.addOverlay(createMarker(reading.id, point, recenticon, createReadingHtml(reading.id)));
+					gmap.addOverlay(createMarker(reading.id, point, recenticon, createReadingHtml(reading.id),reading.id));
 					gmap.setCenter(point, zoom);
 					gmap.openInfoWindowHtml(point, createReadingHtml(reading.id));
 					highlightRow(reading.id);
 				} else {
-					gmap.addOverlay(createMarker(reading.id, point, icon, createReadingHtml(reading.id)));
+					gmap.addOverlay(createMarker(reading.id, point, icon, createReadingHtml(reading.id),reading.id));
 				}
 			}
 		}
@@ -445,12 +454,9 @@ function getBreadcrumbs(id) {
 }
 		
 function createArrow(dir) {
-	var iconDir;
-	var icon;
+	var icondir;
 	
-	if(spd == 0 || event_type == "exitgeofen_et51" || event_type == "entergeofen_et11") {
-		icondir = "none"	
-	} else if(dir >= 337.5 || dir < 22.5) {
+	if(dir >= 337.5 || dir < 22.5) {
 		icondir = "n";
 	} else if(dir >= 22.5 && dir < 67.5) {
 		icondir = "ne";
@@ -467,22 +473,13 @@ function createArrow(dir) {
 	} else if(dir >= 292.5 && dir < 337.5) {
 		icondir = "nw";
 	}
-		
 	iconArrow = new GIcon();
    	iconArrow.image = "/icons/arrows/" + icondir + ".png";
    	iconArrow.iconSize = new GSize(45, 45);
     iconArrow.iconAnchor = new GPoint(22.5, 45);
     iconArrow.infoWindowAnchor = new GPoint(15, 0);
-				
-	var arrow = new GMarker(point, iconArrow);
-		
-		GEvent.addListener(arrow, "click", function() 
-			{
-        	arrow.openInfoWindowHtml("Latitude: " + point.lat() + "<br/>" + "Longitude: " + point.lng()+ "<br/>" + "Speed: " + (spd/10)*1.15 + "<br/>" + "Altitude: " + alt + "<br/>" + "Time: " + time + "<br/>" + note);
-			});
-		
-		return arrow;
-	}	
+	return iconArrow;
+}	
 		
 function createPast(point, event_type, spd) 
 		{   
@@ -516,8 +513,12 @@ function createPast(point, event_type, spd)
 		}	
 
 // Generic function to create a marker with custom icon and html
-function createMarker(id, point, icon, html) {
-	var marker = new GMarker(point, icon);
+function createMarker(id, point, icon, html, zorder) {
+	var marker = new GMarker(point, 
+	{
+		icon: icon,
+		zIndexProcess: function (m) {return zorder;}
+	});
 	marker.id = id; // Assign a unique id to the marker
 	GEvent.addListener(marker, "click", function() {
 		marker.openInfoWindowHtml(html);

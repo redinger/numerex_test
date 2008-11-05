@@ -108,6 +108,9 @@ module ApplicationHelper
       when Device::REPORT_TYPE_ALL
         title = "View all readings"
         uri = "/reports/all/#{device.id}"
+      when Device::REPORT_TYPE_TRIP
+        title = "View trip report"
+        uri = "/reports/trip/#{device.id}"
       when Device::REPORT_TYPE_STOP
         title = "View stop report"
         uri = "/reports/stop/#{device.id}"
