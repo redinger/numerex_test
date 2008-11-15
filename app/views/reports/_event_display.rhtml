@@ -1,4 +1,4 @@
-<% if reading.event_type.nil? or reading.event_type == 'normal' or reading.event_type == 'Direction Change' %>
+<% if reading.event_type.nil? %>
 	-
 <% elsif reading.event_type.index('enter') %>
 	<% if params[:action] == 'geofence' %>
