@@ -42,7 +42,7 @@ class ReportsController < ApplicationController
     @trip = TripEvent.find(params[:id])
     @device = @trip.device
     @device_names = Device.get_names(session[:account_id])
-    conditions = @trip.reading_stop ? ["id between ? and ?",@trip.reading_start_id,@trip.reading_stop_id] : ["id >= ?",@trip.reading_start_id]
+    conditions = @trip.reading_stop ? ["device_id = ? and created_at between ? and ?",@trip.device_id,@trip.reading_start.created_at,@trip.reading_stop.created_at] : ["device_id = ? and created_at >= ?",@trip.device_id,@trip.reading_start.created_at]
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], :conditions => conditions, :order => "created_at desc")
     @record_count = Reading.count('id', :conditions => conditions)
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
