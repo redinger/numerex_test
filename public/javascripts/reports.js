@@ -47,6 +47,42 @@ function drawGeofence(p, r) {
   	gmap.addOverlay(new GPolyline(Cpoints,cColor,cWidth)); 
 }
 
+function displayTripOverview(trip_id, marker) {
+	
+	// Handle the initial display of the map with the first trip
+	if(trip_id == undefined)
+		trip_id = readings[0].id;
+
+	gmap.clearOverlays();
+	
+	highlightRow(trip_id);
+	
+	var bounds = new GLatLngBounds();
+	
+	var count = 0; // Use count to limit looping. Just grab the start/stop address for the trip and stop looping
+	for(i=0; i < readings.length && count <= 1; i++) {
+		var reading = readings[i];
+		var point = new GLatLng(reading.lat, reading.lng);
+		if(reading.id == trip_id) {
+			if(reading.start) {
+				gmap.addOverlay(createMarker(trip_id, point, getMarkerType(count, reading), createReadingHtml(trip_id),count));
+				bounds.extend(point);
+				count++;
+			} else if(readings[i].stop) {
+				gmap.addOverlay(createMarker(trip_id, point, getMarkerType(count, reading), createReadingHtml(trip_id),count));
+				bounds.extend(point);
+				count++;
+			}
+		}
+	}
+	
+	gmap.setCenter(bounds.getCenter(), (gmap.getBoundsZoomLevel(bounds)-1));
+	
+	if (marker == 'start') {
+		
+	}
+}
+
 
 
 

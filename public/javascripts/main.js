@@ -60,16 +60,20 @@ function load()
 	});
 	    
 	// Only load this on home page
-	var page = document.location.href.split("/")[3];            
-	if(page == 'home' || page == 'admin' ||page=='devices')
-        {        
-        getRecentReadings(true,"from_load");                
-        }
-	else if(page == 'reports' )        
+	var page = document.location.href.split("/")[3];
+	var action = document.location.href.split("/")[4];
+	         
+	if(page == 'home' || page == 'admin' ||page=='devices') {        
+		getRecentReadings(true,"from_load");                
+  } else if(action == 'trip') {
+		displayTripOverview(); // See reports.js
+  } else if(page == 'reports') {
 		getReportBreadcrumbs();
-	else 
-		getBreadcrumbs(device_id);	
-  }
+	} else {
+		getBreadcrumbs(device_id);
+	}
+}
+
 }
 
 function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
