@@ -261,3 +261,28 @@ BEGIN
 	END;
 	END WHILE;
 END;;
+
+DROP PROCEDURE IF EXISTS process_transient_devices;;
+CREATE PROCEDURE process_transient_devices()
+BEGIN
+	DECLARE num_events_to_check INT;
+	DECLARE timestamp DATETIME;
+	SET timestamp = now();
+	CREATE TEMPORARY TABLE transient_devices(id INT(11), checked BOOLEAN);
+  INSERT INTO transient_devices SELECT id, FALSE FROM devices where TIMESTAMPDIFF(MINUTE,last_online_time,now())>15;
+	SELECT COUNT(*) INTO num_events_to_check FROM transient_devices WHERE checked=FALSE;
+	WHILE num_events_to_check>0 DO BEGIN
+		DECLARE deviceId INT(11);
+		DECLARE evt VARCHAR(30);
+		SELECT id INTO deviceId FROM transient_devices WHERE checked=FALSE limit 1;
+		UPDATE transient_devices SET checked=TRUE WHERE id=deviceId;
+		SELECT event_type into evt FROM readings WHERE device_id=deviceId AND created_at < timestamp ORDER BY created_at DESC LIMIT 1;
+
+		IF evt != "Stop" AND evt != "Ignition Off" AND evt != "engine off" AND evt != "Engine Off" AND evt != "Requested Position" AND evt != "Request Info" AND evt IS NOT NULL THEN
+		UPDATE devices SET transient='1' where id=deviceId;
+    END IF;
+
+		SELECT COUNT(*) INTO num_events_to_check FROM transient_devices WHERE checked=FALSE;
+		END;
+	END WHILE;
+END;;

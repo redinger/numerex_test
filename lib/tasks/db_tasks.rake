@@ -6,6 +6,7 @@ namespace :ublip do
     process_script_file("stopreport.sh", db_config)
     process_script_file("idlereport.sh", db_config)
     process_script_file("runtimereport.sh", db_config)
+    process_script_file("transientreport.sh", db_config)
   end
   
   desc 'Deploy database procedures and triggers'
