@@ -26,4 +26,4 @@ test:
   database: ublip_v2_test
   username: root
   password: 
-  socket: /var/run/tmp/mysql.sock
+  socket: /var/run/mysqld/mysqld.sock
