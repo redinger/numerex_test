@@ -20,7 +20,7 @@ class Xirgo::DeviceController < Xirgo::CommonController
     commands["+XT:3004"] = params[:XT3004]
     commands["+XT:3005"] = params[:XT3005]
     commands["+XT:3006"] = params[:XT3006]
-    commands["+XT:3007"] = params[:XT3007]
+    commands["+XT:3007"] = params[:XT3007] + "," + params[:XT3007]
     
     Xirgo::CommandRequest.transaction do
       start_date_time = Time.now
