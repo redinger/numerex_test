@@ -16,5 +16,5 @@ then
 fi
 
 
-mysql -u root -pru5heZeW -h localhost --execute="CALL process_transient_devices()" --database="ublip_prod" &
+mysql -u $USERNAME -p$PASSWORD -h $DBHOST --execute="CALL process_transient_devices()" --database="$DBNAME" &
 echo $! > $PIDFILE
