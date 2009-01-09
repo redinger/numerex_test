@@ -29,20 +29,23 @@ class Reading < ActiveRecord::Base
   
   
   def short_address
-    if(address.nil?)
+    if(admin_name1.nil?)
       latitude.to_s + ", " + longitude.to_s
     else
       begin
-        doc = REXML::Document.new address
-        streetNumber = doc.get_text('/geonames/address/streetNumber').to_s
-        street = doc.get_text('/geonames/address/street').to_s
-        city = doc.get_text('/geonames/address/placename').to_s 
-        state = doc.get_text('/geonames/address/adminName1').to_s
-        streetAddress = [streetNumber, street]
-        streetAddress.delete("")
-        shortAddress = [ streetAddress.join(' '), city, state]
-        shortAddress.delete("")
-        addressString = shortAddress.join(', ')
+        addressParts = Array.new
+        if(!street.nil?)
+          if(!street_number.nil?) 
+            streetAddress = [street_number, street]
+            streetAddress.delete("")
+            addressParts << streetAddress.join(' ')
+          else 
+            addressParts << street
+          end
+        end
+        addressParts << place_name
+        addressParts << admin_name1
+        addressString = addressParts.join(', ')
         addressString.empty? ? latitude.to_s + ", " + longitude.to_s : addressString
       rescue
         latitude.to_s + ", " + longitude.to_s

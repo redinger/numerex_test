@@ -30,7 +30,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :all, {:id => 1}, {:user => users(:dennis), :account_id => 1}
     assert_response :success
     readings = assigns(:readings)
-    assert_equal "6762 Big Springs Dr, Arlington, Texas", readings[0].short_address
+    assert_equal "6762 Big Springs Dr, Arlington, TX", readings[0].short_address
     assert_equal 29, readings[0].speed
     
     # Device 1, page 2
@@ -166,7 +166,7 @@ class ReportsControllerTest < Test::Unit::TestCase
     get :geofence, {:id => '1', :start_date=>{"month"=>"4", "day"=>"27", "year"=>"2007"}, :end_date=>{"month"=>"7", "day"=>"1", "year"=>"2008"}}, {:user => users(:dennis), :account_id => users(:dennis).account_id}
     assert_response :success
     readings = assigns(:readings)
-    assert_equal "Yates Dr, Hurst, Texas", readings[1].short_address
+    assert_equal "Yates Dr, Hurst, TX", readings[1].short_address
     assert_equal 0, readings[1].speed
     assert_equal "exitgeofen_et51", readings[1].event_type
   end

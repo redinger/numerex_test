@@ -8,22 +8,10 @@ reading1:
  device_id: 1
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <geonames>
-  <address>
-  <street>Big Springs Dr</street>
-  <streetNumber>6762</streetNumber>
-  <lat>32.63572095955121</lat>
-  <lng>-97.17576352980528</lng>
-  <distance>0.02</distance>
-  <postalcode>76001</postalcode>
-  <placename>Arlington</placename>
-  <adminName2>Tarrant</adminName2>
-  <adminCode1>TX</adminCode1>
-  <adminName1>Texas</adminName1>
-  <countryCode>US</countryCode>
-  </address>
-  </geonames>
+ street: Big Springs Dr
+ street_number: 6762
+ place_name: Arlington
+ admin_name1: TX
 reading2:
  id: 2
  latitude: 32.934
@@ -34,22 +22,9 @@ reading2:
  device_id: 2
  created_at: <%= Time.now.to_s :db %>
  event_type: normal_et2
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <geonames>
-  <address>
-  <street>Inwood Rd</street>
-  <streetNumber/>
-  <lat>32.933975620572134</lat>
-  <lng>-96.82316361506956</lng>
-  <distance>0.01</distance>
-  <postalcode>00</postalcode>
-  <placename>Farmers Branch</placename>
-  <adminName2>Dallas</adminName2>
-  <adminCode1>TX</adminCode1>
-  <adminName1>Texas</adminName1>
-  <countryCode>US</countryCode>
-  </address>
-  </geonames>
+ street: Inwood Rd
+ place_name: Farmers Branch
+ admin_name1: TX
 reading3:
  id: 3
  latitude: 32.9395
@@ -60,8 +35,6 @@ reading3:
  device_id: 1
  created_at: <%= (Time.now-1).to_s :db %>
  event_type: normal_et2
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-          <geonames/>
  
 reading4:
  id: 4
@@ -83,22 +56,8 @@ reading5:
  device_id: 1
  created_at: <%= (Time.now-2).to_s :db %>
  event_type: normal_et2
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <geonames>
-  <address>
-  <street/>
-  <streetNumber/>
-  <lat>48.049269</lat>
-  <lng>-114.078745</lng>
-  <distance>0.08</distance>
-  <postalcode>00</postalcode>
-  <placename>Bigfork</placename>
-  <adminName2>Flathead</adminName2>
-  <adminCode1>MT</adminCode1>
-  <adminName1>Montana</adminName1>
-  <countryCode>US</countryCode>
-  </address>
-  </geonames>
+ place_name: Bigfork
+ admin_name1: MT
 reading6:
  id: 6
  latitude: 32.9514
@@ -109,7 +68,6 @@ reading6:
  device_id: 1
  created_at: <%= (Time.now-3).to_s :db %>
  event_type: exitgeofen_et51
- address: >invalid xml<
 7:
  id: 7
  latitude: 32.9531
@@ -383,7 +341,9 @@ reading24:
  device_id: 6
  created_at: <%= (Time.now).to_s :db %>
  event_type: DEFAULT
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
+ street: Belt Line Rd
+ place_name: Addison
+ admin_name1: TX
 25:
  id: 25
  latitude: 32.63585
@@ -394,22 +354,10 @@ reading24:
  device_id: 1
  created_at: <%= (Time.now-13).to_s :db %>
  event_type: normal_et2
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  <geonames>
-  <address>
-  <street>Big Springs Dr</street>
-  <streetNumber>6762</streetNumber>
-  <lat>32.63572095955121</lat>
-  <lng>-97.17576352980528</lng>
-  <distance>0.02</distance>
-  <postalcode>76001</postalcode>
-  <placename>Arlington</placename>
-  <adminName2>Tarrant</adminName2>
-  <adminCode1>TX</adminCode1>
-  <adminName1>Texas</adminName1>
-  <countryCode>US</countryCode>
-  </address>
-  </geonames>
+ street: Big Springs Dr
+ street_number: 6762
+ place_name: Arlington
+ admin_name1: TX
 reading26:
  id: 26
  latitude: 32.9550
@@ -422,9 +370,10 @@ reading26:
  device_id: 6
  created_at: <%= (Time.now-1).to_s :db %>
  event_type: DEFAULT
- address: <?xml version="1.0" encoding="UTF-8" standalone="no"?><geonames><address><street>Belt Line Rd</street><streetNumber/><lat>32.95415141225255</lat><lng>-96.82829886652897</lng><distance>0.02</distance><postalcode>00</postalcode><placename>Addison</placename><adminName2>Dallas</adminName2><adminCode1>TX</adminCode1><adminName1>Texas</adminName1><countryCode>US</countryCode></address></geonames>
+ street: Belt Line Rd
+ place_name: Addison
+ admin_name1: TX
  ignition: 1
-
 readings_049:
  updated_at:
  latitude: "32.8491"
@@ -435,24 +384,9 @@ readings_049:
  note:
  speed: "0"
  longitude: "-97.1706"
- address: |
-   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-   <geonames>
-   <address>
-   <street>Yates Dr</street>
-   <streetNumber/>
-   <lat>32.84889592665313</lat>
-   <lng>-97.17110503882051</lng>
-   <distance>0.06</distance>
-   <postalcode>00</postalcode>
-   <placename>Hurst</placename>
-   <adminName2>Tarrant</adminName2>
-   <adminCode1>TX</adminCode1>
-   <adminName1>Texas</adminName1>
-   <countryCode>US</countryCode>
-   </address>
-   </geonames>
-
+ street: Yates Dr
+ place_name: Hurst
+ admin_name1: TX
  event_type: exitgeofen_et51
  direction: "0"
  created_at: <%= (Time.now-15).to_s :db %>
@@ -2002,23 +1936,9 @@ readings_9924:
  note:
  speed: "0"
  longitude: "-97.1706"
- address: |
-   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-   <geonames>
-   <address>
-   <street>Yates Dr</street>
-   <streetNumber/>
-   <lat>32.84889592665313</lat>
-   <lng>-97.17110503882051</lng>
-   <distance>0.06</distance>
-   <postalcode>00</postalcode>
-   <placename>Hurst</placename>
-   <adminName2>Tarrant</adminName2>
-   <adminCode1>TX</adminCode1>
-   <adminName1>Texas</adminName1>
-   <countryCode>US</countryCode>
-   </address>
-   </geonames>
+ street: Yates Dr
+ place_name: Hurst
+ admin_name1: TX
  event_type: exitgeofen_et51
  direction: "0"
  created_at: 2007-07-24 15:39:58 
@@ -2032,58 +1952,30 @@ readings_9925:
  note:
  speed: "0"
  longitude: "-97.1706"
- address: |
-   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-   <geonames>
-   <address>
-   <street>Yates Dr</street>
-   <streetNumber/>
-   <lat>32.84889592665313</lat>
-   <lng>-97.17110503882051</lng>
-   <distance>0.06</distance>
-   <postalcode>00</postalcode>
-   <placename>Hurst</placename>
-   <adminName2>Tarrant</adminName2>
-   <adminCode1>TX</adminCode1>
-   <adminName1>Texas</adminName1>
-   <countryCode>US</countryCode>
-   </address>
-   </geonames>
+ street: Yates Dr
+ place_name: Hurst
+ admin_name1: TX
  event_type: exitgeofen_et51
  direction: "0"
  created_at: 2007-07-24 15:39:58 
  ignition: 1
 
 readings_9926:
-  updated_at:
-  latitude: "32.8491"
-  altitude: "182"
-  device_id: "8"
-  id: "9926"
-  notified:
-  note:
-  speed: "0"
-  longitude: "-97.1706"
-  address: |
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <geonames>
-    <address>
-    <street>Yates Dr</street>
-    <streetNumber/>
-    <lat>32.84889592665313</lat>
-    <lng>-97.17110503882051</lng>
-    <distance>0.06</distance>
-    <postalcode>00</postalcode>
-    <placename>Hurst</placename>
-    <adminName2>Tarrant</adminName2>
-    <adminCode1>TX</adminCode1>
-    <adminName1>Texas</adminName1>
-    <countryCode>US</countryCode>
-    </address>
-    </geonames>
-  event_type: exitgeofen_et51
-  direction: "0"
-  created_at: <%= Time.now.to_s :db %>
-  ignition: 1
-  gpio1: 1
-  gpio2: 1
+ updated_at:
+ latitude: "32.8491"
+ altitude: "182"
+ device_id: "8"
+ id: "9926"
+ notified:
+ note:
+ speed: "0"
+ longitude: "-97.1706"
+ street: Yates Dr
+ place_name: Hurst
+ admin_name1: TX
+ event_type: exitgeofen_et51
+ direction: "0"
+ created_at: <%= Time.now.to_s :db %>
+ ignition: 1
+ gpio1: 1
+ gpio2: 1
