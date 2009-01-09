@@ -7,6 +7,8 @@
 	Select a filter:
 	<select onchange="document.location.href = '/admin/devices/index/' + this.options[this.selectedIndex].value;">
 		<option value="">All</option>
+		<option value="0" <% if params[:id] == '0' %>selected="selected"<% end %>>Unprovisioned</option>
+		<option>--------------</option>
 		<% for account in @accounts %>
 			<option value="<%= account.id %>" <% if params[:id] == account.id.to_s %>selected="selected"<% end %>><%= account.company %></option>
 		<% end %>		
@@ -41,9 +43,9 @@
 			<td<% if device.provision_status_id == Device::STATUS_DELETED %> class="faded_red"<% end %>><% if device.provision_status_id == Device::STATUS_INACTIVE %>Not Provisioned<% elsif device.provision_status_id == Device::STATUS_ACTIVE %>Provisioned<% elsif device.provision_status_id == Device::STATUS_DELETED %>Deleted<% else %>Unknown<% end %></td>
 			<td><% if device.last_online_time %><script>document.write(displayLocalDT(<%= device.last_online_time.to_i*1000 %>));</script><% else %>N/A<% end %></td>
 			<td><% if device.latest_gps_reading %><script>document.write(displayLocalDT(<%= device.latest_gps_reading.created_at.to_i*1000 %>));</script><% else %><strong>No Report Yet</strong><% end %></td>
-			<td><% if device.created_at.nil? %>N/A<% else %><script>document.write(displayLocalDT(<%= device.created_at.to_i*1000 %>));</script><% end %></td>
+			<td><% if device.created_at.nil? %>N/A< %else %><script>document.write(displayLocalDT(<%= device.created_at.to_i*1000 %>));</script><% end %></td>
 			<td><% if device.is_public == 1 %>True<% else %>False<% end %></td>
-			<td><% if device.provision_status_id != Device::STATUS_DELETED %><a href="/admin/devices/destroy/<%= device.id %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a><% end %></td>
+			<td><% if device.provision_status_id != Device::STATUS_DELETED %><a href="/admin/devices/destroy/<%= device.id %><% if params[:id] %>?account_id=<%= device.account_id %><% end %>" onclick="if (confirm('Are you sure?')) { var f = document.createElement('form'); f.style.display = 'none'; this.parentNode.appendChild(f); f.method = 'POST'; f.action = this.href;f.submit(); };return false;">delete</a><% end %></td>
 		</tr>
 	<% end %>
 </table>
