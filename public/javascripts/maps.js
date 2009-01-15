@@ -19,6 +19,7 @@ function init() {
 		gmap.addControl(new GMapTypeControl());
 		gmap.addControl(new GSmallMapControl(), new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(10,30)));
 		gmap.setCenter(new GLatLng(37.4419, -96.1419), 5);
+		gmap.enableScrollWheelZoom();
 		
 		GEvent.addListener(gmap, "click", function(marker, point) {
 			if(marker) {
