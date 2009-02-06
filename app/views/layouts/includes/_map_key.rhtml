@@ -1,5 +1,7 @@
 <% if request.server_name.index("ubliplocal.com") %>
 	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBSSqky6nndM48J7LWYfi11THuhEtxRJbRLHbJNMAlJ5HI0ywIQWp934fQ" type="text/javascript"></script>
+<% elsif request.server_name.index("gotrackinc.com") %>
+	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBQe7NkVImDlVw-kNkmmroR26ikzfRQx4H3C7qiSJoHiO0DKo6G7r1k_FA" type="text/javascript"></script>
 <% else %>
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAb5FIzoTRib2_GSmlbkQ7mBQdy8buJCn4UCOrVn-gOC82x0BwgBQmZoveMS-zQ1aZv3RjGKOBbmDg9Q" type="text/javascript"></script>
 <% end %>
