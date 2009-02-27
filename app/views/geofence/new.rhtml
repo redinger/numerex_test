@@ -10,8 +10,8 @@
           <div>
             <strong>This geofence applies to:</strong>
           </div>	 			
-          <input type="radio" id="all" name="radio" value="1" checked onclick="enableDevice(this);"/> All devices in this account<br />
-          <input type="radio" id="single" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofences');<%else%>enableDevice(this);<%end%>" value="2" /> A single device
+          <input type="radio" id="all" name="radio" value="1" checked onclick="enableDevice(this);"/> All vehicles in this account<br />
+          <input type="radio" id="single" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create vehicle-level geofences');<%else%>enableDevice(this);<%end%>" value="2" /> A single vehicle
 		
           <select id="device" name="device"  class="text_width" disabled style="margin-top: 5px;">
             <% @devices.each do |device| %>

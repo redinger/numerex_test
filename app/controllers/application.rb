@@ -75,9 +75,14 @@ class ApplicationController < ActionController::Base
 
   def assign_the_selected_group_to_session        
     session[:group_value]="all"  if session[:group_value].nil?        
-    if session[:group_value]=="all"              
-      @groups= @all_groups          
-      @show_default_devices = true
+    if session[:group_value]=="all"
+      if session[:home_device]
+        @groups= []
+        @show_default_devices = false
+      else
+        @groups= @all_groups          
+        @show_default_devices = true
+      end
     elsif session[:group_value]=="default"             
       @groups = []
       @show_default_devices = true

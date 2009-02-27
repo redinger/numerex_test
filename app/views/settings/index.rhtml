@@ -4,10 +4,10 @@
 
 <form method="post">
 <div class="settings_box">
-	<h2>Company or Group Name</h2>
-	Your company or group name is used to personalize your login screen and header banner.  
+	<h2>Company or Fleete Name</h2>
+	Your company or fleet name is used to personalize your login screen and header banner.  
 	<% if session[:is_admin] %>
-		Please note that changing your company or group name applies to all users within this account.
+		Please note that changing your company or fleet name applies to all users within this account.
 	<% else%>
 		You must be an account administrator to change this setting.
 	<% end %>
@@ -17,21 +17,22 @@
 
 <div class="settings_box">
 	<h2>Notifications</h2>
-	Check the box below if you'd like to receive exception notifications for this account.  All exceptions will be sent to the email address associated with your account.  Exceptions
-	include entering a geofence, exiting a geofence, and when a device goes offline.<br />
+	Check the box below if you'd like to receive exception notifications for this account.
+	All exceptions will be sent to the email address associated with your account.
+	Exceptions include entering a geofence, exiting a geofence, and when a vehicle goes offline.<br />
     <div class="settings_notification">
      <div><input name="notify"    type="radio"  value="0" <% if @user.enotify == 0 %> checked="checked"<% end %> onclick="Element.hide('to_update');" /> Disable Notifications </div>
-     <div><input name="notify"   type="radio"  value="1"  <% if @user.enotify == 1%> checked="checked"<% end %> onclick="Element.hide('to_update');"/> Enable notifications for all devices in this account</div>
-     <div><input name="notify"  type="radio"  value="2" <% if @user.enotify == 2%> checked="checked"<% end %> onclick="Element.show('to_update');" /> Enable notifications for selected groups</div>
+     <div><input name="notify"   type="radio"  value="1"  <% if @user.enotify == 1%> checked="checked"<% end %> onclick="Element.hide('to_update');"/> Enable notifications for all vehicles in this account</div>
+     <div><input name="notify"  type="radio"  value="2" <% if @user.enotify == 2%> checked="checked"<% end %> onclick="Element.show('to_update');" /> Enable notifications for selected fleets</div>
      </div>
      <div id="to_update" class="gray_box" <%if !(@user.enotify == 2) %>style="display:none;" <%end%>>
-         <div><strong>&nbsp;Please select one or more groups from the list below</strong></div>
+         <div><strong>&nbsp;Please select one or more fleets from the list below</strong></div>
          <%if !@groups.empty?%>
               <% for group in @groups %>
                  <div><input name="rad_grp<%=group.id %>"  type="checkbox"  <%if group.is_selected_for_notification(@user) %>checked="checked"<%end%> value="<%= group.id%>"  /> <%= group.name%></div>
               <%end%>
          <%else%>
-              No groups added.
+              No fleets added.
          <%end%>
      </div>     
 </div>

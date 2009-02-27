@@ -6,9 +6,9 @@
 
 <!-- Content starts here -->
   <div class="grp_3">
-    <h2 style="margin-bottom: 0;">Create a Group</h2>
-    <p>Creating a group is simple. Just enter a group name, select an icon color, and specify the devices you want to associate with this group.</p>
-    <h3>Group Name</h3>       
+    <h2 style="margin-bottom: 0;">Create a Fleet</h2>
+    <p>Creating a fleet is simple. Just enter a fleet name, select an icon color, and specify the vehicles you want to associate with this fleet.</p>
+    <h3>Fleet Name</h3>       
     <input type="text" id="group_name" name="name" value="<%= flash[:group_name]%>">
     <h3>Select Icon</h3>
     
@@ -60,8 +60,10 @@
   <br class="clear"/>
   
   <div class="sel_dev1" >
-    <h3>Select Devices</h3>
-    <p>Some devices may already be associated with another group. In this case, the group name will display in red after the device name. You can easily reassign any device to this group by clicking one or more checkboxes below.</p>
+    <h3>Select Vehicles</h3>
+    <p>Some vehicles may already be associated with another fleet.
+	In this case, the fleet name will display in red after the vehicle name.
+	You can easily reassign any vehicles to this fleet by clicking one or more checkboxes below.</p>
     <ul>                
       <%for device in @devices%>
         <li>
