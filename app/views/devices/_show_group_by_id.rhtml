@@ -7,8 +7,8 @@
         <td width="50%" valign="top">
         	
         	<div id="new" style="margin-bottom: 10px; padding: 15px; background-color: #FFFFCC; font-weight: bold; color: #333333">
-        		Your Ublip order is currently being processed.  When your device has been activated it will appear in the summary table below.
-				You'll then be able to rename the device by going to the <a href="/devices" title="Manage your devices">Devices</a> tab.
+        		Your Ublip order is currently being processed.  When your vehicle has been activated it will appear in the summary table below.
+				You'll then be able to rename the vehicle by going to the <a href="/devices" title="Manage your vehicles">Vehicles</a> tab.
 				 Feel free to add additional <a href="/users" title="Manage your users">users</a> or change your <a href="/settings" title="Manage your settings">settings</a>.
         	</div>
    
@@ -48,7 +48,7 @@
                 
      
          
-      <span style="margin-top:4px; float:left;">Default Group</span>
+      <span style="margin-top:4px; float:left;">Default Fleet</span>
         </td>
     </tr>
  
@@ -122,7 +122,7 @@
    
         <td>
         <% if device.latest_gps_reading %>
-		<a href="javascript:centerMap(<%= device.device.id %>);highlightRow(<%= device.device.id %>);" title="Center map on this device"><%= device.device.name %></a>
+		<a href="javascript:centerMap(<%= device.device.id %>);highlightRow(<%= device.device.id %>);" title="Center map on this vehicle"><%= device.device.name %></a>
 		
 		
 		<% else %>
@@ -131,7 +131,7 @@
 		<% end %>
         </td>
 		<td style="font-size:11px;">
-		<a href="/reports/all/<%= device.device.id %>" title="View device details">details</a>
+		<a href="/reports/all/<%= device.device.id %>" title="View vehicle details">details</a>
 		</td>
         <td>
         <% if device.device.latest_gps_reading %>
