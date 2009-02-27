@@ -3,6 +3,7 @@
 	
 	<div id="ub-login">
 		Welcome, <%= session[:first_name] %> | <% if session[:is_super_admin] == true %><a href="/admin" >Admin</a> | <% end %> <a href="/logout" title="Logout">Logout</a>&nbsp;&nbsp;
+		<a href="http://www.gotracinc.com" target="_blank"><img src="/images/gotrack_logo_small.png" alt="GoTrack logo" border ="0" style="vertical-align: middle;" /></a>&nbsp;&nbsp;
 	</div>
 
 	<div style="clear:both;"></div>
@@ -17,7 +18,7 @@
 			<li <% if page_name == 'contact' %> class="selected"<% end %> style="float:right; margin-right: 10px;"><a href="/contact">Contact</a></li>
 			<li <% if page_name == 'settings' %> class="selected"<% end %> style="float:right;"><a href="/settings">Settings</a></li>
 			<li <% if page_name == 'users' %> class="selected_subnav"<% end %> style="float:right;"><a href="/users">Users</a></li>
-			<li <% if page_name == 'devices' || page_name == 'geofence' %> class="selected_subnav"<% end %> style="float: right;"><a href="/devices">Devices</a></li>
+			<li <% if page_name == 'devices' || page_name == 'geofence' %> class="selected_subnav"<% end %> style="float: right;"><a href="/devices">Vehicles</a></li>
 		</ul>
     </div>
      
