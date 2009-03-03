@@ -7,12 +7,14 @@
 </div>
 
 <div id="helper">
-  Fleets are a great way to keep your devices organized. Creating a group is easy and allows you to quickly see which devices are associated with your group on the <a href="/home">overview screen</a>. Click the "Add New Fleet" link above to create a fleet.
+  Fleets are a great way to keep your vehicles organized.
+  Creating a fleet is easy and allows you to quickly see which vehicles are associated with your fleet on the <a href="/home">overview screen</a>.
+  Click the "Add New Fleet" link above to create a fleet.
 </div>
    
 <%if @groups.empty?%>
   <div class="crt_group1"> 
-    <a href="/devices/new_group">Create your first group</a>
+    <a href="/devices/new_group">Create your first fleet</a>
   </div>
 <%else%>
   <% for group in @groups%>

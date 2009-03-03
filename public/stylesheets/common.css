@@ -59,6 +59,14 @@ body {
 
 /*tabs CSS  End*/	
 
+div.markerLabel  {
+  color: black;
+  background-color:white;
+  font-family: Arial;
+  border: 1px solid #000000;
+  padding: 2px 2px 2px 2px;
+}
+
 /*header CSS */
 
 div#header {

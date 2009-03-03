@@ -5,7 +5,7 @@
     <title><%= @page_title %></title>        
     <%= stylesheet_link_tag "common", "gotrack" %>        
     <%= render :partial => 'layouts/includes/map_key' %>
-    <%= javascript_include_tag "main", "layers", "utils" %>
+    <%= javascript_include_tag "main", "layers", "utils", "labeled_marker" %>
     <%= javascript_include_tag :defaults%>
   </head>
   
@@ -38,8 +38,8 @@
 				  			<td style="padding:0px;border:0px;">Locations for:</td>
 							<td style="padding:0px;border:0px;">
 							    <select id="group_type" class="device_summery_select" name="group_type" onchange="<%= decide_action %>;"> 
-							      <option id=""  value="new">New group</option>
-							      <option id=""  value="edit">Edit groups</option>
+							      <option id=""  value="new">New fleet</option>
+							      <option id=""  value="edit">Edit fleets</option>
 							      <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
 							      <option value="all" <%if session[:group_value] == 'all' and not session[:home_device] %> selected class="bgcolor"<%end%>>  All Fleets  </option>            
 							      <% for group in @all_groups %>
