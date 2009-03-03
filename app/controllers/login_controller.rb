@@ -61,12 +61,6 @@ class LoginController < ApplicationController
       # Display the appropriate login form based on subdomain
     else
       user = @session
-      @account = Account.find_by_subdomain(request.subdomains.first)
-
-      # Subdomain does not exist so display appropriate form
-      if !@account
-        redirect_to :action => "sorry"
-      end
     end
   end
 
