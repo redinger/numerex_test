@@ -43,7 +43,7 @@ class AdminControllerTest < Test::Unit::TestCase
     get :index, {}, {:user => users(:dennis).id, :account_id => accounts(:dennis).id, :is_super_admin => users(:dennis).is_super_admin}
     assert_select "ul.list li", 4 # Verify 3 elements in the list
     assert_select "ul.list li:first-child", :text => "6 active Accounts - view or create"
-    assert_select "ul.list li:nth-child(2)", :text => "7 active Users - view or create"
+    assert_select "ul.list li:nth-child(2)", :text => "6 active Users - view or create"
     assert_select "ul.list li:nth-child(3)", :text => "7 active Devices - view or create"
     assert_select "ul.list li:last-child", :text => "3 active Device Profiles - view or create"
   end

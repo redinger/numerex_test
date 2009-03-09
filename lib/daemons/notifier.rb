@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 # Load EngineYard config
-if File.exist?("/data/ublip/shared/config/mongrel_cluster.yml")
-  mongrel_cluster = "/data/ublip/shared/config/mongrel_cluster.yml"
+if File.exist?("/data/ublip_rsccomm/shared/config/mongrel_cluster.yml")
+  mongrel_cluster = "/data/ublip_rsccomm/shared/config/mongrel_cluster.yml"
 # Load Slicehost config
 else
   mongrel_cluster = "/opt/ublip/rails/shared/config/mongrel_cluster.yml"

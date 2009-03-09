@@ -29,26 +29,6 @@ class LoginControllerTest < Test::Unit::TestCase
    assert_equal users(:dennis).account.company, @request.session[:company]
  end
  
- def test_login_same_email_diff_act
-   @request.host="nick.ublip.com"
-   post :index, {:email => users(:dennis2).email, :password => "testing"} 
-   assert_redirected_to :controller => "home", :action => "index"
-   assert_equal accounts(:nick).id, @request.session[:account_id]
-   assert_equal users(:dennis2).id, @request.session[:user_id]
-   assert_equal users(:dennis2).id, @request.session[:user]
-   assert_equal users(:dennis2).email, @request.session[:email]
-   assert_equal users(:dennis2).first_name, @request.session[:first_name]
-   assert_equal users(:dennis2).account.company, @request.session[:company]
- end
- 
- def test_login_wrong_subdomain
-   @request.host="ken.ublip.com"
-   post :index, {:email => users(:dennis).email, :password => "testing"} 
-   assert_redirected_to "/login"
-   assert_nil @request.session[:account_id]
-   assert_nil @request.session[:user_id]
- end
- 
  def test_login_failure
    @request.host="dennis.ublip.com"
    post :index, {:email => users(:dennis).email, :password => "wrong"} 

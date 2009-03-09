@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   belongs_to :account
   attr_accessor :password
   validates_presence_of :first_name, :last_name, :email
-  validates_uniqueness_of :email, :scope => :account_id # No dupes within account
+  validates_uniqueness_of :email
   validates_confirmation_of :password
   validates_length_of :password, :within => 6..30, :if => :password_required?
   before_save :encrypt_password
@@ -22,12 +22,7 @@ class User < ActiveRecord::Base
   # Authenticates a user by subdomain, email and unencrypted password.  Returns the user or nil.
   #def self.authenticate(email, password)
   def self.authenticate(subdomain, email, password)
-    
-    account = Account.find_by_subdomain(subdomain)
-    user = find_by_email_and_account_id(email, account.id )
-    
-    
-    
+    user = find_by_email(email)
     if (user && user.authenticated?(password) && user.account.is_verified)
       user.update_attribute(:last_login_dt, Time.now)
       user

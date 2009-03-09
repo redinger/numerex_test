@@ -1,8 +1,0 @@
-cwd: "/opt/ublip/rails/current"
-port: "8000"
-num_procs: "2"
-address: "127.0.0.1"
-pid_file: "/opt/ublip/rails/mongrel.pid"
-log_file: "/opt/ublip/rails/mongrel.log"
-servers: 2
-environment: slicehost

@@ -126,6 +126,8 @@ function getRecentReadings(redrawMap,id)  // code cleanup remains
         var addresses = xml.documentElement.getElementsByTagName("address");
         var statuses = xml.documentElement.getElementsByTagName("status");
         var notes = xml.documentElement.getElementsByTagName("note");
+        var directions = xml.documentElement.getElementsByTagName("direction");
+        var stops = xml.documentElement.getElementsByTagName("stop");
         var icon_id = xml.documentElement.getElementsByTagName("icon_id");		        
         for(var i = 0; i < lats.length; i++) {              
           if(lats[i].firstChild) {
@@ -147,8 +149,8 @@ function getRecentReadings(redrawMap,id)  // code cleanup remains
             var note = '';
             if(notes[i].firstChild != undefined)
               note = notes[i].firstChild.nodeValue;        
-              
-            var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, status: statuses[i].firstChild.nodeValue};
+
+            var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, status: statuses[i].firstChild.nodeValue, direction: directions[i].firstChild.nodeValue, stop: stops[i].firstChild.nodeValue == 'true'};
             devices.push(device);    
             populate_the_table(device,frm_index,bounds); // Populate the table
         }
@@ -198,8 +200,10 @@ function populate_the_table(device,frm_index,bounds)
           tds[3].innerHTML = device.dt
         }   
     }	                        
-    var point = new GLatLng(device.lat, device.lng);                
-    gmap.addOverlay(createMarker(device.id, point, iconALL, createDeviceHtml(device.id),device.id));
+    var point = new GLatLng(device.lat, device.lng);
+	if (!device.stop)
+		gmap.addOverlay(createMarker(device.id, point, createArrow(device.direction), createDeviceHtml(device.id),device.id));
+    gmap.addOverlay(createLabeledMarker(device.id, point, device.name, getMarkerType(-1,device), createDeviceHtml(device.id),device.id));
     bounds.extend(point);
 }
 
@@ -398,11 +402,12 @@ function getMarkerType(index, obj) {
 		icon.image = '/icons/start_marker.png';
 	else if (obj.stop)
 		icon.image = '/icons/stop_marker.png';
-	else if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1) {
+	else if (index < 0)
+	    icon.image = "/icons/ublip_marker.png";
+	else if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1)
 		icon.image = "/icons/" + (index+1) + "_red.png";
-	} else {
+	else
 	    icon.image = "/icons/" + (index+1) + ".png";
-	}
 	
 	return icon;
 }
@@ -459,7 +464,7 @@ function getBreadcrumbs(id) {
 }
 		
 function createArrow(dir) {
-	var icondir;
+	var icondir = '';
 	
 	if(dir >= 337.5 || dir < 22.5) {
 		icondir = "n";
@@ -531,6 +536,23 @@ function createMarker(id, point, icon, html, zorder) {
 	});
 	return marker;
 }
+
+function createLabeledMarker(id, point, label, icon, html, zorder) {
+	var marker = new LabeledMarker(point, 
+	{
+		icon: icon,
+		labelText: label.replace(/ /g,"&nbsp;"),
+		labelOffset: new GSize(6, -10),
+		zIndexProcess: function (m) {return zorder;}
+	});
+	marker.id = id; // Assign a unique id to the marker
+	GEvent.addListener(marker, "click", function() {
+		marker.openInfoWindowHtml(html);
+		gmap.panTo(point);
+	});
+	return marker;
+}
+
 
 // Toggle between full map view or split table/map view
 function toggleMap() {
