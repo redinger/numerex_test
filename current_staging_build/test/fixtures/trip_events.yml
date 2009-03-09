@@ -1,0 +1,15 @@
+one:
+  id: 1
+  device_id: 1
+  reading_start_id: 6
+  reading_stop_id: 13
+  created_at: <%= Time.now.to_s :db %>
+  duration: 9
+  
+two:
+  id: 2
+  device_id: 1
+  reading_start_id: 1
+  reading_stop_id: 5
+  created_at: <%= Time.now.to_s :db %>
+  duration: 3

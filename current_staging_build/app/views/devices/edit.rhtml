@@ -1,0 +1,42 @@
+<%= render :partial=>"/layouts/flash_message" %>    
+
+<h3>Editing <%= @device.name %></h3>
+
+<form method="post" class="form_table">
+  <table>
+    <tr>
+      <th>Name</th>
+      <td><input type="text" name="device[name]" value="<%= h @device.name %>" /></td>
+    </tr>
+    
+    <tr>
+      <th>IMEI</th>
+      <td><input type="text" name="device[imei]" value="<%= @device.imei %>"<% unless session[:is_admin] %> disabled<% end %>/></td>
+    </tr>
+    
+    <% if session[:is_admin] %>
+      <tr>
+        <td></td>
+        <td><span class="gray_small">(Please note that an invalid IMEI may cause<br />a temporary loss of data)</span></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td></td>
+        <td><span class="gray_small">(You must be an administrator to change the IMEI)</span></td>
+      </tr>
+    <% end %>
+    
+    <tr>
+      <td colspan="2" align="right"><input type="submit" value="update" />&nbsp;&nbsp;<a href="javascript:history.go(-1)">cancel </a></td>
+    </tr>
+  </table>
+  <input type="hidden" name="id" value="<%= @device.id %>" />
+</form>
+<hr /><br />
+
+<% if session[:is_admin] %> 
+  <form method="post" action="/devices/delete" onsubmit="return confirm('Are you sure you want to delete this device?');">
+    <input type="hidden" name="id" value="<%= @device.id %>" />
+    <input type="submit" value="delete" class="bold_button" />
+  </form>	
+<% end %>

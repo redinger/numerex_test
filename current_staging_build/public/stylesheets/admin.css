@@ -1,0 +1,66 @@
+/*h3 {
+	font-size: 24px;
+	border-bottom: 1px solid #EEEEEE;
+	margin-left: 0px;
+	margin-bottom: 10px;
+}*/
+
+.list {
+	list-style: none;
+	padding: 0;
+	margin-left: 10px;
+}
+
+.list li {
+	background-color: #EEEEEE;
+	font-size: 16px;
+	color: #333333;
+	margin-bottom: 10px;
+	border-bottom: 1px dotted #CCCCCC;
+	padding: 10px;
+}
+
+.table {
+	color: #333333;
+}
+
+.table th {
+	font-size: 16px;
+	background-color: #003366;
+	padding: 3px;
+	color: #FFFFFF;
+	font-weight: normal;
+}
+
+.table td {
+	padding: 5px;
+}
+
+.even {
+	background-color: #EEEEEE;
+}
+
+.odd {
+	background-color: #FFFFFF;
+}
+
+.form td {
+	font-size: 16px;
+	height: 40px;
+	text-align: right;
+}
+
+/*.input {
+	font-size: 16px;
+	width: 200px;
+}*/
+
+.disabled {
+	font-size: 16px;
+	border: none;
+}
+
+.faded_red {
+	background-color: #B34141;
+	color: #FFFFFF;
+}

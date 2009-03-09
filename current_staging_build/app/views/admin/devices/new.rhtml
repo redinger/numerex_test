@@ -1,0 +1,14 @@
+<h3>Create New Device</h3>
+
+<%= render :partial=>"/layouts/flash_message"%>    
+
+<form method="post" class="form" action="/admin/devices/create">
+	<%= render :partial => "device_form" %>
+</form>
+
+<script language="javascript" type="text/javascript">
+	window.onload = function() {
+		document.getElementById("name").focus();
+	}
+</script>
+

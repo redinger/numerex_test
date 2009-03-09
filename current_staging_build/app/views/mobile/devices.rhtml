@@ -1,0 +1,19 @@
+<ul>
+  <li><h1>My Devices</h1></li>
+  <%for device in @devices%> 
+    <%= show_device device,true%>
+  <%end%>
+  <li>
+    <a href="/mobile/view_all">View all on map</a>
+  </li>
+  
+  <li>
+    <a href="#" onclick="window.location.reload(true);">Refresh</a>
+  </li>
+  
+  <li>
+    <a href="/login/logout?f_mb=frm_mob">Sign out</a>		
+  </li>
+  
+  <li class="2008_ublip">&copy; 2008 <img src="/images/small-logo.png" alt=""  align="absmiddle"/></li>
+</ul>

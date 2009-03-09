@@ -1,0 +1,46 @@
+<div class="container">
+  <div id="top_head">
+    <div><h3>All Geofences (<%= @geofences.size%> total)</h3></div>
+  </div>
+  <%= render :partial=>"/layouts/flash_message"%>    
+  <div>
+    <table id="ub-table"> 
+      <tr class="header">
+        <td>&nbsp;</td>
+        <td>Geofence</td>
+        <td>For</td>
+        <td>Address</td>
+        <td>Radius</th>
+        <td>&nbsp;</td>
+      </tr>
+	
+     <%if !(@geofences.nil? || @geofences.empty?)%>
+       <% @geofences.each do |geofence| %>
+         <tr  class="<%= cycle('gray_row','') %>">
+           <td> <a href="<%= edit_url(:id=>geofence.id)%>">edit</a> </td>
+           <td><a href="<%= detail_url(:id=>geofence.id)%>"><%= geofence.name %></a></td>
+           <td>
+             <a href="/geofence/view<% if !geofence.device.nil? %>?id=device<%= geofence.device_id %>&gf=<%= geofence.id %><% else %>?id=account<%= geofence.account_id %>&gf=<%= geofence.id %><% end %>">
+               <% if !geofence.device.nil? %><%= geofence.device.name %><% else %><%= geofence.account.subdomain %><% end %>
+             </a>
+           </td>
+           <td ><%= geofence.get_lat_lng %></td>
+           <td ><%= geofence.radius.to_s + ' ' + 'miles' %></td>
+           <td >                    
+             <a href="<%= delete_url(:id=>geofence.id)%>" onclick="return confirm('Are you sure you want to delete this geofence ?');">delete</a>
+           </td>
+         </tr>
+       <% end %>        
+    </table>
+     <%else%>
+    </table>     
+    <div id="alert">
+      <span>No geofences found.</span>
+    </div>                       
+    <%end%>		
+  </div>
+	
+  <div  class="ublip-pagination">
+    <%= will_paginate @geofences%>
+   </div>	
+</div>

@@ -1,0 +1,53 @@
+<h3>General Settings</h3>
+
+<%= render :partial=>"/layouts/flash_message" %>    
+
+<form method="post">
+<div class="settings_box">
+	<h2>Company or Fleet Name</h2>
+	Your company or fleet name is used to personalize your login screen and header banner.  
+	<% if session[:is_admin] %>
+		Please note that changing your company or fleet name applies to all users within this account.
+	<% else%>
+		You must be an account administrator to change this setting.
+	<% end %>
+	<br /><br />
+	<input type="text" name="company" value="<%= @account.company %>" size="30"<% unless session[:is_admin] %>disabled<% end %>/>
+</div>
+
+<div class="settings_box">
+	<h2>Notifications</h2>
+	Check the box below if you'd like to receive exception notifications for this account.
+	All exceptions will be sent to the email address associated with your account.
+	Exceptions include entering a geofence, exiting a geofence, and when a vehicle goes offline.<br />
+    <div class="settings_notification">
+     <div><input name="notify"    type="radio"  value="0" <% if @user.enotify == 0 %> checked="checked"<% end %> onclick="Element.hide('to_update');" /> Disable Notifications </div>
+     <div><input name="notify"   type="radio"  value="1"  <% if @user.enotify == 1%> checked="checked"<% end %> onclick="Element.hide('to_update');"/> Enable notifications for all vehicles in this account</div>
+     <div><input name="notify"  type="radio"  value="2" <% if @user.enotify == 2%> checked="checked"<% end %> onclick="Element.show('to_update');" /> Enable notifications for selected fleets</div>
+     </div>
+     <div id="to_update" class="gray_box" <%if !(@user.enotify == 2) %>style="display:none;" <%end%>>
+         <div><strong>&nbsp;Please select one or more fleets from the list below</strong></div>
+         <%if !@groups.empty?%>
+              <% for group in @groups %>
+                 <div><input name="rad_grp<%=group.id %>"  type="checkbox"  <%if group.is_selected_for_notification(@user) %>checked="checked"<%end%> value="<%= group.id%>"  /> <%= group.name%></div>
+              <%end%>
+         <%else%>
+              No fleets added.
+         <%end%>
+     </div>     
+</div>
+     
+<div class="settings_box">
+	<h2>Time Zone</h2>
+	Please specify your time zone.  This will ensure that all times displayed within the application are converted to your local time. 
+	<br /><br />    
+	<select name="time_zone">
+		<option value=''>No time zone selected</option>
+		<% TimeZone.us_zones.each{|i| %>
+			<option value="<%= i.name %>" <%if i.name == @user.time_zone %> selected="selected"<% end %>><%= i %></option>
+		<% } %>
+	</select>    
+</div><br />
+<div><input type="submit" value="save" /></div>
+
+</form>

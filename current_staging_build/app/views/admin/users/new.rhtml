@@ -1,0 +1,14 @@
+<h3>Create New User</h3>
+
+<%= render :partial=>"/layouts/flash_message" %>    
+
+<form method="post" class="form" action="/admin/users/create" onsubmit="return ValidateForm();">
+	<%= render :partial => "user_form" %>
+</form>
+
+<script language="javascript" type="text/javascript">
+	window.onload = function() {
+		document.getElementById("first_name").focus();
+	}
+</script>
+

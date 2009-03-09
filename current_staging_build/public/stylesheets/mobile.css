@@ -1,0 +1,90 @@
+#body {
+    margin: 0px;
+    font-family: "Times New Roman", Times, serif;
+    background: #FFFFFF;
+	font-size:10pt;
+    color: #000000;
+/*	max-height:320px;
+	max-width:240px;*/
+	padding:0px;
+    overflow-x: hidden;
+	line-height:19px;
+    -webkit-user-select: none;
+    -webkit-text-size-adjust: none;
+	}
+
+#body .toolbar {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding-left: 10px;
+	padding-right:10px;
+	padding-top:15px;
+   }
+
+#body  ul{
+    position: relative;
+    margin-left: 3px;
+    padding-left:3px;
+    font-weight:normal;
+    list-style: none;
+	/*width:240px;*/
+	margin-top:0px;
+}
+
+#body ul  li {
+    position: relative;
+    margin: 0px;
+    padding: 2px 2px 2px 5px;
+    font-weight:normal;
+	/*width:240px;*/
+    list-style: none;
+}
+
+
+#body  ul  li.group:first-child {
+    top: 0;
+    border-top: none;
+	
+}
+
+#body  ul  li .input{
+    width: 210px;
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-left:2px;
+	padding-right:1px;
+	font-family:Arial, Helvetica, sans-serif;
+	border-left:2px #c0c0c0 solid;
+	border-top:2px #c0c0c0 solid;
+	
+}
+
+h1{
+font-size:15px;
+font-weight:bold;
+padding:0px; 
+margin:0px;
+line-height:25px
+
+
+}
+
+#body  ul  li .2008_ublip{
+padding-top:5px
+	
+}
+
+a:hover {text-decoration:underline;}
+a, a:visited {color:#0000ee;text-decoration:underline;}
+
+div#error_message {
+	border: 2px solid #990000;
+	background-color: #FF6262;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding: 5px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}

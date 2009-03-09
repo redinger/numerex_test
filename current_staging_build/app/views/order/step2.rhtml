@@ -1,0 +1,145 @@
+<form method="post" action="/order/process_order" onsubmit="return validateCCForm(this);">
+	<table width="800" border="0" align="center">
+		<tr>
+			<td colspan="2">
+				<h4>Shipping and Tax</h4>
+				<div class="description_box">
+					Select your preferred shipping method below. Tax applies to Texas residents only.
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" valign="top"><img src="/images/ublip_product_box.png" /></td>
+			<td>
+				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="300">Ublip Tracking Device (x <%=session[:qty]%>)<br /><span class="helper">(includes antenna, power cable, and mounting kit)</span></td>
+						<td>$249.95</td>
+					</tr>
+					<tr><td colspan="2"><hr /></td></tr>
+					<tr>
+						<td><%if(session[:service_code]=='US1000')%>First Month<%else%>First Year<%end%> Ublip Tracking Service (x <%=session[:qty]%>)<br /><span class="helper">(includes wireless airtime and 24/7 web access)</span></td>
+						<td>$<%=session[:service_price]%></td>
+					</tr>
+					<tr><td colspan="2"><hr /></td></tr>
+					<% if session[:tax] != 0 %>
+					<tr><td>Tax <span class="helper">(8.25%)</span></td><td><%=number_to_currency session[:tax] %></td></tr>
+					<tr><td colspan="2"><hr /></td></tr>
+					<% end %>
+					<tr>
+						<td>Shipping</td>
+						<td>
+							<select name="shipping" id="shipping" onchange="calculateTotal(this);">
+								<option value="<%=number_to_currency @ship_ground, :unit => ''%>">UPS 3-5 Day - <%=number_to_currency @ship_ground%></option>
+								<option value="<%=number_to_currency @ship_2day, :unit => ''%>">UPS 2 Day - <%=number_to_currency @ship_2day%></option>
+								<option value="<%=number_to_currency @ship_overnight, :unit => ''%>">UPS Overnight - <%=number_to_currency @ship_overnight%></option>
+							</select>
+						</td></tr>
+					</tr>
+					<tr><td colspan="2"><hr /></td></tr>
+					<tr>
+						<td><strong>Total</strong></td><td><span style="text-decoration: underline; font-weight: bold;" id="display_total"><%=number_to_currency session[:total]%></span></td></tr>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
+<% if flash[:paypal_response] %>
+	<div class="paypal_error">
+		We're sorry, an error has occured. <%= flash[:paypal_response]['L_LONGMESSAGE0'] %>
+	</div>
+<% end %>
+	<table border="0" align="center" width="800">
+		<tr>
+			<td valign="top">
+				<h4>Billing Details</h4>
+				<div class="description_box">
+					All transactions are processed securely.  You will be billed at the first of the month for your service and can cancel at any time.
+				</div>
+				<table>
+					<tr><td></td><td><img src="/images/cc_types.png" /></td></tr>
+					<tr>
+						<td class="label">Card Type</td><td><select id="cc_type" name="cc_type"><option value="Visa">Visa</option><option value="MasterCard">MasterCard</option><option value="Amex">American Express</option><option value="Discover">Discover</option></select></td>
+					</tr>
+					<tr>
+						<td class="label">Card Number</td><td><input type="text" class="short_text" id="cc_number" name="cc_number" maxlength="16" /> <span class="helper">(no spaces or hyphens)</span></td>
+					</tr>
+					<tr>
+						<td class="label">Expiration</td>
+						<td>
+							<select name="cc_month" id="cc_month">
+								<option value="01">1 - January</option>
+								<option value="02">2 - February</option>
+								<option value="03">3 - March</option>
+								<option value="04">4 - April</option>
+								<option value="05">5 - May</option>
+								<option value="06">6 - June</option>
+								<option value="07">7 - July</option>
+								<option value="08">8 - August</option>
+								<option value="09">9 - September</option>
+								<option value="10">10 - October</option>
+								<option value="11">11 - November</option>
+								<option value="12">12 - December</option>
+							</select>
+							<select name="cc_year" id="cc_year">
+								<option value="2007">2007</option>
+								<option value="2008">2008</option>
+								<option value="2009">2009</option>
+								<option value="2010">2010</option>
+								<option value="2011">2011</option>
+								<option value="2012">2012</option>
+								<option value="2013">2013</option>
+								<option value="2014">2014</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Security Code</td><td><input type="text" name="cvv2" id="cvv2" class="super_short_text" maxlength="4" /> <span class="helper">(3-4 digit code on back of card)</span></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<h4>Review and Agree to Terms</h4>
+				<div class="description_box">
+					<input type="checkbox" onclick="toggleOrderButton(this.checked);" id="terms_checkbox" /> I agree to Ublip's <a href="javascript:popIt('http://www.ublip.com/privacy?mode=plain', 'pop', 'width=500, height=400, scrollbars=1');">privacy</a>, <a href="javascript:popIt('http://www.ublip.com/terms?mode=plain', 'pop', 'width=500, height=400, scrollbars=1');">terms</a>, and <a href="javascript:popIt('http://www.ublip.com/terms?mode=plain#refund', 'pop', 'width=500, height=400, scrollbars=1');">refund</a> policies.
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<div id="processing_message"></div>
+				<div style="background-color: #EEEEEE; padding: 10px; text-align: right; margin-top: 20px; border: 1px solid #CCCCCC;">
+					<input type="submit" value="Place order and create account" disabled="true" id="order_btn" />
+				</div>
+			</td>
+		</tr>
+	</table>
+	<input type="hidden" name="qty" value="1" />
+	<input type="hidden" name="subtotal" id="subtotal" value="<%=number_to_currency session[:subtotal], :unit => '', :delimiter => ''%>" />
+	<input type="hidden" name="tax" id="tax" value="<%=number_to_currency session[:tax], :unit => '', :delimiter => ''%>" />
+	<input type="hidden" name="total" id="total" value="<%=number_to_currency session[:total], :unit => '', :delimiter => ''%>" />
+	<input type="hidden" name="shipping_index" id="shipping_index" />
+</form>
+
+<script>
+	window.onload = function() {
+		var month = new Date().getMonth();
+		document.getElementById('cc_month').selectedIndex = month;
+		<% if flash[:paypal_response] %>
+		document.getElementById("cc_type").focus();
+		document.getElementById("shipping").selectedIndex = parseInt(<%=flash[:shipping_index]%>);
+		calculateTotal(document.getElementById("shipping"));
+		<% else %>
+		document.getElementById("shipping").focus();
+		<% end %>
+	}
+</script>

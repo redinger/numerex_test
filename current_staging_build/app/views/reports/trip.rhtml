@@ -1,0 +1,48 @@
+<%= render :partial => 'report_header' %>
+
+<table class="text_width" id="main_table">
+	<tr>
+		<td id="left_panel" valign="top">
+			<table class="panel_table">
+				<tr><th></th><th>Start Address</th><th>Stop Address</th><th>Duration</th><th>Started</th></tr>
+				<% for trip in @trip_events %>
+					<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= trip.id %>">
+						<td><a href="/reports/trip_detail/<%= trip.id %>" style="font-size:11px;">details</a></td>
+						<td><a href="javascript:displayTripOverview(<%= trip.id %>, 'start');"><%= trip.reading_start.short_address %></a></td>
+						<script>readings.push({id: <%= trip.id %>, start: true, lat: <%= trip.reading_start.latitude %>, lng: <%= trip.reading_start.longitude %>, address: '<%= escape_javascript trip.reading_start.short_address %>', dt: displayLocalDT(<%= trip.reading_start.created_at.to_i*1000 %>), event: '<%= trip.reading_start.event_type %>'});</script>
+						<% if trip.reading_stop %>
+							<td><a href="javascript:displayTripOverview(<%= trip.id %>, 'stop');"><%= trip.reading_stop.short_address %></a></td>
+							<td><%= minutes_to_hours(trip.duration) %></td>
+							<script>readings.push({id: <%= trip.id %>, stop: true, lat: <%= trip.reading_stop.latitude %>, lng: <%= trip.reading_stop.longitude %>, address: '<%= escape_javascript trip.reading_stop.short_address %>', dt: displayLocalDT(<%= trip.reading_stop.created_at.to_i*1000 %>), event: '<%= trip.reading_stop.event_type %>'});</script>
+						<% else %>
+							<td>-</td>
+							<td>
+								<%
+									start_time = trip.reading_start.created_at.to_i
+									end_time = Time.now.to_i
+									duration = (end_time-start_time)/60
+								%>
+				                <strong>In progress:</strong> <%= minutes_to_hours(duration) %>
+							</td>
+						<% end %>
+						<td><script>document.write(displayLocalDT(<%= trip.created_at.to_i*1000 %>));</script></td>
+					</tr>
+				<% end %>
+			</table>
+	      <%if @trip_events.empty? %>
+	        <div class="alert">
+	          <span>No trips found.</span>
+	        </div>                        
+	      <%end%>        
+		</td>
+		<td>                
+	      <a href="javascript:toggleMap();" title="Expand map view" id="toggler_link"><img src="/images/collapse.png" border="0" id="toggler" /></a>                
+	    </td>
+
+		<td width="50%" valign="top" id="right_panel">                    
+			<div class="report_map_header">Locations for <%= @device.name%></div> 
+			<div id="map" class="reports_map" ></div>                 
+		</td>
+</table>
+
+<%= render :partial => 'report_footer' %>

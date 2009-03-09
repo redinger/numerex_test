@@ -1,0 +1,16 @@
+<script>
+  var frm_index = false;
+</script>
+<table class="panel_table" >
+  <%= render :partial => 'device_summary_header',:locals => {:column_span => 7,:sub_heading => "(Last 7 days)"} %>
+  <tr>
+    <th>Name</th>
+    <th>&nbsp;</th>
+    <th>Stops</th>
+    <th>Idle (hours)</th>
+    <th>%</th>
+    <th>Runtime (hours)</th>
+    <th>%</th>
+  </tr>           
+  <%= render :partial => "group_rows",:locals => {:column_span => 7,:callback => "show_statistics"} %>
+</table>

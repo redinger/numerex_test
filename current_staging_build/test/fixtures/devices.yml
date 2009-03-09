@@ -1,0 +1,94 @@
+device1:
+ id: 1
+ name: device 1
+ imei: 1234
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 1
+ provision_status_id: 1
+ account_id: 1 # Dennis Co
+ group_id: 1
+ last_online_time: <%= Time.now.to_s :db %> 
+ online_threshold: NULL
+ is_public: true
+ icon_id: 4
+ profile_id: 1
+ 
+device2:
+ id: 2
+ name: device 2
+ imei: 5678
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 2
+ provision_status_id: 1
+ account_id: 1 # Dennis Co
+ profile_id: 1
+ 
+device3:
+ id: 3
+ name: device 3
+ imei: 54321
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 3
+ provision_status_id: 1
+ account_id: 1 # Nick Co
+ group_id: 2
+ last_online_time: <%= (Time.now-120*60).to_s :db %>
+ icon_id: 3
+ profile_id: 1
+ 
+device4:
+ id: 4
+ name: device 4 [no data]
+ imei: 9999
+ created_at: <%= Time.now.to_s :db %>
+ provision_status_id: 1
+ account_id: 1 # Dennis Co
+ group_id: 5
+ last_online_time: <%= Time.now.to_s :db %>
+ icon_id: 8
+ profile_id: 1
+ 
+device5:
+ id: 5
+ name: unprovisioned
+ imei: 33333
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 5
+ provision_status_id: 0
+ last_online_time: <%= Time.now.to_s :db %> 
+ profile_id: 1
+  
+device6:
+ id: 6
+ name: BlackBerry 8800
+ imei: 55124
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 6
+ provision_status_id: 1
+ account_id: 1 # Dennis Co
+ group_id: 1
+ last_online_time: <%= Time.now.to_s :db %> 
+ icon_id: 4
+ profile_id: 1
+ 
+device7:
+ id: 7
+ name: BlackBerry 8800
+ imei: 551211
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 9925
+ provision_status_id: 1
+ account_id: 2
+ last_online_time: <%= Time.now.to_s :db %> 
+ profile_id: 2
+ 
+device8:
+ id: 8
+ name: Fixture Device
+ imei: 1234567891
+ created_at: <%= Time.now.to_s :db %>
+ recent_reading_id: 9926
+ provision_status_id: 1
+ account_id: 6
+ last_online_time: <%= Time.now.to_s :db %>
+ profile_id: 3

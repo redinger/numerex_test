@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title><%= @page_title %></title>
+    <%= stylesheet_link_tag "common", "gotrack" %>
+    
+    <%= render :partial => 'layouts/includes/map_key' %>
+    
+    <%= javascript_include_tag "main", "layers", "utils" %>
+    <%= javascript_include_tag :defaults %>         
+  </head>
+  
+  <body>          
+    <%= render :partial => 'layouts/includes/header' %>    
+    
+    <div id="submenu">
+      <div style="float: left">
+        <% if ['groups','edits_group','new_group','create_group'].include?(controller.action_name)%>
+          <a href="/devices" >Vehicles</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups" class="current">Fleets</a>            
+        <%else%>
+          <a href="/devices" class="current">Vehicles</a>&nbsp; | &nbsp;<a href="/geofence">Geofences</a>&nbsp; | &nbsp;<a href="/devices/groups">Fleets</a>
+        <%end%>
+      </div>
+           
+      <div style="float: right">             
+        <%if controller.action_name == 'index' || controller.action_name == 'search_devices'%>
+          <a href="/devices/choose_MT" title="Add a new vehicle">Add New Vehicle</a>
+        <% elsif controller.action_name == 'groups'%>
+          <a href="/devices/new_group" title="Create new fleet">Add New Fleet</a>
+        <%end%>
+      </div>          
+      
+      <div style="clear:both"></div>
+    </div>
+    
+    <div id="content">
+      <%= yield %>
+    </div>
+    
+    <%= render :partial => 'layouts/includes/footer' %>
+  </body>
+</html>

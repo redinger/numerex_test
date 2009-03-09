@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init();">
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			[Bindable]
+			private var service_url:String = "http://localhost:3000/device/list";
+			
+			private function init():void {
+				deviceService.send();
+			}
+			
+			private function updateMap():void {
+				var t:XML = new XML(deviceService.lastResult);
+				var lats:XMLList = t..latitude;
+				var lngs:XMLList = t..longitude;
+				
+				mx.controls.Alert.show(lats+'');
+			}
+		]]>
+	</mx:Script>
+	<mx:HTTPService id="deviceService" url="{service_url}"
+		resultFormat="e4x" useProxy="false"
+		method="GET" />
+		
+		<mx:XMLListCollection id="deviceXLC" source="{XMLList(deviceService.lastResult.children())}" collectionChange="updateMap();" />
+		
+	<mx:DataGrid width="100%" height="100%" dataProvider="{deviceXLC}">
+		<mx:columns>
+			<mx:DataGridColumn dataField="id" visible="false" />
+			<mx:DataGridColumn headerText="Device Name" dataField="name" />
+			<mx:DataGridColumn headerText="Latitude" dataField="latitude" />
+			<mx:DataGridColumn headerText="Longitude" dataField="longitude" />
+			<mx:DataGridColumn headerText="Created At" dataField="created-at" />
+		</mx:columns>
+	</mx:DataGrid>
+</mx:Application>

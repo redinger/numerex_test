@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="init();">
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import flash.external.*;
+			
+			[Bindable]
+			private var service_url:String = "http://localhost:3000/devices.xml";
+			
+			[Embed(source="images/icons/overview.png")]
+         	public var overview:Class;
+         	
+         	[Embed(source="images/icons/device_list.png")]
+         	public var device_list:Class;
+         	
+         	[Embed(source="images/icons/reports.png")] 
+         	public var reports:Class;
+         	
+         	[Embed(source="images/icons/alarms.png")] 
+         	public var alarms:Class;
+         	
+         	[Embed(source="images/icons/accounts.png")] 
+         	public var accounts:Class;
+         	
+         	[Embed(source="images/icons/weather.png")] 
+         	public var weather:Class;
+			
+			private function setMap():void {
+				var pos:Object = new Object();
+				pos.x = vs.x + 2;
+				pos.y = 79;
+				pos.w = mapContainer.width;
+				pos.h = mapContainer.height;
+				var m:String = ExternalInterface.call("setMap", pos);
+			}
+			
+			private function init():void {
+				ExternalInterface.call("init");
+				viewList.selectedIndex = 0;
+				deviceService.send();
+			}
+			
+			private function showMap(visible:Boolean):void {
+				ExternalInterface.call("showMap", visible);
+			}
+			
+			private function displayView(index:Number):void {
+				vs.selectedIndex = index;
+				
+				if(index == 0)
+					showMap(true);
+				else
+					showMap(false);
+			}
+			
+			/*private function handleDeviceResult(event:ResultEvent):void {
+				var res:Object = event.result;
+				//mx.controls.Alert.show(res.children());
+			}*/
+			
+			private function updateMap():void {
+				var t:XML = new XML(deviceService.lastResult);
+				var lats:XMLList = t..latitude;
+				var lngs:XMLList = t..longitude;
+				var ids:XMLList = t..id;
+				var a:Array = [];
+
+				if(lats.length() > 0) {
+					for(var i:Number = 0; i < lats.length(); i++)
+						a[i] = {id: ids[i], lat: lats[i], lng: lngs[i]};
+					
+					ExternalInterface.call("addMarkers", a);
+				}
+			}
+			
+			
+			private function centerMap():void {
+				ExternalInterface.call("centerMap", device_dg.selectedItem.id);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Style source="stylesheets/flex.css" />
+	
+	<!-- Service to get device locations -->
+	<mx:HTTPService id="deviceService" url="{service_url}"
+		resultFormat="e4x" useProxy="false"
+		method="GET" />
+	
+	<mx:XMLListCollection id="deviceXLC" source="{XMLList(deviceService.lastResult.children())}" collectionChange="updateMap();"  />
+	
+	<mx:VBox x="0" y="0" width="100%" height="100%" verticalGap="2">
+		<mx:HBox width="100%" height="75" styleName="header">
+			<mx:VBox width="50%" height="100%">
+				<mx:Image source="@Embed('images/ublip_logo.png')" />
+			</mx:VBox>
+			<mx:VBox width="50%" height="100%" horizontalAlign="right" verticalAlign="middle">
+				<mx:HBox>
+					<mx:Text text="Search" /> <mx:TextInput width="100" /> <mx:Spacer width="10" />
+				</mx:HBox>
+			</mx:VBox> 
+		</mx:HBox>
+		
+		<mx:HDividedBox width="100%" height="100%" dividerPress="showMap(false);" dividerRelease="showMap(true);">
+			<mx:VDividedBox width="20%" height="100%">
+				<mx:Panel title="VIEWS" height="33%" width="100%">
+					<mx:List id="viewList" width="100%" height="100%" change="displayView(viewList.selectedIndex)" iconField="icon">
+						<mx:dataProvider>
+         					<mx:Array>
+					            <mx:Object label="Map Overview" data="" icon="overview"/>
+					            <mx:Object label="Device List" data="" icon="device_list" />
+					        	<mx:Object label="Alarm List" data="" icon="alarms" />
+					        	<mx:Object label="Accounts" data="" icon="accounts" />
+					        	<mx:Object label="Reports" data="" icon="reports" />
+					    	</mx:Array>     
+					    </mx:dataProvider>
+					</mx:List>
+				</mx:Panel>
+				<mx:Panel title="GROUPS" height="33%" width="100%">
+					<mx:List width="100%" height="100%">
+						<mx:dataProvider>
+							
+						</mx:dataProvider>
+					</mx:List>
+				</mx:Panel>
+				<mx:Panel title="LAYERS" height="33%" width="100%">
+					<mx:List width="100%" height="100%">
+						<mx:dataProvider>
+         					<mx:Array>
+					            <mx:Object label="Weather" data="" icon="weather"/>
+					            <mx:Object label="Traffic" data="" icon="weather"/>
+					        </mx:Array>
+					   	</mx:dataProvider>
+					</mx:List>
+				</mx:Panel>
+			</mx:VDividedBox>
+			<mx:ViewStack id="vs" width="80%" height="100%">
+				<mx:VDividedBox width="100%" height="100%" dividerPress="showMap(false);" dividerRelease="showMap(true);">
+					<mx:VBox width="100%" height="100%" resize="setMap();" id="mapContainer">
+					</mx:VBox>
+					<mx:VBox width="100%" height="250">
+						<mx:DataGrid width="100%" height="100%" dataProvider="{deviceXLC}" change="centerMap();" id="device_dg">
+							<mx:columns>
+								<mx:DataGridColumn dataField="id" visible="false" />
+								<mx:DataGridColumn headerText="Device Name" dataField="name" />
+								<mx:DataGridColumn headerText="Latitude" dataField="latitude" />
+								<mx:DataGridColumn headerText="Longitude" dataField="longitude" />
+								<mx:DataGridColumn headerText="IMEI" dataField="imei" />
+								<mx:DataGridColumn headerText="Created At" dataField="created-at" />
+							</mx:columns>
+						</mx:DataGrid>
+					</mx:VBox>
+				</mx:VDividedBox>
+				
+				<mx:VBox label="test" width="100%" height="100%">
+					<mx:DataGrid width="100%" height="100%" />
+				</mx:VBox>
+				<mx:Canvas label="test1" width="100%" height="100%">
+				</mx:Canvas>
+			</mx:ViewStack>
+		</mx:HDividedBox>
+	</mx:VBox>
+</mx:Application>

@@ -1,0 +1,38 @@
+<ul>
+  <li>
+    <h1>
+      <%= @device.name %>             
+      <%if @device.latest_gps_reading %>                
+        (<%= time_ago_in_words @device.latest_gps_reading.created_at %> ago)
+      <%else%> 
+        N/A
+      <%end%>
+    </h1>
+    
+    <%if @device.latest_gps_reading %>                
+      <%= @device.latest_gps_reading.short_address %> 
+    <%else%> 
+      N/A
+    <%end%>
+  </li>
+  
+  <li>                        
+    <img src="http://maps.google.com/staticmap?center=<%= @device.latest_gps_reading.latitude %>,<%= @device.latest_gps_reading.longitude %>&zoom=14&size=240x320&maptype=mobile&markers=<%= @device.latest_gps_reading.latitude %>,<%= @device.latest_gps_reading.longitude %>,<%= MAP_MARKER_COLOR[ @device.icon_id-1]%>&key=<%= Google_Maps_Api_Key %>" />                           
+  </li>
+  
+  <li>
+    <a href="#" onclick="window.location.reload(true);">Refresh</a>
+  </li>
+  
+  <li>
+    <a href="<%= session[:referral_url] %>">Back</a>
+  </li>
+  
+  <li>
+    <a href="/login/logout?f_mb=frm_mob">Sign out</a>
+  </li>
+  
+  <li class="2008_ublip">
+    &copy; 2008 <img src="/images/small-logo.png" alt=""  align="absmiddle"/>
+  </li>
+</ul>
