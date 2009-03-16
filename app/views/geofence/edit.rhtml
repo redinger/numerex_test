@@ -1,9 +1,9 @@
 <div class="container">
 <div id="ub_account_tbl">
-    <div><h3>Edit Geofence</h3></div>
+    <div><h3>Edit Location</h3></div>
     <div>
    <form method="post" id="geofence_form" onSubmit="return validate();">
-    <div> <input type="radio" id="radio" name="radio" value="1" <% if @geofence.account_id != 0 %>checked<%end%> onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level geofence.');<%else%>enableDevice(this);<%end%>" value="2" <% if @geofence.device_id != 0 %>checked<%end%> /> Device Level</div>
+    <div> <input type="radio" id="radio" name="radio" value="1" <% if @geofence.account_id != 0 %>checked<%end%> onclick="enableDevice(this);"/> Account Level   <input type="radio" id="radio" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create device level location.');<%else%>enableDevice(this);<%end%>" value="2" <% if @geofence.device_id != 0 %>checked<%end%> /> Vehicle Level</div>
     
     <div class="ub_editform">Choose the vehicle: <br/>
 		<select id="device" name="device" class="text_width" <% if @geofence.account_id != 0 && @geofence.device_id == 0%>disabled<% end %>>
@@ -13,12 +13,12 @@
 		</select>	  
     </div>
 	
-    <div>Geofence name: <br/>
+    <div>Location name: <br/>
       <input   name="name" type="text" class="text_width" value="<%= @geofence.name %>" />
     </div>
 	<input type="hidden" name="ref_url" value="<%= session[:referral_url] %>">
     
-    <div>Geofence address: <br/>
+    <div>Location address: <br/>
 		<input  id="address" name="address" class="text_width" value="<%= @geofence.address %>" type="text" />
     </div>
 
@@ -39,7 +39,7 @@
   <input type="hidden" name="bounds" />
   
   <div>
-    <input name="Create geofence" type="submit" value="update geofence" style="cursor:pointer;"/>	
+    <input name="Create geofence" type="submit" value="update location" style="cursor:pointer;"/>	
     <a href="<%= session[:referral_url] %>" >cancel</a>
   </div>
   </form>

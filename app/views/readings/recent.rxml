@@ -20,7 +20,7 @@ xml.devices do
         xml.lat(device.latest_gps_reading.latitude)
         xml.lng(device.latest_gps_reading.longitude)
         xml.address(device.latest_gps_reading.short_address)
-        xml.dt((time_ago_in_words device.latest_gps_reading.created_at) + ' ago')
+        xml.dt(standard_date_and_time(device.latest_gps_reading.created_at,Time.now))
         xml.note(device.latest_gps_reading.note)
         xml.status(latest_status_html(device))
         xml.direction(device.latest_gps_reading.direction)

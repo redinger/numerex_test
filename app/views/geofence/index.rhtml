@@ -1,13 +1,13 @@
 <div class="container">
   <div id="top_head">
-    <div><h3>All Geofences (<%= @geofences.size%> total)</h3></div>
+    <div><h3>All Locations (<%= @geofences.size%> total)</h3></div>
   </div>
   <%= render :partial=>"/layouts/flash_message"%>    
   <div>
     <table id="ub-table"> 
       <tr class="header">
         <td>&nbsp;</td>
-        <td>Geofence</td>
+        <td>Location</td>
         <td>For</td>
         <td>Address</td>
         <td>Radius</th>
@@ -27,7 +27,7 @@
            <td ><%= geofence.get_lat_lng %></td>
            <td ><%= geofence.radius.to_s + ' ' + 'miles' %></td>
            <td >                    
-             <a href="<%= delete_url(:id=>geofence.id)%>" onclick="return confirm('Are you sure you want to delete this geofence ?');">delete</a>
+             <a href="<%= delete_url(:id=>geofence.id)%>" onclick="return confirm('Are you sure you want to delete this location ?');">delete</a>
            </td>
          </tr>
        <% end %>        
@@ -35,7 +35,7 @@
      <%else%>
     </table>     
     <div id="alert">
-      <span>No geofences found.</span>
+      <span>No locations found.</span>
     </div>                       
     <%end%>		
   </div>

@@ -13,13 +13,13 @@
     <td>
       <strong>Detailed Reports</strong><br />
       <a href="/reports/stop/<%= @device.id %>" title="View stop events for this device">Stops</a> |
-      <a href="/reports/geofence/<%= @device.id %>" title="View geofence events for this device">Geofences</a>
+      <a href="/reports/geofence/<%= @device.id %>" title="View location events for this device">Locations</a>
     </td>
     <td align="center">
       <% if @device.geofences.size == 0 %>
-        You currently have 0 geofences set for this device.<br /><a href="/geofence/new/<%= @device.id %>">Click here</a> to add one.
+        You currently have 0 locations set for this device.<br /><a href="/geofence/new/<%= @device.id %>">Click here</a> to add one.
       <% else %>
-        You currently have <a href="/geofence/view/<%= @device.id %>" title="View geofences for this device"><%= @device.geofences.size %> geofences</a> set for this device.
+        You currently have <a href="/geofence/view/<%= @device.id %>" title="View locations for this device"><%= @device.geofences.size %> locations</a> set for this device.
       <% end %>
     </td>
     
@@ -52,12 +52,12 @@
           <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
             <td><a href="javascript:centerMapOnReading(<%= reading.id %>);highlightRow(<%= reading.id %>);"><%= reading.short_address %></a></td>
             <td><%= reading.speed/10 %></td>
-            <td><%= time_ago_in_words reading.created_at %> ago</td>
+            <td><%= standard_date_and_time(reading.created_at,Time.now) %></td>
             <td>
               <% if reading.event_type.index('enter') %>
-                <a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Enter geofence</a>
+                <a href="/reports/geofence/<%= params[:id] %>" title="View location report">Enter location</a>
               <% elsif reading.event_type.index('exit') %>
-                <a href="/reports/geofence/<%= params[:id] %>" title="View geofence report">Exit geofence</a>
+                <a href="/reports/geofence/<%= params[:id] %>" title="View location report">Exit location</a>
               <% elsif reading.event_type =='startstop_et41' %>
                 <a href="/reports/stop/<%= params[:id] %>" title="View stop report">Stop</a>
               <% else %>
@@ -90,11 +90,3 @@
 <script>
   var device_id = <%= @device.id %>;
 </script>
-
-<!--
-<div>Events</div>
-<div>Map</div>
-<div>Location history w/paging</div>
-<div>Weather</div>
-<div>Geofences</div>
--->

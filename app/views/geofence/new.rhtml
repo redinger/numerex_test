@@ -1,17 +1,17 @@
 <div class="container">
   <div id="ub_account_tbl">
     <div>
-      <h3>Add New Geofences</h3>
+      <h3>Add New Locations</h3>
     </div>
 
     <form method="post" id="geofence_form" onsubmit="return validate();">
       <div style="background-color: #EDF3FE; padding: 10px;">
         <div>
           <div>
-            <strong>This geofence applies to:</strong>
+            <strong>This location applies to:</strong>
           </div>	 			
           <input type="radio" id="all" name="radio" value="1" checked onclick="enableDevice(this);"/> All vehicles in this account<br />
-          <input type="radio" id="single" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create vehicle-level geofences');<%else%>enableDevice(this);<%end%>" value="2" /> A single vehicle
+          <input type="radio" id="single" name="radio" onclick="<%if @devices.empty?%>alert('You can\'t create vehicle-level locations');<%else%>enableDevice(this);<%end%>" value="2" /> A single vehicle
 		
           <select id="device" name="device"  class="text_width" disabled style="margin-top: 5px;">
             <% @devices.each do |device| %>
@@ -22,14 +22,14 @@
 
        <div>
          <div>
-           <strong>Geofence name:</strong>
+           <strong>Location name:</strong>
          </div>
          <input name="name" type="text" class="text_width" />
        </div>
 	
        <div>
          <div>
-           <strong>Geofence address:</strong>
+           <strong>Location address:</strong>
          </div>
          <input id="address" name="address" type="text" class="text_width" />
        </div>
@@ -53,7 +53,7 @@
      <input type="hidden" name="bounds"/>
 
      <div style="margin-top: 15px;">    
-       <input name="Create geofence" type="submit" value="create geofence"/>	    
+       <input name="Create geofence" type="submit" value="create location"/>	    
        <a href="<%= session[:referral_url] %>" >cancel</a>
      </div>
    </form>

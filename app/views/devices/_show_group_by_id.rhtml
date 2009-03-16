@@ -28,7 +28,7 @@
             <th width="30">
             </th>
             <th>
-            Last Location
+            Last Address
             </th>
             <th>
             Last Report
@@ -75,7 +75,7 @@
         </td>
         <td>
         <% if device.latest_gps_reading %>
-        <%= time_ago_in_words device.latest_gps_reading.created_at %> ago <% else %>N/A<% end %>
+        <%= standard_date_and_time(device.latest_gps_reading.created_at,Time.now) %><% else %>N/A<% end %>
         </td>
         </tr>
         <% end %>
@@ -139,8 +139,7 @@
         <% else %>N/A<% end %>
         </td>
         <td>
-        <% if device.device.latest_gps_reading %>
-        <%= time_ago_in_words device.device.latest_gps_reading.created_at %> ago <% else %>N/A<% end %>
+        <% if device.device.latest_gps_reading %><%= standard_date_and_time(device.latest_gps_reading.created_at,Time.now) %><% else %>N/A<% end %>
         </td>
         </tr>
         <% end %>
