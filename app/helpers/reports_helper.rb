@@ -30,7 +30,7 @@ module ReportsHelper
     end 
     content << %(</td><td>)    
     if device.latest_gps_reading 
-      content << %(reported #{time_ago_in_words device.latest_gps_reading.created_at} ago )
+      content << standard_date_and_time(device.latest_gps_reading.created_at,Time.now)
     else 
       content << %(no report yet) 
     end  

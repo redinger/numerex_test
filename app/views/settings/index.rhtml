@@ -19,7 +19,7 @@
 	<h2>Notifications</h2>
 	Check the box below if you'd like to receive exception notifications for this account.
 	All exceptions will be sent to the email address associated with your account.
-	Exceptions include entering a geofence, exiting a geofence, and when a vehicle goes offline.<br />
+	Exceptions include entering a location, exiting a location, and when a vehicle goes offline.<br />
     <div class="settings_notification">
      <div><input name="notify"    type="radio"  value="0" <% if @user.enotify == 0 %> checked="checked"<% end %> onclick="Element.hide('to_update');" /> Disable Notifications </div>
      <div><input name="notify"   type="radio"  value="1"  <% if @user.enotify == 1%> checked="checked"<% end %> onclick="Element.hide('to_update');"/> Enable notifications for all vehicles in this account</div>

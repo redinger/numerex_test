@@ -1,5 +1,30 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  
+  STANDARD_DATE_FORMAT = '%d-%b-%Y'
+  STANDARD_TIME_FORMAT = '%I:%M %p'
+  
+  def standard_date_and_time(target_datetime,previous_datetime = nil)
+    result = standard_date(target_datetime,previous_datetime)
+    return standard_time(target_datetime) if result == '&nbsp;'
+    result + ' ' + standard_time(target_datetime)
+  end
+  
+  def standard_date(target_datetime,previous_datetime = nil)
+    result = target_datetime.in_time_zone.strftime(STANDARD_DATE_FORMAT)
+    return result if previous_datetime.nil? or result != previous_datetime.in_time_zone.strftime(STANDARD_DATE_FORMAT)
+    '&nbsp;'
+  end
+  
+  def standard_time(target_datetime)
+    target_datetime.in_time_zone.strftime(STANDARD_TIME_FORMAT)
+  end
+  
+  def standard_duration(duration)
+    hours = duration.to_i / 60
+    minutes = duration.to_i % 60
+    sprintf('%02d:%02d',hours,minutes)
+  end
 
   def box_pagination_links(paginator, options={})
     options.merge!(ActionView::Helpers::PaginationHelper::DEFAULT_OPTIONS) {|key, old, new| old}
@@ -87,13 +112,13 @@ module ApplicationHelper
     end
     content << %(</td><td>)
     if device.latest_gps_reading
-      content << %(reported #{time_ago_in_words device.latest_gps_reading.created_at} ago )
+      content << standard_date_and_time(device.latest_gps_reading.created_at,Time.now)
     else
       content << %(no report yet)
     end
     content << %(</td><td >)
     content << %(<a href="/devices/edit/#{device.id}" title="Edit properties for this device">Edit</a> |
-					  <a href="#{view_path(:id=>device.id)}" title="Create and edit geofences for this device">Geofences</a>
+					  <a href="#{view_path(:id=>device.id)}" title="Create and edit locations for this device">Locations</a>
 				</td></tr>)
     content
   end

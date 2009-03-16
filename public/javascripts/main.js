@@ -298,12 +298,12 @@ function getDeviceById(id) {
 function createDeviceHtml(id) {
 	var device = getDeviceById(id);
 	
-	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span> was last seen at ' + '<br /><span class="blue_bold">' + device.address + '</span><br /><span class="blue_bold">' + device.dt + '</span><br />';
+	var html = '<div class="dark_grey"><span class="blue_bold">' + device.name + '</span><br/>was last seen ' + device.status + '<br />at <span class="blue_bold">' + device.address + '</span><br />on <span class="blue_bold">' + device.dt + '</span><br />';
 	
 	if(device.note != '')
 		html += '<br /><strong>Note:</strong> ' + device.note + '<br/>';
 		
-	html += '<br /><a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/reports/all/' + id + '">View details</a></div>';
+	html += '<br /><a href="javascript:gmap.setZoom(15);">Zoom in</a> | <a href="/reports/trip/' + id + '">View details</a></div>';
 	return html;
 }
 

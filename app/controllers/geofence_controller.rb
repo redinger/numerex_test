@@ -27,7 +27,7 @@ class GeofenceController < ApplicationController
         flash[:success] = "#{geofence.name} created succesfully"
         redirect_to geofence_url
       else
-        flash[:error] = 'Geofence not created'
+        flash[:error] = 'Location not created'
       end
     end
   end

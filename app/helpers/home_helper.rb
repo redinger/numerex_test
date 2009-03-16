@@ -44,7 +44,7 @@ module HomeHelper
 
     content << %(<td>)
     if device.latest_gps_reading
-      content << %(#{time_ago_in_words device.latest_gps_reading.created_at} ago)
+      content << standard_date_and_time(device.latest_gps_reading.created_at,Time.now)
     else
       content << %(N/A)
     end
