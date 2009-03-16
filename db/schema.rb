@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081030211017) do
+ActiveRecord::Schema.define(:version => 20090315232828) do
 
   create_table "accounts", :force => true do |t|
     t.string   "company",          :limit => 75
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20081030211017) do
     t.boolean  "last_gpio2"
     t.string   "gateway_name"
     t.datetime "speeding_at"
+    t.boolean  "transient"
   end
 
   add_index "devices", ["imei"], :name => "imei", :unique => true
@@ -140,16 +141,21 @@ ActiveRecord::Schema.define(:version => 20081030211017) do
     t.float    "altitude"
     t.float    "speed"
     t.float    "direction"
-    t.integer  "device_id",  :limit => 11
+    t.integer  "device_id",     :limit => 11
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "event_type", :limit => 25
+    t.string   "event_type",    :limit => 25
     t.string   "note"
-    t.string   "address",    :limit => 1024
-    t.boolean  "notified",                   :default => false
+    t.string   "address",       :limit => 1024
+    t.boolean  "notified",                      :default => false
     t.boolean  "ignition"
     t.boolean  "gpio1"
     t.boolean  "gpio2"
+    t.boolean  "geocoded",                      :default => false, :null => false
+    t.string   "street_number"
+    t.string   "street"
+    t.string   "place_name"
+    t.string   "admin_name1"
   end
 
   add_index "readings", ["device_id", "created_at"], :name => "readings_device_id_created_at"
@@ -191,6 +197,8 @@ ActiveRecord::Schema.define(:version => 20081030211017) do
     t.integer  "reading_stop_id",  :limit => 11
     t.integer  "duration",         :limit => 11
     t.datetime "created_at"
+    t.float    "distance"
+    t.integer  "idle",             :limit => 11
   end
 
   create_table "users", :force => true do |t|

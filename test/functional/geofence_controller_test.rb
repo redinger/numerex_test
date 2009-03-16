@@ -61,7 +61,7 @@ class GeofenceControllerTest < Test::Unit::TestCase
   
   def test_invalid_device
      post :new, {:id => "1", :name =>"", :bounds=>"1,1,1", :address=>"1600 Penn Ave"}, { :user => users(:dennis), :account_id => "1" }
-     assert_equal flash[:error], "Geofence not created"      
+     assert_equal flash[:error], "Location not created"      
   end
   
   def test_create

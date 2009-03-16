@@ -1,11 +1,11 @@
 require 'fastercsv'
-ResultCount = 25 # Number of results per page
+ResultCount = 50 # Number of results per page
 
 class ReportsController < ApplicationController
   before_filter :authorize
   before_filter :authorize_device, :except => ['index','trip_detail']
   DayInSeconds = 86400
-  NUMBER_OF_DAYS = 7
+  NUMBER_OF_DAYS = 0 # default to today
   MAX_LIMIT = 999 # Max number of results
 
   def index
@@ -28,14 +28,25 @@ class ReportsController < ApplicationController
     get_start_and_end_date
     @device = Device.find(params[:id])
     @device_names = Device.get_names(session[:account_id])
+    
+    needy_events = TripEvent.find(:all,:conditions => ["device_id = ? and created_at between ? and ? and duration is not null and (distance is null or idle is null)",params[:id],@start_dt_str, @end_dt_str])
+    for event in needy_events
+      event.update_stats
+    end
+    
     @trip_events = TripEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
       :readonly => true,# NOTE: this causes some problems, but would be nice... :include => [:reading_start,:reading_stop],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @readings = @trip_events
     @record_count = TripEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
+
+    @total_travel_time = TripEvent.sum(:duration,:conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str])
+    @total_idle_time = TripEvent.sum(:idle,:conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str])
+    @total_distance = TripEvent.sum(:distance,:conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str])
+    @max_speed = Reading.maximum(:speed,:conditions => ['device_id = ? and created_at between ? and ?',params[:id],@start_dt_str, @end_dt_str])
   end
   
   def trip_detail
@@ -43,7 +54,7 @@ class ReportsController < ApplicationController
     @device = @trip.device
     @device_names = Device.get_names(session[:account_id])
     conditions = @trip.reading_stop ? ["device_id = ? and created_at between ? and ?",@trip.device_id,@trip.reading_start.created_at,@trip.reading_stop.created_at] : ["device_id = ? and created_at >= ?",@trip.device_id,@trip.reading_start.created_at]
-    @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], :conditions => conditions, :order => "created_at desc")
+    @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page], :conditions => conditions, :order => "created_at asc")
     @record_count = Reading.count('id', :conditions => conditions)
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
@@ -55,13 +66,12 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @record_count = Reading.count('id',
       :conditions => ["device_id = ? and created_at between ? and ?", params[:id],@start_dt_str, @end_dt_str])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
   end
-
   
   def speeding
     get_start_and_end_date
@@ -69,7 +79,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @readings=Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and speed > ? and created_at between ? and ?",params[:id],(@device.account.max_speed or -1),@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @record_count = Reading.count('id',
       :conditions => ["device_id = ? and speed > ? and created_at between ? and ?", params[:id],(@device.account.max_speed or -1),@start_dt_str, @end_dt_str])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data are going to be different in numbers.
@@ -82,7 +92,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @stop_events = StopEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @readings = @stop_events
     @record_count = StopEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
@@ -95,7 +105,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @idle_events = IdleEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @readings = @idle_events
     @record_count = IdleEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
@@ -108,7 +118,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @runtime_events = RuntimeEvent.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ?",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @readings = @runtime_events
     @record_count = RuntimeEvent.count('id', :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count # this is because currently we are putting  MAX_LIMIT on export data so export and view data going to be diferent in numbers.
@@ -123,7 +133,7 @@ class ReportsController < ApplicationController
     @geofences = Device.find(params[:id]).geofences # Geofences to display as overlays
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ? and event_type like '%geofen%'",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @record_count = Reading.count('id', :conditions => ["device_id = ? and event_type like '%geofen%' and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
@@ -136,7 +146,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ? and gpio1 is not null",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @record_count = Reading.count('id', :conditions => ["device_id = ? and gpio1 is not null and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
@@ -149,7 +159,7 @@ class ReportsController < ApplicationController
     @device_names = Device.get_names(session[:account_id])
     @readings = Reading.paginate(:per_page=>ResultCount, :page=>params[:page],
       :conditions => ["device_id = ? and created_at between ? and ? and gpio2 is not null",params[:id],@start_dt_str, @end_dt_str],
-      :order => "created_at desc")
+      :order => "created_at asc")
     @record_count = Reading.count('id', :conditions => ["device_id = ? and gpio2 is not null and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str])
     @actual_record_count = @record_count
     @record_count = MAX_LIMIT if @record_count > MAX_LIMIT
@@ -169,30 +179,30 @@ class ReportsController < ApplicationController
     end
     get_start_and_end_date
     if params[:type]=='stop'
-      events = StopEvent.find(:all, {:order => "created_at desc",
+      events = StopEvent.find(:all, {:order => "created_at asc",
         :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str]})
     elsif params[:type] == 'idle'
-      events = IdleEvent.find(:all, {:order => "created_at desc",
+      events = IdleEvent.find(:all, {:order => "created_at asc",
         :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str]})
     elsif params[:type] =='runtime'
-      events = RuntimeEvent.find(:all, {:order => "created_at desc",
+      events = RuntimeEvent.find(:all, {:order => "created_at asc",
         :conditions => ["device_id = ? and created_at between ? and ?", params[:id], @start_dt_str, @end_dt_str]})
     else
-      readings = Reading.find(:all,:order => "created_at desc",:offset => ((params[:page].to_i-1)*ResultCount),:limit=>MAX_LIMIT,
+      readings = Reading.find(:all,:order => "created_at asc",:offset => ((params[:page].to_i-1)*ResultCount),:limit=>MAX_LIMIT,
         :conditions => ["device_id = ? and event_type like ? and created_at between ? and ?", params[:id],event_type,@start_dt_str,@end_dt_str])
     end
     # Name of the csv file
     @filename = params[:type] + "_" + params[:id] + ".csv"
     csv_string = FasterCSV.generate do |csv|
       if ['stop','idle','runtime'].include?(params[:type])
-        csv << ["Location","#{params[:type].capitalize} Duration (m)","Started","Latitude","Longitude"]
+        csv << ["Address","#{params[:type].capitalize} Duration (m)","Started","Latitude","Longitude"]
         events.each do |event|
           local_time = event.get_local_time(event.created_at.in_time_zone.inspect)
           address = event.reading.nil? ? "#{event.latitude};#{event.longitude}" : event.reading.short_address
           csv << [address,((event.duration.to_s.strip.size > 0) ? event.duration : 'Unknown'),local_time, event.latitude,event.longitude]
         end
       else
-        csv << ["Location","Speed (mph)","Started","Latitude","Longitude","Event Type"]
+        csv << ["Address","Speed (mph)","Started","Latitude","Longitude","Event Type"]
         readings.each do |reading|
           local_time = reading.get_local_time(reading.created_at.in_time_zone.inspect)
           csv << [reading.short_address,reading.speed,local_time,reading.latitude,reading.longitude,reading.event_type]
@@ -206,7 +216,7 @@ class ReportsController < ApplicationController
   end
 
   def speed
-    @readings = Reading.find(:all, :order => "created_at desc", :limit => ResultCount, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
+    @readings = Reading.find(:all, :order => "created_at asc", :limit => ResultCount, :conditions => "event_type='speeding_et40' and device_id='#{params[:id]}'")
   end
 
   private

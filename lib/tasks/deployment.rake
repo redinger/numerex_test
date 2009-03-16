@@ -18,7 +18,7 @@ namespace :ublip do
     customer = ENV['customer']
     svn_base = customer.nil? ? get_svn_base : DeployManagerClient.get_repo(customer)
     prod_url = "#{svn_base}/tags/current_production_build"
-    execute_cmd("svn delete #{prod_url} -m 'removing previous production build'")
+    execute_cmd("svn delete #{prod_url} -m \"removing previous production build\"")
     cmd = "svn copy #{svn_base}/tags/current_staging_build #{prod_url} -m \"moving staging build to prod\""
     execute_cmd(cmd)
   end
