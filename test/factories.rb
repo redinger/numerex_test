@@ -48,6 +48,7 @@ end
 Factory.define :reading do |r|
   r.device {|device| device.association(:device, :imei => "1234567890")}
   r.event_type "normal"
+  r.created_at Time.now
 end
 
 Factory.define :group do |g|
@@ -58,6 +59,12 @@ end
 Factory.define :group_notification do |gn|
   gn.group {|group| group.association(:group)}
   gn.user {|user| user.association(:user)}
+end
+
+Factory.define :idle_event do |i|
+  i.latitude 1
+  i.longitude 2
+  i.created_at Time.now
 end
 
 Factory.define :device_profile do |dp|
