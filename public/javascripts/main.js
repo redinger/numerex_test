@@ -26,9 +26,9 @@ function load()
 	
    // iconALL.image = "/icons/ublip_marker.png";
     iconALL.shadow = "/images/ublip_marker_shadow.png";
-    iconALL.iconSize = new GSize(23, 34);
-    iconALL.iconAnchor = new GPoint(11, 34);
-    iconALL.infoWindowAnchor = new GPoint(11, 34);
+    iconALL.iconSize = new GSize(23,34);
+    iconALL.iconAnchor = new GPoint(11.5,34);
+    iconALL.infoWindowAnchor = new GPoint(11.5,34);
 	
 	var infoWin = gmap.getInfoWindow();
     
@@ -127,7 +127,7 @@ function getRecentReadings(redrawMap,id)  // code cleanup remains
         var statuses = xml.documentElement.getElementsByTagName("status");
         var notes = xml.documentElement.getElementsByTagName("note");
         var directions = xml.documentElement.getElementsByTagName("direction");
-        var stops = xml.documentElement.getElementsByTagName("stop");
+        var speeds = xml.documentElement.getElementsByTagName("speed");
         var icon_id = xml.documentElement.getElementsByTagName("icon_id");		        
         for(var i = 0; i < lats.length; i++) {              
           if(lats[i].firstChild) {
@@ -150,7 +150,7 @@ function getRecentReadings(redrawMap,id)  // code cleanup remains
             if(notes[i].firstChild != undefined)
               note = notes[i].firstChild.nodeValue;        
 
-            var device = {id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, status: statuses[i].firstChild.nodeValue, direction: directions[i].firstChild.nodeValue, stop: stops[i].firstChild.nodeValue == 'true'};
+            var device = {icon_id: icon_id_1, id: ids[i].firstChild.nodeValue, name: names[i].firstChild.nodeValue, lat: lats[i].firstChild.nodeValue, lng: lngs[i].firstChild.nodeValue, address: address, dt: dts[i].firstChild.nodeValue, note: note, status: statuses[i].firstChild.nodeValue, direction: directions[i].firstChild.nodeValue, speed: speeds[i].firstChild.nodeValue};
             devices.push(device);    
             populate_the_table(device,frm_index,bounds); // Populate the table
         }
@@ -201,10 +201,34 @@ function populate_the_table(device,frm_index,bounds)
         }   
     }	                        
     var point = new GLatLng(device.lat, device.lng);
-	if (!device.stop)
-		gmap.addOverlay(createMarker(device.id, point, createArrow(device.direction), createDeviceHtml(device.id),device.id));
     gmap.addOverlay(createLabeledMarker(device.id, point, device.name, getMarkerType(-1,device), createDeviceHtml(device.id),device.id));
+	if (device.speed == 0)
+		gmap.addOverlay(createMarker(device.id, point, createStop(), createDeviceHtml(device.id),device.id));
+	else
+		gmap.addOverlay(createMarker(device.id, point, createArrow(device.direction), createDeviceHtml(device.id),device.id));
     bounds.extend(point);
+}
+
+// setting the marker image
+function get_marker_image_for_device(icon_id){
+  if (icon_id == 1)
+    return "/icons/ublip_marker.png" ;
+  else if (icon_id == 2)
+    return "/icons/ublip_red.png" ;
+  else if (icon_id == 3)
+    return "/icons/green_big.png" ;
+  else if (icon_id == 4)
+    return "/icons/yellow_big.png" ;
+  else if (icon_id == 5)
+    return "/icons/purple_big.png" ;
+  else if (icon_id == 6)
+    return "/icons/dark_blue_big.png" ;
+  else if (icon_id == 7)
+    return "/icons/grey_big.png" ;
+  else if (icon_id == 8)
+    return "/icons/orange_big.png" ;
+  else                
+    return "/icons/ublip_marker.png";
 }
 
 // setting the marker image
@@ -394,8 +418,8 @@ function getMarkerType(index, obj) {
 	var speed = obj.speed;
 	var icon = new GIcon();	
 	icon.iconSize = new GSize(23, 34);
-	icon.iconAnchor = new GPoint(11, 34);
-	icon.infoWindowAnchor = new GPoint(11, 34);
+	icon.iconAnchor = new GPoint(11.5, 34);
+	icon.infoWindowAnchor = new GPoint(11.5, 34);
     icon.shadow = "/images/ublip_marker_shadow.png";
 	
 	if (obj.start)
@@ -403,11 +427,9 @@ function getMarkerType(index, obj) {
 	else if (obj.stop)
 		icon.image = '/icons/stop_marker.png';
 	else if (index < 0)
-	    icon.image = "/icons/ublip_marker.png";
-	else if(event.indexOf('geofen') > -1 || event.indexOf('stop') > -1)
-		icon.image = "/icons/" + (index+1) + "_red.png";
+	    icon.image = get_marker_image_for_device(obj.icon_id);
 	else
-	    icon.image = "/icons/" + (index+1) + ".png";
+	    icon.image = "/icons/blue_big.png";
 	
 	return icon;
 }
@@ -462,6 +484,16 @@ function getBreadcrumbs(id) {
 		
 	});
 }
+
+function createStop()
+{
+	iconStop = new GIcon();
+   	iconStop.image = "/icons/stop_overlay.png";
+   	iconStop.iconSize = new GSize(23,34);
+    iconStop.iconAnchor = new GPoint(11.5,34);
+    iconStop.infoWindowAnchor = new GPoint(15,0);
+	return iconStop;
+}
 		
 function createArrow(dir) {
 	var icondir = '';
@@ -485,9 +517,9 @@ function createArrow(dir) {
 	}
 	iconArrow = new GIcon();
    	iconArrow.image = "/icons/arrows/" + icondir + ".png";
-   	iconArrow.iconSize = new GSize(45, 45);
-    iconArrow.iconAnchor = new GPoint(22.5, 45);
-    iconArrow.infoWindowAnchor = new GPoint(15, 0);
+   	iconArrow.iconSize = new GSize(23,34);
+    iconArrow.iconAnchor = new GPoint(11.5,34);
+    iconArrow.infoWindowAnchor = new GPoint(15,0);
 	return iconArrow;
 }	
 		
@@ -497,9 +529,9 @@ function createPast(point, event_type, spd)
 		iconNow = new GIcon();
    		iconNow.image = "/icons/" + iconcount + ".png";
    		iconNow.shadow = "/images/ublip_marker_shadow.png";
-    	iconNow.iconSize = new GSize(22, 35);
-    	iconNow.iconAnchor = new GPoint(11, 34);
-    	iconNow.infoWindowAnchor = new GPoint(15, 0);
+    	iconNow.iconSize = new GSize(23,34);
+    	iconNow.iconAnchor = new GPoint(11.5,34);
+    	iconNow.infoWindowAnchor = new GPoint(15,0);
 		
 		var marker;
 		

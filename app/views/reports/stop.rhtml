@@ -33,7 +33,8 @@
                   <% end %>
               </td>
               
-              <td><script>document.write(displayLocalDT(<%= stop_event.created_at.to_i*1000 %>));</script></td>
+              <td style="text-align:right;"><%= standard_date_and_time(stop_event.created_at,previous_datetime) %></td>
+			  <% previous_datetime = stop_event.created_at %>
             </tr>
             
             <script>readings.push({id: <%= stop_event.id %>, lat: <%= stop_event.latitude %>, lng: <%= stop_event.longitude%>, address: '<%= escape_javascript(stop_event.reading.short_address) if !stop_event.reading.nil?%>', dt: displayLocalDT(<%= stop_event.created_at.to_i*1000 %>), event: 'stop', note: ''});</script>            

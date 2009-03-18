@@ -13,6 +13,7 @@
 				<% if @readings.empty? %> 
 					<% flag = true %>
 				<% else %>
+     	  			<% previous_datetime = nil %>
 					<% for reading in @readings %>
 						<tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= reading.id %>">
 							<td>
@@ -24,10 +25,11 @@
 							</td>
 							<td><%= reading.speed %></td>
 							<td><%= render :partial => 'event_display',:locals => {:reading => reading} %></td>
-							<td><script>document.write(displayLocalDT(<%= reading.created_at.to_i*1000 %>));</script></td>
+  			                <td style="text-align:right;"><%= standard_date_and_time(reading.created_at,previous_datetime) %></td>
+							<% previous_datetime = reading.created_at %>
 						</tr>                                                              
 						<% if reading.short_address !=', '%>
-							<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude %>, address: '<%= escape_javascript reading.short_address %>', dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= escape_javascript reading.note %>', event: '<%= reading.event_type %>'});</script>
+							<script>readings.push({id: <%= reading.id %>, lat: <%= reading.latitude %>, lng: <%= reading.longitude %>, address: '<%= escape_javascript reading.short_address %>', direction: <%= reading.direction %>, dt: displayLocalDT(<%= reading.created_at.to_i*1000 %>), note: '<%= escape_javascript reading.note %>', event: '<%= reading.event_type %>'});</script>
 						<% end %>
 					<% end %>
                  <% end %>
