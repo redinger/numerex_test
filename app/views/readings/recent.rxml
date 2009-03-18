@@ -15,7 +15,7 @@ xml.devices do
         xml.note
         xml.status
         xml.direction
-        xml.stop
+        xml.speed
       else # We got data
         xml.lat(device.latest_gps_reading.latitude)
         xml.lng(device.latest_gps_reading.longitude)
@@ -24,7 +24,7 @@ xml.devices do
         xml.note(device.latest_gps_reading.note)
         xml.status(latest_status_html(device))
         xml.direction(device.latest_gps_reading.direction)
-        xml.stop(device.latest_gps_reading.speed == 0)
+        xml.speed(device.latest_gps_reading.speed || 0)
       end     
     end
   end

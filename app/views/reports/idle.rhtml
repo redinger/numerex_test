@@ -11,6 +11,7 @@
         </tr>                
         <%if !@idle_events.empty?%> 
           <% count = 0 %>
+     	  <% previous_datetime = nil %>
           <% for idle_event in @idle_events %>
             <tr class="<%= cycle('dark_row', 'light_row') %>" id="row<%= idle_event.id %>">
               <td>
@@ -32,7 +33,8 @@
                 <% end %>
               </td>
               
-              <td><script>document.write(displayLocalDT(<%= idle_event.created_at.to_i*1000 %>));</script></td>
+              <td style="text-align:right;"><%= standard_date_and_time(idle_event.created_at,previous_datetime) %></td>
+			  <% previous_datetime = idle_event.created_at %>
             </tr>
               
             <script>readings.push({id: <%= idle_event.id %>, lat: <%= idle_event.latitude %>, lng: <%= idle_event.longitude%>, address: '<%= escape_javascript(idle_event.reading.short_address) %>', dt: displayLocalDT(<%= idle_event.created_at.to_i*1000 %>), event: 'idle', note: ''});</script>
