@@ -10,10 +10,22 @@ class ApplicationController < ActionController::Base
   before_filter :create_referral_url
   before_filter :set_time_zone
   
-  helper_method :current_account
+  helper_method :all_groups,:all_devices,:current_account,:default_devices
+  
+  def all_groups
+    @all_groups ||= Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name', :include=>[:devices])    
+  end
+  
+  def all_devices
+    @all_devices ||= Device.find(:all, :conditions=>['account_id=? and provision_status_id=1',session[:account_id]], :order=>'name', :include => :profile)                           
+  end
   
   def current_account
     @current_account ||= Account.find(session[:account_id])
+  end
+  
+  def default_devices
+    @default_devices ||= Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name', :include => :profile)                           
   end
   
   # NOTE this might be a nice mixin to be applied to ActiveRecord to complement #update_attribute
@@ -72,15 +84,28 @@ class ApplicationController < ActionController::Base
       false
     end           
   end
+  
+  def set_home_selection(selection)
+    if selection.nil?
+      session[:group_value] = 'all'
+      session[:home_device] = nil
+    elsif (group_id = selection.to_i) < 0
+      session[:group_value] = 'all'
+      session[:home_device] = (-group_id).to_s
+    else
+      session[:group_value] = selection
+      session[:home_device] = nil
+    end
+  end
 
-  def assign_the_selected_group_to_session        
-    session[:group_value]="all"  if session[:group_value].nil?        
+  def assign_the_selected_group_to_session
+    set_home_selection(nil)  if session[:group_value].nil?
     if session[:group_value]=="all"
       if session[:home_device]
         @groups= []
         @show_default_devices = false
       else
-        @groups= @all_groups          
+        @groups = all_groups          
         @show_default_devices = true
       end
     elsif session[:group_value]=="default"             

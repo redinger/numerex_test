@@ -1,7 +1,7 @@
 module HomeHelper
 
   def update_readings_automatically?
-    params[:action] == "index"
+    params[:action] != "status"
   end
 
   def decide_action 

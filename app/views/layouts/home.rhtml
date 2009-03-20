@@ -18,13 +18,12 @@
   <body onload="load();">
     <%= render :partial => 'layouts/includes/header' %>
   
-    <% if current_account.show_statistics or current_account.show_maintenance %>
-      <div id="submenu" style="background-color:white;padding-bottom:0px;">
-        <% if params[:action] == 'index' %><a href="<%= url_for(:controller=>"home") %>" class="current" >Locations</a><% else %><a href="<%= url_for(:controller=>"home")%>">Locations</a><% end %>  
-        <% if current_account.show_statistics %> | <% if params[:action] == 'statistics' %><a href="<%= url_for(:controller=>"home",:action=>"statistics") %>" class="current" >Statistics</a><% else %><a href="<%= url_for(:controller=>"home",:action=>"statistics")%>">Statistics</a><% end %><% end %>
-        <% if current_account.show_maintenance %> | <% if params[:action] == 'maintenance' %><a href="<%= url_for(:controller=>"home",:action=>"maintenance") %>" class="current" >Maintenance</a><% else %><a href="<%= url_for(:controller=>"home",:action=>"maintenance")%>">Maintenance</a><% end %><% end %>
-      </div>
-    <% end %>
+	<div id="submenu" style="background-color:white;padding-bottom:0px;">
+		<% if params[:action] == 'locations' %><a href="<%= url_for(:controller=>"home",:action=>"locations") %>" class="current" >Locations</a><% else %><a href="<%= url_for(:controller=>"home",:action=>"locations")%>">Locations</a><% end %> |
+		<% if params[:action] == 'status' %><a href="<%= url_for(:controller=>"home",:action=>"status") %>" class="current" >Vehicle Status</a><% else %><a href="<%= url_for(:controller=>"home",:action=>"status")%>">Vehicle Status</a><% end %>
+		<% if current_account.show_statistics %> | <% if params[:action] == 'statistics' %><a href="<%= url_for(:controller=>"home",:action=>"statistics") %>" class="current" >Statistics</a><% else %><a href="<%= url_for(:controller=>"home",:action=>"statistics")%>">Statistics</a><% end %><% end %>
+		<% if current_account.show_maintenance %> | <% if params[:action] == 'maintenance' %><a href="<%= url_for(:controller=>"home",:action=>"maintenance") %>" class="current" >Maintenance</a><% else %><a href="<%= url_for(:controller=>"home",:action=>"maintenance")%>">Maintenance</a><% end %><% end %>
+	</div>
   
     <div id="content">
       <table  width="100%">                                        
@@ -35,34 +34,17 @@
                 <td class="header" >                                         
 				  	<table style="float:left;">
 				  		<tr>
-				  			<td style="padding:0px;border:0px;">Locations for:</td>
-							<td style="padding:0px;border:0px;">
-							    <select id="group_type" class="device_summery_select" name="group_type" onchange="<%= decide_action %>;"> 
-							      <option id=""  value="new">New fleet</option>
-							      <option id=""  value="edit">Edit fleets</option>
-							      <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-							      <option value="all" <%if session[:group_value] == 'all' and not session[:home_device] %> selected class="bgcolor"<%end%>>  All Fleets  </option>            
-							      <% for group in @all_groups %>
-							        <option <%if session[:group_value].to_i == group.id and not session[:home_device] %> selected class="bgcolor"<%end%> value='<%= group.id%>'><%= group.name%> </option>
-							      <% end %>            
-							      <%if @default_devices.any? %>    
-							        <option <%if session[:group_value] == 'default' %> selected class="bgcolor" <%end%> value='default'>Default</option>     
-							      <%end%> 
-							      <option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
-								  <% for device in @all_devices %>
-							        <option <%if session[:home_device].to_i == device.id %> selected class="bgcolor"<%end%> value='<%= -device.id %>'><%= device.name%> </option>
-								  <% end %>
-							    </select>            
-							</td>
+				  			<td style="padding:0px;border:0px;">Results for:</td>
+							<td style="padding:0px;border:0px;"><%= render :partial => 'layouts/includes/select_group_or_device',:locals => {:select_name => 'group_type',:select_class => 'device_summery_select',:select_onchange => decide_action} %></td>
 				  		</tr>
 				  	</table>
                   <% if update_readings_automatically? %><div id="updating">Updating locations...</div><% end %>                                         
                 </td>                                       
               </tr>
             
-              <tr class="dark_row">
-                <td valign="top"><div id="map"></div></td>
-              </tr>                            
+				<% if update_readings_automatically? %>
+					<tr class="dark_row"><td valign="top"><div id="map"></div></td></tr>                            
+				<% end %>
             </table>                                                       
           </td>
         </tr>                
