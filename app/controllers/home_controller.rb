@@ -1,40 +1,49 @@
 class HomeController < ApplicationController
   before_filter :authorize
   
-  def index    
-    @all_groups=Group.find(:all, :conditions=>['account_id=?',session[:account_id]], :order=>'name', :include=>[:devices])    
-    @device_count = Device.count(:all, :conditions => ['provision_status_id = 1 and account_id = ?', session[:account_id]])
-    @default_devices=Device.find(:all, :conditions=>['account_id=? and group_id is NULL and provision_status_id=1',session[:account_id]], :order=>'name', :include => :profile)                           
-    @all_devices=Device.find(:all, :conditions=>['account_id=? and provision_status_id=1',session[:account_id]], :order=>'name', :include => :profile)                           
-    assign_the_selected_group_to_session 
+  def index
+    user = User.find(session[:user_id])
+    if session[:group_value] or user.default_home_selection.nil?
+      redirect_to :action=> (user.default_home_action || 'locations')
+    else
+      redirect_to :action=> 'show_devices',:group_type => user.default_home_selection
+    end
+  end
+  
+  def locations
+    @from_locations = true
+    setup_home_info
+  end
+  
+  def status
+    @from_status = true
+    setup_home_info
   end
   
   def statistics
     @from_statistics  = true
-    index 
+    setup_home_info
   end
   
   def maintenance
     @from_maintenance = true 
-    index 
+    setup_home_info
   end
   
   def show_devices
-    if params[:group_type]
-      if (group_id = params[:group_type].to_i) < 0
-        session[:group_value] = 'all'
-        session[:home_device] = (-group_id).to_s
-      else
-        session[:group_value] = params[:group_type]
-      end
-    end
-    session[:home_device] = nil unless session[:group_value] == 'all'
+    set_home_selection(params[:group_type])
     if params[:frm]=='from_statistics'
       @from_statistics  = true        
       redirect_to :action=>'statistics'
     elsif params[:frm]=='from_maintenance'
       @from_maintenance = true     
       redirect_to :action=>'maintenance'
+    elsif params[:frm]=='from_locations'
+      @from_locations = true     
+      redirect_to :action=>'locations'
+    elsif params[:frm]=='from_status'
+      @from_status = true     
+      redirect_to :action=>'status'
     else    
       redirect_to :action=>'index'
     end
@@ -42,6 +51,12 @@ class HomeController < ApplicationController
   
   def map
     render :action => "home/map", :layout => "map_only"   
+  end
+  
+private
+  def setup_home_info
+    @device_count = Device.count(:all, :conditions => ['provision_status_id = 1 and account_id = ?', session[:account_id]])
+    assign_the_selected_group_to_session 
   end
  
 end

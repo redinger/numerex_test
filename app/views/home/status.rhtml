@@ -1,0 +1,13 @@
+<script>
+  var frm_index=true;
+</script>
+<table class="panel_table" >
+  <tr>
+    <th>Name</th>        
+    <th>Last Location</th>
+    <th>Last Status</th>
+    <th>Last Report</th>
+  </tr>    
+  <%= render :partial => "group_rows",:locals => {:column_span => 4,:callback => "show_device"} %>
+</table>
+

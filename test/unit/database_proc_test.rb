@@ -14,7 +14,6 @@ class DatabaseProcTest < Test::Unit::TestCase
     
     statements.each  {|stmt| 
       ActiveRecord::Base.connection.execute(stmt)
-      puts stmt
     }
     setup_fixtures
   end
@@ -99,20 +98,6 @@ class DatabaseProcTest < Test::Unit::TestCase
     assert_equal(3, runtime_events.size, "should allowed runtime event in the past")
   end
   
-  def test_engine_off
-    IdleEvent.delete_all
-    now = Time.now
-    insert_idle(1.2,2.3, now, devices(:device1).imei)
-    idle_events = IdleEvent.find :all
-    assert_equal(1, idle_events.size, "should have been one idle event")
-    idle_event = IdleEvent.find(:first)
-    assert_nil idle_event.duration
-    
-    insert_engine_off(1.2, 2.3, now+120, devices(:device1).imei)
-    idle_event.reload
-#    assert_equal 5, idle_event.duration
-  end
-  
   def test_reading_insert
     Reading.delete_all
     now = Time.now
@@ -190,25 +175,42 @@ class DatabaseProcTest < Test::Unit::TestCase
         assert_nil idle_events(:four).duration
   end
   
+  context "An idle event followed by an engine off" do
+    setup do
+      Account.delete_all
+      Reading.delete_all
+      device = Factory.create(:device)
+      @idle1 = Factory.create(:idle_event, :created_at => "2008-07-01 15:20:00", :device => device)
+      Factory.create(:reading, :device => device, :created_at => "2008-07-01 15:25:00", :ignition => 0)
+      Factory.create(:reading, :device => device, :created_at => "2008-07-01 15:30:00", :ignition => 1, :speed => 10)
+      ActiveRecord::Base.connection.execute("call process_idle_events()")
+    end
+    
+    should "end the idle event at the engine off" do
+      @idle1.reload
+      assert_equal 8, @idle1.duration
+    end
+  end
+  
     def test_process_runtimes
-        Reading.delete_all
-        assert_equal 20, runtime_events(:one).duration
-        assert_nil runtime_events(:two).duration
-        assert_nil runtime_events(:three).duration
-        assert_nil runtime_events(:four).duration
-          
-        Reading.new(:latitude => "4.5", :longitude => "5.6", :device_id => devices(:device1).id, :created_at => "2008-07-01 15:20:00", :speed => 10, :ignition => 0).save
-        Reading.new(:latitude => "8.5", :longitude => "5.614", :device_id => devices(:device1).id, :created_at => "2008-07-01 16:25:00", :speed => 10, :ignition => 0).save
-        ActiveRecord::Base.connection.execute("call process_runtime_events()")
-        
-        runtime_events(:two).reload
-        runtime_events(:three).reload
-        runtime_events(:four).reload
-        
-        assert_equal 20, runtime_events(:one).duration
-        assert_equal 20, runtime_events(:two).duration
-        assert_equal 25, runtime_events(:three).duration
-        assert_nil runtime_events(:four).duration
+    Reading.delete_all
+    assert_equal 20, runtime_events(:one).duration
+    assert_nil runtime_events(:two).duration
+    assert_nil runtime_events(:three).duration
+    assert_nil runtime_events(:four).duration
+    
+    Reading.new(:latitude => "4.5", :longitude => "5.6", :device_id => devices(:device1).id, :created_at => "2008-07-01 15:20:00", :speed => 10, :ignition => 0).save
+    Reading.new(:latitude => "8.5", :longitude => "5.614", :device_id => devices(:device1).id, :created_at => "2008-07-01 16:25:00", :speed => 10, :ignition => 0).save
+    ActiveRecord::Base.connection.execute("call process_runtime_events()")
+    
+    runtime_events(:two).reload
+    runtime_events(:three).reload
+    runtime_events(:four).reload
+    
+    assert_equal 20, runtime_events(:one).duration
+    assert_equal 20, runtime_events(:two).duration
+    assert_equal 25, runtime_events(:three).duration
+    assert_nil runtime_events(:four).duration
   end
   
   def insert_stop(lat, lng, created, imei)
