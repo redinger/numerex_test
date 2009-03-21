@@ -33,6 +33,7 @@ CREATE TRIGGER trig_readings_before_insert BEFORE INSERT ON readings FOR EACH RO
 		#Insert all new violations into temp_violated_fences
 		INSERT INTO temp_violated_fences SELECT id, fence_num FROM geofences 
 		   WHERE distance(NEW.latitude, NEW.longitude, latitude, longitude) < radius
+		     AND notify_enter_exit = 1
 		     AND id NOT IN (SELECT geofence_id from geofence_violations where device_id=NEW.device_id) 
 		     AND (device_id=NEW.device_id OR account_id=accountID);
 		
