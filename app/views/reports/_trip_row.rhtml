@@ -3,24 +3,12 @@
 		<td><a href="/reports/trip_detail/<%= trip.id %>" style="font-size:11px;">details</a></td>
 		<td nowrap><%= standard_date(trip.reading_start.created_at,last_start) %></td>
 		<td nowrap><%= standard_time(trip.reading_start.created_at) %></td>
-		<td>
-            <% if trip.reading_start.short_address == ', '%>
-				GPS Not Available
-            <% else %>
-				<a href="/geofence/new?lat=<%= trip.reading_start.latitude %>&lon=<%= trip.reading_start.longitude %>"><%= trip.reading_start.short_address %></a>
-			<% end %>
-		</td>
+		<td><%= standard_location(trip.device,trip.reading_start) %></td>
 		<script>readings.push({id: <%= trip.id %>, start: true, lat: <%= trip.reading_start.latitude %>, lng: <%= trip.reading_start.longitude %>, address: '<%= escape_javascript trip.reading_start.short_address %>', dt: displayLocalDT(<%= trip.reading_start.created_at.to_i*1000 %>), event: '<%= trip.reading_start.event_type %>'});</script>
 		<% if trip.reading_stop %>
 			<td><%= standard_duration(trip.duration) %></td>
 			<td><%= sprintf('%2.1f',trip.distance) %></td>
-			<td>
-	            <% if trip.reading_stop.short_address == ', '%>
-					GPS Not Available
-	            <% else %>
-					<a href="/geofence/new?lat=<%= trip.reading_stop.latitude %>&lon=<%= trip.reading_stop.longitude %>"><%= trip.reading_stop.short_address %></a>
-				<% end %>
-			</td>
+			<td><%= standard_location(trip.device,trip.reading_stop) %></td>
 			<script>readings.push({id: <%= trip.id %>, stop: true, lat: <%= trip.reading_stop.latitude %>, lng: <%= trip.reading_stop.longitude %>, address: '<%= escape_javascript trip.reading_stop.short_address %>', dt: displayLocalDT(<%= trip.reading_stop.created_at.to_i*1000 %>), event: '<%= trip.reading_stop.event_type %>'});</script>
 			<td nowrap><%= standard_time(trip.reading_stop.created_at) %></td>
 			<td><%= standard_duration(trip.idle) %></td>

@@ -11,6 +11,7 @@
         <td>For</td>
         <td>Address</td>
         <td>Radius</th>
+		<td>Notify?</td>
         <td>&nbsp;</td>
       </tr>
 	
@@ -26,6 +27,7 @@
            </td>
            <td ><%= geofence.get_lat_lng %></td>
            <td ><%= geofence.radius.to_s + ' ' + 'miles' %></td>
+		   <td><%= geofence.notify_enter_exit ? 'yes' : 'no' %></td>
            <td >                    
              <a href="<%= delete_url(:id=>geofence.id)%>" onclick="return confirm('Are you sure you want to delete this location ?');">delete</a>
            </td>

@@ -135,12 +135,12 @@ function createMarker(p) {
 function validate() {
      form = document.getElementById('geofence_form');  
 	if(form.name.value == '') {
-		alert('Please specify a name for your geofence');
+		alert('Please specify a name for your location');
 		return false;	
 	}
 	
 	if(form.bounds.value == '') {
-		alert('Please preview your geofence before saving');
+		alert('Please preview your location before saving');
 		return false;
 	}
 	
@@ -163,6 +163,7 @@ function displayGeofence(index) {
 		zoom = 14;
 	
 	gmap.setCenter(point, zoom);
+	form.bounds.value = geofences[index].bounds;
 }
 
 function go(url) {

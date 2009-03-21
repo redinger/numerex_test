@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index
     user = User.find(session[:user_id])
     if session[:group_value] or user.default_home_selection.nil?
-      redirect_to :action=> (user.default_home_action || 'locations')
+      redirect_to :action=> (user.default_home_action || session[:last_home_action] || 'locations')
     else
       redirect_to :action=> 'show_devices',:group_type => user.default_home_selection
     end
@@ -55,6 +55,7 @@ class HomeController < ApplicationController
   
 private
   def setup_home_info
+    session[:last_home_action] = params[:action]
     @device_count = Device.count(:all, :conditions => ['provision_status_id = 1 and account_id = ?', session[:account_id]])
     assign_the_selected_group_to_session 
   end
