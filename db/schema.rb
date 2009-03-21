@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090315232828) do
+ActiveRecord::Schema.define(:version => 20090320194931) do
 
   create_table "accounts", :force => true do |t|
     t.string   "company",          :limit => 75
@@ -76,16 +76,17 @@ ActiveRecord::Schema.define(:version => 20090315232828) do
   end
 
   create_table "geofences", :force => true do |t|
-    t.string   "name",       :limit => 30
-    t.integer  "device_id",  :limit => 11
+    t.string   "name",              :limit => 30
+    t.integer  "device_id",         :limit => 11
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "address"
-    t.integer  "fence_num",  :limit => 11
-    t.decimal  "latitude",                 :precision => 15, :scale => 10
-    t.decimal  "longitude",                :precision => 15, :scale => 10
+    t.integer  "fence_num",         :limit => 11
+    t.decimal  "latitude",                        :precision => 15, :scale => 10
+    t.decimal  "longitude",                       :precision => 15, :scale => 10
     t.float    "radius"
-    t.integer  "account_id", :limit => 11
+    t.integer  "account_id",        :limit => 11
+    t.boolean  "notify_enter_exit",                                               :default => false, :null => false
   end
 
   create_table "group_devices", :force => true do |t|
@@ -116,6 +117,24 @@ ActiveRecord::Schema.define(:version => 20090315232828) do
     t.integer  "device_id",  :limit => 11
     t.integer  "reading_id", :limit => 11
     t.datetime "created_at"
+  end
+
+  create_table "maintenance_tasks", :force => true do |t|
+    t.integer  "device_id",         :limit => 11
+    t.string   "description",                                    :null => false
+    t.integer  "task_type",         :limit => 11, :default => 0, :null => false
+    t.datetime "established_at",                                 :null => false
+    t.datetime "remind_at"
+    t.integer  "remind_runtime",    :limit => 11
+    t.datetime "target_at"
+    t.integer  "target_runtime",    :limit => 11
+    t.datetime "reviewed_at"
+    t.integer  "reviewed_runtime",  :limit => 11, :default => 0
+    t.datetime "completed_at"
+    t.string   "completed_by"
+    t.integer  "completed_runtime", :limit => 11
+    t.datetime "reminder_notified"
+    t.datetime "pastdue_notified"
   end
 
   create_table "notification_states", :force => true do |t|
@@ -219,6 +238,8 @@ ActiveRecord::Schema.define(:version => 20090315232828) do
     t.string   "time_zone"
     t.boolean  "is_super_admin",                          :default => false
     t.string   "access_key"
+    t.string   "default_home_action"
+    t.string   "default_home_selection"
   end
 
 end

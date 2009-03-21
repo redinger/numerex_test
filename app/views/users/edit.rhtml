@@ -4,19 +4,25 @@
 
 <script>
 window.onload = function() {
-	document.getElementById("password_checkbox").checked = true;
-	enablePasswords(true);
+	document.getElementById("password_checkbox").checked = false;
+	enablePasswords(false);
 }
 </script>
-
-
-
 
 <form method="post" class="form_table" name="user_edit" onsubmit="return ValidateForm(<%= @user.id %>);" >
 	<table>
 		<tr><th>First Name</th><td><input type="text" name="user[first_name]" value="<%= @user.first_name %>" /></td></tr>
 		<tr><th>Last Name</th><td><input type="text" name="user[last_name]"  value="<%= @user.last_name %>" /></td></tr>
 		<tr><th>Email</th><td><input type="text" title="Email" id="email" name="user[email]" value="<%= @user.email %>" /></td></tr>
+		<tr><th>Home Page</th><td>
+			<select name="user[default_home_action]">
+				<option value="locations"<% if @user.default_home_action == 'locations' %> selected<% end %>>Overview: Locations</option>
+				<option value="status"<% if @user.default_home_action == 'status' %> selected<% end %>>Overview: Vehicle Status</option>
+			</select>
+		</td></tr>
+		<tr><th>Default Selection</th><td>
+			<%= render :partial => 'layouts/includes/select_group_or_device',:locals => {:select_name => 'user[default_home_selection]'} %>
+		</td></tr>
 		<tr><td></td><td><input type="checkbox" onclick="enablePasswords(this.checked);" name="password_checkbox" id="password_checkbox" /> <span class="helper">Click here to change password</span></td></tr>
 		<tr><th>Existing Password</th><td><input type="password" name="password" disabled="true" id="existing_password" /></td></tr>
 		<tr><th>New Password</th><td><input type="password" name="new_password" disabled="true" id="new_password" /></td></tr>

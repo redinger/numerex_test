@@ -20,15 +20,21 @@ class GeofenceController < ApplicationController
 
   def new
     @devices = Device.get_devices(session[:account_id])
+    @geofence = Geofence.new(:account_id => session[:account_id],:device_id => 0,:radius => 0.1)
+    if not params[:lat].blank? and not params[:lng].blank?
+      @geofence.latitude = params[:lat].to_f
+      @geofence.longitude = params[:lng].to_f
+      @geofence.address = params[:addr]
+    end
     if request.post?
-      geofence = Geofence.new
-      add_and_edit(geofence)
-      if geofence.save
-        flash[:success] = "#{geofence.name} created succesfully"
-        redirect_to geofence_url
+      add_and_edit
+      if @geofence.save
+        flash[:success] = "#{@geofence.name} created succesfully"
+        redirect_to params[:ref_url]
       else
         flash[:error] = 'Location not created'
       end
+    else
     end
   end
 
@@ -51,7 +57,7 @@ class GeofenceController < ApplicationController
     end
     if check_action_for_user
       if request.post?
-        add_and_edit(@geofence)
+        add_and_edit
         if @geofence.save
           flash[:success] = "#{@geofence.name} updated succesfully"
           redirect_to params[:ref_url]
@@ -148,13 +154,14 @@ class GeofenceController < ApplicationController
     page
   end
 
-  def add_and_edit(geofence)
+  def add_and_edit
     fence = params[:bounds].split(",")
-    geofence.latitude, geofence.longitude, geofence.radius = fence[0], fence[1], fence[2]
-    geofence.name = params[:name]
-    geofence.address = params[:address]
-    geofence.account_id = params[:radio] == "1" ? session[:account_id] : 0
-    geofence.device_id = params[:radio] == "2" ? params[:device]  : 0
+    @geofence.latitude, @geofence.longitude, @geofence.radius = fence[0], fence[1], fence[2]
+    @geofence.name = params[:name]
+    @geofence.address = params[:address]
+    @geofence.account_id = params[:radio] == "1" ? session[:account_id] : 0
+    @geofence.device_id = params[:radio] == "2" ? params[:device]  : 0
+    @geofence.notify_enter_exit = (params[:notify_enter_exit] == 'on')
   end
 
 end

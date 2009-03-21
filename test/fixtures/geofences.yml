@@ -8,6 +8,7 @@ fenceOne:
   longitude: -96.756807
   radius: 0.25
   account_id: 1
+  notify_enter_exit: 1
   
 fenceTwo:
   id: 20
@@ -18,6 +19,7 @@ fenceTwo:
   longitude: -96.822224
   radius: 0.25
   account_id: 1
+  notify_enter_exit: 1
  
 fenceThree:
   id: 3
@@ -28,6 +30,7 @@ fenceThree:
   longitude: -96.823224
   radius: 0.25
   account_id: 1
+  notify_enter_exit: 1
 
 fenceFour:
   id: 4
@@ -38,6 +41,7 @@ fenceFour:
   longitude: -79.96037364006042
   radius: 0.25
   account_id: 1
+  notify_enter_exit: 1
   
 fenceFive:
   id: 5
@@ -48,5 +52,6 @@ fenceFive:
   longitude: -79.96037364006042
   radius: 0.25
   account_id: 0
+  notify_enter_exit: 1
  
  

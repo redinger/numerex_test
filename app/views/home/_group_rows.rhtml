@@ -23,8 +23,8 @@
   <%end%>
 <%end%>
 
-<%if !@default_devices.empty? && @show_default_devices %>
-  <%if !@groups.empty? || session[:gmap_value] == 'default'%>
+<%if default_devices.any? && @show_default_devices %>
+  <%if @groups.any? || session[:gmap_value] == 'default'%>
     <tr>
       <td colspan="<%= column_span or 4 %>" class="bg_overview">
         <span style=" background:url(/icons/blue_small.png) no-repeat left;" class="group_name">
@@ -33,7 +33,7 @@
       </td>
     </tr>
   <%end%>
-  <% @default_devices.each do |device|%>                  
+  <% default_devices.each do |device|%>                  
     <%= send(callback,device) %>
     <%if !device.latest_gps_reading.nil? && device.latest_gps_reading.short_address !=', ' %>
       <script>devices.push({id: <%= device.id%>, name: "<%= device.name%>", lat: <%= device.latest_gps_reading.latitude%>, lng: <%= device.latest_gps_reading.longitude%>, address: "<%= device.latest_gps_reading.short_address%>", dt: "<%= standard_date_and_time(device.latest_gps_reading.created_at,Time.now) %>", note: "<%= device.latest_gps_reading.note%>", status: "<%= latest_status_html(device) %>", icon_id: <%= device.icon_id %>, group_id: '<%= device.group_id %>', direction: <%= device.latest_gps_reading.direction %>, speed: <%= device.latest_gps_reading.speed || 0 %>});</script>                       

@@ -1,0 +1,20 @@
+<% select_onchange ||= nil %>
+<% select_class ||= nil %>
+<select id="group_type"<% if select_class %> class="<%= select_class %>"<% end %> name="<%= select_name %>"<% if select_onchange %> onchange="<%= select_onchange %>;"<% end %>> 
+	<% if select_onchange %>
+		<option id=""  value="new">New fleet</option>
+		<option id=""  value="edit">Edit fleets</option>
+		<option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
+	<% end %>
+	<option value="all" <%if session[:group_value] == 'all' and not session[:home_device] %> selected class="bgcolor"<%end%>>  All Fleets  </option>            
+	<% for group in all_groups %>
+		<option <%if session[:group_value].to_i == group.id and not session[:home_device] %> selected class="bgcolor"<%end%> value='<%= group.id%>'><%= group.name%> </option>
+	<% end %>            
+	<%if default_devices.any? %>    
+		<option <%if session[:group_value] == 'default' %> selected class="bgcolor" <%end%> value='default'>Default</option>     
+	<%end%> 
+	<option id="" disabled="disabled"> - - - - - - - - - - - - - - -  </option>
+	<% for device in all_devices %>
+		<option <%if session[:home_device].to_i == device.id %> selected class="bgcolor"<%end%> value='<%= -device.id %>'><%= device.name%> </option>
+	<% end %>
+</select>

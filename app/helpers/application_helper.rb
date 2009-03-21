@@ -25,6 +25,16 @@ module ApplicationHelper
     minutes = duration.to_i % 60
     sprintf('%02d:%02d',hours,minutes)
   end
+  
+  def standard_location(device,reading)
+    if reading.nil? or reading.short_address == ', '
+      'GPS Not Available'
+    elsif reading.nearby_geofence(device.account_id)
+        %(<a href="/geofence/detail/#{reading.nearby_geofence.id}" title="View this location" class="link-all1">#{reading.nearby_geofence.name}</a><br/>#{reading.nearby_geofence.address})
+    else
+        %(<a href="/geofence/new?lat=#{reading.latitude}&lng=#{reading.longitude}&addr=#{reading.short_address}" title="Add a new location" class="link-all1">#{reading.short_address}</a>)
+    end
+  end
 
   def box_pagination_links(paginator, options={})
     options.merge!(ActionView::Helpers::PaginationHelper::DEFAULT_OPTIONS) {|key, old, new| old}
@@ -102,6 +112,7 @@ module ApplicationHelper
 
 
   def show_device(device)
+    return "DEFAULT NEEDS TO BE REPLACED"
     content = ""
     content << %(<tr class="#{cycle('dark_row', 'light_row')}" id="row#{device.id}"> <td>)
     content << %(<a href="/reports/all/#{device.id}">#{device.name}</a></td><td>)

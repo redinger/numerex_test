@@ -46,6 +46,7 @@ class UsersController < ApplicationController
         end
       else # Update when the password checkbox is not checked
         if user.save
+          set_home_selection(user.default_home_selection)
           flash[:success] = user.first_name + ' ' + user.last_name + ' was updated successfully'
           redirect_to :controller => 'users'
         end
@@ -72,6 +73,7 @@ class UsersController < ApplicationController
       # Check that passwords match
       if params[:user][:password] == params[:user][:password_confirmation]
         if @user.save
+          set_home_selection(user.default_home_selection)
           flash[:success] = @user.email + ' was created successfully'
           redirect_to :controller => 'users'
         else # Display errors from model validation
