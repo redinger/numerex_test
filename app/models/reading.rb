@@ -6,6 +6,8 @@ class Reading < ActiveRecord::Base
   has_one :stop_event
   include ApplicationHelper
   
+  MAX_NEARBY_RADIUS = 0.25
+  
   acts_as_mappable  :lat_column_name => :latitude,:lng_column_name => :longitude
   
   def self.generate_direction_string(dir)
@@ -50,24 +52,32 @@ class Reading < ActiveRecord::Base
     end
   end
   
+  def nearby_geofence(account_id = 0)
+    unless @nearby_geofence
+      distance_function = "distance(latitude,longitude,#{self.latitude},#{self.longitude})"
+      @nearby_geofence = Geofence.find(:first,:conditions => "radius <= #{MAX_NEARBY_RADIUS} and #{distance_function} <= radius and (device_id = #{self.device_id} or account_id = #{account_id})",:order => distance_function)
+      @nearby_geofence ||= :false
+    end
+    return nil if @nearby_geofence == :false
+    return @nearby_geofence
+  end
   
   def short_address
-    if(admin_name1.nil?)
+    if admin_name1.nil?
       latitude.to_s + ", " + longitude.to_s
     else
       begin
         addressParts = Array.new
-        if(!street.nil?)
-          if(!street_number.nil?) 
-            streetAddress = [street_number, street]
-            streetAddress.delete("")
-            addressParts << streetAddress.join(' ')
-          else 
+        unless street.blank?
+          if street_number.blank?
             addressParts << street
+          else 
+            streetAddress = [street_number, street]
+            addressParts << streetAddress.join(' ')
           end
         end
-        addressParts << place_name
-        addressParts << admin_name1
+        addressParts << place_name unless place_name.blank?
+        addressParts << admin_name1 unless place_name.blank?
         addressString = addressParts.join(', ')
         addressString.empty? ? latitude.to_s + ", " + longitude.to_s : addressString
       rescue

@@ -15,6 +15,8 @@ var zoom_val = get_cookie("zvalue");
 
 function load() 
 {
+  if (document.getElementById("map") == undefined)
+    return;
   if (GBrowserIsCompatible()) {
   	gmap = new GMap2(document.getElementById("map"));
     gmap.addControl(new GLargeMapControl());

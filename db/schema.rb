@@ -76,16 +76,17 @@ ActiveRecord::Schema.define(:version => 20090320194931) do
   end
 
   create_table "geofences", :force => true do |t|
-    t.string   "name",       :limit => 30
-    t.integer  "device_id",  :limit => 11
+    t.string   "name",              :limit => 30
+    t.integer  "device_id",         :limit => 11
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "address"
-    t.integer  "fence_num",  :limit => 11
-    t.decimal  "latitude",                 :precision => 15, :scale => 10
-    t.decimal  "longitude",                :precision => 15, :scale => 10
+    t.integer  "fence_num",         :limit => 11
+    t.decimal  "latitude",                        :precision => 15, :scale => 10
+    t.decimal  "longitude",                       :precision => 15, :scale => 10
     t.float    "radius"
-    t.integer  "account_id", :limit => 11
+    t.integer  "account_id",        :limit => 11
+    t.boolean  "notify_enter_exit",                                               :default => false, :null => false
   end
 
   create_table "group_devices", :force => true do |t|
