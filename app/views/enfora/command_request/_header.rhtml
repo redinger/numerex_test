@@ -1,0 +1,8 @@
+<%= link_to 'All Devices',:controller => 'device',:action => 'list' %>
+<% if @device.nil? or not @device.new_record? %>
+	| <%= link_to('All Requests',:action => 'list',:id => nil) %>
+<% end %>
+<% if @device and not @device.new_record? %>
+	| <%= link_to('Submit Command',:action => 'compose',:id => @device) %>
+	| <%= link_to('Submit Script',:action => 'upload',:id => @device) %>
+<% end %>

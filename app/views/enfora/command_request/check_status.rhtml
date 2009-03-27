@@ -1,0 +1,41 @@
+<% form_tag({:controller=>'command_request',:action =>'check_status',:id => @command_request.id}) do %>
+	<table>
+		<tr>
+			<td><b>Device IMEI:</b></td>
+			<td>
+				<% if @command_request.device %>
+					<%= link_to @command_request.device.imei,:action=>'list',:id=>@command_request.device %>
+				<% else%>
+					<span style="color:red;">NO DEVICE SPECIFIED</span>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
+			<td><b>Command Submitted:</b></td>
+			<td><%= @command_request.command %></td>
+		</tr>
+		<% status_lines = @command_request.status.split("\r\n") %>
+		<tr>
+			<td><b>Command Status:</b></td>
+			<td><%= status_lines[0] or '&nbsp;' %></td>
+		</tr>
+		<% for line in status_lines[1..(status_lines.length - 1)] %>
+			<tr><td>&nbsp;</td><td><%= line or '&nbsp;' %></td></tr>
+		<% end %>
+		<tr>
+			<td><b>Start Date/Time:</b></td>
+			<td><%= @command_request.start_date_time %></td>
+		</tr>
+		<tr>
+			<td><b>End Date/Time:</b></td>
+			<td><%= @command_request.end_date_time %></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><%= submit_tag 'Check Status' %>
+		</tr>
+		<tr>
+			<td colspan="2" style="color:red"><%= @error %></td>
+		</tr>
+	</table>
+<% end%>
