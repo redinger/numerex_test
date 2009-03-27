@@ -19,6 +19,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'admin/users/:action', :controller => 'admin/users'
   map.connect 'admin/devices/:action', :controller => 'admin/devices'
   map.connect 'admin/device_profiles/:action', :controller => 'admin/device_profiles'
+  map.connect 'enfora/device/:action', :controller => 'enfora/device'
+  map.connect 'enfora/command_request/:action', :controller => 'enfora/command_request'
   map.connect 'xirgo/device/:action', :controller => 'xirgo/device'
   map.connect 'xirgo/command_request/:action', :controller => 'xirgo/command_request'
   map.geofence 'geofence', :controller=>'geofence', :action=>'index'
