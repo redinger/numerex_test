@@ -1,0 +1,6 @@
+EnforaGateway
+=============
+
+This plugin assumes that it is integrating into the Ublip application framework to provide access to the Ublip Enfora Gateway.
+
+It is delivered as a plugin so that it can be easily excluded as part of a Ublip application deployment.
